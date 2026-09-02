@@ -163,6 +163,14 @@
   .carousel-dot:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .carousel-dot.is-active{ width:16px; background:var(--accent); }
 
+  .tour-band{ background:var(--bg-sunken); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .tour-frame{
+    margin-top:32px; background:var(--bg-raised); border:1px solid var(--border); border-radius:8px; padding:10px;
+    box-shadow: 0 20px 50px -28px rgba(0,0,0,.3);
+  }
+  .tour-carousel{ aspect-ratio:16/7.2; border-radius:4px; overflow:hidden; }
+  @media (max-width:700px){ .tour-carousel{ aspect-ratio:4/3; } }
+
   .proof{ padding:26px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--bg-raised); }
   .proof-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;}
   .proof-line{font-size:14.5px; color:var(--text-dim); max-width:52ch;}
@@ -306,7 +314,7 @@
           <a href="docs/VirtualPyTest-Features.pdf" target="_blank" rel="noopener">Features (PDF) ↗</a>
         </div>
       </div>
-      <div class="device-frame">
+      <div class="device-frame carousel-widget">
         <div class="device-topbar">
           <div class="device-dots"><span></span><span></span><span></span></div>
           <div class="live-chip"><span class="live-dot"></span>LIVE FLEET</div>
@@ -456,6 +464,58 @@
     </div>
   </section>
 
+  <div class="tour-band">
+    <div class="wrap">
+      <section style="padding:76px 0;">
+        <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+          <div>
+            <div class="eyebrow">See it in motion</div>
+            <h2>A quick look at the platform.</h2>
+          </div>
+          <span class="chip">Full walkthrough video — coming soon</span>
+        </div>
+        <div class="tour-frame carousel-widget">
+          <div class="carousel tour-carousel" data-autoplay="4500">
+            <div class="carousel-slide is-active" data-caption="/fleet — hosts, devices, live screens, one pane of glass">
+              <img src="images/dashboard.jpg" alt="Fleet dashboard showing hosts, devices and live status" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="/device — live screen, status and control for one unit">
+              <img src="images/device-view.jpg" alt="Single device view with live screen and controls" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Navigation — map the app once, every test reuses it">
+              <img src="images/navigation-tree.jpg" alt="Navigation tree editor" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Verification — source, reference and pixel-diff, not a checkmark">
+              <img src="images/verification-report.jpg" alt="Verification report with source, reference and diff" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Monitoring — blackscreen, freeze and audio loss, caught live">
+              <img src="images/monitoring-incidents.jpg" alt="Monitoring incident feed" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="AI-native — ask what's on screen, it acts through MCP">
+              <img src="images/ai-chat-mcp.jpg" alt="AI chat driving a device via MCP" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Heatmap &amp; rewind — 24h of screen, scrub back to the moment">
+              <img src="images/heatmap.jpg" alt="Fleet heatmap and rewind" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Workspaces — permissions down to the last action">
+              <img src="images/workspaces.jpg" alt="Workspace and permission matrix" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Web UI — the whole lab, in the browser you already have open">
+              <img src="images/webui-desktop.jpg" alt="VirtualPyTest web app running responsively" loading="lazy" />
+            </div>
+            <div class="carousel-slide" data-caption="Reports — pass/fail, KPIs and execution video, every run">
+              <img src="images/test-report.jpg" alt="Test execution report" loading="lazy" />
+            </div>
+          </div>
+          <div class="carousel-foot">
+            <div class="carousel-caption mono">/fleet — hosts, devices, live screens, one pane of glass</div>
+            <div class="carousel-dots"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
   <section id="pricing">
     <div class="wrap">
       <div class="section-head">
@@ -561,48 +621,53 @@
 
 <script>
 (function(){
-  var root = document.querySelector('.carousel');
-  if(!root) return;
-  var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel-slide'));
-  var caption = document.querySelector('.carousel-caption');
-  var dotsWrap = document.querySelector('.carousel-dots');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var interval = parseInt(root.getAttribute('data-autoplay'), 10) || 4200;
-  var idx = 0;
-  var timer = null;
 
-  slides.forEach(function(slide, i){
-    var dot = document.createElement('button');
-    dot.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
-    dot.type = 'button';
-    dot.setAttribute('aria-label', 'Show screenshot ' + (i + 1) + ' of ' + slides.length);
-    dot.addEventListener('click', function(){ show(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  var dots = Array.prototype.slice.call(dotsWrap.children);
+  function initWidget(widget){
+    var root = widget.querySelector('.carousel');
+    if(!root) return;
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel-slide'));
+    var caption = widget.querySelector('.carousel-caption');
+    var dotsWrap = widget.querySelector('.carousel-dots');
+    var interval = parseInt(root.getAttribute('data-autoplay'), 10) || 4200;
+    var idx = 0;
+    var timer = null;
 
-  function show(i){
-    slides[idx].classList.remove('is-active');
-    dots[idx].classList.remove('is-active');
-    idx = i;
-    slides[idx].classList.add('is-active');
-    dots[idx].classList.add('is-active');
-    caption.textContent = slides[idx].getAttribute('data-caption');
+    slides.forEach(function(slide, i){
+      var dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Show screenshot ' + (i + 1) + ' of ' + slides.length);
+      dot.addEventListener('click', function(){ show(i); restart(); });
+      dotsWrap.appendChild(dot);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function show(i){
+      slides[idx].classList.remove('is-active');
+      dots[idx].classList.remove('is-active');
+      idx = i;
+      slides[idx].classList.add('is-active');
+      dots[idx].classList.add('is-active');
+      caption.textContent = slides[idx].getAttribute('data-caption');
+    }
+    function next(){ show((idx + 1) % slides.length); }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    function restart(){
+      stop();
+      if(!reduceMotion){ timer = setInterval(next, interval); }
+    }
+
+    widget.addEventListener('mouseenter', stop);
+    widget.addEventListener('mouseleave', restart);
+    widget.addEventListener('focusin', stop);
+    widget.addEventListener('focusout', restart);
+
+    caption.textContent = slides[0].getAttribute('data-caption');
+    restart();
   }
-  function next(){ show((idx + 1) % slides.length); }
-  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
-  function restart(){
-    stop();
-    if(!reduceMotion){ timer = setInterval(next, interval); }
-  }
 
-  root.addEventListener('mouseenter', stop);
-  root.addEventListener('mouseleave', restart);
-  root.addEventListener('focusin', stop);
-  root.addEventListener('focusout', restart);
-
-  caption.textContent = slides[0].getAttribute('data-caption');
-  restart();
+  Array.prototype.forEach.call(document.querySelectorAll('.carousel-widget'), initWidget);
 })();
 </script>
 
