@@ -278,8 +278,16 @@
   }
   .ask-head span{display:inline-flex; align-items:center; gap:8px; color:var(--text);}
   .ask-head span svg{width:16px; height:16px; color:var(--accent);}
-  .ask-close{background:none; border:0; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:2px 4px;}
-  .ask-close:hover{color:var(--text);}
+  .ask-head-actions{display:flex; align-items:center; gap:2px;}
+  .ask-close,.ask-expand{background:none; border:0; color:var(--text-dim); cursor:pointer; line-height:1; padding:4px; border-radius:4px; display:inline-flex; align-items:center;}
+  .ask-close{font-size:18px;}
+  .ask-expand svg{width:15px; height:15px;}
+  .ask-expand .ico-shrink{display:none;}
+  .ask-panel.is-large .ask-expand .ico-grow{display:none;}
+  .ask-panel.is-large .ask-expand .ico-shrink{display:inline;}
+  .ask-close:hover,.ask-expand:hover{color:var(--text); background:var(--bg-sunken);}
+  .ask-panel.is-large{width:min(760px, calc(100vw - 32px)); max-height:calc(100vh - 40px); height:calc(100vh - 40px);}
+  .ask-panel.is-large .ask-log{font-size:15px;}
   .ask-log{flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.55;}
   .ask-msg{max-width:92%; padding:8px 11px; border-radius:8px; white-space:pre-wrap; word-wrap:break-word;}
   .ask-msg.user{align-self:flex-end; background:var(--accent-soft); color:var(--accent);}
@@ -740,7 +748,13 @@
 <div class="ask-panel" id="ask-panel" data-api="https://virtualpytest.angelstreet.io" role="dialog" aria-label="Ask about VirtualPyTest">
   <div class="ask-head">
     <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z"/></svg>Ask about VirtualPyTest</span>
-    <button class="ask-close" type="button" data-ask-close aria-label="Close">&times;</button>
+    <div class="ask-head-actions">
+      <button class="ask-expand" type="button" data-ask-expand aria-label="Expand" title="Expand">
+        <svg class="ico-grow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        <svg class="ico-shrink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>
+      </button>
+      <button class="ask-close" type="button" data-ask-close aria-label="Close">&times;</button>
+    </div>
   </div>
   <div class="ask-log" id="ask-log" aria-live="polite">
     <div class="ask-msg bot">Ask anything about the platform. Answers come from the project documentation.</div>
@@ -777,6 +791,16 @@
     el.addEventListener('click', function(e){ e.preventDefault(); open(); });
   });
   panel.querySelector('[data-ask-close]').addEventListener('click', close);
+  var expandBtn = panel.querySelector('[data-ask-expand]');
+  function setLarge(on){
+    panel.classList.toggle('is-large', on);
+    expandBtn.setAttribute('aria-label', on ? 'Shrink' : 'Expand');
+    expandBtn.setAttribute('title', on ? 'Shrink' : 'Expand');
+    try { localStorage.setItem('askai:large', on ? '1' : '0'); } catch(e) {}
+    log.scrollTop = log.scrollHeight;
+  }
+  expandBtn.addEventListener('click', function(){ setLarge(!panel.classList.contains('is-large')); });
+  try { if(localStorage.getItem('askai:large') === '1') setLarge(true); } catch(e) {}
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && panel.classList.contains('is-open')) close(); });
 
   function addMsg(kind, text){
