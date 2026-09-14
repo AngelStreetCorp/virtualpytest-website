@@ -338,7 +338,12 @@
   }
   .ask-form button:disabled{opacity:.5; cursor:default;}
   .ask-form button svg{width:16px; height:16px;}
-  .ask-typing{color:var(--text-dim); font-style:italic;}
+  .ask-typing{color:var(--text-dim); font-style:italic; animation:askPulse 1.4s ease-in-out infinite;}
+  .ask-typing .ask-dots{display:inline-block; width:1.2em; text-align:left;}
+  .ask-typing .ask-dots::after{content:""; animation:askDots 1.4s steps(4,end) infinite;}
+  @keyframes askPulse{0%,100%{opacity:.45;} 50%{opacity:1;}}
+  @keyframes askDots{0%{content:"";} 25%{content:".";} 50%{content:"..";} 75%,100%{content:"...";}}
+  @media (prefers-reduced-motion: reduce){ .ask-typing{animation:none; opacity:.8;} .ask-typing .ask-dots::after{animation:none; content:"...";} }
   @media (max-width:800px){ .ask-fab{right:14px; bottom:14px;} .ask-panel{right:14px; bottom:14px;} }
 </style>
 </head>
@@ -929,7 +934,8 @@
     if(!question || busy) return;
     busy = true; send.disabled = true; input.value = '';
     addMsg('user', question);
-    var typing = addMsg('bot ask-typing', 'Checking the docs…');
+    var typing = addMsg('bot ask-typing', 'Checking the docs');
+    var dots = document.createElement('span'); dots.className = 'ask-dots'; typing.appendChild(dots);
     fetch(api, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
