@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<script>
+  try {
+    var savedTheme = localStorage.getItem('virtualpytest:theme');
+    if(savedTheme === 'light' || savedTheme === 'dark') document.documentElement.setAttribute('data-theme', savedTheme);
+  } catch(e) {}
+</script>
 <title>VirtualPyTest — open-source device testing &amp; monitoring, driven by AI</title>
 <meta name="description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
@@ -11,6 +18,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
+    color-scheme:light;
     --bg:#f1f3f1;
     --bg-raised:#ffffff;
     --bg-sunken:#e6e9e6;
@@ -26,6 +34,7 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
+      color-scheme:dark;
       --bg:#0a0f0d; --bg-raised:#111815; --bg-sunken:#070b09;
       --text:#eaf2ee; --text-dim:#93a39c; --border:#1f2b27;
       --accent:#39e6a4; --accent-soft:#123325; --accent-ink:#08150f;
@@ -33,6 +42,7 @@
     }
   }
   :root[data-theme="dark"]{
+    color-scheme:dark;
     --bg:#0a0f0d; --bg-raised:#111815; --bg-sunken:#070b09;
     --text:#eaf2ee; --text-dim:#93a39c; --border:#1f2b27;
     --accent:#39e6a4; --accent-soft:#123325; --accent-ink:#08150f;
@@ -80,6 +90,22 @@
   nav.links a{font-size:14px; text-decoration:none; color:var(--text-dim); font-weight:500;}
   nav.links a:hover{color:var(--text);}
   .navcta{display:flex; align-items:center; gap:16px;}
+  .theme-toggle{
+    width:40px; height:40px; display:grid; place-items:center; flex:none;
+    padding:0; border:1px solid var(--border); border-radius:var(--radius);
+    background:transparent; color:var(--text); cursor:pointer;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
+  .theme-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .theme-toggle svg{width:18px; height:18px;}
+  .language-select{
+    height:40px; padding:0 8px; border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--bg-raised); color:var(--text); font:500 12px "IBM Plex Mono",monospace;
+  }
+  .language-select:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+  @media (max-width:800px){ .navcta{gap:8px;} .navcta .btn-ghost{display:none;} }
+  @media (max-width:460px){ .navcta .btn-primary{padding:9px 11px; font-size:11px;} }
   @media (max-width:800px){ nav.links{display:none;} }
 
   .btn{
@@ -146,7 +172,11 @@
   .device-caption{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--text-dim); padding:10px 6px 2px; }
 
   /* carousel */
-  .carousel{ position:relative; aspect-ratio:16/9.1; background:var(--bg-sunken); }
+  .carousel-stage{
+    display:grid; grid-template-columns:44px minmax(0,1fr) 44px; align-items:center; column-gap:10px;
+    width:calc(100% + 108px); margin-inline:-54px;
+  }
+  .carousel{ position:relative; width:100%; aspect-ratio:16/9.1; background:var(--bg-sunken); overflow:hidden; }
   .carousel:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
   .carousel-slide{
     position:absolute; inset:0; opacity:0; transition:opacity .7s ease;
@@ -155,22 +185,22 @@
   @media (prefers-reduced-motion:reduce){ .carousel-slide{transition:none;} }
   .carousel-slide img{width:100%; height:100%; object-fit:cover; object-position:top;}
   .carousel-control{
-    position:absolute; top:50%; z-index:3; transform:translateY(-50%);
+    position:relative; grid-row:1; z-index:3; transform:none;
     width:44px; height:56px; display:grid; place-items:center;
     border:1px solid rgba(255,255,255,.55); border-radius:5px;
     background:rgba(4,12,10,.82); color:#fff; cursor:pointer;
     box-shadow:0 4px 18px rgba(0,0,0,.4); transition:background .2s ease, border-color .2s ease, transform .2s ease;
   }
   .carousel-control:hover{ background:var(--accent); border-color:var(--accent); color:#06120f; }
-  .carousel-control:active{ transform:translateY(-50%) scale(.96); }
+  .carousel-control:active{ transform:scale(.96); }
   .carousel-control:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
   .carousel-control svg{ width:24px; height:24px; stroke-width:2.5; }
-  .carousel-prev{left:12px;}
-  .carousel-next{right:12px;}
+  .carousel-prev{grid-column:1;}
+  .carousel-next{grid-column:3;}
+  .carousel-stage .carousel{grid-column:2; grid-row:1;}
   @media (max-width:700px){
-    .carousel-control{width:40px; height:48px;}
-    .carousel-prev{left:8px;}
-    .carousel-next{right:8px;}
+    .carousel-stage{grid-template-columns:36px minmax(0,1fr) 36px; column-gap:4px; width:calc(100% + 80px); margin-inline:-40px;}
+    .carousel-stage .carousel-control{width:36px; height:44px;}
   }
   .carousel-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 6px 2px; }
   .carousel-caption{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--text-dim); min-height:1.4em; }
@@ -187,7 +217,7 @@
     margin-top:32px; background:var(--bg-raised); border:1px solid var(--border); border-radius:8px; padding:10px;
     box-shadow: 0 20px 50px -28px rgba(0,0,0,.3);
   }
-  .tour-carousel{ aspect-ratio:16/7.2; border-radius:4px; overflow:hidden; }
+  .tour-carousel{ aspect-ratio:16/7.2; border-radius:4px; }
   @media (max-width:700px){ .tour-carousel{ aspect-ratio:4/3; } }
 
   .proof{ padding:26px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--bg-raised); }
@@ -383,6 +413,13 @@
       <a href="#ask" data-ask-open>Ask AI</a>
     </nav>
     <div class="navcta">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+      </button>
+      <label class="sr-only" for="language-select">Language</label>
+      <select class="language-select" id="language-select" aria-label="Language">
+        <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option><option value="zh">中文</option>
+      </select>
       <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest">★ Star on GitHub</a>
       <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/">Try it live</a>
     </div>
@@ -435,6 +472,7 @@
           <div class="device-dots"><span></span><span></span><span></span></div>
           <div class="live-chip"><span class="live-dot"></span>LIVE FLEET</div>
         </div>
+        <div class="carousel-stage">
         <div class="device-screen carousel" data-autoplay="5000" tabindex="0" aria-label="VirtualPyTest product screenshots">
           <div class="carousel-slide is-active" data-caption="/fleet — hosts, devices, live screens, one pane of glass">
             <img src="images/dashboard.jpg" alt="Fleet dashboard showing hosts, devices and live status" />
@@ -466,6 +504,7 @@
           <div class="carousel-slide" data-caption="Reports — pass/fail, KPIs and execution video, every run">
             <img src="images/test-report.jpg" alt="Test execution report" />
           </div>
+        </div>
         </div>
         <div class="carousel-foot">
           <div class="carousel-caption mono">/fleet — hosts, devices, live screens, one pane of glass</div>
@@ -591,6 +630,7 @@
           <span class="chip">Full walkthrough video — coming soon</span>
         </div>
         <div class="tour-frame carousel-widget">
+          <div class="carousel-stage">
           <div class="carousel tour-carousel" data-autoplay="5000" tabindex="0" aria-label="VirtualPyTest platform tour screenshots">
             <div class="carousel-slide is-active" data-caption="/fleet — hosts, devices, live screens, one pane of glass">
               <img src="images/dashboard.jpg" alt="Fleet dashboard showing hosts, devices and live status" loading="lazy" />
@@ -622,6 +662,7 @@
             <div class="carousel-slide" data-caption="Reports — pass/fail, KPIs and execution video, every run">
               <img src="images/test-report.jpg" alt="Test execution report" loading="lazy" />
             </div>
+          </div>
           </div>
           <div class="carousel-foot">
             <div class="carousel-caption mono">/fleet — hosts, devices, live screens, one pane of glass</div>
@@ -811,8 +852,119 @@
 
 <script>
 (function(){
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var button = document.querySelector('[data-theme-toggle]');
+  if(!button) return;
+  var root = document.documentElement;
+  var systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  function currentTheme(){ return root.getAttribute('data-theme') || (systemTheme.matches ? 'dark' : 'light'); }
+  function updateButton(){
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+    button.setAttribute('title', 'Switch to ' + next + ' theme');
+    button.innerHTML = next === 'dark'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>';
+  }
+  button.addEventListener('click', function(){
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('virtualpytest:theme', next); } catch(e) {}
+    updateButton();
+  });
+  if(systemTheme.addEventListener) systemTheme.addEventListener('change', function(){ if(!root.hasAttribute('data-theme')) updateButton(); });
+  updateButton();
+})();
+</script>
 
+<script>
+(function(){
+  var strings = {
+    'Tests & monitors': {fr:'Tests et surveillance',es:'Pruebas y supervisión',de:'Tests & Überwachung',zh:'测试与监控'},
+    'Open source · AI-native · any screen': {fr:'Open source · IA native · tous les écrans',es:'Código abierto · IA nativa · cualquier pantalla',de:'Open Source · KI-nativ · jeder Bildschirm',zh:'开源 · 原生 AI · 适用于任何屏幕'},
+    'Any device with a screen — tested and monitored 24/7 by AI.': {fr:'Tout appareil avec un écran — testé et surveillé 24 h/24 par l’IA.',es:'Cualquier dispositivo con pantalla, probado y supervisado por IA las 24 horas.',de:'Jedes Gerät mit Bildschirm – rund um die Uhr von KI getestet und überwacht.',zh:'任何带屏幕的设备，都由 AI 全天候测试和监控。'},
+    'Real remotes. Real HDMI capture. Real verification, not a green checkmark. Open source, one flat fee — no per-device licenses, no robots.': {fr:'De vraies télécommandes. Une vraie capture HDMI. Une vraie vérification, pas une coche verte. Open source, un tarif fixe — sans licence par appareil ni robots.',es:'Mandos reales. Captura HDMI real. Verificación real, no una marca verde. Código abierto y tarifa única, sin licencias por dispositivo ni robots.',de:'Echte Fernbedienungen. Echte HDMI-Aufnahme. Echte Prüfung statt grünem Häkchen. Open Source, ein Festpreis – ohne Lizenzen pro Gerät und ohne Roboter.',zh:'真实遥控器、真实 HDMI 采集、真实验证，而非一个绿色对勾。开源，统一费用，无设备许可费，也无需机器人。'},
+    'Try it live': {fr:'Essayer en direct',es:'Probar en directo',de:'Live ausprobieren',zh:'在线体验'},
+    'Try it live →': {fr:'Essayer en direct →',es:'Probar en directo →',de:'Live ausprobieren →',zh:'在线体验 →'},
+    'View on GitHub': {fr:'Voir sur GitHub',es:'Ver en GitHub',de:'Auf GitHub ansehen',zh:'在 GitHub 上查看'},
+    'How it works': {fr:'Fonctionnement',es:'Cómo funciona',de:'So funktioniert es',zh:'工作原理'},
+    'Pricing': {fr:'Tarifs',es:'Precios',de:'Preise',zh:'价格'},
+    'Ask AI': {fr:'Demander à l’IA',es:'Preguntar a la IA',de:'KI fragen',zh:'询问 AI'},
+    'Platform': {fr:'Plateforme',es:'Plataforma',de:'Plattform',zh:'平台'},
+    'One platform, the whole test loop.': {fr:'Une plateforme pour tout le cycle de test.',es:'Una plataforma para todo el ciclo de pruebas.',de:'Eine Plattform für den gesamten Testablauf.',zh:'一个平台，覆盖完整测试流程。'},
+    'How a device gets tested.': {fr:'Comment un appareil est testé.',es:'Cómo se prueba un dispositivo.',de:'So wird ein Gerät getestet.',zh:'设备测试流程。'},
+    'A quick look at the platform.': {fr:'Aperçu de la plateforme.',es:'Un vistazo a la plataforma.',de:'Ein kurzer Einblick in die Plattform.',zh:'快速了解平台。'},
+    'Frequently Asked Questions': {fr:'Questions fréquentes',es:'Preguntas frecuentes',de:'Häufig gestellte Fragen',zh:'常见问题'},
+    'See it live': {fr:'Voir en direct',es:'Ver en directo',de:'Live ansehen',zh:'在线查看'},
+    'Product': {fr:'Produit',es:'Producto',de:'Produkt',zh:'产品'},
+    'Project': {fr:'Projet',es:'Proyecto',de:'Projekt',zh:'项目'},
+    'Resources': {fr:'Ressources',es:'Recursos',de:'Ressourcen',zh:'资源'},
+    'Contact': {fr:'Contact',es:'Contacto',de:'Kontakt',zh:'联系'},
+    'Get the code': {fr:'Obtenir le code',es:'Obtener el código',de:'Quellcode laden',zh:'获取代码'},
+    'Talk to us': {fr:'Parlons-en',es:'Hablemos',de:'Kontakt aufnehmen',zh:'联系我们'},
+    'Overview (PDF)': {fr:'Présentation (PDF)',es:'Resumen (PDF)',de:'Überblick (PDF)',zh:'概览 (PDF)'},
+    'Features (PDF)': {fr:'Fonctionnalités (PDF)',es:'Funciones (PDF)',de:'Funktionen (PDF)',zh:'功能 (PDF)'},
+    'Language': {fr:'Langue',es:'Idioma',de:'Sprache',zh:'语言'},
+    'In production today': {fr:'En production aujourd’hui',es:'En producción hoy',de:'Heute im Produktiveinsatz',zh:'已投入生产使用'},
+    'Navigation': {fr:'Navigation',es:'Navegación',de:'Navigation',zh:'导航'},
+    'Verification': {fr:'Vérification',es:'Verificación',de:'Verifizierung',zh:'验证'},
+    'Monitoring': {fr:'Surveillance',es:'Supervisión',de:'Überwachung',zh:'监控'},
+    'AI-native': {fr:'IA native',es:'IA nativa',de:'KI-nativ',zh:'原生 AI'},
+    'Workspaces': {fr:'Espaces de travail',es:'Espacios de trabajo',de:'Arbeitsbereiche',zh:'工作区'},
+    'Heatmap & rewind': {fr:'Carte thermique et retour arrière',es:'Mapa de calor y retroceso',de:'Heatmap & Rückblick',zh:'热图与回放'},
+    'Map your app once. Every test reuses it.': {fr:'Cartographiez votre application une fois. Chaque test la réutilise.',es:'Mapea tu aplicación una vez. Todas las pruebas la reutilizan.',de:'Die App einmal abbilden. Jeder Test verwendet sie erneut.',zh:'只需映射一次应用，所有测试都能复用。'},
+    'It proves what\'s actually on screen.': {fr:'La preuve de ce qui s’affiche réellement.',es:'Demuestra lo que aparece realmente en pantalla.',de:'Belegt, was tatsächlich auf dem Bildschirm zu sehen ist.',zh:'验证屏幕上实际显示的内容。'},
+    'Blackscreen, freeze, audio loss — caught live.': {fr:'Écran noir, blocage, perte audio : détectés en direct.',es:'Pantalla negra, bloqueo y pérdida de audio, detectados en directo.',de:'Schwarzer Bildschirm, Freeze, Tonausfall – live erkannt.',zh:'黑屏、卡顿、音频丢失，实时捕获。'},
+    'Ask the AI what\'s on screen. It acts.': {fr:'Demandez à l’IA ce qui s’affiche. Elle agit.',es:'Pregunta a la IA qué aparece en pantalla. Y actúa.',de:'Die KI fragen, was auf dem Bildschirm zu sehen ist. Sie handelt.',zh:'询问 AI 屏幕上有什么，它会采取操作。'},
+    '24 hours of screen, scrubbable.': {fr:'24 heures d’écran, à parcourir.',es:'24 horas de pantalla para explorar.',de:'24 Stunden Bildschirmverlauf zum Durchsuchen.',zh:'可拖动浏览 24 小时屏幕记录。'},
+    'Permissions, down to the last action.': {fr:'Des permissions jusque dans le moindre détail.',es:'Permisos hasta la última acción.',de:'Berechtigungen bis zur einzelnen Aktion.',zh:'权限细化到每项操作。'},
+    'Signal path': {fr:'Parcours du signal',es:'Ruta de señal',de:'Signalweg',zh:'信号路径'},
+    'See it in motion': {fr:'Voir en action',es:'Verlo en acción',de:'In Aktion ansehen',zh:'动态演示'},
+    'Full walkthrough video — coming soon': {fr:'Vidéo de présentation complète — bientôt disponible',es:'Vídeo completo — próximamente',de:'Vollständiges Rundgangsvideo – demnächst',zh:'完整演示视频即将推出'},
+    'One standard offer. Devices are unlimited.': {fr:'Une offre standard. Appareils illimités.',es:'Una oferta estándar. Dispositivos ilimitados.',de:'Ein Standardangebot. Unbegrenzte Geräte.',zh:'统一标准方案，设备数量不限。'},
+    'Log in for a read-only look at a real lab.': {fr:'Connectez-vous pour découvrir un vrai laboratoire en lecture seule.',es:'Inicia sesión para ver un laboratorio real en modo de solo lectura.',de:'Melden Sie sich an und sehen Sie sich ein echtes Labor im Nur-Lese-Modus an.',zh:'登录即可只读查看真实实验室。'}
+  };
+  var supported = ['en','fr','es','de','zh'];
+  var root = document.documentElement;
+  var picker = document.getElementById('language-select');
+  if(!picker) return;
+  function translate(lang){
+    root.lang = lang === 'zh' ? 'zh-CN' : lang;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var node;
+    while((node = walker.nextNode())){
+      if(node.parentElement.closest('script,style')) continue;
+      if(!node.__enText) node.__enText = node.nodeValue;
+      var key = node.__enText.trim();
+      if(strings[key]) node.nodeValue = node.__enText.replace(key, strings[key][lang] || key);
+      else node.nodeValue = node.__enText;
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[alt],[aria-label],[title],[placeholder],[data-caption]'), function(el){
+      ['alt','aria-label','title','placeholder','data-caption'].forEach(function(attr){
+        if(!el.hasAttribute(attr)) return;
+        var key = el.getAttribute('data-en-' + attr);
+        if(key === null){ key = el.getAttribute(attr); el.setAttribute('data-en-' + attr, key); }
+        if(strings[key]) el.setAttribute(attr, strings[key][lang] || key);
+        else el.setAttribute(attr, key);
+      });
+    });
+    picker.value = lang;
+  }
+  var initial = '';
+  try { initial = localStorage.getItem('virtualpytest:language') || ''; } catch(e) {}
+  if(!supported.includes(initial)){
+    var browserLang = (navigator.language || 'en').slice(0,2).toLowerCase();
+    initial = supported.includes(browserLang) ? browserLang : 'en';
+  }
+  picker.addEventListener('change', function(){
+    translate(picker.value);
+    try { localStorage.setItem('virtualpytest:language', picker.value); } catch(e) {}
+  });
+  translate(initial);
+})();
+</script>
+
+<script>
+(function(){
   function initWidget(widget){
     var root = widget.querySelector('.carousel');
     if(!root) return;
@@ -833,7 +985,7 @@
         show(direction === 'next' ? (idx + 1) % slides.length : (idx - 1 + slides.length) % slides.length);
         restart();
       });
-      root.appendChild(button);
+      root.parentNode.appendChild(button);
     }
 
     makeControl('prev', 'Show previous screenshot', 'M15 18l-6-6 6-6');
@@ -861,7 +1013,7 @@
     function stop(){ if(timer){ clearInterval(timer); timer = null; } }
     function restart(){
       stop();
-      if(!reduceMotion){ timer = setInterval(next, interval); }
+      timer = setInterval(next, interval);
     }
 
     root.addEventListener('keydown', function(event){
