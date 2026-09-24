@@ -11,6 +11,9 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 - Source repository: https://github.com/AngelStreetCorp/virtualpytest
 - Project README: https://github.com/AngelStreetCorp/virtualpytest#readme
 - Documentation: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs
+- AI agent guide: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md
+- MCP tool reference: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/mcp
+- REST API contracts: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/api
 - FAQ: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md
 - Overview PDF: https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf
 - Features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
@@ -25,6 +28,12 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 - REST API and CI/CD integration for triggering scripts and campaigns.
 - AI-assisted test generation and an AI chat interface connected to project documentation.
 
+## Agent execution
+
+- MCP endpoint: `/server/mcp`, authenticated with the deployment's `MCP_SECRET_KEY` bearer token.
+- Agent loop: initialize, list tools, take control of a selected device, inspect available actions, perform one action, capture or verify the resulting screen, then release control.
+- CI/CD REST loop: `POST /server/script/execute`, poll `GET /server/script/status/{task_id}`, and retain the final result and evidence as CI artifacts.
+
 ## Licensing and commercial model
 
 The software is open source under the GNU AGPLv3. Self-hosting is available at no software license cost. Hardware units and managed-lab services are separate commercial offerings; see the website for current details.
@@ -32,4 +41,3 @@ The software is open source under the GNU AGPLv3. Self-hosting is available at n
 ## Machine-readable companion
 
 For a more detailed description, see https://virtualpytest.com/llms-full.txt.
-

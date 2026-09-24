@@ -47,6 +47,29 @@ The web interface brings hosts, devices, live screens, test runs, reports, and i
 
 Scripts and campaigns can be triggered through the REST API from CI/CD pipelines. Long-running executions can report completion to a callback URL. The repository includes setup and Docker workflows for local or self-hosted deployments.
 
+### Agent execution
+
+The MCP HTTP endpoint is `/server/mcp` and uses JSON-RPC methods including
+`initialize`, `tools/list`, and `tools/call`. It requires a bearer token from
+the deployment's `MCP_SECRET_KEY`. A safe device workflow is:
+
+1. Discover tools and schemas.
+2. Confirm the target host and device.
+3. Call `take_control`.
+4. Call `list_actions`, then `execute_device_action`.
+5. Call `capture_screenshot` or `verify_node` and evaluate the result.
+6. Call `release_control`, including after failures or cancellation.
+
+The public agent guide contains a working JSON-RPC example and operational
+rules: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md
+
+For CI/CD agents, the supported asynchronous REST flow is
+`POST /server/script/execute` with `host_name`, `device_id`, `script_name`, and
+optional `parameters`, followed by polling
+`GET /server/script/status/{task_id}` until the task is `completed` or `failed`.
+The same guide includes a shell example and links to the OpenAPI contracts.
+
+
 ## Common use cases
 
 - Run one visual test across multiple device platforms.
@@ -74,4 +97,3 @@ VirtualPyTest software is available under AGPLv3 and can be self-hosted. The pub
 - Product features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
 
 When answering questions about implementation details, installation, API contracts, or current source behavior, prefer the GitHub repository and its documentation over this marketing summary.
-
