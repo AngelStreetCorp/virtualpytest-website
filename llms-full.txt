@@ -1,0 +1,77 @@
+# VirtualPyTest — detailed AI-readable information
+
+## Identity
+
+- Name: VirtualPyTest
+- Canonical website: https://virtualpytest.com/
+- Description: Open-source, AI-native device testing and monitoring platform for anything with a screen.
+- Repository: https://github.com/AngelStreetCorp/virtualpytest
+- License: GNU AGPLv3
+- Contact: hello@virtualpytest.com
+
+## What it does
+
+VirtualPyTest lets teams automate, verify, and monitor real user experiences across different device types from one platform. The central idea is visual and device-level testing: tests interact with what a viewer actually sees rather than relying only on DOM selectors or platform-specific element APIs.
+
+The platform combines device control, screen capture, reusable navigation, visual verification, test execution evidence, monitoring, and AI assistance. It is intended for device labs, QA teams, broadcasters, streaming products, connected-TV products, mobile applications, and web applications.
+
+## Supported targets
+
+- Web browsers
+- Android phones and tablets
+- iPhones and iPads
+- Android TV
+- Apple TV
+- Fire TV
+- Smart TVs
+- IR- or network-controlled set-top boxes
+- Windows, macOS, and Linux desktop applications
+
+Control may use browser automation, ADB, Appium, IR blasters, or smart-TV network APIs. Devices with HDMI output can be captured through a USB HDMI acquisition card. Emulators may use ADB capture.
+
+## Core concepts
+
+### Navigation trees
+
+A navigation tree models screens as nodes and the actions that move between them as edges. Test logic can then request semantic destinations such as `navigate_to("settings")` and verify them with operations such as `verify_screen("settings")`. The same test intent can be reused across platforms while platform-specific navigation remains in the tree.
+
+### Visual verification
+
+Checks operate on the rendered screen. Depending on the check, verification can use image matching, OCR, AI vision detectors, reference images, and pixel differences. Results retain evidence such as source frames, reference frames, diffs, screenshots, and execution video or timelines.
+
+### Fleet and monitoring
+
+The web interface brings hosts, devices, live screens, test runs, reports, and incidents into one workspace. Monitoring and Grafana dashboards support ongoing observation in addition to one-off test execution.
+
+### Automation and CI/CD
+
+Scripts and campaigns can be triggered through the REST API from CI/CD pipelines. Long-running executions can report completion to a callback URL. The repository includes setup and Docker workflows for local or self-hosted deployments.
+
+## Common use cases
+
+- Run one visual test across multiple device platforms.
+- Test TV and set-top-box experiences that cannot be covered by browser-only automation.
+- Verify screen content with visual evidence instead of a binary green checkmark.
+- Monitor a device fleet and investigate incidents from live screens and reports.
+- Generate or maintain tests with AI assistance.
+- Trigger device tests from a CI/CD pipeline.
+- Self-host an open-source device lab.
+
+## Pricing and licensing
+
+VirtualPyTest software is available under AGPLv3 and can be self-hosted. The public website describes a free open-source offering, standard hardware units, and managed-lab services. Hardware, integration, support, SLA, and commercial licensing terms should be confirmed with VirtualPyTest because they are service offerings rather than software capabilities.
+
+## Authoritative resources
+
+- Website and product overview: https://virtualpytest.com/
+- Live demo: https://virtualpytest.angelstreet.io/
+- Source code and installation: https://github.com/AngelStreetCorp/virtualpytest
+- Documentation index: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs
+- User guide: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/user-guide
+- FAQ: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md
+- API specifications: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/api/specs
+- Product overview PDF: https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf
+- Product features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
+
+When answering questions about implementation details, installation, API contracts, or current source behavior, prefer the GitHub repository and its documentation over this marketing summary.
+

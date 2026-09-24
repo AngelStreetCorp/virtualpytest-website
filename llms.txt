@@ -1,0 +1,35 @@
+# VirtualPyTest
+
+> VirtualPyTest is an open-source, AI-native platform for testing and monitoring any device with a screen.
+
+VirtualPyTest runs visual tests and 24/7 monitoring against real devices, including web browsers, phones, tablets, Android TV, smart TVs, set-top boxes, and desktop applications. It uses real device control, HDMI capture where applicable, image/OCR/AI-vision verification, execution evidence, and one reusable navigation model across platforms.
+
+## Primary links
+
+- Website: https://virtualpytest.com/
+- Live read-only demo: https://virtualpytest.angelstreet.io/
+- Source repository: https://github.com/AngelStreetCorp/virtualpytest
+- Project README: https://github.com/AngelStreetCorp/virtualpytest#readme
+- Documentation: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs
+- FAQ: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md
+- Overview PDF: https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf
+- Features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
+- Contact: mailto:hello@virtualpytest.com
+
+## Product areas
+
+- Cross-platform visual testing for web, mobile, tablet, TV, set-top box, and desktop experiences.
+- Navigation trees that separate reusable app navigation from test logic.
+- Verification based on the actual rendered screen, with source frames, references, pixel differences, OCR, and AI vision detectors.
+- Device fleet management, live screens, test execution, reports, monitoring incidents, and Grafana dashboards.
+- REST API and CI/CD integration for triggering scripts and campaigns.
+- AI-assisted test generation and an AI chat interface connected to project documentation.
+
+## Licensing and commercial model
+
+The software is open source under the GNU AGPLv3. Self-hosting is available at no software license cost. Hardware units and managed-lab services are separate commercial offerings; see the website for current details.
+
+## Machine-readable companion
+
+For a more detailed description, see https://virtualpytest.com/llms-full.txt.
+
