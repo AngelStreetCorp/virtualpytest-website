@@ -173,7 +173,9 @@
     "or": "or",
     "software, forever": "software, forever",
     "© 2026 VirtualPyTest — AGPLv3": "© 2026 VirtualPyTest — AGPLv3",
-    "Star on GitHub": "Star on GitHub"
+    "Star on GitHub": "Star on GitHub",
+    "Run it on your hardware—or get a ready-to-use lab unit.": "Run it on your hardware—or get a ready-to-use lab unit.",
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit."
   },
   "fr": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — tests et surveillance d’appareils open source pilotés par l’IA",
@@ -349,7 +351,9 @@
     "Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV.": "Tout appareil avec un écran, testé et surveillé 24 h/24 par l’IA. Open source, tarif fixe, sans robots. Web, mobile, tablette et Android TV.",
     "Show previous screenshot": "Afficher la capture précédente",
     "Show next screenshot": "Afficher la capture suivante",
-    "Show screenshot {index} of {count}": "Afficher la capture {index} sur {count}"
+    "Show screenshot {index} of {count}": "Afficher la capture {index} sur {count}",
+    "Run it on your hardware—or get a ready-to-use lab unit.": "Installez-le sur votre matériel ou choisissez une unité prête à l’emploi.",
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Hébergez la solution sur un Raspberry Pi, un PC standard ou un mini-PC Minisforum. Linux est recommandé. Vous préférez une solution prête à l’emploi ? Nous pouvons configurer et expédier une unité complète."
   },
   "es": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — pruebas y supervisión de dispositivos de código abierto con IA",
@@ -525,6 +529,8 @@
     "Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV.": "Cualquier dispositivo con pantalla, probado y supervisado por IA las 24 horas. Código abierto, tarifa fija y sin robots. Web, móvil, tableta y Android TV.",
     "Show previous screenshot": "Mostrar la captura anterior",
     "Show next screenshot": "Mostrar la captura siguiente",
-    "Show screenshot {index} of {count}": "Mostrar la captura {index} de {count}"
+    "Show screenshot {index} of {count}": "Mostrar la captura {index} de {count}",
+    "Run it on your hardware—or get a ready-to-use lab unit.": "Ejecútalo en tu propio hardware o elige una unidad lista para usar.",
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Aloja el sistema en una Raspberry Pi, un PC estándar o un mini PC Minisforum. Recomendamos Linux. ¿Prefieres una solución lista para usar? Podemos configurar y enviarte una unidad completa."
   }
 }

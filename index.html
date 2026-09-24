@@ -19,16 +19,16 @@
 <style>
   :root{
     color-scheme:light;
-    --bg:#f1f3f1;
+    --bg:#F6F4EF;
     --bg-raised:#ffffff;
-    --bg-sunken:#e6e9e6;
-    --text:#0e1613;
-    --text-dim:#4b5851;
-    --border:#d3d9d4;
-    --accent:#0e8f5f;
-    --accent-soft:#dcf1e6;
+    --bg-sunken:#ECEAE3;
+    --text:#1D2521;
+    --text-dim:#59645E;
+    --border:#D8D6CC;
+    --accent:#087A52;
+    --accent-soft:#DDF2E7;
     --accent-ink:#ffffff;
-    --amber:#a3690a;
+    --amber:#9A6500;
     --live:#c73224;
     --radius: 3px;
   }
@@ -274,6 +274,12 @@
 
   .price-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
   @media (max-width:900px){ .price-grid{grid-template-columns:1fr;} }
+  .hardware-note{
+    display:flex; flex-direction:column; gap:5px; margin:0 0 22px; padding:16px 18px;
+    background:var(--bg-sunken); border:1px solid var(--border); border-left:3px solid var(--accent);
+    color:var(--text-dim); font-size:14px;
+  }
+  .hardware-note strong{color:var(--text); font-size:15px;}
   .price-card{
     background:var(--bg-raised); border:1px solid var(--border); border-radius:var(--radius);
     padding:28px 26px; display:flex; flex-direction:column; gap:16px;
@@ -695,6 +701,10 @@
         <h2>One standard offer. Devices are unlimited.</h2>
         <p>The software is free, full stop. You pay for hardware units and one flat subscription per lab — never a per-device license.</p>
       </div>
+      <aside class="hardware-note">
+        <strong>Run it on your hardware—or get a ready-to-use lab unit.</strong>
+        <span>Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.</span>
+      </aside>
       <div class="price-grid">
 
         <div class="price-card">
