@@ -443,7 +443,7 @@
         </button>
         <label class="sr-only" for="language-select">Language</label>
         <select class="language-select" id="language-select" aria-label="Language">
-          <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option>
+          <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option><option value="zh-CN">ZH</option><option value="hi">HI</option>
         </select>
       </div>
       <div class="nav-actions">
@@ -910,7 +910,7 @@
 
 <script>
 (function(){
-  var supported = ['en','fr','es','de'];
+  var supported = ['en','fr','es','de','zh-CN','hi'];
   var root = document.documentElement;
   var picker = document.getElementById('language-select');
   var catalogs = {};
@@ -982,7 +982,8 @@
     var requested = '';
     try { requested = localStorage.getItem('virtualpytest:language') || ''; } catch(e) {}
     if(supported.indexOf(requested) < 0){
-      var browserLanguage = (navigator.language || 'en').slice(0,2).toLowerCase();
+      var systemLanguage = (navigator.language || 'en').toLowerCase();
+      var browserLanguage = systemLanguage.indexOf('zh') === 0 ? 'zh-CN' : systemLanguage.slice(0,2);
       requested = supported.indexOf(browserLanguage) >= 0 ? browserLanguage : 'en';
     }
     if(picker) picker.addEventListener('change', function(){
