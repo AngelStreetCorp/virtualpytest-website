@@ -101,18 +101,28 @@
   .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
   .theme-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
   .theme-toggle svg{width:18px; height:18px;}
+  .language-picker{position:relative;}
   .language-select{
-    appearance:none; -webkit-appearance:none;
-    width:70px; height:40px; padding:0 22px 0 10px; border:1px solid var(--border); border-radius:var(--radius);
-    background-color:var(--bg-raised); color:var(--text); color-scheme:light; font:500 12px/1 "IBM Plex Mono",monospace;
-    text-align:center; text-align-last:center; cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2393a39c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 8px center;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    width:70px; height:40px; padding:0 8px; border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--bg-raised); color:var(--text); font:500 12px/1 "IBM Plex Mono",monospace; cursor:pointer;
   }
-  :root[data-theme="dark"] .language-select{color-scheme:dark;}
-  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .language-select{color-scheme:dark;} }
-  .language-select option{background:var(--bg-raised); color:var(--text);}
-  .language-select:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .language-select:hover,.language-select[aria-expanded="true"]{border-color:var(--accent);}
+  .language-select:focus-visible,.language-option:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .language-select svg{width:12px;height:12px;color:var(--text-dim);transition:transform .16s ease;}
+  .language-select[aria-expanded="true"] svg{transform:rotate(180deg);}
+  .language-menu{
+    position:absolute; top:calc(100% + 6px); right:0; z-index:80; min-width:100%;
+    display:flex; flex-direction:column; gap:2px; padding:4px;
+    border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-raised);
+    box-shadow:0 10px 28px rgba(0,0,0,.22);
+  }
+  .language-menu[hidden]{display:none;}
+  .language-option{
+    min-height:34px; padding:0 10px; border:0; border-radius:2px; background:transparent;
+    color:var(--text); text-align:center; font:500 12px/1 "IBM Plex Mono",monospace; cursor:pointer;
+  }
+  .language-option:hover,.language-option[aria-selected="true"]{background:var(--bg-sunken);color:var(--accent);}
   .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
   @media (max-width:1300px){ nav.links{gap:10px;} nav.links a{font-size:13px;} nav.links a[href*="github"]{display:none;} .navrow{gap:10px;} .navcta{gap:6px;} .navcta .btn{padding-left:9px; padding-right:9px;} }
   @media (max-width:1000px){
@@ -441,10 +451,20 @@
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
         </button>
-        <label class="sr-only" for="language-select">Language</label>
-        <select class="language-select" id="language-select" aria-label="Language">
-          <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option><option value="zh-CN">ZH</option><option value="hi">HI</option>
-        </select>
+        <div class="language-picker">
+          <button class="language-select" id="language-select" type="button" aria-label="Language" aria-haspopup="listbox" aria-expanded="false">
+            <span data-language-code>EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+          </button>
+          <div class="language-menu" id="language-menu" role="listbox" aria-label="Language" hidden>
+            <button class="language-option" type="button" role="option" data-locale="en" aria-selected="true">EN</button>
+            <button class="language-option" type="button" role="option" data-locale="fr" aria-selected="false">FR</button>
+            <button class="language-option" type="button" role="option" data-locale="es" aria-selected="false">ES</button>
+            <button class="language-option" type="button" role="option" data-locale="de" aria-selected="false">DE</button>
+            <button class="language-option" type="button" role="option" data-locale="zh-CN" aria-selected="false">ZH</button>
+            <button class="language-option" type="button" role="option" data-locale="hi" aria-selected="false">HI</button>
+          </div>
+        </div>
       </div>
       <div class="nav-actions">
         <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener"><svg class="github-star-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.8 2.78 5.63 6.21.9-4.5 4.39 1.06 6.18L12 16.98l-5.55 2.92 1.06-6.18-4.5-4.39 6.21-.9L12 2.8z"/></svg><span>Star on GitHub</span></a>
@@ -913,6 +933,7 @@
   var supported = ['en','fr','es','de','zh-CN','hi'];
   var root = document.documentElement;
   var picker = document.getElementById('language-select');
+  var languageMenu = document.getElementById('language-menu');
   var catalogs = {};
   var current = 'en';
   var localeReadyResolve;
@@ -960,13 +981,63 @@
       if(el.hasAttribute('data-i18n-text')) el.textContent = t(key);
       else el.setAttribute('aria-label', t(key));
     });
-    if(picker) picker.value = current;
+    if(picker){
+      var code = picker.querySelector('[data-language-code]');
+      if(code) code.textContent = ({en:'EN',fr:'FR',es:'ES',de:'DE','zh-CN':'ZH',hi:'HI'})[current] || 'EN';
+      if(languageMenu) Array.prototype.forEach.call(languageMenu.querySelectorAll('[data-locale]'), function(option){
+        option.setAttribute('aria-selected', option.getAttribute('data-locale') === current ? 'true' : 'false');
+      });
+    }
     var themeButton = document.querySelector('[data-theme-toggle]');
     if(themeButton){
       var nextTheme = document.documentElement.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       themeButton.setAttribute('aria-label', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
       themeButton.setAttribute('title', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
     }
+  }
+
+  function closeLanguageMenu(returnFocus){
+    if(!picker || !languageMenu) return;
+    languageMenu.hidden = true;
+    picker.setAttribute('aria-expanded','false');
+    if(returnFocus) picker.focus();
+  }
+  if(picker && languageMenu){
+    picker.addEventListener('click', function(){
+      var opening = languageMenu.hidden;
+      languageMenu.hidden = !opening;
+      picker.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      if(opening){
+        var selected = languageMenu.querySelector('[data-locale="' + current + '"]');
+        if(selected) selected.focus();
+      }
+    });
+    languageMenu.addEventListener('click', function(event){
+      var option = event.target.closest('[data-locale]');
+      if(!option) return;
+      applyLocale(option.getAttribute('data-locale'));
+      try { localStorage.setItem('virtualpytest:language', current); } catch(e) {}
+      closeLanguageMenu(true);
+    });
+    languageMenu.addEventListener('keydown', function(event){
+      var options = Array.prototype.slice.call(languageMenu.querySelectorAll('[data-locale]'));
+      var index = options.indexOf(document.activeElement);
+      if(event.key === 'Escape'){
+        event.preventDefault();
+        closeLanguageMenu(true);
+      } else if(event.key === 'ArrowDown' || event.key === 'ArrowUp'){
+        event.preventDefault();
+        var step = event.key === 'ArrowDown' ? 1 : -1;
+        options[(index + step + options.length) % options.length].focus();
+      } else if(event.key === 'Home'){
+        event.preventDefault(); options[0].focus();
+      } else if(event.key === 'End'){
+        event.preventDefault(); options[options.length - 1].focus();
+      }
+    });
+    document.addEventListener('click', function(event){
+      if(!event.target.closest('.language-picker')) closeLanguageMenu(false);
+    });
   }
 
   var domReady = new Promise(function(resolve){
@@ -986,10 +1057,6 @@
       var browserLanguage = systemLanguage.indexOf('zh') === 0 ? 'zh-CN' : systemLanguage.slice(0,2);
       requested = supported.indexOf(browserLanguage) >= 0 ? browserLanguage : 'en';
     }
-    if(picker) picker.addEventListener('change', function(){
-      applyLocale(picker.value);
-      try { localStorage.setItem('virtualpytest:language', current); } catch(e) {}
-    });
     applyLocale(requested);
     localeReadyResolve();
   });
