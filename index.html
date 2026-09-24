@@ -82,14 +82,17 @@
     backdrop-filter:saturate(140%) blur(8px);
     border-bottom:1px solid var(--border);
   }
-  .navrow{ display:flex; align-items:center; justify-content:space-between; height:64px; }
-  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);}
+  .navrow{ display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px; }
+  .brand{display:flex; align-items:center; gap:10px; flex:none; white-space:nowrap; text-decoration:none; color:var(--text);}
   .brand-logo{height:30px; width:auto; flex:none;}
   .brand-word{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:15px; letter-spacing:.01em;}
-  nav.links{display:flex; align-items:center; gap:28px;}
-  nav.links a{font-size:14px; text-decoration:none; color:var(--text-dim); font-weight:500;}
+  nav.links{display:flex; align-items:center; justify-content:center; gap:clamp(10px,1.3vw,18px); flex:1; min-width:0;}
+  nav.links a{font-size:14px; white-space:nowrap; text-decoration:none; color:var(--text-dim); font-weight:500;}
   nav.links a:hover{color:var(--text);}
-  .navcta{display:flex; align-items:center; gap:16px;}
+  .navcta{display:flex; align-items:center; gap:8px; flex:none; flex-wrap:nowrap; white-space:nowrap;}
+  .navcta>*{flex:none;}
+  .nav-prefs,.nav-actions{display:flex; align-items:center; gap:8px; white-space:nowrap;}
+  .navcta .btn{padding-left:12px; padding-right:12px; font-size:12px; white-space:nowrap;}
   .theme-toggle{
     width:40px; height:40px; display:grid; place-items:center; flex:none;
     padding:0; border:1px solid var(--border); border-radius:var(--radius);
@@ -104,9 +107,16 @@
   }
   .language-select:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
   .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
-  @media (max-width:800px){ .navcta{gap:8px;} .navcta .btn-ghost{display:none;} }
-  @media (max-width:460px){ .navcta .btn-primary{padding:9px 11px; font-size:11px;} }
-  @media (max-width:800px){ nav.links{display:none;} }
+  @media (max-width:1300px){ nav.links{gap:10px;} nav.links a{font-size:13px;} nav.links a[href*="github"]{display:none;} .navrow{gap:10px;} .navcta{gap:6px;} .navcta .btn{padding-left:9px; padding-right:9px;} }
+  @media (max-width:1000px){
+    .navrow{height:auto; min-height:64px; flex-wrap:wrap; row-gap:8px; padding-top:8px; padding-bottom:8px;}
+    .navcta{display:contents;}
+    .nav-prefs{margin-left:auto;}
+    .nav-actions{flex:0 0 100%; justify-content:flex-end;}
+  }
+  @media (max-width:940px){ nav.links{display:none;} .navcta{margin-left:auto;} }
+  @media (max-width:800px){ .navcta .btn-ghost{display:none;} }
+  @media (max-width:460px){ .brand-word{display:none;} .navcta .btn-primary{padding:9px 10px; font-size:11px;} .theme-toggle,.language-select{height:36px;} .theme-toggle{width:36px;} }
 
   .btn{
     display:inline-flex; align-items:center; gap:8px;
@@ -413,15 +423,19 @@
       <a href="#ask" data-ask-open>Ask AI</a>
     </nav>
     <div class="navcta">
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
-      </button>
-      <label class="sr-only" for="language-select">Language</label>
-      <select class="language-select" id="language-select" aria-label="Language">
-        <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option><option value="zh">中文</option>
-      </select>
-      <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest">★ Star on GitHub</a>
-      <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/">Try it live</a>
+      <div class="nav-prefs">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        </button>
+        <label class="sr-only" for="language-select">Language</label>
+        <select class="language-select" id="language-select" aria-label="Language">
+          <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option>
+        </select>
+      </div>
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest">★ Star on GitHub</a>
+        <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/">Try it live</a>
+      </div>
     </div>
   </div>
 </header>
@@ -859,8 +873,8 @@
   function currentTheme(){ return root.getAttribute('data-theme') || (systemTheme.matches ? 'dark' : 'light'); }
   function updateButton(){
     var next = currentTheme() === 'dark' ? 'light' : 'dark';
-    button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
-    button.setAttribute('title', 'Switch to ' + next + ' theme');
+    button.setAttribute('aria-label', window.vptT ? window.vptT('Switch to ' + next + ' theme') : 'Switch to ' + next + ' theme');
+    button.setAttribute('title', window.vptT ? window.vptT('Switch to ' + next + ' theme') : 'Switch to ' + next + ' theme');
     button.innerHTML = next === 'dark'
       ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>'
       : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>';
@@ -878,88 +892,88 @@
 
 <script>
 (function(){
-  var strings = {
-    'Tests & monitors': {fr:'Tests et surveillance',es:'Pruebas y supervisión',de:'Tests & Überwachung',zh:'测试与监控'},
-    'Open source · AI-native · any screen': {fr:'Open source · IA native · tous les écrans',es:'Código abierto · IA nativa · cualquier pantalla',de:'Open Source · KI-nativ · jeder Bildschirm',zh:'开源 · 原生 AI · 适用于任何屏幕'},
-    'Any device with a screen — tested and monitored 24/7 by AI.': {fr:'Tout appareil avec un écran — testé et surveillé 24 h/24 par l’IA.',es:'Cualquier dispositivo con pantalla, probado y supervisado por IA las 24 horas.',de:'Jedes Gerät mit Bildschirm – rund um die Uhr von KI getestet und überwacht.',zh:'任何带屏幕的设备，都由 AI 全天候测试和监控。'},
-    'Real remotes. Real HDMI capture. Real verification, not a green checkmark. Open source, one flat fee — no per-device licenses, no robots.': {fr:'De vraies télécommandes. Une vraie capture HDMI. Une vraie vérification, pas une coche verte. Open source, un tarif fixe — sans licence par appareil ni robots.',es:'Mandos reales. Captura HDMI real. Verificación real, no una marca verde. Código abierto y tarifa única, sin licencias por dispositivo ni robots.',de:'Echte Fernbedienungen. Echte HDMI-Aufnahme. Echte Prüfung statt grünem Häkchen. Open Source, ein Festpreis – ohne Lizenzen pro Gerät und ohne Roboter.',zh:'真实遥控器、真实 HDMI 采集、真实验证，而非一个绿色对勾。开源，统一费用，无设备许可费，也无需机器人。'},
-    'Try it live': {fr:'Essayer en direct',es:'Probar en directo',de:'Live ausprobieren',zh:'在线体验'},
-    'Try it live →': {fr:'Essayer en direct →',es:'Probar en directo →',de:'Live ausprobieren →',zh:'在线体验 →'},
-    'View on GitHub': {fr:'Voir sur GitHub',es:'Ver en GitHub',de:'Auf GitHub ansehen',zh:'在 GitHub 上查看'},
-    'How it works': {fr:'Fonctionnement',es:'Cómo funciona',de:'So funktioniert es',zh:'工作原理'},
-    'Pricing': {fr:'Tarifs',es:'Precios',de:'Preise',zh:'价格'},
-    'Ask AI': {fr:'Demander à l’IA',es:'Preguntar a la IA',de:'KI fragen',zh:'询问 AI'},
-    'Platform': {fr:'Plateforme',es:'Plataforma',de:'Plattform',zh:'平台'},
-    'One platform, the whole test loop.': {fr:'Une plateforme pour tout le cycle de test.',es:'Una plataforma para todo el ciclo de pruebas.',de:'Eine Plattform für den gesamten Testablauf.',zh:'一个平台，覆盖完整测试流程。'},
-    'How a device gets tested.': {fr:'Comment un appareil est testé.',es:'Cómo se prueba un dispositivo.',de:'So wird ein Gerät getestet.',zh:'设备测试流程。'},
-    'A quick look at the platform.': {fr:'Aperçu de la plateforme.',es:'Un vistazo a la plataforma.',de:'Ein kurzer Einblick in die Plattform.',zh:'快速了解平台。'},
-    'Frequently Asked Questions': {fr:'Questions fréquentes',es:'Preguntas frecuentes',de:'Häufig gestellte Fragen',zh:'常见问题'},
-    'See it live': {fr:'Voir en direct',es:'Ver en directo',de:'Live ansehen',zh:'在线查看'},
-    'Product': {fr:'Produit',es:'Producto',de:'Produkt',zh:'产品'},
-    'Project': {fr:'Projet',es:'Proyecto',de:'Projekt',zh:'项目'},
-    'Resources': {fr:'Ressources',es:'Recursos',de:'Ressourcen',zh:'资源'},
-    'Contact': {fr:'Contact',es:'Contacto',de:'Kontakt',zh:'联系'},
-    'Get the code': {fr:'Obtenir le code',es:'Obtener el código',de:'Quellcode laden',zh:'获取代码'},
-    'Talk to us': {fr:'Parlons-en',es:'Hablemos',de:'Kontakt aufnehmen',zh:'联系我们'},
-    'Overview (PDF)': {fr:'Présentation (PDF)',es:'Resumen (PDF)',de:'Überblick (PDF)',zh:'概览 (PDF)'},
-    'Features (PDF)': {fr:'Fonctionnalités (PDF)',es:'Funciones (PDF)',de:'Funktionen (PDF)',zh:'功能 (PDF)'},
-    'Language': {fr:'Langue',es:'Idioma',de:'Sprache',zh:'语言'},
-    'In production today': {fr:'En production aujourd’hui',es:'En producción hoy',de:'Heute im Produktiveinsatz',zh:'已投入生产使用'},
-    'Navigation': {fr:'Navigation',es:'Navegación',de:'Navigation',zh:'导航'},
-    'Verification': {fr:'Vérification',es:'Verificación',de:'Verifizierung',zh:'验证'},
-    'Monitoring': {fr:'Surveillance',es:'Supervisión',de:'Überwachung',zh:'监控'},
-    'AI-native': {fr:'IA native',es:'IA nativa',de:'KI-nativ',zh:'原生 AI'},
-    'Workspaces': {fr:'Espaces de travail',es:'Espacios de trabajo',de:'Arbeitsbereiche',zh:'工作区'},
-    'Heatmap & rewind': {fr:'Carte thermique et retour arrière',es:'Mapa de calor y retroceso',de:'Heatmap & Rückblick',zh:'热图与回放'},
-    'Map your app once. Every test reuses it.': {fr:'Cartographiez votre application une fois. Chaque test la réutilise.',es:'Mapea tu aplicación una vez. Todas las pruebas la reutilizan.',de:'Die App einmal abbilden. Jeder Test verwendet sie erneut.',zh:'只需映射一次应用，所有测试都能复用。'},
-    'It proves what\'s actually on screen.': {fr:'La preuve de ce qui s’affiche réellement.',es:'Demuestra lo que aparece realmente en pantalla.',de:'Belegt, was tatsächlich auf dem Bildschirm zu sehen ist.',zh:'验证屏幕上实际显示的内容。'},
-    'Blackscreen, freeze, audio loss — caught live.': {fr:'Écran noir, blocage, perte audio : détectés en direct.',es:'Pantalla negra, bloqueo y pérdida de audio, detectados en directo.',de:'Schwarzer Bildschirm, Freeze, Tonausfall – live erkannt.',zh:'黑屏、卡顿、音频丢失，实时捕获。'},
-    'Ask the AI what\'s on screen. It acts.': {fr:'Demandez à l’IA ce qui s’affiche. Elle agit.',es:'Pregunta a la IA qué aparece en pantalla. Y actúa.',de:'Die KI fragen, was auf dem Bildschirm zu sehen ist. Sie handelt.',zh:'询问 AI 屏幕上有什么，它会采取操作。'},
-    '24 hours of screen, scrubbable.': {fr:'24 heures d’écran, à parcourir.',es:'24 horas de pantalla para explorar.',de:'24 Stunden Bildschirmverlauf zum Durchsuchen.',zh:'可拖动浏览 24 小时屏幕记录。'},
-    'Permissions, down to the last action.': {fr:'Des permissions jusque dans le moindre détail.',es:'Permisos hasta la última acción.',de:'Berechtigungen bis zur einzelnen Aktion.',zh:'权限细化到每项操作。'},
-    'Signal path': {fr:'Parcours du signal',es:'Ruta de señal',de:'Signalweg',zh:'信号路径'},
-    'See it in motion': {fr:'Voir en action',es:'Verlo en acción',de:'In Aktion ansehen',zh:'动态演示'},
-    'Full walkthrough video — coming soon': {fr:'Vidéo de présentation complète — bientôt disponible',es:'Vídeo completo — próximamente',de:'Vollständiges Rundgangsvideo – demnächst',zh:'完整演示视频即将推出'},
-    'One standard offer. Devices are unlimited.': {fr:'Une offre standard. Appareils illimités.',es:'Una oferta estándar. Dispositivos ilimitados.',de:'Ein Standardangebot. Unbegrenzte Geräte.',zh:'统一标准方案，设备数量不限。'},
-    'Log in for a read-only look at a real lab.': {fr:'Connectez-vous pour découvrir un vrai laboratoire en lecture seule.',es:'Inicia sesión para ver un laboratorio real en modo de solo lectura.',de:'Melden Sie sich an und sehen Sie sich ein echtes Labor im Nur-Lese-Modus an.',zh:'登录即可只读查看真实实验室。'}
-  };
-  var supported = ['en','fr','es','de','zh'];
+  var supported = ['en','fr','es'];
   var root = document.documentElement;
   var picker = document.getElementById('language-select');
-  if(!picker) return;
-  function translate(lang){
-    root.lang = lang === 'zh' ? 'zh-CN' : lang;
+  var catalogs = {};
+  var current = 'en';
+  var localeReadyResolve;
+  window.vptLocaleReady = new Promise(function(resolve){ localeReadyResolve = resolve; });
+
+  function t(message){
+    var translated = catalogs[current] && catalogs[current][message];
+    if(translated) return translated;
+    var match = /^Show screenshot (\d+) of (\d+)$/.exec(message);
+    if(match){
+      var pattern = (catalogs[current] && catalogs[current]['Show screenshot {index} of {count}']) || message;
+      return pattern.replace('{index}', match[1]).replace('{count}', match[2]);
+    }
+    return message;
+  }
+  window.vptT = t;
+  window.vptLocale = function(){ return current; };
+
+  function applyLocale(lang){
+    current = supported.indexOf(lang) >= 0 ? lang : 'en';
+    root.lang = current;
+    document.documentElement.setAttribute('lang', current);
+    document.title = t('VirtualPyTest — open-source device testing & monitoring, driven by AI');
+
     var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     var node;
     while((node = walker.nextNode())){
       if(node.parentElement.closest('script,style')) continue;
-      if(!node.__enText) node.__enText = node.nodeValue;
-      var key = node.__enText.trim();
-      if(strings[key]) node.nodeValue = node.__enText.replace(key, strings[key][lang] || key);
-      else node.nodeValue = node.__enText;
+      if(typeof node.__sourceText === 'undefined') node.__sourceText = node.nodeValue;
+      var key = node.__sourceText.trim();
+      node.nodeValue = node.__sourceText.replace(key, t(key));
     }
-    Array.prototype.forEach.call(document.querySelectorAll('[alt],[aria-label],[title],[placeholder],[data-caption]'), function(el){
-      ['alt','aria-label','title','placeholder','data-caption'].forEach(function(attr){
+
+    Array.prototype.forEach.call(document.querySelectorAll('[alt],[aria-label],[title],[placeholder],[data-caption],[content]'), function(el){
+      ['alt','aria-label','title','placeholder','data-caption','content'].forEach(function(attr){
         if(!el.hasAttribute(attr)) return;
-        var key = el.getAttribute('data-en-' + attr);
-        if(key === null){ key = el.getAttribute(attr); el.setAttribute('data-en-' + attr, key); }
-        if(strings[key]) el.setAttribute(attr, strings[key][lang] || key);
-        else el.setAttribute(attr, key);
+        var original = el.getAttribute('data-source-' + attr);
+        if(original === null){ original = el.getAttribute(attr); el.setAttribute('data-source-' + attr, original); }
+        el.setAttribute(attr, t(original));
       });
     });
-    picker.value = lang;
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-key]'), function(el){
+      var key = el.getAttribute('data-i18n-key');
+      if(el.hasAttribute('data-i18n-text')) el.textContent = t(key);
+      else el.setAttribute('aria-label', t(key));
+    });
+    if(picker) picker.value = current;
+    var themeButton = document.querySelector('[data-theme-toggle]');
+    if(themeButton){
+      var nextTheme = document.documentElement.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      themeButton.setAttribute('aria-label', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
+      themeButton.setAttribute('title', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
+    }
   }
-  var initial = '';
-  try { initial = localStorage.getItem('virtualpytest:language') || ''; } catch(e) {}
-  if(!supported.includes(initial)){
-    var browserLang = (navigator.language || 'en').slice(0,2).toLowerCase();
-    initial = supported.includes(browserLang) ? browserLang : 'en';
-  }
-  picker.addEventListener('change', function(){
-    translate(picker.value);
-    try { localStorage.setItem('virtualpytest:language', picker.value); } catch(e) {}
+
+  var domReady = new Promise(function(resolve){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', resolve, {once:true});
+    else resolve();
   });
-  translate(initial);
+  fetch('locales.json').then(function(response){
+    if(!response.ok) throw new Error('Could not load locale catalog');
+    return response.json();
+  }).then(function(data){ catalogs = data; }).catch(function(){ catalogs = {}; }).then(function(){
+    return domReady;
+  }).then(function(){
+    var requested = '';
+    try { requested = localStorage.getItem('virtualpytest:language') || ''; } catch(e) {}
+    if(supported.indexOf(requested) < 0){
+      var browserLanguage = (navigator.language || 'en').slice(0,2).toLowerCase();
+      requested = supported.indexOf(browserLanguage) >= 0 ? browserLanguage : 'en';
+    }
+    if(picker) picker.addEventListener('change', function(){
+      applyLocale(picker.value);
+      try { localStorage.setItem('virtualpytest:language', current); } catch(e) {}
+    });
+    applyLocale(requested);
+    localeReadyResolve();
+  });
 })();
 </script>
 
@@ -979,7 +993,8 @@
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'carousel-control carousel-' + direction;
-      button.setAttribute('aria-label', label);
+      button.setAttribute('data-i18n-key', label);
+      button.setAttribute('aria-label', window.vptT(label));
       button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + symbol + '"/></svg>';
       button.addEventListener('click', function(){
         show(direction === 'next' ? (idx + 1) % slides.length : (idx - 1 + slides.length) % slides.length);
@@ -995,7 +1010,9 @@
       var dot = document.createElement('button');
       dot.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
       dot.type = 'button';
-      dot.setAttribute('aria-label', 'Show screenshot ' + (i + 1) + ' of ' + slides.length);
+      var dotLabel = 'Show screenshot ' + (i + 1) + ' of ' + slides.length;
+      dot.setAttribute('data-i18n-key', dotLabel);
+      dot.setAttribute('aria-label', window.vptT(dotLabel));
       dot.addEventListener('click', function(){ show(i); restart(); });
       dotsWrap.appendChild(dot);
     });
@@ -1007,7 +1024,10 @@
       idx = i;
       slides[idx].classList.add('is-active');
       dots[idx].classList.add('is-active');
-      caption.textContent = slides[idx].getAttribute('data-caption');
+      var captionKey = slides[idx].getAttribute('data-source-data-caption') || slides[idx].getAttribute('data-caption');
+      caption.setAttribute('data-i18n-key', captionKey);
+      caption.setAttribute('data-i18n-text', '');
+      caption.textContent = window.vptT(captionKey);
     }
     function next(){ show((idx + 1) % slides.length); }
     function stop(){ if(timer){ clearInterval(timer); timer = null; } }
@@ -1024,11 +1044,16 @@
       }
     });
 
-    caption.textContent = slides[0].getAttribute('data-caption');
+    var firstCaptionKey = slides[0].getAttribute('data-source-data-caption') || slides[0].getAttribute('data-caption');
+    caption.setAttribute('data-i18n-key', firstCaptionKey);
+    caption.setAttribute('data-i18n-text', '');
+    caption.textContent = window.vptT(firstCaptionKey);
     restart();
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll('.carousel-widget'), initWidget);
+  window.vptLocaleReady.then(function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.carousel-widget'), initWidget);
+  });
 })();
 </script>
 
@@ -1086,8 +1111,8 @@
   var expandBtn = panel.querySelector('[data-ask-expand]');
   function setLarge(on){
     panel.classList.toggle('is-large', on);
-    expandBtn.setAttribute('aria-label', on ? 'Shrink' : 'Expand');
-    expandBtn.setAttribute('title', on ? 'Shrink' : 'Expand');
+    expandBtn.setAttribute('aria-label', window.vptT(on ? 'Shrink' : 'Expand'));
+    expandBtn.setAttribute('title', window.vptT(on ? 'Shrink' : 'Expand'));
     try { localStorage.setItem('askai:large', on ? '1' : '0'); } catch(e) {}
     log.scrollTop = log.scrollHeight;
   }
@@ -1108,7 +1133,7 @@
     if(!paths || !paths.length) return;
     var div = document.createElement('div');
     div.className = 'ask-src';
-    div.appendChild(document.createTextNode('Sources: '));
+    div.appendChild(document.createTextNode(window.vptT('Sources: ')));
     paths.forEach(function(p, i){
       if(i) div.appendChild(document.createTextNode(' · '));
       var a = document.createElement('a');
@@ -1124,12 +1149,12 @@
     if(!question || busy) return;
     busy = true; send.disabled = true; input.value = '';
     addMsg('user', question);
-    var typing = addMsg('bot ask-typing', 'Checking the docs');
+    var typing = addMsg('bot ask-typing', window.vptT('Checking the docs'));
     var dots = document.createElement('span'); dots.className = 'ask-dots'; typing.appendChild(dots);
     fetch(api, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: question })
+      body: JSON.stringify({ question: question, language: window.vptLocale() })
     })
     .then(function(r){ return r.json().then(function(b){ return { ok: r.ok, body: b }; }); })
     .then(function(res){
@@ -1138,12 +1163,12 @@
         addMsg('bot', res.body.answer);
         addSources(res.body.sources);
       } else {
-        addMsg('error', (res.body && res.body.error) || 'Something went wrong. Try again in a moment.');
+        addMsg('error', window.vptT((res.body && res.body.error) || 'Something went wrong. Try again in a moment.'));
       }
     })
     .catch(function(){
       typing.remove();
-      addMsg('error', 'Could not reach the assistant. Try again in a moment.');
+      addMsg('error', window.vptT('Could not reach the assistant. Try again in a moment.'));
     })
     .then(function(){ busy = false; send.disabled = false; input.focus(); });
   }
