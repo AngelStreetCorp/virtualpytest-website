@@ -58,7 +58,6 @@
     "Fleet heatmap and rewind": "Fleet heatmap and rewind",
     "Frequently Asked Questions": "Frequently Asked Questions",
     "Full source, AGPLv3": "Full source, AGPLv3",
-    "Full walkthrough video — coming soon": "Full walkthrough video — coming soon",
     "Get the code": "Get the code",
     "Heatmap & rewind": "Heatmap & rewind",
     "Heatmap & rewind — 24h of screen, scrub back to the moment": "Heatmap & rewind — 24h of screen, scrub back to the moment",
@@ -175,7 +174,9 @@
     "© 2026 VirtualPyTest — AGPLv3": "© 2026 VirtualPyTest — AGPLv3",
     "Star on GitHub": "Star on GitHub",
     "Run it on your hardware—or get a ready-to-use lab unit.": "Run it on your hardware—or get a ready-to-use lab unit.",
-    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit."
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.",
+    "Watch the 60-second tour on YouTube ↗": "Watch the 60-second tour on YouTube ↗",
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents"
   },
   "fr": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — tests et surveillance d’appareils open source pilotés par l’IA",
@@ -263,7 +264,6 @@
     "KPIs land in native Grafana. An AI agent can see the same screen and act on it through MCP.": "Les indicateurs sont intégrés à Grafana. Un agent IA peut voir le même écran et agir dessus via MCP.",
     "See it in motion": "Voir en action",
     "A quick look at the platform.": "Aperçu de la plateforme.",
-    "Full walkthrough video — coming soon": "Vidéo de présentation complète — bientôt disponible",
     "One standard offer. Devices are unlimited.": "Une offre standard. Appareils illimités.",
     "The software is free, full stop. You pay for hardware units and one flat subscription per lab — never a per-device license.": "Le logiciel est entièrement gratuit. Vous payez le matériel et un abonnement fixe par laboratoire, jamais une licence par appareil.",
     "Open Source": "Open source",
@@ -353,7 +353,9 @@
     "Show next screenshot": "Afficher la capture suivante",
     "Show screenshot {index} of {count}": "Afficher la capture {index} sur {count}",
     "Run it on your hardware—or get a ready-to-use lab unit.": "Installez-le sur votre matériel ou choisissez une unité prête à l’emploi.",
-    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Hébergez la solution sur un Raspberry Pi, un PC standard ou un mini-PC Minisforum. Linux est recommandé. Vous préférez une solution prête à l’emploi ? Nous pouvons configurer et expédier une unité complète."
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Hébergez la solution sur un Raspberry Pi, un PC standard ou un mini-PC Minisforum. Linux est recommandé. Vous préférez une solution prête à l’emploi ? Nous pouvons configurer et expédier une unité complète.",
+    "Watch the 60-second tour on YouTube ↗": "Voir la visite de 60 secondes sur YouTube ↗",
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest en 60 secondes — tableau de bord, contrôle en direct, exécutions en un clic, rapports, KPI, heatmap, incidents"
   },
   "es": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — pruebas y supervisión de dispositivos de código abierto con IA",
@@ -441,7 +443,6 @@
     "KPIs land in native Grafana. An AI agent can see the same screen and act on it through MCP.": "Los indicadores aparecen en Grafana. Un agente de IA puede ver la misma pantalla y controlarla mediante MCP.",
     "See it in motion": "Míralo en acción",
     "A quick look at the platform.": "Un vistazo a la plataforma.",
-    "Full walkthrough video — coming soon": "Vídeo de presentación completa — próximamente",
     "One standard offer. Devices are unlimited.": "Una oferta estándar. Dispositivos ilimitados.",
     "The software is free, full stop. You pay for hardware units and one flat subscription per lab — never a per-device license.": "El software es gratis, sin condiciones. Pagas por las unidades de hardware y una suscripción fija por laboratorio, nunca por licencias de dispositivo.",
     "Open Source": "Código abierto",
@@ -531,7 +532,9 @@
     "Show next screenshot": "Mostrar la captura siguiente",
     "Show screenshot {index} of {count}": "Mostrar la captura {index} de {count}",
     "Run it on your hardware—or get a ready-to-use lab unit.": "Ejecútalo en tu propio hardware o elige una unidad lista para usar.",
-    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Aloja el sistema en una Raspberry Pi, un PC estándar o un mini PC Minisforum. Recomendamos Linux. ¿Prefieres una solución lista para usar? Podemos configurar y enviarte una unidad completa."
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Aloja el sistema en una Raspberry Pi, un PC estándar o un mini PC Minisforum. Recomendamos Linux. ¿Prefieres una solución lista para usar? Podemos configurar y enviarte una unidad completa.",
+    "Watch the 60-second tour on YouTube ↗": "Ver el recorrido de 60 segundos en YouTube ↗",
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest en 60 segundos — panel, control en vivo, ejecuciones con un clic, informes, KPI, heatmap, incidentes"
   },
   "de": {
     ".": ".",
@@ -592,7 +595,6 @@
     "Fleet heatmap and rewind": "Flotten-Heatmap und Rücklauf",
     "Frequently Asked Questions": "Häufige Fragen",
     "Full source, AGPLv3": "Vollständiger Quellcode, AGPLv3",
-    "Full walkthrough video — coming soon": "Vollständiges Walkthrough-Video – bald verfügbar",
     "Get the code": "Holen Sie sich den Code",
     "Heatmap & rewind": "Heatmap und Zurückspulen",
     "Heatmap & rewind — 24h of screen, scrub back to the moment": "Heatmap und Zurückspulen – 24 Stunden Bildschirm, zurück zum Moment",
@@ -713,7 +715,9 @@
     "VirtualPyTest": "VirtualPyTest",
     "GitHub": "GitHub",
     "AI": "KI",
-    "Android TV": "Android TV"
+    "Android TV": "Android TV",
+    "Watch the 60-second tour on YouTube ↗": "Die 60-Sekunden-Tour auf YouTube ansehen ↗",
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest in 60 Sekunden — Dashboard, Live-Steuerung, Ein-Klick-Läufe, Berichte, KPIs, Heatmap, Vorfälle"
   },
   "zh-CN": {
     ".": "。",
@@ -774,7 +778,6 @@
     "Fleet heatmap and rewind": "舰队热图和倒带",
     "Frequently Asked Questions": "常见问题解答",
     "Full source, AGPLv3": "完整源代码，AGPLv3",
-    "Full walkthrough video — coming soon": "完整的演练视频 - 即将推出",
     "Get the code": "获取代码",
     "Heatmap & rewind": "热图和倒带",
     "Heatmap & rewind — 24h of screen, scrub back to the moment": "热图和倒带 — 24 小时屏幕，擦回到那一刻",
@@ -891,7 +894,9 @@
     "© 2026 VirtualPyTest — AGPLv3": "© 2026 VirtualPyTest — AGPLv3",
     "Star on GitHub": "在 GitHub 上加星",
     "Run it on your hardware—or get a ready-to-use lab unit.": "在您的硬件上运行它，或者获取一个随时可用的实验室设备。",
-    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "在 Raspberry Pi、标准 PC 或 Minisforum 迷你 PC 上自行托管。我们推荐Linux。喜欢即插即用？我们可以配置并运送完整的装置。"
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "在 Raspberry Pi、标准 PC 或 Minisforum 迷你 PC 上自行托管。我们推荐Linux。喜欢即插即用？我们可以配置并运送完整的装置。",
+    "Watch the 60-second tour on YouTube ↗": "在 YouTube 观看 60 秒导览 ↗",
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "60 秒了解 VirtualPyTest — 仪表盘、实时控制、一键运行、报告、KPI、热力图、事件"
   },
   "hi": {
     ".": ".",
@@ -952,7 +957,6 @@
     "Fleet heatmap and rewind": "फ्लीट हीटमैप और रिवाइंड करें",
     "Frequently Asked Questions": "अक्सर पूछे जाने वाले प्रश्नों",
     "Full source, AGPLv3": "पूर्ण स्रोत, AGPLv3",
-    "Full walkthrough video — coming soon": "संपूर्ण पूर्वाभ्यास वीडियो - जल्द ही आ रहा है",
     "Get the code": "कोड प्राप्त करें",
     "Heatmap & rewind": "हीटमैप और रिवाइंड करें",
     "Heatmap & rewind — 24h of screen, scrub back to the moment": "हीटमैप और रिवाइंड - स्क्रीन का 24 घंटे, वर्तमान पर वापस स्क्रब करें",
@@ -1069,6 +1073,8 @@
     "© 2026 VirtualPyTest — AGPLv3": "© 2026 वर्चुअलपाइटेस्ट - एजीपीएलवी3",
     "Star on GitHub": "GitHub पर स्टार दें",
     "Run it on your hardware—or get a ready-to-use lab unit.": "इसे अपने हार्डवेयर पर चलाएँ—या उपयोग के लिए तैयार प्रयोगशाला इकाई प्राप्त करें।",
-    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "रास्पबेरी पाई, मानक पीसी, या मिनिसफोरम मिनी पीसी पर स्व-होस्ट। हम लिनक्स की अनुशंसा करते हैं. प्लग-एंड-प्ले को प्राथमिकता दें? हम एक पूरी यूनिट को कॉन्फ़िगर और शिप कर सकते हैं।"
+    "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "रास्पबेरी पाई, मानक पीसी, या मिनिसफोरम मिनी पीसी पर स्व-होस्ट। हम लिनक्स की अनुशंसा करते हैं. प्लग-एंड-प्ले को प्राथमिकता दें? हम एक पूरी यूनिट को कॉन्फ़िगर और शिप कर सकते हैं।",
+    "Watch the 60-second tour on YouTube ↗": "YouTube पर 60 सेकंड का टूर देखें ↗",
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "60 सेकंड में VirtualPyTest — डैशबोर्ड, लाइव कंट्रोल, एक-क्लिक रन, रिपोर्ट, KPI, हीटमैप, घटनाएँ"
   }
 }
