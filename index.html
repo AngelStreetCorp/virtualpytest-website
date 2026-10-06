@@ -81,7 +81,9 @@
     background:color-mix(in srgb, var(--bg) 88%, transparent);
     backdrop-filter:saturate(140%) blur(8px);
     border-bottom:1px solid var(--border);
+    transition:transform .25s ease;
   }
+  header.site.is-hidden{transform:translateY(-100%);}
   .navrow{ display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px; }
   .brand{display:flex; align-items:center; gap:10px; flex:none; white-space:nowrap; text-decoration:none; color:var(--text);}
   .brand-logo{height:30px; width:auto; flex:none;}
@@ -133,6 +135,17 @@
   }
   @media (max-width:940px){ nav.links{display:none;} .navcta{margin-left:auto;} }
   @media (max-width:800px){ .navcta .btn-ghost{display:none;} }
+  @media (max-width:800px){
+    .navrow{flex-wrap:nowrap; height:52px; min-height:0; padding-top:0; padding-bottom:0; gap:8px;}
+    .navcta{display:flex; margin-left:auto; gap:6px;}
+    .nav-prefs{margin-left:0; gap:6px;}
+    .nav-actions{flex:none;}
+    .brand-logo{height:26px;}
+    .brand-word{display:none;}
+    .navcta .btn{padding:7px 10px; font-size:11px;}
+    .theme-toggle,.language-select{height:32px;}
+    .theme-toggle{width:32px;}
+  }
   @media (max-width:460px){ .brand-word{display:none;} .navcta .btn-primary{padding:9px 10px; font-size:11px;} .theme-toggle,.language-select{height:36px;} .theme-toggle{width:36px;} }
 
   .btn{
@@ -155,7 +168,7 @@
   }
   .platform-row{
     display:flex; align-items:center; gap:28px; flex-wrap:wrap;
-    padding:12px 0; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--text-dim);
+    padding-top:12px; padding-bottom:12px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--text-dim);
   }
   .platform-row .platform-label{
     letter-spacing:.1em; text-transform:uppercase; font-size:11px; color:var(--text-dim); font-weight:500;
@@ -432,7 +445,7 @@
   @keyframes askPulse{0%,100%{opacity:.45;} 50%{opacity:1;}}
   @keyframes askDots{0%{content:"";} 25%{content:".";} 50%{content:"..";} 75%,100%{content:"...";}}
   @media (prefers-reduced-motion: reduce){ .ask-typing{animation:none; opacity:.8;} .ask-typing .ask-dots::after{animation:none; content:"...";} }
-  @media (max-width:800px){ .ask-fab{right:14px; bottom:14px;} .ask-panel{right:14px; bottom:14px;} }
+  @media (max-width:800px){ .ask-fab{right:14px; bottom:calc(32px + env(safe-area-inset-bottom));} .ask-panel{right:14px; bottom:14px;} }
 </style>
 </head>
 <body>
@@ -743,7 +756,7 @@
             <li>Integration, training, ongoing support</li>
             <li>Optional 24/7 SLA + AI test generation</li>
           </ul>
-          <a class="btn btn-ghost" href="mailto:hello@virtualpytest.com">Talk to us</a>
+          <a class="btn btn-ghost" href="mailto:contact@virtualpytest.com">Talk to us</a>
         </div>
 
       </div>
@@ -865,7 +878,7 @@
           <h4>Project</h4>
           <a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a>
           <a href="#">Documentation</a>
-          <a href="mailto:hello@virtualpytest.com">Contact</a>
+          <a href="mailto:contact@virtualpytest.com">Contact</a>
         </div>
         <div class="foot-col">
           <h4>Resources</h4>
@@ -1245,5 +1258,10 @@
 })();
 </script>
 
+<script>
+(function(){var h=document.querySelector('header.site');if(!h)return;var last=window.scrollY;
+window.addEventListener('scroll',function(){var y=window.scrollY;
+if(y>last+4&&y>80)h.classList.add('is-hidden');else if(y<last-4||y<=80)h.classList.remove('is-hidden');last=y;},{passive:true});})();
+</script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 - Description: Open-source, AI-native device testing and monitoring platform for anything with a screen.
 - Repository: https://github.com/AngelStreetCorp/virtualpytest
 - License: GNU AGPLv3
-- Contact: hello@virtualpytest.com
+- Contact: contact@virtualpytest.com
 
 ## What it does
 

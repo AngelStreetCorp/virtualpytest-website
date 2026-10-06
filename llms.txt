@@ -17,7 +17,7 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 - FAQ: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md
 - Overview PDF: https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf
 - Features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
-- Contact: mailto:hello@virtualpytest.com
+- Contact: mailto:contact@virtualpytest.com
 
 ## Product areas
 
