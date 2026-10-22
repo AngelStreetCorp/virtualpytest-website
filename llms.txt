@@ -6,18 +6,18 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 
 ## Primary links
 
-- Website: https://virtualpytest.com/
-- Live read-only demo: https://virtualpytest.angelstreet.io/
-- Source repository: https://github.com/AngelStreetCorp/virtualpytest
-- Project README: https://github.com/AngelStreetCorp/virtualpytest#readme
-- Documentation: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs
-- AI agent guide: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md
-- MCP tool reference: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/mcp
-- REST API contracts: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/api
-- FAQ: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md
-- Overview PDF: https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf
-- Features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
-- Contact: mailto:contact@virtualpytest.com
+- [Website](https://virtualpytest.com/)
+- [Live read-only demo](https://virtualpytest.angelstreet.io/)
+- [Source repository](https://github.com/AngelStreetCorp/virtualpytest)
+- [Project README](https://github.com/AngelStreetCorp/virtualpytest#readme)
+- [Documentation](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs)
+- [AI agent guide](https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md)
+- [MCP tool reference](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/mcp)
+- [REST API contracts](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/api)
+- [FAQ](https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md)
+- [Overview PDF](https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf)
+- [Features PDF](https://virtualpytest.com/docs/VirtualPyTest-Features.pdf)
+- [Contact](mailto:contact@virtualpytest.com)
 
 ## Product areas
 
@@ -40,4 +40,4 @@ The software is open source under the GNU AGPLv3. Self-hosting is available at n
 
 ## Machine-readable companion
 
-For a more detailed description, see https://virtualpytest.com/llms-full.txt.
+For a more detailed description, see the [full text](https://virtualpytest.com/llms-full.txt).

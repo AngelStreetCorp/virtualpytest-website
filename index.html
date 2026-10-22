@@ -66,11 +66,15 @@
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:clip;}
   body{
     margin:0; background:var(--bg); color:var(--text);
     font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
     line-height:1.55; -webkit-font-smoothing:antialiased;
+    /* the hero carousel bleeds past the gutter on purpose; clip it so phones
+       never get a horizontal scrollbar (clip, not hidden, so the sticky
+       header keeps working) */
+    overflow-x:clip;
   }
   a{color:inherit;}
   img{display:block; max-width:100%;}
@@ -326,6 +330,28 @@
   .video-frame{ margin-top:32px; }
   .video-embed{ position:relative; width:100%; aspect-ratio:16/9; border-radius:4px; overflow:hidden; background:var(--bg-sunken); border:1px solid var(--border); }
   .video-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  /* Facade: nothing of YouTube is loaded until the poster is actually clicked. */
+  .video-still{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; }
+  .video-veil{
+    position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(0deg, rgba(6,14,11,.68), rgba(6,14,11,.10));
+  }
+  .video-play{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:68px; height:68px; border-radius:50%; border:0; padding:0; pointer-events:auto;
+    cursor:pointer; background:var(--accent); color:var(--accent-ink);
+    display:grid; place-items:center; box-shadow:0 8px 26px rgba(0,0,0,.35);
+    transition:transform .15s ease;
+  }
+  .video-play svg{ width:26px; height:26px; margin-left:3px; }
+  .video-play:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .video-embed:hover .video-play{ transform:translate(-50%,-50%) scale(1.06); }
+  .video-dur{
+    position:absolute; right:10px; bottom:10px; pointer-events:none;
+    font-family:"IBM Plex Mono",monospace; font-size:11px; color:#fff;
+    background:rgba(0,0,0,.66); padding:3px 7px; border-radius:3px;
+  }
+  .video-embed.is-live > *:not(iframe){ display:none; }
   a.chip{ text-decoration:none; }
   a.chip:hover{ border-color:var(--text-dim); }
   @media (max-width:700px){ .tour-carousel{ aspect-ratio:4/3; } }
@@ -352,6 +378,8 @@
   .feature-card{ background:var(--bg-raised); padding:22px 22px 26px; display:flex; flex-direction:column; gap:14px; }
   .feature-thumb{ border:1px solid var(--border); border-radius:3px; overflow:hidden; line-height:0; background:var(--bg-sunken); }
   .feature-thumb img{width:100%; height:150px; object-fit:cover; object-position:top;}
+  /* the three cards that carry the argument get a readable frame */
+  .feature-card.is-lead .feature-thumb img{ height:auto; aspect-ratio:16/9; }
   .feature-tag{
     font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; letter-spacing:.1em;
     text-transform:uppercase; color:var(--accent);
@@ -398,7 +426,7 @@
   @media (max-width:860px){ .cta-grid{grid-template-columns:1fr;} }
   .cta-grid h2{font-size:clamp(24px,3vw,32px); font-weight:700; margin-top:10px;}
   .cta-grid p{color:var(--text-dim); font-size:15px; max-width:48ch; margin:14px 0 26px;}
-  .mini-frame img{width:100%; border-radius:4px; border:1px solid var(--border);}
+  .mini-frame img{width:100%; height:auto; border-radius:4px; border:1px solid var(--border);}
 
   footer{padding:44px 0 30px;}
   .foot-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; flex-wrap:wrap; padding-top:28px; }
@@ -645,7 +673,7 @@
 <header class="site">
   <div class="wrap navrow">
     <a class="brand" href="#top">
-      <img class="brand-logo" src="images/logo.png" alt="VirtualPyTest" />
+      <img class="brand-logo" src="images/logo.png" width="240" height="185" alt="VirtualPyTest" decoding="async" />
       <span class="brand-word">VirtualPyTest</span>
     </a>
     <nav class="links">
@@ -745,34 +773,34 @@
         <div class="carousel-stage">
         <div class="device-screen carousel" data-autoplay="5000" tabindex="0" aria-label="VirtualPyTest product screenshots">
           <div class="carousel-slide is-active" data-caption="/fleet — hosts, devices, live screens, one pane of glass">
-            <img src="images/dashboard.jpg" alt="Fleet dashboard showing hosts, devices and live status" />
+            <img src="images/webp/dashboard-520.webp" srcset="images/webp/dashboard-520.webp 520w, images/webp/dashboard-760.webp 760w, images/webp/dashboard-1040.webp 1040w" sizes="(max-width:940px) 90vw, 484px" width="1040" height="545" alt="Fleet dashboard showing hosts, devices and live status" loading="eager" decoding="async" fetchpriority="high" />
           </div>
           <div class="carousel-slide" data-caption="/device — live screen, status and control for one unit">
-            <img src="images/device-view.jpg" alt="Single device view with live screen and controls" />
+            <img src="images/webp/device-view-520.webp" srcset="images/webp/device-view-520.webp 520w, images/webp/device-view-760.webp 760w, images/webp/device-view-1040.webp 1040w" sizes="(max-width:940px) 90vw, 484px" width="1040" height="446" alt="Single device view with live screen and controls" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Navigation — map the app once, every test reuses it">
-            <img src="images/navigation-tree.jpg" alt="Navigation tree editor" />
+            <img src="images/webp/navigation-tree-520.webp" srcset="images/webp/navigation-tree-520.webp 520w, images/webp/navigation-tree-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="397" alt="Navigation tree editor" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Verification — source, reference and pixel-diff, not a checkmark">
-            <img src="images/verification-report.jpg" alt="Verification report with source, reference and diff" />
+            <img src="images/webp/verification-report-520.webp" srcset="images/webp/verification-report-520.webp 520w, images/webp/verification-report-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="388" alt="Verification report with source, reference and diff" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Monitoring — blackscreen, freeze and audio loss, caught live">
-            <img src="images/monitoring-incidents.jpg" alt="Monitoring incident feed" />
+            <img src="images/webp/monitoring-incidents-520.webp" srcset="images/webp/monitoring-incidents-520.webp 520w, images/webp/monitoring-incidents-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="457" alt="Monitoring incident feed" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="AI-native — ask what's on screen, it acts through MCP">
-            <img src="images/ai-chat-mcp.jpg" alt="AI chat driving a device via MCP" />
+            <img src="images/webp/ai-chat-mcp-520.webp" srcset="images/webp/ai-chat-mcp-520.webp 520w, images/webp/ai-chat-mcp-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="378" alt="AI chat driving a device via MCP" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Heatmap &amp; rewind — 24h of screen, scrub back to the moment">
-            <img src="images/heatmap.jpg" alt="Fleet heatmap and rewind" />
+            <img src="images/webp/heatmap-520.webp" srcset="images/webp/heatmap-520.webp 520w, images/webp/heatmap-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="447" alt="Fleet heatmap and rewind" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Workspaces — permissions down to the last action">
-            <img src="images/workspaces.jpg" alt="Workspace and permission matrix" />
+            <img src="images/webp/workspaces-520.webp" srcset="images/webp/workspaces-520.webp 520w, images/webp/workspaces-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="427" alt="Workspace and permission matrix" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Web UI — the whole lab, in the browser you already have open">
-            <img src="images/webui-desktop.jpg" alt="VirtualPyTest web app running responsively" />
+            <img src="images/webp/webui-desktop-520.webp" srcset="images/webp/webui-desktop-520.webp 520w, images/webp/webui-desktop-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="486" alt="VirtualPyTest web app running responsively" loading="lazy" decoding="async" />
           </div>
           <div class="carousel-slide" data-caption="Reports — pass/fail, KPIs and execution video, every run">
-            <img src="images/test-report.jpg" alt="Test execution report" />
+            <img src="images/webp/test-report-520.webp" srcset="images/webp/test-report-520.webp 520w, images/webp/test-report-760.webp 760w, images/webp/test-report-1040.webp 1040w" sizes="(max-width:940px) 90vw, 484px" width="1040" height="763" alt="Test execution report" loading="lazy" decoding="async" />
           </div>
         </div>
         </div>
@@ -809,43 +837,43 @@
     <div class="wrap">
       <div class="feature-grid">
 
-        <div class="feature-card">
-          <div class="feature-thumb"><img src="images/navigation-tree.jpg" alt="Navigation tree editor" loading="lazy" /></div>
+        <div class="feature-card is-lead">
+          <div class="feature-thumb"><img src="images/webp/navigation-tree-520.webp" srcset="images/webp/navigation-tree-520.webp 520w, images/webp/navigation-tree-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="397" alt="Navigation tree editor" loading="lazy" decoding="async" /></div>
           <div class="feature-tag">Navigation</div>
           <h3>Map your app once. Every test reuses it.</h3>
           <p>Every screen and path becomes a reusable graph. Change a screen once, and every test that touches it follows.</p>
         </div>
 
-        <div class="feature-card">
-          <div class="feature-thumb"><img src="images/verification-report.jpg" alt="Verification report with source, reference and diff" loading="lazy" /></div>
+        <div class="feature-card is-lead">
+          <div class="feature-thumb"><img src="images/webp/verification-report-520.webp" srcset="images/webp/verification-report-520.webp 520w, images/webp/verification-report-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="388" alt="Verification report with source, reference and diff" loading="lazy" decoding="async" /></div>
           <div class="feature-tag">Verification</div>
           <h3>It proves what's actually on screen.</h3>
           <p>Image matching, OCR and AI detectors — every check shows the source, the reference and the pixel-diff. A frame, not a claim.</p>
         </div>
 
-        <div class="feature-card">
-          <div class="feature-thumb"><img src="images/monitoring-incidents.jpg" alt="Monitoring incident feed" loading="lazy" /></div>
+        <div class="feature-card is-lead">
+          <div class="feature-thumb"><img src="images/webp/monitoring-incidents-520.webp" srcset="images/webp/monitoring-incidents-520.webp 520w, images/webp/monitoring-incidents-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="457" alt="Monitoring incident feed" loading="lazy" decoding="async" /></div>
           <div class="feature-tag">Monitoring</div>
           <h3>Blackscreen, freeze, audio loss — caught live.</h3>
           <p>Every device watched 24/7. Alerted the moment something breaks, not at the next QA pass.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-thumb"><img src="images/ai-chat-mcp.jpg" alt="AI chat driving a device via MCP" loading="lazy" /></div>
+          <div class="feature-thumb"><img src="images/webp/ai-chat-mcp-520.webp" srcset="images/webp/ai-chat-mcp-520.webp 520w, images/webp/ai-chat-mcp-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="378" alt="AI chat driving a device via MCP" loading="lazy" decoding="async" /></div>
           <div class="feature-tag">AI-native</div>
           <h3>Ask the AI what's on screen. It acts.</h3>
           <p>A built-in MCP server exposes the whole platform — any AI client can inspect and operate a real device.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-thumb"><img src="images/heatmap.jpg" alt="Fleet heatmap and rewind" loading="lazy" /></div>
+          <div class="feature-thumb"><img src="images/webp/heatmap-520.webp" srcset="images/webp/heatmap-520.webp 520w, images/webp/heatmap-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="447" alt="Fleet heatmap and rewind" loading="lazy" decoding="async" /></div>
           <div class="feature-tag">Heatmap &amp; rewind</div>
           <h3>24 hours of screen, scrubbable.</h3>
           <p>A fleet-wide heatmap shows where it hurts. Rewind any device to the exact moment it broke.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-thumb"><img src="images/workspaces.jpg" alt="Workspace and permission matrix" loading="lazy" /></div>
+          <div class="feature-thumb"><img src="images/webp/workspaces-520.webp" srcset="images/webp/workspaces-520.webp 520w, images/webp/workspaces-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="427" alt="Workspace and permission matrix" loading="lazy" decoding="async" /></div>
           <div class="feature-tag">Workspaces</div>
           <h3>Permissions, down to the last action.</h3>
           <p>Scoped at workspace, team and user level. Grant or deny view, execute, reboot, edit — deny always wins.</p>
@@ -901,13 +929,10 @@
         </div>
         <div class="tour-frame video-frame">
           <div class="video-embed">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/RBgS376Blvo?rel=0"
-              title="VirtualPyTest in 60 seconds"
-              loading="lazy"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen></iframe>
+            <img class="video-still" src="images/webp/dashboard-520.webp" srcset="images/webp/dashboard-520.webp 520w, images/webp/dashboard-760.webp 760w, images/webp/dashboard-1040.webp 1040w" sizes="(max-width:700px) 90vw, 1094px" width="1040" height="545" alt="" loading="lazy" decoding="async" />
+            <span class="video-veil"></span>
+            <button class="video-play" type="button" data-video-src="https://www.youtube-nocookie.com/embed/RBgS376Blvo?rel=0&amp;autoplay=1" aria-label="Play the 60-second tour"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+            <span class="video-dur mono" aria-hidden="true">1:00</span>
           </div>
           <div class="carousel-foot">
             <div class="carousel-caption mono">VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents</div>
@@ -975,14 +1000,14 @@
         <h2>Frequently Asked Questions</h2>
       </div>
       <div class="faq-list">
-        <details class="faq-item">
+        <details class="faq-item" open>
           <summary>Is it really free?</summary>
           <div class="faq-body">
             <p>Yes. VirtualPyTest is open source under the GNU AGPL v3. You can use, modify and self-host it at no cost, including for commercial internal use. No paid tiers, no usage limits, no feature gates.</p>
             <p>The one obligation: if you distribute a modified version or offer it to others as a service, you must publish your changes under the same license. For commercial licensing outside those terms, talk to us.</p>
           </div>
         </details>
-        <details class="faq-item">
+        <details class="faq-item" open>
           <summary>What devices are supported?</summary>
           <div class="faq-body">
             <p>Anything that can be remotely controlled: Android and iOS phones and tablets, Android TV, Apple TV, Fire TV and smart TVs, set-top boxes with IR or network control, any browser, and Windows, macOS or Linux desktop apps.</p>
@@ -1050,7 +1075,7 @@
           <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live →</a>
         </div>
         <div class="mini-frame">
-          <img src="images/webui-desktop.jpg" alt="VirtualPyTest web app running responsively" loading="lazy" />
+          <img src="images/webp/webui-desktop-520.webp" srcset="images/webp/webui-desktop-520.webp 520w, images/webp/webui-desktop-760.webp 760w" sizes="(max-width:860px) 90vw, 475px" width="760" height="486" alt="VirtualPyTest web app running responsively" loading="lazy" decoding="async" />
         </div>
       </section>
     </div>
@@ -1065,7 +1090,7 @@
     <div class="foot-row">
       <div class="foot-brand">
         <a class="brand" href="#top">
-          <img class="brand-logo" src="images/logo.png" alt="VirtualPyTest" />
+          <img class="brand-logo" src="images/logo.png" width="240" height="185" alt="VirtualPyTest" decoding="async" />
           <span class="brand-word">VirtualPyTest</span>
         </a>
         <p>The open standard for testing anything with a screen.</p>
@@ -1153,6 +1178,30 @@
   var onWide = function(event){ if(event.matches) setOpen(false); };
   if(wide.addEventListener) wide.addEventListener('change', onWide);
   else if(wide.addListener) wide.addListener(onWide);
+})();
+</script>
+
+<script>
+(function(){
+  // Video facade: the poster is local, the player is not created until a click,
+  // so no YouTube script or cookie is requested by a visitor who never presses play.
+  Array.prototype.forEach.call(document.querySelectorAll('.video-embed'), function(box){
+    var play = box.querySelector('.video-play');
+    if(!play) return;
+    var loaded = false;
+    play.addEventListener('click', function(){
+      if(loaded) return;
+      var iframe = document.createElement('iframe');
+      iframe.src = play.getAttribute('data-video-src');
+      iframe.title = 'VirtualPyTest in 60 seconds';
+      iframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+      box.appendChild(iframe);
+      box.classList.add('is-live');
+      loaded = true;
+    });
+  });
 })();
 </script>
 

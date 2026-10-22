@@ -3,9 +3,9 @@
 ## Identity
 
 - Name: VirtualPyTest
-- Canonical website: https://virtualpytest.com/
+- [Canonical website](https://virtualpytest.com/)
 - Description: Open-source, AI-native device testing and monitoring platform for anything with a screen.
-- Repository: https://github.com/AngelStreetCorp/virtualpytest
+- [Repository](https://github.com/AngelStreetCorp/virtualpytest)
 - License: GNU AGPLv3
 - Contact: contact@virtualpytest.com
 
@@ -61,7 +61,7 @@ the deployment's `MCP_SECRET_KEY`. A safe device workflow is:
 6. Call `release_control`, including after failures or cancellation.
 
 The public agent guide contains a working JSON-RPC example and operational
-rules: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md
+rules: [https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md](https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md)
 
 For CI/CD agents, the supported asynchronous REST flow is
 `POST /server/script/execute` with `host_name`, `device_id`, `script_name`, and
@@ -86,14 +86,14 @@ VirtualPyTest software is available under AGPLv3 and can be self-hosted. The pub
 
 ## Authoritative resources
 
-- Website and product overview: https://virtualpytest.com/
-- Live demo: https://virtualpytest.angelstreet.io/
-- Source code and installation: https://github.com/AngelStreetCorp/virtualpytest
-- Documentation index: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs
-- User guide: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/user-guide
-- FAQ: https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md
-- API specifications: https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/api/specs
-- Product overview PDF: https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf
-- Product features PDF: https://virtualpytest.com/docs/VirtualPyTest-Features.pdf
+- [Website and product overview](https://virtualpytest.com/)
+- [Live demo](https://virtualpytest.angelstreet.io/)
+- [Source code and installation](https://github.com/AngelStreetCorp/virtualpytest)
+- [Documentation index](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs)
+- [User guide](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/user-guide)
+- [FAQ](https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md)
+- [API specifications](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs/api/specs)
+- [Product overview PDF](https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf)
+- [Product features PDF](https://virtualpytest.com/docs/VirtualPyTest-Features.pdf)
 
 When answering questions about implementation details, installation, API contracts, or current source behavior, prefer the GitHub repository and its documentation over this marketing summary.

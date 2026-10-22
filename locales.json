@@ -185,7 +185,8 @@
     "Language: Spanish": "Language: Spanish",
     "Language: German": "Language: German",
     "Language: Chinese": "Language: Chinese",
-    "Language: Hindi": "Language: Hindi"
+    "Language: Hindi": "Language: Hindi",
+    "Play the 60-second tour": "Play the 60-second tour"
   },
   "fr": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — tests et surveillance d’appareils open source pilotés par l’IA",
@@ -373,7 +374,8 @@
     "Language: Spanish": "Langue : espagnol",
     "Language: German": "Langue : allemand",
     "Language: Chinese": "Langue : chinois",
-    "Language: Hindi": "Langue : hindi"
+    "Language: Hindi": "Langue : hindi",
+    "Play the 60-second tour": "Lire la visite de 60 secondes"
   },
   "es": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — pruebas y supervisión de dispositivos de código abierto con IA",
@@ -561,7 +563,8 @@
     "Language: Spanish": "Idioma: español",
     "Language: German": "Idioma: alemán",
     "Language: Chinese": "Idioma: chino",
-    "Language: Hindi": "Idioma: hindi"
+    "Language: Hindi": "Idioma: hindi",
+    "Play the 60-second tour": "Ver el recorrido de 60 segundos"
   },
   "de": {
     ".": ".",
@@ -753,7 +756,8 @@
     "Language: Spanish": "Sprache: Spanisch",
     "Language: German": "Sprache: Deutsch",
     "Language: Chinese": "Sprache: Chinesisch",
-    "Language: Hindi": "Sprache: Hindi"
+    "Language: Hindi": "Sprache: Hindi",
+    "Play the 60-second tour": "Das 60-Sekunden-Video ansehen"
   },
   "zh-CN": {
     ".": "。",
@@ -941,7 +945,8 @@
     "Language: Spanish": "语言：西班牙语",
     "Language: German": "语言：德语",
     "Language: Chinese": "语言：中文",
-    "Language: Hindi": "语言：印地语"
+    "Language: Hindi": "语言：印地语",
+    "Play the 60-second tour": "播放 60 秒介绍"
   },
   "hi": {
     ".": ".",
@@ -1129,6 +1134,7 @@
     "Language: Spanish": "भाषा: स्पेनिश",
     "Language: German": "भाषा: जर्मन",
     "Language: Chinese": "भाषा: चीनी",
-    "Language: Hindi": "भाषा: हिंदी"
+    "Language: Hindi": "भाषा: हिंदी",
+    "Play the 60-second tour": "60 सेकंड का परिचय देखें"
   }
 }
