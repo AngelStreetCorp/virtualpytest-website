@@ -188,7 +188,7 @@
     "Language: Hindi": "Language: Hindi",
     "Play the 60-second tour": "Play the 60-second tour",
     "Clear conversation": "Clear conversation",
-    "Click again to confirm": "Click again to confirm"
+    "Previous questions": "Previous questions"
   },
   "fr": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — tests et surveillance d’appareils open source pilotés par l’IA",
@@ -379,7 +379,7 @@
     "Language: Hindi": "Langue : hindi",
     "Play the 60-second tour": "Lire la visite de 60 secondes",
     "Clear conversation": "Effacer la conversation",
-    "Click again to confirm": "Cliquez encore pour confirmer"
+    "Previous questions": "Questions précédentes"
   },
   "es": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — pruebas y supervisión de dispositivos de código abierto con IA",
@@ -570,7 +570,7 @@
     "Language: Hindi": "Idioma: hindi",
     "Play the 60-second tour": "Ver el recorrido de 60 segundos",
     "Clear conversation": "Borrar la conversación",
-    "Click again to confirm": "Haz clic de nuevo para confirmar"
+    "Previous questions": "Preguntas anteriores"
   },
   "de": {
     ".": ".",
@@ -765,7 +765,7 @@
     "Language: Hindi": "Sprache: Hindi",
     "Play the 60-second tour": "Das 60-Sekunden-Video ansehen",
     "Clear conversation": "Unterhaltung löschen",
-    "Click again to confirm": "Erneut klicken zum Bestätigen"
+    "Previous questions": "Frühere Fragen"
   },
   "zh-CN": {
     ".": "。",
@@ -956,7 +956,7 @@
     "Language: Hindi": "语言：印地语",
     "Play the 60-second tour": "播放 60 秒介绍",
     "Clear conversation": "清除对话",
-    "Click again to confirm": "再次点击以确认"
+    "Previous questions": "之前的问题"
   },
   "hi": {
     ".": ".",
@@ -1147,6 +1147,6 @@
     "Language: Hindi": "भाषा: हिंदी",
     "Play the 60-second tour": "60 सेकंड का परिचय देखें",
     "Clear conversation": "बातचीत साफ़ करें",
-    "Click again to confirm": "पुष्टि करने के लिए फिर क्लिक करें"
+    "Previous questions": "पहले पूछे गए प्रश्न"
   }
 }

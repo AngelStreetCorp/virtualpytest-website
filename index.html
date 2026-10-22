@@ -498,8 +498,6 @@
   .ask-close,.ask-expand,.ask-clear{background:none; border:0; color:var(--text-dim); cursor:pointer; line-height:1; padding:4px; border-radius:4px; display:inline-flex; align-items:center;}
   .ask-clear{position:relative;}
   .ask-clear svg{width:15px; height:15px;}
-  /* first click arms, second click wipes — a long transcript is worth keeping */
-  .ask-clear.is-armed{ color:var(--accent-ink); background:var(--accent); }
   .ask-clear[hidden]{display:none;}
   .ask-close{font-size:18px;}
   .ask-expand svg{width:15px; height:15px;}
@@ -507,10 +505,26 @@
   .ask-panel.is-large .ask-expand .ico-grow{display:none;}
   .ask-panel.is-large .ask-expand .ico-shrink{display:inline;}
   .ask-close:hover,.ask-expand:hover,.ask-clear:hover{color:var(--text); background:var(--bg-sunken);}
-  .ask-clear.is-armed:hover{color:var(--accent-ink); background:var(--accent); filter:brightness(1.06);}
   .ask-panel.is-large{width:min(760px, calc(100vw - 32px)); max-height:calc(100vh - 40px); height:calc(100vh - 40px);}
   .ask-panel.is-large .ask-log{font-size:15px;}
   .ask-log{flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.55;}
+  /* Restored transcript: collapsed on open, so the panel always starts on the
+     live conversation rather than last week's answers. */
+  .ask-history{ flex:none; max-height:45%; display:flex; flex-direction:column; background:var(--bg-sunken); border-bottom:1px solid var(--border); }
+  .ask-history[hidden]{ display:none; }
+  .ask-history-toggle{
+    display:flex; align-items:center; gap:8px; width:100%; padding:9px 14px;
+    background:transparent; border:0; cursor:pointer; text-align:left;
+    font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--text-dim);
+  }
+  .ask-history-toggle:hover{ color:var(--accent); }
+  .ask-history-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .ask-history-toggle svg{ width:12px; height:12px; flex:none; transition:transform .16s ease; }
+  .ask-history-toggle[aria-expanded="true"] svg{ transform:rotate(90deg); }
+  .ask-history-body{ display:none; overflow-y:auto; padding:12px 14px; border-top:1px solid var(--border); }
+  .ask-history.is-open .ask-history-body{ display:block; }
+  .ask-history-body .ask-msg{ max-width:96%; font-size:13px; }
+  .ask-history-body .ask-src{ font-size:10.5px; margin-top:2px; }
   .ask-msg{max-width:92%; padding:8px 11px; border-radius:8px; white-space:pre-wrap; word-wrap:break-word;}
   .ask-msg.user{align-self:flex-end; background:var(--accent-soft); color:var(--accent);}
   .ask-msg.bot{align-self:flex-start; background:var(--bg-sunken); color:var(--text);}
@@ -1494,6 +1508,13 @@
       <button class="ask-close" type="button" data-ask-close aria-label="Close">&times;</button>
     </div>
   </div>
+  <div class="ask-history" id="ask-history" hidden>
+    <button class="ask-history-toggle" type="button" id="ask-history-toggle" aria-expanded="false" aria-controls="ask-history-body">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <span id="ask-history-label">Previous questions</span>
+    </button>
+    <div class="ask-history-body" id="ask-history-body"></div>
+  </div>
   <div class="ask-log" id="ask-log" aria-live="polite">
   </div>
   <div class="ask-chips">
@@ -1561,21 +1582,13 @@
   try { if(localStorage.getItem('askai:large') === '1') setLarge(true); } catch(e) {}
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && panel.classList.contains('is-open')) close(); });
 
-  function addMsg(kind, text, persist){
+  function makeMsg(kind, text){
     var div = document.createElement('div');
     div.className = 'ask-msg ' + kind;
     div.textContent = text;
-    log.appendChild(div);
-    log.scrollTop = log.scrollHeight;
-    if(persist !== false){
-      history.push({ role: kind === 'user' ? 'user' : (kind === 'error' ? 'error' : 'bot'), text: text });
-      writeHistory();
-    }
     return div;
   }
-
-  function addSources(paths, persist){
-    if(!paths || !paths.length) return;
+  function makeSources(paths){
     var div = document.createElement('div');
     div.className = 'ask-src';
     div.appendChild(document.createTextNode(window.vptT('Sources: ')));
@@ -1585,7 +1598,22 @@
       a.href = docsBase + p; a.target = '_blank'; a.rel = 'noopener'; a.textContent = p;
       div.appendChild(a);
     });
+    return div;
+  }
+  function addMsg(kind, text, persist){
+    var div = makeMsg(kind, text);
     log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    if(persist !== false){
+      history.push({ role: kind === 'user' ? 'user' : (kind === 'error' ? 'error' : 'bot'), text: text });
+      writeHistory();
+      syncClearBtn();
+    }
+    return div;
+  }
+  function addSources(paths, persist){
+    if(!paths || !paths.length) return;
+    log.appendChild(makeSources(paths));
     log.scrollTop = log.scrollHeight;
     if(persist !== false && history.length){
       history[history.length - 1].sources = paths;
@@ -1593,46 +1621,55 @@
     }
   }
 
-  function renderHistory(){
-    history.forEach(function(item){
-      if(!item || !item.text) return;
-      addMsg(item.role === 'user' ? 'user' : (item.role === 'error' ? 'error' : 'bot'), item.text, false);
-      if(item.sources && item.sources.length) addSources(item.sources, false);
-    });
-    log.scrollTop = log.scrollHeight;
-  }
-
   var clearBtn = panel.querySelector('[data-ask-clear]');
-  var clearArmed = false;
-  var clearTimer = null;
-  function disarmClear(){
-    clearArmed = false;
-    if(clearTimer){ clearTimeout(clearTimer); clearTimer = null; }
-    clearBtn.classList.remove('is-armed');
+  var historyBox = document.getElementById('ask-history');
+  var historyBody = document.getElementById('ask-history-body');
+  var historyToggle = document.getElementById('ask-history-toggle');
+  var historyLabel = document.getElementById('ask-history-label');
+  var restoredQuestions = 0;
+
+  function setHistoryLabel(){
+    historyLabel.textContent = window.vptT('Previous questions') + ' (' + restoredQuestions + ')';
     clearBtn.setAttribute('aria-label', window.vptT('Clear conversation'));
     clearBtn.setAttribute('title', window.vptT('Clear conversation'));
   }
+  function syncClearBtn(){ clearBtn.hidden = history.length === 0; }
+
+  function renderHistory(){
+    history.forEach(function(item){
+      if(!item || !item.text) return;
+      if(item.role === 'user') restoredQuestions++;
+      historyBody.appendChild(makeMsg(item.role === 'user' ? 'user' : (item.role === 'error' ? 'error' : 'bot'), item.text));
+      if(item.sources && item.sources.length) historyBody.appendChild(makeSources(item.sources));
+    });
+    historyBox.hidden = history.length === 0;
+    setHistoryLabel();
+  }
+
+  historyToggle.addEventListener('click', function(){
+    var open = historyBox.classList.toggle('is-open');
+    historyToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(!open) log.scrollTop = log.scrollHeight;
+  });
+
+  // One click clears. No arming step: a bin icon that needs pressing twice
+  // reads as broken, and a long transcript is cheap to rebuild.
   clearBtn.addEventListener('click', function(){
-    if(!clearArmed){
-      clearArmed = true;
-      clearBtn.classList.add('is-armed');
-      clearBtn.setAttribute('aria-label', window.vptT('Click again to confirm'));
-      clearBtn.setAttribute('title', window.vptT('Click again to confirm'));
-      clearTimer = setTimeout(disarmClear, 3000);
-      return;
-    }
-    disarmClear();
     dropHistory();
     log.innerHTML = '';
+    historyBody.innerHTML = '';
+    historyBox.hidden = true;
+    restoredQuestions = 0;
     input.value = '';
     input.focus();
-    clearBtn.hidden = true;
+    syncClearBtn();
   });
+
   // Re-label on language change, like the other controls.
   window.vptLocaleHooks = window.vptLocaleHooks || [];
-  window.vptLocaleHooks.push(disarmClear);
+  window.vptLocaleHooks.push(setHistoryLabel);
   history = readHistory();
-  clearBtn.hidden = history.length === 0;
+  syncClearBtn();
   if(history.length) renderHistory();
 
   function ask(question){
@@ -1640,7 +1677,6 @@
     if(!question || busy) return;
     busy = true; send.disabled = true; input.value = '';
     addMsg('user', question);
-    clearBtn.hidden = false;
     var typing = addMsg('bot ask-typing', window.vptT('Checking the docs'), false);
     var dots = document.createElement('span'); dots.className = 'ask-dots'; typing.appendChild(dots);
     fetch(api, {
