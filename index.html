@@ -495,13 +495,19 @@
   .ask-head span{display:inline-flex; align-items:center; gap:8px; color:var(--text);}
   .ask-head span svg{width:16px; height:16px; color:var(--accent);}
   .ask-head-actions{display:flex; align-items:center; gap:2px;}
-  .ask-close,.ask-expand{background:none; border:0; color:var(--text-dim); cursor:pointer; line-height:1; padding:4px; border-radius:4px; display:inline-flex; align-items:center;}
+  .ask-close,.ask-expand,.ask-clear{background:none; border:0; color:var(--text-dim); cursor:pointer; line-height:1; padding:4px; border-radius:4px; display:inline-flex; align-items:center;}
+  .ask-clear{position:relative;}
+  .ask-clear svg{width:15px; height:15px;}
+  /* first click arms, second click wipes — a long transcript is worth keeping */
+  .ask-clear.is-armed{ color:var(--accent-ink); background:var(--accent); }
+  .ask-clear[hidden]{display:none;}
   .ask-close{font-size:18px;}
   .ask-expand svg{width:15px; height:15px;}
   .ask-expand .ico-shrink{display:none;}
   .ask-panel.is-large .ask-expand .ico-grow{display:none;}
   .ask-panel.is-large .ask-expand .ico-shrink{display:inline;}
-  .ask-close:hover,.ask-expand:hover{color:var(--text); background:var(--bg-sunken);}
+  .ask-close:hover,.ask-expand:hover,.ask-clear:hover{color:var(--text); background:var(--bg-sunken);}
+  .ask-clear.is-armed:hover{color:var(--accent-ink); background:var(--accent); filter:brightness(1.06);}
   .ask-panel.is-large{width:min(760px, calc(100vw - 32px)); max-height:calc(100vh - 40px); height:calc(100vh - 40px);}
   .ask-panel.is-large .ask-log{font-size:15px;}
   .ask-log{flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.55;}
@@ -1478,6 +1484,9 @@
   <div class="ask-head">
     <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z"/></svg>Ask about VirtualPyTest</span>
     <div class="ask-head-actions">
+      <button class="ask-clear" type="button" data-ask-clear aria-label="Clear conversation" title="Clear conversation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </button>
       <button class="ask-expand" type="button" data-ask-expand aria-label="Expand" title="Expand">
         <svg class="ico-grow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         <svg class="ico-shrink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>
@@ -1512,6 +1521,27 @@
   var docsBase = 'https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/';
   var busy = false;
 
+  // The transcript lives in localStorage, so a reload (or coming back tomorrow)
+  // still shows the questions that were asked. Bounded so it can never fill the quota.
+  var HISTORY_KEY = 'askai:history';
+  var HISTORY_MAX = 40;
+  var history = [];
+
+  function readHistory(){
+    try {
+      var raw = localStorage.getItem(HISTORY_KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch(e){ return []; }
+  }
+  function writeHistory(){
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-HISTORY_MAX))); } catch(e){}
+  }
+  function dropHistory(){
+    history = [];
+    try { localStorage.removeItem(HISTORY_KEY); } catch(e){}
+  }
+
   function open(){ panel.classList.add('is-open'); fab.style.display = 'none'; input.focus(); }
   function close(){ panel.classList.remove('is-open'); fab.style.display = ''; }
 
@@ -1531,16 +1561,20 @@
   try { if(localStorage.getItem('askai:large') === '1') setLarge(true); } catch(e) {}
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && panel.classList.contains('is-open')) close(); });
 
-  function addMsg(kind, text){
+  function addMsg(kind, text, persist){
     var div = document.createElement('div');
     div.className = 'ask-msg ' + kind;
     div.textContent = text;
     log.appendChild(div);
     log.scrollTop = log.scrollHeight;
+    if(persist !== false){
+      history.push({ role: kind === 'user' ? 'user' : (kind === 'error' ? 'error' : 'bot'), text: text });
+      writeHistory();
+    }
     return div;
   }
 
-  function addSources(paths){
+  function addSources(paths, persist){
     if(!paths || !paths.length) return;
     var div = document.createElement('div');
     div.className = 'ask-src';
@@ -1553,14 +1587,61 @@
     });
     log.appendChild(div);
     log.scrollTop = log.scrollHeight;
+    if(persist !== false && history.length){
+      history[history.length - 1].sources = paths;
+      writeHistory();
+    }
   }
+
+  function renderHistory(){
+    history.forEach(function(item){
+      if(!item || !item.text) return;
+      addMsg(item.role === 'user' ? 'user' : (item.role === 'error' ? 'error' : 'bot'), item.text, false);
+      if(item.sources && item.sources.length) addSources(item.sources, false);
+    });
+    log.scrollTop = log.scrollHeight;
+  }
+
+  var clearBtn = panel.querySelector('[data-ask-clear]');
+  var clearArmed = false;
+  var clearTimer = null;
+  function disarmClear(){
+    clearArmed = false;
+    if(clearTimer){ clearTimeout(clearTimer); clearTimer = null; }
+    clearBtn.classList.remove('is-armed');
+    clearBtn.setAttribute('aria-label', window.vptT('Clear conversation'));
+    clearBtn.setAttribute('title', window.vptT('Clear conversation'));
+  }
+  clearBtn.addEventListener('click', function(){
+    if(!clearArmed){
+      clearArmed = true;
+      clearBtn.classList.add('is-armed');
+      clearBtn.setAttribute('aria-label', window.vptT('Click again to confirm'));
+      clearBtn.setAttribute('title', window.vptT('Click again to confirm'));
+      clearTimer = setTimeout(disarmClear, 3000);
+      return;
+    }
+    disarmClear();
+    dropHistory();
+    log.innerHTML = '';
+    input.value = '';
+    input.focus();
+    clearBtn.hidden = true;
+  });
+  // Re-label on language change, like the other controls.
+  window.vptLocaleHooks = window.vptLocaleHooks || [];
+  window.vptLocaleHooks.push(disarmClear);
+  history = readHistory();
+  clearBtn.hidden = history.length === 0;
+  if(history.length) renderHistory();
 
   function ask(question){
     question = (question || '').trim();
     if(!question || busy) return;
     busy = true; send.disabled = true; input.value = '';
     addMsg('user', question);
-    var typing = addMsg('bot ask-typing', window.vptT('Checking the docs'));
+    clearBtn.hidden = false;
+    var typing = addMsg('bot ask-typing', window.vptT('Checking the docs'), false);
     var dots = document.createElement('span'); dots.className = 'ask-dots'; typing.appendChild(dots);
     fetch(api, {
       method: 'POST',
