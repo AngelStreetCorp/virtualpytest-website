@@ -176,7 +176,16 @@
     "Run it on your hardware—or get a ready-to-use lab unit.": "Run it on your hardware—or get a ready-to-use lab unit.",
     "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.",
     "Watch the 60-second tour on YouTube ↗": "Watch the 60-second tour on YouTube ↗",
-    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents"
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents",
+    "Menu": "Menu",
+    "Pause slideshow": "Pause slideshow",
+    "Play slideshow": "Play slideshow",
+    "Language: English": "Language: English",
+    "Language: French": "Language: French",
+    "Language: Spanish": "Language: Spanish",
+    "Language: German": "Language: German",
+    "Language: Chinese": "Language: Chinese",
+    "Language: Hindi": "Language: Hindi"
   },
   "fr": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — tests et surveillance d’appareils open source pilotés par l’IA",
@@ -355,7 +364,16 @@
     "Run it on your hardware—or get a ready-to-use lab unit.": "Installez-le sur votre matériel ou choisissez une unité prête à l’emploi.",
     "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Hébergez la solution sur un Raspberry Pi, un PC standard ou un mini-PC Minisforum. Linux est recommandé. Vous préférez une solution prête à l’emploi ? Nous pouvons configurer et expédier une unité complète.",
     "Watch the 60-second tour on YouTube ↗": "Voir la visite de 60 secondes sur YouTube ↗",
-    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest en 60 secondes — tableau de bord, contrôle en direct, exécutions en un clic, rapports, KPI, heatmap, incidents"
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest en 60 secondes — tableau de bord, contrôle en direct, exécutions en un clic, rapports, KPI, heatmap, incidents",
+    "Menu": "Menu",
+    "Pause slideshow": "Mettre la présentation en pause",
+    "Play slideshow": "Lancer la présentation",
+    "Language: English": "Langue : anglais",
+    "Language: French": "Langue : français",
+    "Language: Spanish": "Langue : espagnol",
+    "Language: German": "Langue : allemand",
+    "Language: Chinese": "Langue : chinois",
+    "Language: Hindi": "Langue : hindi"
   },
   "es": {
     "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — pruebas y supervisión de dispositivos de código abierto con IA",
@@ -534,7 +552,16 @@
     "Run it on your hardware—or get a ready-to-use lab unit.": "Ejecútalo en tu propio hardware o elige una unidad lista para usar.",
     "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "Aloja el sistema en una Raspberry Pi, un PC estándar o un mini PC Minisforum. Recomendamos Linux. ¿Prefieres una solución lista para usar? Podemos configurar y enviarte una unidad completa.",
     "Watch the 60-second tour on YouTube ↗": "Ver el recorrido de 60 segundos en YouTube ↗",
-    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest en 60 segundos — panel, control en vivo, ejecuciones con un clic, informes, KPI, heatmap, incidentes"
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest en 60 segundos — panel, control en vivo, ejecuciones con un clic, informes, KPI, heatmap, incidentes",
+    "Menu": "Menú",
+    "Pause slideshow": "Pausar la presentación",
+    "Play slideshow": "Reproducir la presentación",
+    "Language: English": "Idioma: inglés",
+    "Language: French": "Idioma: francés",
+    "Language: Spanish": "Idioma: español",
+    "Language: German": "Idioma: alemán",
+    "Language: Chinese": "Idioma: chino",
+    "Language: Hindi": "Idioma: hindi"
   },
   "de": {
     ".": ".",
@@ -717,7 +744,16 @@
     "AI": "KI",
     "Android TV": "Android TV",
     "Watch the 60-second tour on YouTube ↗": "Die 60-Sekunden-Tour auf YouTube ansehen ↗",
-    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest in 60 Sekunden — Dashboard, Live-Steuerung, Ein-Klick-Läufe, Berichte, KPIs, Heatmap, Vorfälle"
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "VirtualPyTest in 60 Sekunden — Dashboard, Live-Steuerung, Ein-Klick-Läufe, Berichte, KPIs, Heatmap, Vorfälle",
+    "Menu": "Menü",
+    "Pause slideshow": "Präsentation pausieren",
+    "Play slideshow": "Präsentation abspielen",
+    "Language: English": "Sprache: Englisch",
+    "Language: French": "Sprache: Französisch",
+    "Language: Spanish": "Sprache: Spanisch",
+    "Language: German": "Sprache: Deutsch",
+    "Language: Chinese": "Sprache: Chinesisch",
+    "Language: Hindi": "Sprache: Hindi"
   },
   "zh-CN": {
     ".": "。",
@@ -896,7 +932,16 @@
     "Run it on your hardware—or get a ready-to-use lab unit.": "在您的硬件上运行它，或者获取一个随时可用的实验室设备。",
     "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "在 Raspberry Pi、标准 PC 或 Minisforum 迷你 PC 上自行托管。我们推荐Linux。喜欢即插即用？我们可以配置并运送完整的装置。",
     "Watch the 60-second tour on YouTube ↗": "在 YouTube 观看 60 秒导览 ↗",
-    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "60 秒了解 VirtualPyTest — 仪表盘、实时控制、一键运行、报告、KPI、热力图、事件"
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "60 秒了解 VirtualPyTest — 仪表盘、实时控制、一键运行、报告、KPI、热力图、事件",
+    "Menu": "菜单",
+    "Pause slideshow": "暂停幻灯片",
+    "Play slideshow": "播放幻灯片",
+    "Language: English": "语言：英语",
+    "Language: French": "语言：法语",
+    "Language: Spanish": "语言：西班牙语",
+    "Language: German": "语言：德语",
+    "Language: Chinese": "语言：中文",
+    "Language: Hindi": "语言：印地语"
   },
   "hi": {
     ".": ".",
@@ -1075,6 +1120,15 @@
     "Run it on your hardware—or get a ready-to-use lab unit.": "इसे अपने हार्डवेयर पर चलाएँ—या उपयोग के लिए तैयार प्रयोगशाला इकाई प्राप्त करें।",
     "Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.": "रास्पबेरी पाई, मानक पीसी, या मिनिसफोरम मिनी पीसी पर स्व-होस्ट। हम लिनक्स की अनुशंसा करते हैं. प्लग-एंड-प्ले को प्राथमिकता दें? हम एक पूरी यूनिट को कॉन्फ़िगर और शिप कर सकते हैं।",
     "Watch the 60-second tour on YouTube ↗": "YouTube पर 60 सेकंड का टूर देखें ↗",
-    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "60 सेकंड में VirtualPyTest — डैशबोर्ड, लाइव कंट्रोल, एक-क्लिक रन, रिपोर्ट, KPI, हीटमैप, घटनाएँ"
+    "VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents": "60 सेकंड में VirtualPyTest — डैशबोर्ड, लाइव कंट्रोल, एक-क्लिक रन, रिपोर्ट, KPI, हीटमैप, घटनाएँ",
+    "Menu": "मेन्यू",
+    "Pause slideshow": "स्लाइडशो रोकें",
+    "Play slideshow": "स्लाइडशो चलाएँ",
+    "Language: English": "भाषा: अंग्रेज़ी",
+    "Language: French": "भाषा: फ़्रेंच",
+    "Language: Spanish": "भाषा: स्पेनिश",
+    "Language: German": "भाषा: जर्मन",
+    "Language: Chinese": "भाषा: चीनी",
+    "Language: Hindi": "भाषा: हिंदी"
   }
 }

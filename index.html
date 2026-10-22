@@ -12,9 +12,25 @@
 </script>
 <title>VirtualPyTest — open-source device testing &amp; monitoring, driven by AI</title>
 <meta name="description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
+<link rel="canonical" href="https://virtualpytest.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://virtualpytest.com/" />
+<meta property="og:site_name" content="VirtualPyTest" />
+<meta property="og:title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI" />
+<meta property="og:description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
+<meta property="og:image" content="https://virtualpytest.com/images/dashboard.jpg" />
+<meta property="og:image:width" content="1400" />
+<meta property="og:image:height" content="733" />
+<meta property="og:image:alt" content="VirtualPyTest fleet dashboard showing hosts, devices and live status" />
+<meta property="og:locale" content="en_GB" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI" />
+<meta name="twitter:description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
+<meta name="twitter:image" content="https://virtualpytest.com/images/dashboard.jpg" />
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -38,7 +54,7 @@
       --bg:#242725; --bg-raised:#2c302d; --bg-sunken:#1d211f;
       --text:#f0f2ef; --text-dim:#b0b8b3; --border:#454b47;
       --accent:#39e6a4; --accent-soft:#163c2d; --accent-ink:#102018;
-      --amber:#f0b429; --live:#ef4444;
+      --amber:#f0b429; --live:#ff7a70;
     }
   }
   :root[data-theme="dark"]{
@@ -46,7 +62,7 @@
     --bg:#242725; --bg-raised:#2c302d; --bg-sunken:#1d211f;
     --text:#f0f2ef; --text-dim:#b0b8b3; --border:#454b47;
     --accent:#39e6a4; --accent-soft:#163c2d; --accent-ink:#102018;
-    --amber:#f0b429; --live:#ef4444;
+    --amber:#f0b429; --live:#ff7a70;
   }
 
   *{box-sizing:border-box;}
@@ -126,6 +142,30 @@
   }
   .language-option:hover,.language-option[aria-selected="true"]{background:var(--bg-sunken);color:var(--accent);}
   .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+
+  /* mobile drawer — the only way to reach the section links below 940px */
+  .nav-burger{
+    width:40px; height:40px; display:none; place-items:center; flex:none;
+    padding:0; border:1px solid var(--border); border-radius:var(--radius);
+    background:transparent; color:var(--text); cursor:pointer;
+  }
+  .nav-burger:hover{ border-color:var(--accent); color:var(--accent); }
+  .nav-burger:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .nav-burger svg{ width:18px; height:18px; }
+  .nav-burger .ico-close{ display:none; }
+  .nav-burger[aria-expanded="true"] .ico-close{ display:block; }
+  .nav-burger[aria-expanded="true"] .ico-menu{ display:none; }
+  .nav-drawer{ display:none; background:var(--bg-raised); border-top:1px solid var(--border); }
+  .nav-drawer a{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:15px 32px; font-size:15px; font-weight:500; text-decoration:none; color:var(--text);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-drawer a:last-child{ border-bottom:0; }
+  .nav-drawer a:hover,.nav-drawer a:focus-visible{ background:var(--bg-sunken); color:var(--accent); }
+  .nav-drawer a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .nav-drawer a svg{ width:14px; height:14px; color:var(--text-dim); flex:none; }
+  @media (max-width:640px){ .nav-drawer a{ padding:15px 20px; } }
   @media (max-width:1300px){ nav.links{gap:10px;} nav.links a{font-size:13px;} nav.links a[href*="github"]{display:none;} .navrow{gap:10px;} .navcta{gap:6px;} .navcta .btn{padding-left:9px; padding-right:9px;} }
   @media (max-width:1000px){
     .navrow{height:auto; min-height:64px; flex-wrap:wrap; row-gap:8px; padding-top:8px; padding-bottom:8px;}
@@ -133,7 +173,12 @@
     .nav-prefs{margin-left:auto;}
     .nav-actions{flex:0 0 100%; justify-content:flex-end;}
   }
-  @media (max-width:940px){ nav.links{display:none;} .navcta{margin-left:auto;} }
+  @media (max-width:940px){
+    nav.links{display:none;}
+    .navcta{margin-left:auto;}
+    .nav-burger{ display:grid; }
+    .nav-drawer.is-open{ display:block; }
+  }
   @media (max-width:800px){ .navcta .btn-ghost{display:none;} }
   @media (max-width:800px){
     .navrow{flex-wrap:nowrap; height:52px; min-height:0; padding-top:0; padding-bottom:0; gap:8px;}
@@ -143,10 +188,10 @@
     .brand-logo{height:26px;}
     .brand-word{display:none;}
     .navcta .btn{padding:7px 10px; font-size:11px;}
-    .theme-toggle,.language-select{height:32px;}
-    .theme-toggle{width:32px;}
+    .theme-toggle,.language-select,.nav-burger{height:32px;}
+    .theme-toggle,.nav-burger{width:32px;}
   }
-  @media (max-width:460px){ .brand-word{display:none;} .navcta .btn-primary{padding:9px 10px; font-size:11px;} .theme-toggle,.language-select{height:36px;} .theme-toggle{width:36px;} }
+  @media (max-width:460px){ .brand-word{display:none;} .navcta .btn-primary{padding:9px 10px; font-size:11px;} .theme-toggle,.language-select,.nav-burger{height:36px;} .theme-toggle,.nav-burger{width:36px;} }
 
   .btn{
     display:inline-flex; align-items:center; gap:8px;
@@ -243,15 +288,34 @@
     .carousel-stage{grid-template-columns:36px minmax(0,1fr) 36px; column-gap:4px; width:calc(100% + 80px); margin-inline:-40px;}
     .carousel-stage .carousel-control{width:36px; height:44px;}
   }
-  .carousel-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 6px 2px; }
+  .carousel-foot{ display:flex; flex-direction:column; align-items:stretch; gap:6px; padding:8px 6px 2px; }
   .carousel-caption{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--text-dim); min-height:1.4em; }
-  .carousel-dots{ display:flex; gap:6px; flex:none; }
-  .carousel-dot{
-    width:6px; height:6px; padding:0; border:none; border-radius:3px; background:var(--border);
-    cursor:pointer; transition:width .2s ease, background .2s ease;
+  .carousel-actions{ display:flex; align-items:center; justify-content:flex-end; gap:4px; flex:none; }
+  .carousel-play{
+    width:28px; height:28px; flex:none; display:grid; place-items:center; padding:0;
+    border:1px solid var(--border); border-radius:4px; background:transparent;
+    color:var(--text-dim); cursor:pointer; transition:border-color .15s ease, color .15s ease;
   }
-  .carousel-dot:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .carousel-dot.is-active{ width:16px; background:var(--accent); }
+  .carousel-play:hover{ border-color:var(--accent); color:var(--accent); }
+  .carousel-play:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .carousel-play svg{ width:12px; height:12px; }
+  .carousel-play .ico-play{ display:none; }
+  .carousel-play[aria-pressed="true"] .ico-play{ display:block; }
+  .carousel-play[aria-pressed="true"] .ico-pause{ display:none; }
+  /* Dots keep their 6px visual weight but each carries a 24x24 hit area
+     (WCAG 2.5.8 Target Size, Minimum). Ten dots at 24px still fit the hero. */
+  .carousel-dots{ display:flex; gap:0; flex:none; }
+  .carousel-dot{
+    width:24px; height:24px; padding:0; border:none; background:transparent;
+    border-radius:4px; cursor:pointer; display:grid; place-items:center;
+  }
+  .carousel-dot::before{
+    content:""; display:block; width:6px; height:6px; border-radius:3px;
+    background:var(--border); transition:width .2s ease, background .2s ease;
+  }
+  .carousel-dot:hover::before{ background:var(--accent); }
+  .carousel-dot:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .carousel-dot.is-active::before{ width:16px; background:var(--accent); }
 
   .tour-band{ background:var(--bg-sunken); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
   .tour-frame{
@@ -340,7 +404,7 @@
   .foot-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; flex-wrap:wrap; padding-top:28px; }
   .foot-brand p{color:var(--text-dim); font-size:13.5px; max-width:36ch; margin:10px 0 0;}
   .foot-links{display:flex; gap:48px; flex-wrap:wrap;}
-  .foot-col h4{
+  .foot-col h3{
     font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
     color:var(--text-dim); margin:0 0 12px; font-weight:600;
   }
@@ -447,6 +511,134 @@
   @media (prefers-reduced-motion: reduce){ .ask-typing{animation:none; opacity:.8;} .ask-typing .ask-dots::after{animation:none; content:"...";} }
   @media (max-width:800px){ .ask-fab{right:14px; bottom:calc(32px + env(safe-area-inset-bottom));} .ask-panel{right:14px; bottom:14px;} }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://virtualpytest.com/#organization",
+      "name": "VirtualPyTest",
+      "url": "https://virtualpytest.com/",
+      "logo": "https://virtualpytest.com/images/logo.png",
+      "sameAs": ["https://github.com/AngelStreetCorp/virtualpytest"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://virtualpytest.com/#software",
+      "name": "VirtualPyTest",
+      "url": "https://virtualpytest.com/",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Software testing",
+      "operatingSystem": "Linux, Windows, macOS",
+      "description": "Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV.",
+      "image": "https://virtualpytest.com/images/dashboard.jpg",
+      "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Open source",
+          "price": "0",
+          "priceCurrency": "EUR",
+          "description": "Full source, self-hosted, no feature gates and no per-device subscription."
+        },
+        {
+          "@type": "Offer",
+          "name": "Standard hardware unit",
+          "price": "3000",
+          "priceCurrency": "EUR",
+          "description": "Hardware unit with up to four devices, ready to test and monitor."
+        },
+        {
+          "@type": "Offer",
+          "name": "Managed lab",
+          "price": "0",
+          "priceCurrency": "EUR",
+          "description": "Bespoke managed lab, priced per lab."
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://virtualpytest.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is it really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. VirtualPyTest is open source under the GNU AGPL v3. You can use, modify and self-host it at no cost, including for commercial internal use. No paid tiers, no usage limits, no feature gates. The one obligation: if you distribute a modified version or offer it to others as a service, you must publish your changes under the same license. For commercial licensing outside those terms, talk to us."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What devices are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anything that can be remotely controlled: Android and iOS phones and tablets, Android TV, Apple TV, Fire TV and smart TVs, set-top boxes with IR or network control, any browser, and Windows, macOS or Linux desktop apps. Control goes through ADB, Appium, IR blasters, smart-TV network APIs or browser automation. Any device with an HDMI output can be captured with a USB capture card."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does one script work on every device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Test logic and navigation are separate. A navigation tree maps your app once: nodes are screens, edges are the actions that move between them. Your script only says navigate_to(\"settings\") and verify_screen(\"settings\"); the tree knows how to get there on each platform. Same script on Android, iOS, a set-top box or the web. Change a screen once and every test that touches it follows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does verification work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every check runs against what is actually on screen. Image matching, OCR and AI vision detectors confirm the expected content is there, and each result keeps the source frame, the reference and the pixel diff as evidence. No brittle DOM selectors, so checks survive UI redesigns and work the same on every platform."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the screen captured?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Real devices are always captured through an HDMI acquisition card, whether they are set-top boxes, TVs, phones or tablets. You see exactly what a viewer sees, with no dependency on the device's own APIs. Only emulators are captured through ADB. Every run keeps a frame-by-frame replay and a screenshot timeline you can attach to bug reports."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is it different from Appium or Selenium?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "VirtualPyTest is visual-first and platform-agnostic: one script for every device, AI vision instead of element selectors, and built-in support for set-top boxes and TVs through IR and HDMI capture, which Appium and Selenium do not cover. Monitoring and Grafana dashboards are built in. It complements them rather than replacing them: Appium and Playwright are used under the hood for mobile and web."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run it from CI/CD?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Trigger scripts and campaigns through the REST API from any pipeline, and receive a completion callback on a URL you provide when a long run finishes. Point your CI at a running server, or launch the stack with the setup scripts as part of the job."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I need to get started?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Docker and Docker Compose for the stack, Python 3.11 or newer for local development. Per device: ADB access for Android, a Mac with Xcode and Appium for iOS, an IR blaster or network API for set-top boxes and TVs, a USB capture card for HDMI, and Chrome or Firefox for web. Clone the repository and run the install and launch scripts under setup/docker. The quick-start guide in the docs walks through it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I add a new device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Controllers already exist for Android, iOS, web and IR-controlled devices, so most devices only need connection details and a navigation tree, which the AI can help build. For a new platform, implement the controller interface once and every feature works with it."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -470,7 +662,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
         </button>
         <div class="language-picker">
-          <button class="language-select" id="language-select" type="button" aria-label="Language" aria-haspopup="listbox" aria-expanded="false">
+          <button class="language-select" id="language-select" type="button" aria-label="Language: English" aria-haspopup="listbox" aria-expanded="false">
             <span data-language-code>EN</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
           </button>
@@ -488,8 +680,20 @@
         <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener"><svg class="github-star-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.8 2.78 5.63 6.21.9-4.5 4.39 1.06 6.18L12 16.98l-5.55 2.92 1.06-6.18-4.5-4.39 6.21-.9L12 2.8z"/></svg><span>Star on GitHub</span></a>
         <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live</a>
       </div>
+      <button class="nav-burger" type="button" id="nav-burger" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu">
+        <svg class="ico-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
     </div>
   </div>
+  <nav class="nav-drawer" id="nav-drawer" aria-label="Menu">
+    <a href="#features">Features<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+    <a href="#how">How it works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+    <a href="#pricing">Pricing<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+    <a href="#faq">FAQ<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+    <a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+    <a href="#ask" data-ask-open>Ask AI<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+  </nav>
 </header>
 
 <div class="platform-bar">
@@ -868,20 +1072,20 @@
       </div>
       <div class="foot-links">
         <div class="foot-col">
-          <h4>Product</h4>
+          <h3>Product</h3>
           <a href="#features">Features</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
           <a href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live</a>
         </div>
         <div class="foot-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
           <a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a>
           <a href="#">Documentation</a>
           <a href="mailto:contact@virtualpytest.com">Contact</a>
         </div>
         <div class="foot-col">
-          <h4>Resources</h4>
+          <h3>Resources</h3>
           <a href="docs/VirtualPyTest-Overview.pdf" target="_blank" rel="noopener">Overview (PDF)</a>
           <a href="docs/VirtualPyTest-Features.pdf" target="_blank" rel="noopener">Features (PDF)</a>
         </div>
@@ -917,6 +1121,38 @@
   });
   if(systemTheme.addEventListener) systemTheme.addEventListener('change', function(){ if(!root.hasAttribute('data-theme')) updateButton(); });
   updateButton();
+})();
+</script>
+
+<script>
+(function(){
+  var burger = document.getElementById('nav-burger');
+  var drawer = document.getElementById('nav-drawer');
+  if(!burger || !drawer) return;
+  function setOpen(open){
+    drawer.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  burger.addEventListener('click', function(){
+    setOpen(!drawer.classList.contains('is-open'));
+  });
+  drawer.addEventListener('click', function(event){
+    if(event.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', function(event){
+    if(event.key === 'Escape' && drawer.classList.contains('is-open')){
+      setOpen(false);
+      burger.focus();
+    }
+  });
+  document.addEventListener('click', function(event){
+    if(!event.target.closest('#nav-drawer') && !event.target.closest('#nav-burger')) setOpen(false);
+  });
+  // Growing past the mobile breakpoint hides the burger, so never leave the panel open.
+  var wide = window.matchMedia('(min-width: 941px)');
+  var onWide = function(event){ if(event.matches) setOpen(false); };
+  if(wide.addEventListener) wide.addEventListener('change', onWide);
+  else if(wide.addListener) wide.addListener(onWide);
 })();
 </script>
 
@@ -975,7 +1211,10 @@
     });
     if(picker){
       var code = picker.querySelector('[data-language-code]');
+      var languageName = ({en:'English',fr:'French',es:'Spanish',de:'German','zh-CN':'Chinese',hi:'Hindi'})[current] || 'English';
       if(code) code.textContent = ({en:'EN',fr:'FR',es:'ES',de:'DE','zh-CN':'ZH',hi:'HI'})[current] || 'EN';
+      // Visible text is the short code, so the accessible name has to carry it.
+      picker.setAttribute('aria-label', t('Language: ' + languageName));
       if(languageMenu) Array.prototype.forEach.call(languageMenu.querySelectorAll('[data-locale]'), function(option){
         option.setAttribute('aria-selected', option.getAttribute('data-locale') === current ? 'true' : 'false');
       });
@@ -986,6 +1225,8 @@
       themeButton.setAttribute('aria-label', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
       themeButton.setAttribute('title', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
     }
+    // Controls built after the first pass (carousel) re-label themselves here.
+    (window.vptLocaleHooks || []).forEach(function(hook){ try { hook(); } catch(e) {} });
   }
 
   function closeLanguageMenu(returnFocus){
@@ -1064,8 +1305,46 @@
     var caption = widget.querySelector('.carousel-caption');
     var dotsWrap = widget.querySelector('.carousel-dots');
     var interval = parseInt(root.getAttribute('data-autoplay'), 10) || 5000;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var paused = false;
     var idx = 0;
     var timer = null;
+
+    // Pause/play control sits with the dots. Autoplay never starts when the
+    // visitor asked for reduced motion, so the button opens showing "play".
+    var actions = widget.querySelector('.carousel-actions');
+    if(!actions && dotsWrap){
+      actions = document.createElement('div');
+      actions.className = 'carousel-actions';
+      dotsWrap.parentNode.insertBefore(actions, dotsWrap);
+      actions.appendChild(dotsWrap);
+    }
+    var playButton = null;
+    if(actions){
+      playButton = document.createElement('button');
+      playButton.type = 'button';
+      playButton.className = 'carousel-play';
+      playButton.setAttribute('aria-pressed', reducedMotion.matches ? 'true' : 'false');
+      playButton.innerHTML = '<svg class="ico-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>' +
+                             '<svg class="ico-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+      actions.insertBefore(playButton, actions.firstChild);
+      playButton.addEventListener('click', function(){
+        paused = playButton.getAttribute('aria-pressed') !== 'true';
+        syncPlayButton();
+        restart();
+      });
+    }
+
+    function syncPlayButton(){
+      if(!playButton) return;
+      playButton.setAttribute('aria-pressed', (paused || reducedMotion.matches) ? 'true' : 'false');
+      var label = playButton.getAttribute('aria-pressed') === 'true' ? 'Play slideshow' : 'Pause slideshow';
+      playButton.setAttribute('data-i18n-key', label);
+      playButton.setAttribute('aria-label', window.vptT(label));
+      playButton.setAttribute('title', window.vptT(label));
+    }
+    window.vptLocaleHooks = window.vptLocaleHooks || [];
+    window.vptLocaleHooks.push(syncPlayButton);
 
     function makeControl(direction, label, symbol){
       var button = document.createElement('button');
@@ -1111,7 +1390,11 @@
     function stop(){ if(timer){ clearInterval(timer); timer = null; } }
     function restart(){
       stop();
+      if(paused || reducedMotion.matches) return;
       timer = setInterval(next, interval);
+    }
+    if(reducedMotion.addEventListener){
+      reducedMotion.addEventListener('change', function(){ syncPlayButton(); restart(); });
     }
 
     root.addEventListener('keydown', function(event){
@@ -1126,6 +1409,7 @@
     caption.setAttribute('data-i18n-key', firstCaptionKey);
     caption.setAttribute('data-i18n-text', '');
     caption.textContent = window.vptT(firstCaptionKey);
+    syncPlayButton();
     restart();
   }
 
