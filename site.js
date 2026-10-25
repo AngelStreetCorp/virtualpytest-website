@@ -103,10 +103,11 @@
       s.onload = function(){ resolve(window.VPT_LOCALES || {}); }; s.onerror = reject; document.head.appendChild(s);
     });
   }
-  loadCatalog().then(function(d){ catalogs = d; }).catch(function(){ catalogs = {}; })
+  (root.hasAttribute('data-lang-fixed') ? Promise.resolve({}) : loadCatalog()).then(function(d){ catalogs = d; }).catch(function(){ catalogs = {}; })
     .then(function(){
       var want = '';
       try { want = localStorage.getItem('virtualpytest:language') || ''; } catch(e) {}
+      if(root.hasAttribute('data-lang-fixed')) want = 'en';
       if(supported.indexOf(want) < 0){
         var sys = (navigator.language || 'en').toLowerCase();
         var b = sys.indexOf('zh') === 0 ? 'zh-CN' : sys.slice(0,2);
