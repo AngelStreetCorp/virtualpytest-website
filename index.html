@@ -1,1717 +1,330 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="color-scheme" content="light dark" />
-<script>
-  try {
-    var savedTheme = localStorage.getItem('virtualpytest:theme');
-    if(savedTheme === 'light' || savedTheme === 'dark') document.documentElement.setAttribute('data-theme', savedTheme);
-  } catch(e) {}
-</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var s=localStorage.getItem('virtualpytest:theme');if(s==='light'||s==='dark')document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
 <title>VirtualPyTest — open-source device testing &amp; monitoring, driven by AI</title>
-<meta name="description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
-<link rel="canonical" href="https://virtualpytest.com/" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://virtualpytest.com/" />
-<meta property="og:site_name" content="VirtualPyTest" />
-<meta property="og:title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI" />
-<meta property="og:description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
-<meta property="og:image" content="https://virtualpytest.com/images/dashboard.jpg" />
-<meta property="og:image:width" content="1400" />
-<meta property="og:image:height" content="733" />
-<meta property="og:image:alt" content="VirtualPyTest fleet dashboard showing hosts, devices and live status" />
-<meta property="og:locale" content="en_GB" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI" />
-<meta name="twitter:description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV." />
-<meta name="twitter:image" content="https://virtualpytest.com/images/dashboard.jpg" />
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<style>
-  :root{
-    color-scheme:light;
-    --bg:#FCFCFA;
-    --bg-raised:#FFFFFF;
-    --bg-sunken:#F1F4F1;
-    --text:#17211C;
-    --text-dim:#56635C;
-    --border:#D9E0DB;
-    --accent:#087A52;
-    --accent-soft:#E2F4EA;
-    --accent-ink:#ffffff;
-    --amber:#8C5A00;
-    --live:#c73224;
-    --radius: 3px;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      color-scheme:dark;
-      --bg:#242725; --bg-raised:#2c302d; --bg-sunken:#1d211f;
-      --text:#f0f2ef; --text-dim:#b0b8b3; --border:#454b47;
-      --accent:#39e6a4; --accent-soft:#163c2d; --accent-ink:#102018;
-      --amber:#f0b429; --live:#ff7a70;
-    }
-  }
-  :root[data-theme="dark"]{
-    color-scheme:dark;
-    --bg:#242725; --bg-raised:#2c302d; --bg-sunken:#1d211f;
-    --text:#f0f2ef; --text-dim:#b0b8b3; --border:#454b47;
-    --accent:#39e6a4; --accent-soft:#163c2d; --accent-ink:#102018;
-    --amber:#f0b429; --live:#ff7a70;
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; overflow-x:clip;}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-    line-height:1.55; -webkit-font-smoothing:antialiased;
-    /* the hero carousel bleeds past the gutter on purpose; clip it so phones
-       never get a horizontal scrollbar (clip, not hidden, so the sticky
-       header keeps working) */
-    overflow-x:clip;
-  }
-  a{color:inherit;}
-  img{display:block; max-width:100%;}
-
-  .mono{font-family:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;}
-  .eyebrow{
-    font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:500;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
-  }
-  h1,h2,h3{text-wrap:balance; margin:0;}
-  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
-  @media (max-width:640px){ .wrap{padding:0 20px;} }
-
-  .smpte{
-    height:8px; width:100%;
-    background: linear-gradient(to right,
-      #c2c2c2 0 14.28%, #c2c200 14.28% 28.56%, #00b4c2 28.56% 42.84%,
-      #00b338 42.84% 57.12%, #b300b3 57.12% 71.4%, #c21f1f 71.4% 85.7%,
-      #1f3ec2 85.7% 100%);
-  }
-
-  header.site{
-    position:sticky; top:0; z-index:40;
-    background:color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter:saturate(140%) blur(8px);
-    border-bottom:1px solid var(--border);
-    transition:transform .25s ease;
-  }
-  header.site.is-hidden{transform:translateY(-100%);}
-  .navrow{ display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px; }
-  .brand{display:flex; align-items:center; gap:10px; flex:none; white-space:nowrap; text-decoration:none; color:var(--text);}
-  .brand-logo{height:30px; width:auto; flex:none;}
-  .brand-word{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:15px; letter-spacing:.01em;}
-  nav.links{display:flex; align-items:center; justify-content:center; gap:clamp(10px,1.3vw,18px); flex:1; min-width:0;}
-  nav.links a{font-size:14px; white-space:nowrap; text-decoration:none; color:var(--text-dim); font-weight:500;}
-  nav.links a:hover{color:var(--text);}
-  .navcta{display:flex; align-items:center; gap:8px; flex:none; flex-wrap:nowrap; white-space:nowrap;}
-  .navcta>*{flex:none;}
-  .nav-prefs,.nav-actions{display:flex; align-items:center; gap:8px; white-space:nowrap;}
-  .navcta .btn{padding-left:12px; padding-right:12px; font-size:12px; white-space:nowrap;}
-  .theme-toggle{
-    width:40px; height:40px; display:grid; place-items:center; flex:none;
-    padding:0; border:1px solid var(--border); border-radius:var(--radius);
-    background:transparent; color:var(--text); cursor:pointer;
-  }
-  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
-  .theme-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
-  .theme-toggle svg{width:18px; height:18px;}
-  .language-picker{position:relative;}
-  .language-select{
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    width:70px; height:40px; padding:0 8px; border:1px solid var(--border); border-radius:var(--radius);
-    background:var(--bg-raised); color:var(--text); font:500 12px/1 "IBM Plex Mono",monospace; cursor:pointer;
-  }
-  .language-select:hover,.language-select[aria-expanded="true"]{border-color:var(--accent);}
-  .language-select:focus-visible,.language-option:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
-  .language-select svg{width:12px;height:12px;color:var(--text-dim);transition:transform .16s ease;}
-  .language-select[aria-expanded="true"] svg{transform:rotate(180deg);}
-  .language-menu{
-    position:absolute; top:calc(100% + 6px); right:0; z-index:80; min-width:100%;
-    display:flex; flex-direction:column; gap:2px; padding:4px;
-    border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-raised);
-    box-shadow:0 10px 28px rgba(0,0,0,.22);
-  }
-  .language-menu[hidden]{display:none;}
-  .language-option{
-    min-height:34px; padding:0 10px; border:0; border-radius:2px; background:transparent;
-    color:var(--text); text-align:center; font:500 12px/1 "IBM Plex Mono",monospace; cursor:pointer;
-  }
-  .language-option:hover,.language-option[aria-selected="true"]{background:var(--bg-sunken);color:var(--accent);}
-  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
-
-  /* mobile drawer — the only way to reach the section links below 940px */
-  .nav-burger{
-    width:40px; height:40px; display:none; place-items:center; flex:none;
-    padding:0; border:1px solid var(--border); border-radius:var(--radius);
-    background:transparent; color:var(--text); cursor:pointer;
-  }
-  .nav-burger:hover{ border-color:var(--accent); color:var(--accent); }
-  .nav-burger:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .nav-burger svg{ width:18px; height:18px; }
-  .nav-burger .ico-close{ display:none; }
-  .nav-burger[aria-expanded="true"] .ico-close{ display:block; }
-  .nav-burger[aria-expanded="true"] .ico-menu{ display:none; }
-  .nav-drawer{ display:none; background:var(--bg-raised); border-top:1px solid var(--border); }
-  .nav-drawer a{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:15px 32px; font-size:15px; font-weight:500; text-decoration:none; color:var(--text);
-    border-bottom:1px solid var(--border);
-  }
-  .nav-drawer a:last-child{ border-bottom:0; }
-  .nav-drawer a:hover,.nav-drawer a:focus-visible{ background:var(--bg-sunken); color:var(--accent); }
-  .nav-drawer a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
-  .nav-drawer a svg{ width:14px; height:14px; color:var(--text-dim); flex:none; }
-  @media (max-width:640px){ .nav-drawer a{ padding:15px 20px; } }
-  @media (max-width:1300px){ nav.links{gap:10px;} nav.links a{font-size:13px;} nav.links a[href*="github"]{display:none;} .navrow{gap:10px;} .navcta{gap:6px;} .navcta .btn{padding-left:9px; padding-right:9px;} }
-  @media (max-width:1000px){
-    .navrow{height:auto; min-height:64px; flex-wrap:wrap; row-gap:8px; padding-top:8px; padding-bottom:8px;}
-    .navcta{display:contents;}
-    .nav-prefs{margin-left:auto;}
-    .nav-actions{flex:0 0 100%; justify-content:flex-end;}
-  }
-  @media (max-width:940px){
-    nav.links{display:none;}
-    .navcta{margin-left:auto;}
-    .nav-burger{ display:grid; }
-    .nav-drawer.is-open{ display:block; }
-  }
-  @media (max-width:800px){ .navcta .btn-ghost{display:none;} }
-  @media (max-width:800px){
-    .navrow{flex-wrap:nowrap; height:52px; min-height:0; padding-top:0; padding-bottom:0; gap:8px;}
-    .navcta{display:flex; margin-left:auto; gap:6px;}
-    .nav-prefs{margin-left:0; gap:6px;}
-    .nav-actions{flex:none;}
-    .brand-logo{height:26px;}
-    .brand-word{display:none;}
-    .navcta .btn{padding:7px 10px; font-size:11px;}
-    .theme-toggle,.language-select,.nav-burger{height:32px;}
-    .theme-toggle,.nav-burger{width:32px;}
-  }
-  @media (max-width:460px){ .brand-word{display:none;} .navcta .btn-primary{padding:9px 10px; font-size:11px;} .theme-toggle,.language-select,.nav-burger{height:36px;} .theme-toggle,.nav-burger{width:36px;} }
-
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600; letter-spacing:.02em;
-    padding:10px 18px; border-radius:var(--radius); text-decoration:none; cursor:pointer;
-    border:1px solid transparent; transition:transform .12s ease, background .12s ease, border-color .12s ease;
-  }
-  .btn:active{transform:translateY(1px);}
-  .btn-primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
-  .btn-primary:hover{filter:brightness(1.05);}
-  .btn-ghost{background:transparent; color:var(--text); border-color:var(--border);}
-  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
-  .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
-  .github-star-icon{width:15px;height:15px;flex:none;}
-
-  /* platform strip */
-  .platform-bar{
-    background:var(--bg-sunken); border-bottom:1px solid var(--border);
-  }
-  .platform-row{
-    display:flex; align-items:center; gap:28px; flex-wrap:wrap;
-    padding-top:12px; padding-bottom:12px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--text-dim);
-  }
-  .platform-row .platform-label{
-    letter-spacing:.1em; text-transform:uppercase; font-size:11px; color:var(--text-dim); font-weight:500;
-  }
-  .platform-items{display:flex; gap:22px; flex-wrap:wrap;}
-  .platform-item{display:flex; align-items:center; gap:7px; color:var(--text); font-weight:500;}
-  .platform-item svg{width:16px; height:16px; color:var(--accent); flex:none;}
-
-  .hero{
-    padding:72px 0 56px;
-    background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--text) 3%, transparent) 0px, transparent 1px 3px);
-  }
-  .hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center; }
-  @media (max-width:940px){ .hero-grid{grid-template-columns:1fr;} }
-  .hero h1{ font-size:clamp(24px,3.4vw,42px); line-height:1.12; font-weight:700; letter-spacing:-.01em; margin:14px 0 18px; }
-  .hero p.lead{ font-size:17px; color:var(--text-dim); max-width:46ch; margin:0 0 28px; }
-  .hero .ctas{display:flex; gap:14px; flex-wrap:wrap;}
-  .hero .btn{padding:13px 22px; font-size:14px;}
-  .resource-links{
-    display:flex; gap:20px; flex-wrap:wrap; margin-top:18px;
-    font-family:"IBM Plex Mono",monospace; font-size:12.5px;
-  }
-  .resource-links a{ color:var(--text-dim); text-decoration:none; border-bottom:1px solid transparent; }
-  .resource-links a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
-
-  .device-frame{
-    background:var(--bg-sunken); border:1px solid var(--border); border-radius:8px; padding:10px;
-    box-shadow: 0 20px 50px -24px rgba(0,0,0,.35);
-  }
-  .device-topbar{ display:flex; align-items:center; justify-content:space-between; padding:2px 6px 10px; }
-  .device-dots{display:flex; gap:6px;}
-  .device-dots span{width:8px; height:8px; border-radius:50%; background:var(--border);}
-  .live-chip{
-    display:flex; align-items:center; gap:6px;
-    font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; letter-spacing:.06em; color:var(--live);
-  }
-  .live-dot{ width:7px; height:7px; border-radius:50%; background:var(--live); animation:pulse 1.6s ease-in-out infinite; }
-  @media (prefers-reduced-motion:reduce){ .live-dot{animation:none;} }
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
-  .device-screen{ border-radius:4px; overflow:hidden; border:1px solid var(--border); line-height:0; }
-  .device-screen img{width:100%; height:auto;}
-  .device-caption{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--text-dim); padding:10px 6px 2px; }
-
-  /* carousel */
-  .carousel-stage{
-    display:grid; grid-template-columns:44px minmax(0,1fr) 44px; align-items:center; column-gap:10px;
-    width:calc(100% + 108px); margin-inline:-54px;
-  }
-  .carousel{ position:relative; width:100%; aspect-ratio:16/9.1; background:var(--bg-sunken); overflow:hidden; }
-  .carousel:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-  .carousel-slide{
-    position:absolute; inset:0; opacity:0; transition:opacity .7s ease;
-  }
-  .carousel-slide.is-active{opacity:1;}
-  @media (prefers-reduced-motion:reduce){ .carousel-slide{transition:none;} }
-  .carousel-slide img{width:100%; height:100%; object-fit:cover; object-position:top;}
-  .carousel-control{
-    position:relative; grid-row:1; z-index:3; transform:none;
-    width:44px; height:56px; display:grid; place-items:center;
-    border:1px solid rgba(255,255,255,.55); border-radius:5px;
-    background:rgba(4,12,10,.82); color:#fff; cursor:pointer;
-    box-shadow:0 4px 18px rgba(0,0,0,.4); transition:background .2s ease, border-color .2s ease, transform .2s ease;
-  }
-  .carousel-control:hover{ background:var(--accent); border-color:var(--accent); color:#06120f; }
-  .carousel-control:active{ transform:scale(.96); }
-  .carousel-control:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-  .carousel-control svg{ width:24px; height:24px; stroke-width:2.5; }
-  .carousel-prev{grid-column:1;}
-  .carousel-next{grid-column:3;}
-  .carousel-stage .carousel{grid-column:2; grid-row:1;}
-  @media (max-width:700px){
-    .carousel-stage{grid-template-columns:36px minmax(0,1fr) 36px; column-gap:4px; width:calc(100% + 80px); margin-inline:-40px;}
-    .carousel-stage .carousel-control{width:36px; height:44px;}
-  }
-  .carousel-foot{ display:flex; flex-direction:column; align-items:stretch; gap:6px; padding:8px 6px 2px; }
-  .carousel-caption{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--text-dim); min-height:1.4em; }
-  .carousel-actions{ display:flex; align-items:center; justify-content:flex-end; gap:4px; flex:none; }
-  .carousel-play{
-    width:28px; height:28px; flex:none; display:grid; place-items:center; padding:0;
-    border:1px solid var(--border); border-radius:4px; background:transparent;
-    color:var(--text-dim); cursor:pointer; transition:border-color .15s ease, color .15s ease;
-  }
-  .carousel-play:hover{ border-color:var(--accent); color:var(--accent); }
-  .carousel-play:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .carousel-play svg{ width:12px; height:12px; }
-  .carousel-play .ico-play{ display:none; }
-  .carousel-play[aria-pressed="true"] .ico-play{ display:block; }
-  .carousel-play[aria-pressed="true"] .ico-pause{ display:none; }
-  /* Dots keep their 6px visual weight but each carries a 24x24 hit area
-     (WCAG 2.5.8 Target Size, Minimum). Ten dots at 24px still fit the hero. */
-  .carousel-dots{ display:flex; gap:0; flex:none; }
-  .carousel-dot{
-    width:24px; height:24px; padding:0; border:none; background:transparent;
-    border-radius:4px; cursor:pointer; display:grid; place-items:center;
-  }
-  .carousel-dot::before{
-    content:""; display:block; width:6px; height:6px; border-radius:3px;
-    background:var(--border); transition:width .2s ease, background .2s ease;
-  }
-  .carousel-dot:hover::before{ background:var(--accent); }
-  .carousel-dot:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
-  .carousel-dot.is-active::before{ width:16px; background:var(--accent); }
-
-  .tour-band{ background:var(--bg-sunken); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-  .tour-frame{
-    margin-top:32px; background:var(--bg-raised); border:1px solid var(--border); border-radius:8px; padding:10px;
-    box-shadow: 0 20px 50px -28px rgba(0,0,0,.3);
-  }
-  .tour-carousel{ aspect-ratio:16/7.2; border-radius:4px; }
-  .video-frame{ margin-top:32px; }
-  .video-embed{ position:relative; width:100%; aspect-ratio:16/9; border-radius:4px; overflow:hidden; background:var(--bg-sunken); border:1px solid var(--border); }
-  .video-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
-  /* Facade: nothing of YouTube is loaded until the poster is actually clicked. */
-  .video-still{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; }
-  .video-veil{
-    position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(0deg, rgba(6,14,11,.68), rgba(6,14,11,.10));
-  }
-  .video-play{
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:68px; height:68px; border-radius:50%; border:0; padding:0; pointer-events:auto;
-    cursor:pointer; background:var(--accent); color:var(--accent-ink);
-    display:grid; place-items:center; box-shadow:0 8px 26px rgba(0,0,0,.35);
-    transition:transform .15s ease;
-  }
-  .video-play svg{ width:26px; height:26px; margin-left:3px; }
-  .video-play:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-  .video-embed:hover .video-play{ transform:translate(-50%,-50%) scale(1.06); }
-  .video-dur{
-    position:absolute; right:10px; bottom:10px; pointer-events:none;
-    font-family:"IBM Plex Mono",monospace; font-size:11px; color:#fff;
-    background:rgba(0,0,0,.66); padding:3px 7px; border-radius:3px;
-  }
-  .video-embed.is-live > *:not(iframe){ display:none; }
-  a.chip{ text-decoration:none; }
-  a.chip:hover{ border-color:var(--text-dim); }
-  @media (max-width:700px){ .tour-carousel{ aspect-ratio:4/3; } }
-
-  .proof{ padding:26px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--bg-raised); }
-  .proof-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;}
-  .proof-line{font-size:14.5px; color:var(--text-dim); max-width:52ch;}
-  .proof-line strong{color:var(--text); font-weight:600;}
-  .stat-chips{display:flex; gap:10px; flex-wrap:wrap;}
-  .chip{
-    font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:500;
-    padding:7px 12px; border:1px solid var(--border); border-radius:20px; color:var(--text-dim); white-space:nowrap;
-  }
-  .chip b{color:var(--text);}
-
-  section{padding:84px 0;}
-  .section-head{max-width:640px; margin:0 0 44px;}
-  .section-head h2{font-size:clamp(26px,3.2vw,34px); font-weight:700; margin-top:10px;}
-  .section-head p{color:var(--text-dim); font-size:15.5px; margin-top:12px;}
-
-  .feature-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
-  @media (max-width:900px){ .feature-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:620px){ .feature-grid{grid-template-columns:1fr;} }
-  .feature-card{ background:var(--bg-raised); padding:22px 22px 26px; display:flex; flex-direction:column; gap:14px; }
-  .feature-thumb{ border:1px solid var(--border); border-radius:3px; overflow:hidden; line-height:0; background:var(--bg-sunken); }
-  .feature-thumb img{width:100%; height:150px; object-fit:cover; object-position:top;}
-  /* the three cards that carry the argument get a readable frame */
-  .feature-card.is-lead .feature-thumb img{ height:auto; aspect-ratio:16/9; }
-  .feature-tag{
-    font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; letter-spacing:.1em;
-    text-transform:uppercase; color:var(--accent);
-  }
-  .feature-card h3{font-size:17.5px; font-weight:600; margin:2px 0 0;}
-  .feature-card p{font-size:14px; color:var(--text-dim); margin:0;}
-
-  .chain{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
-  @media (max-width:820px){ .chain{grid-template-columns:1fr;} }
-  .chain-step{ position:relative; padding:0 22px 0 0; border-right:1px dashed var(--border); }
-  .chain-step:last-child{border-right:none; padding-right:0;}
-  @media (max-width:820px){
-    .chain-step{border-right:none; border-left:1px dashed var(--border); padding:0 0 32px 22px;}
-    .chain-step:last-child{padding-bottom:0;}
-  }
-  .step-num{ font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; color:var(--accent); margin-bottom:10px; }
-  .chain-step h3{font-size:16.5px; font-weight:600; margin-bottom:8px;}
-  .chain-step p{font-size:13.8px; color:var(--text-dim); margin:0; padding-right:8px;}
-
-  .price-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
-  @media (max-width:900px){ .price-grid{grid-template-columns:1fr;} }
-  .hardware-note{
-    display:flex; flex-direction:column; gap:5px; margin:0 0 22px; padding:16px 18px;
-    background:var(--bg-sunken); border:1px solid var(--border); border-left:3px solid var(--accent);
-    color:var(--text-dim); font-size:14px;
-  }
-  .hardware-note strong{color:var(--text); font-size:15px;}
-  .price-card{
-    background:var(--bg-raised); border:1px solid var(--border); border-radius:var(--radius);
-    padding:28px 26px; display:flex; flex-direction:column; gap:16px;
-  }
-  .price-card.is-highlight{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset; }
-  .price-name{font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim);}
-  .price-card.is-highlight .price-name{color:var(--accent);}
-  .price-amount{font-size:32px; font-weight:700; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
-  .price-amount small{font-size:14px; font-weight:500; color:var(--text-dim);}
-  .price-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;}
-  .price-list li{font-size:13.8px; color:var(--text-dim); padding-left:18px; position:relative;}
-  .price-list li::before{content:"—"; position:absolute; left:0; color:var(--accent);}
-  .price-card .btn{margin-top:auto; align-self:flex-start;}
-
-  .cta-band{ background:var(--bg-sunken); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-  .cta-grid{display:grid; grid-template-columns:1fr .8fr; gap:48px; align-items:center;}
-  @media (max-width:860px){ .cta-grid{grid-template-columns:1fr;} }
-  .cta-grid h2{font-size:clamp(24px,3vw,32px); font-weight:700; margin-top:10px;}
-  .cta-grid p{color:var(--text-dim); font-size:15px; max-width:48ch; margin:14px 0 26px;}
-  .mini-frame img{width:100%; height:auto; border-radius:4px; border:1px solid var(--border);}
-
-  footer{padding:44px 0 30px;}
-  .foot-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; flex-wrap:wrap; padding-top:28px; }
-  .foot-brand p{color:var(--text-dim); font-size:13.5px; max-width:36ch; margin:10px 0 0;}
-  .foot-links{display:flex; gap:48px; flex-wrap:wrap;}
-  .foot-col h3{
-    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--text-dim); margin:0 0 12px; font-weight:600;
-  }
-  .foot-col a{display:block; font-size:13.5px; text-decoration:none; color:var(--text); margin-bottom:9px;}
-  .foot-col a:hover{color:var(--accent);}
-  .foot-bottom{
-    margin-top:36px; padding-top:20px; border-top:1px solid var(--border);
-    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
-    font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--text-dim);
-  }
-
-  /* FAQ */
-  .faq-list{max-width:820px; display:flex; flex-direction:column; gap:10px;}
-  .faq-item{background:var(--bg-raised); border:1px solid var(--border); border-radius:8px;}
-  .faq-item[open]{border-color:var(--accent);}
-  .faq-item summary{
-    list-style:none; cursor:pointer; padding:16px 18px; font-weight:600; font-size:15.5px;
-    display:flex; align-items:center; justify-content:space-between; gap:16px;
-  }
-  .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item summary::after{
-    content:"+"; font-family:"IBM Plex Mono",monospace; font-size:18px; color:var(--accent); flex:none;
-  }
-  .faq-item[open] summary::after{content:"\2212";}
-  .faq-item summary:focus-visible{outline:2px solid var(--accent); outline-offset:-2px; border-radius:8px;}
-  .faq-body{padding:0 18px 18px; color:var(--text-dim); font-size:15px; line-height:1.6;}
-  .faq-body p{margin:0 0 10px;}
-  .faq-body p:last-child{margin-bottom:0;}
-  .faq-body ul{margin:0 0 10px; padding-left:20px;}
-  .faq-body code{font-family:"IBM Plex Mono",monospace; font-size:13px; background:var(--bg-sunken); padding:1px 5px; border-radius:3px;}
-  .faq-more{margin-top:22px; font-size:14px; color:var(--text-dim);}
-  .faq-more a{color:var(--accent);}
-  .faq-more button{background:none; border:0; padding:0; color:var(--accent); cursor:pointer; font:inherit; text-decoration:underline;}
-
-  /* Ask AI widget */
-  .ask-fab{
-    position:fixed; right:22px; bottom:22px; z-index:60;
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600;
-    padding:11px 16px; border-radius:999px; cursor:pointer;
-    background:var(--accent); color:var(--accent-ink); border:1px solid var(--accent);
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-  }
-  .ask-fab:hover{filter:brightness(1.05);}
-  .ask-fab svg{width:16px; height:16px;}
-  .ask-panel{
-    position:fixed; right:22px; bottom:22px; z-index:61;
-    width:min(380px, calc(100vw - 32px)); max-height:min(600px, calc(100vh - 40px));
-    display:none; flex-direction:column; overflow:hidden; padding:0;
-    background:var(--bg-raised); color:var(--text);
-    border:1px solid var(--accent); border-radius:10px;
-    box-shadow:0 16px 40px rgba(0,0,0,.35);
-  }
-  .ask-panel.is-open{display:flex;}
-  .ask-head{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:12px 14px; border-bottom:1px solid var(--border);
-    font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600;
-  }
-  .ask-head span{display:inline-flex; align-items:center; gap:8px; color:var(--text);}
-  .ask-head span svg{width:16px; height:16px; color:var(--accent);}
-  .ask-head-actions{display:flex; align-items:center; gap:2px;}
-  .ask-close,.ask-expand,.ask-clear{background:none; border:0; color:var(--text-dim); cursor:pointer; line-height:1; padding:4px; border-radius:4px; display:inline-flex; align-items:center;}
-  .ask-clear{position:relative;}
-  .ask-clear svg{width:15px; height:15px;}
-  .ask-clear[hidden]{display:none;}
-  .ask-close{font-size:18px;}
-  .ask-expand svg{width:15px; height:15px;}
-  .ask-expand .ico-shrink{display:none;}
-  .ask-panel.is-large .ask-expand .ico-grow{display:none;}
-  .ask-panel.is-large .ask-expand .ico-shrink{display:inline;}
-  .ask-close:hover,.ask-expand:hover,.ask-clear:hover{color:var(--text); background:var(--bg-sunken);}
-  .ask-panel.is-large{width:min(760px, calc(100vw - 32px)); max-height:calc(100vh - 40px); height:calc(100vh - 40px);}
-  .ask-panel.is-large .ask-log{font-size:15px;}
-  .ask-log{flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.55;}
-  /* Restored transcript: collapsed on open, so the panel always starts on the
-     live conversation rather than last week's answers. */
-  .ask-history{ flex:none; max-height:45%; display:flex; flex-direction:column; background:var(--bg-sunken); border-bottom:1px solid var(--border); }
-  .ask-history[hidden]{ display:none; }
-  .ask-history-toggle{
-    display:flex; align-items:center; gap:8px; width:100%; padding:9px 14px;
-    background:transparent; border:0; cursor:pointer; text-align:left;
-    font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--text-dim);
-  }
-  .ask-history-toggle:hover{ color:var(--accent); }
-  .ask-history-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
-  .ask-history-toggle svg{ width:12px; height:12px; flex:none; transition:transform .16s ease; }
-  .ask-history-toggle[aria-expanded="true"] svg{ transform:rotate(90deg); }
-  .ask-history-body{ display:none; overflow-y:auto; padding:12px 14px; border-top:1px solid var(--border); }
-  .ask-history.is-open .ask-history-body{ display:block; }
-  .ask-history-body .ask-msg{ max-width:96%; font-size:13px; }
-  .ask-history-body .ask-src{ font-size:10.5px; margin-top:2px; }
-  .ask-msg{max-width:92%; padding:8px 11px; border-radius:8px; white-space:pre-wrap; word-wrap:break-word;}
-  .ask-msg.user{align-self:flex-end; background:var(--accent-soft); color:var(--accent);}
-  .ask-msg.bot{align-self:flex-start; background:var(--bg-sunken); color:var(--text);}
-  .ask-msg.error{align-self:flex-start; background:var(--bg-sunken); color:var(--live);}
-  .ask-src{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--text-dim); margin-top:-4px;}
-  .ask-src a{color:var(--text-dim);}
-  .ask-src a:hover{color:var(--accent);}
-  .ask-chips{display:flex; flex-wrap:wrap; gap:6px; padding:0 14px 8px;}
-  .ask-chip{
-    font-family:"IBM Plex Mono",monospace; font-size:11px; cursor:pointer;
-    padding:4px 10px; border-radius:999px; background:transparent;
-    color:var(--text-dim); border:1px solid var(--border);
-  }
-  .ask-chip:hover{border-color:var(--accent); color:var(--accent);}
-  .ask-form{display:flex; gap:8px; padding:10px 12px; border-top:1px solid var(--border);}
-  .ask-form input{
-    flex:1; min-width:0; font:inherit; font-size:14px; padding:9px 11px;
-    background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px;
-  }
-  .ask-form input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent);}
-  .ask-form button{
-    width:40px; border:0; border-radius:6px; cursor:pointer;
-    background:var(--accent); color:var(--accent-ink); display:inline-flex; align-items:center; justify-content:center;
-  }
-  .ask-form button:disabled{opacity:.5; cursor:default;}
-  .ask-form button svg{width:16px; height:16px;}
-  .ask-typing{color:var(--text-dim); font-style:italic; animation:askPulse 1.4s ease-in-out infinite;}
-  .ask-typing .ask-dots{display:inline-block; width:1.2em; text-align:left;}
-  .ask-typing .ask-dots::after{content:""; animation:askDots 1.4s steps(4,end) infinite;}
-  @keyframes askPulse{0%,100%{opacity:.45;} 50%{opacity:1;}}
-  @keyframes askDots{0%{content:"";} 25%{content:".";} 50%{content:"..";} 75%,100%{content:"...";}}
-  @media (prefers-reduced-motion: reduce){ .ask-typing{animation:none; opacity:.8;} .ask-typing .ask-dots::after{animation:none; content:"...";} }
-  @media (max-width:800px){ .ask-fab{right:14px; bottom:calc(32px + env(safe-area-inset-bottom));} .ask-panel{right:14px; bottom:14px;} }
-</style>
+<meta name="vpt-title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI">
+<meta name="description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, one flat fee, no robots. Web, mobile, TV, set-top boxes, consoles and drones.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://virtualpytest.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://virtualpytest.com/">
+<meta property="og:site_name" content="VirtualPyTest">
+<meta property="og:title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI">
+<meta property="og:description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, one flat fee, no robots. Web, mobile, TV, set-top boxes, consoles and drones.">
+<meta property="og:image" content="https://virtualpytest.com/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VirtualPyTest campaign report with pass rate, 30 day trend and every test it ran">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VirtualPyTest — open-source device testing &amp; monitoring, driven by AI">
+<meta name="twitter:description" content="Any device with a screen, tested and monitored 24/7 by AI. Open source, one flat fee, no robots. Web, mobile, TV, set-top boxes, consoles and drones.">
+<meta name="twitter:image" content="https://virtualpytest.com/images/og.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@graph": [
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://virtualpytest.com/#organization",
+   "name": "VirtualPyTest",
+   "url": "https://virtualpytest.com/",
+   "logo": "https://virtualpytest.com/images/logo.png",
+   "sameAs": [
+    "https://github.com/AngelStreetCorp/virtualpytest",
+    "https://www.youtube.com/playlist?list=PLT2zmwBUsZgk"
+   ]
+  },
+  {
+   "@type": "SoftwareApplication",
+   "@id": "https://virtualpytest.com/#software",
+   "name": "VirtualPyTest",
+   "url": "https://virtualpytest.com/",
+   "applicationCategory": "DeveloperApplication",
+   "applicationSubCategory": "Software testing",
+   "operatingSystem": "Linux, Windows, macOS",
+   "description": "Any device with a screen, tested and monitored 24/7 by AI. Open source, one flat fee, no robots. Web, mobile, TV, set-top boxes, consoles and drones.",
+   "image": "https://virtualpytest.com/images/og.jpg",
+   "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+   "offers": [
     {
-      "@type": "Organization",
-      "@id": "https://virtualpytest.com/#organization",
-      "name": "VirtualPyTest",
-      "url": "https://virtualpytest.com/",
-      "logo": "https://virtualpytest.com/images/logo.png",
-      "sameAs": ["https://github.com/AngelStreetCorp/virtualpytest"]
+     "@type": "Offer",
+     "name": "Open source",
+     "price": "0",
+     "priceCurrency": "EUR",
+     "description": "Full source, self-hosted, no feature gates and no per-device license."
     },
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://virtualpytest.com/#software",
-      "name": "VirtualPyTest",
-      "url": "https://virtualpytest.com/",
-      "applicationCategory": "DeveloperApplication",
-      "applicationSubCategory": "Software testing",
-      "operatingSystem": "Linux, Windows, macOS",
-      "description": "Any device with a screen, tested and monitored 24/7 by AI. Open source, flat fee, no robots. Web, mobile, tablet and Android TV.",
-      "image": "https://virtualpytest.com/images/dashboard.jpg",
-      "license": "https://www.gnu.org/licenses/agpl-3.0.html",
-      "offers": [
-        {
-          "@type": "Offer",
-          "name": "Open source",
-          "price": "0",
-          "priceCurrency": "EUR",
-          "description": "Full source, self-hosted, no feature gates and no per-device subscription."
-        },
-        {
-          "@type": "Offer",
-          "name": "Standard hardware unit",
-          "price": "3000",
-          "priceCurrency": "EUR",
-          "description": "Hardware unit with up to four devices, ready to test and monitor."
-        },
-        {
-          "@type": "Offer",
-          "name": "Managed lab",
-          "price": "0",
-          "priceCurrency": "EUR",
-          "description": "Bespoke managed lab, priced per lab."
-        }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://virtualpytest.com/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Is it really free?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. VirtualPyTest is open source under the GNU AGPL v3. You can use, modify and self-host it at no cost, including for commercial internal use. No paid tiers, no usage limits, no feature gates. The one obligation: if you distribute a modified version or offer it to others as a service, you must publish your changes under the same license. For commercial licensing outside those terms, talk to us."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What devices are supported?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Anything that can be remotely controlled: Android and iOS phones and tablets, Android TV, Apple TV, Fire TV and smart TVs, set-top boxes with IR or network control, any browser, and Windows, macOS or Linux desktop apps. Control goes through ADB, Appium, IR blasters, smart-TV network APIs or browser automation. Any device with an HDMI output can be captured with a USB capture card."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does one script work on every device?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Test logic and navigation are separate. A navigation tree maps your app once: nodes are screens, edges are the actions that move between them. Your script only says navigate_to(\"settings\") and verify_screen(\"settings\"); the tree knows how to get there on each platform. Same script on Android, iOS, a set-top box or the web. Change a screen once and every test that touches it follows."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does verification work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Every check runs against what is actually on screen. Image matching, OCR and AI vision detectors confirm the expected content is there, and each result keeps the source frame, the reference and the pixel diff as evidence. No brittle DOM selectors, so checks survive UI redesigns and work the same on every platform."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How is the screen captured?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Real devices are always captured through an HDMI acquisition card, whether they are set-top boxes, TVs, phones or tablets. You see exactly what a viewer sees, with no dependency on the device's own APIs. Only emulators are captured through ADB. Every run keeps a frame-by-frame replay and a screenshot timeline you can attach to bug reports."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How is it different from Appium or Selenium?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "VirtualPyTest is visual-first and platform-agnostic: one script for every device, AI vision instead of element selectors, and built-in support for set-top boxes and TVs through IR and HDMI capture, which Appium and Selenium do not cover. Monitoring and Grafana dashboards are built in. It complements them rather than replacing them: Appium and Playwright are used under the hood for mobile and web."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I run it from CI/CD?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Trigger scripts and campaigns through the REST API from any pipeline, and receive a completion callback on a URL you provide when a long run finishes. Point your CI at a running server, or launch the stack with the setup scripts as part of the job."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What do I need to get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Docker and Docker Compose for the stack, Python 3.11 or newer for local development. Per device: ADB access for Android, a Mac with Xcode and Appium for iOS, an IR blaster or network API for set-top boxes and TVs, a USB capture card for HDMI, and Chrome or Firefox for web. Clone the repository and run the install and launch scripts under setup/docker. The quick-start guide in the docs walks through it."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I add a new device?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Controllers already exist for Android, iOS, web and IR-controlled devices, so most devices only need connection details and a navigation tree, which the AI can help build. For a new platform, implement the controller interface once and every feature works with it."
-          }
-        }
-      ]
+     "@type": "Offer",
+     "name": "Standard hardware unit",
+     "price": "3000",
+     "priceCurrency": "EUR",
+     "description": "Hardware unit that drives up to four devices plus web tests, preconfigured."
     }
-  ]
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://virtualpytest.com/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Is it really free?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. VirtualPyTest is open source under the GNU AGPL v3. You can use, modify and self host it at no cost, including for commercial internal use. No paid tiers, no usage limits, no feature gates. The one obligation: if you distribute a modified version or offer it to others as a service, you must publish your changes under the same license. For commercial licensing outside those terms, talk to us."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What devices are supported?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Anything that can be remotely controlled: Android and iOS phones and tablets, Android TV, Apple TV, Fire TV and smart TVs, set top boxes with IR or network control, any browser, and Windows, macOS or Linux desktop apps. Control goes through ADB, Appium, IR blasters, smart TV network APIs or browser automation. Any device with an HDMI output can be captured with a USB capture card."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How does one script work on every device?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Test logic and navigation are separate. A navigation tree maps your app once: nodes are screens, edges are the actions that move between them. Same script on Android, iOS, a set top box or the web. Change a screen once and every test that touches it follows."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How does verification work?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Every check runs against what is actually on screen. Image matching, OCR and AI vision detectors confirm the expected content is there, and each result keeps the source frame, the reference and the pixel diff as evidence. No brittle DOM selectors, so checks survive UI redesigns and work the same on every platform."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How is the screen captured?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Real devices are always captured through an HDMI acquisition card, whether they are set top boxes, TVs, phones or tablets. You see exactly what a viewer sees, with no dependency on the device's own APIs. Only emulators are captured through ADB. Every run keeps a frame by frame replay and a screenshot timeline you can attach to bug reports."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How is it different from Appium or Selenium?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "VirtualPyTest is visual first and platform agnostic: one script for every device, AI vision instead of element selectors, and built in support for set top boxes and TVs through IR and HDMI capture, which Appium and Selenium do not cover. Monitoring and Grafana dashboards are built in. It complements them rather than replacing them: Appium and Playwright are used under the hood for mobile and web."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I run it from CI/CD?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Trigger scripts and campaigns through the REST API from any pipeline, and receive a completion callback on a URL you provide when a long run finishes. Point your CI at a running server, or launch the stack with the setup scripts as part of the job."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What do I need to get started?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Docker and Docker Compose for the stack, Python 3.11 or newer for local development. Per device: ADB access for Android, a Mac with Xcode and Appium for iOS, an IR blaster or network API for set top boxes and TVs, a USB capture card for HDMI, and Chrome or Firefox for web."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I add a new device?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Controllers already exist for Android, iOS, web and IR controlled devices, so most devices only need connection details and a navigation tree, which the AI can help build. For a new platform, implement the controller interface once and every feature works with it."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Which AI clients can connect?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Any client that speaks MCP, such as Claude Desktop or Cursor. The built in server exposes 77 tools: take control of a device, navigate, verify, capture the screen, run tests and read the results."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does it work with BrowserStack or Sauce Labs?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. A phone from your farm account joins the fleet as an ordinary device, with the same navigation graph, scripts and reports. You keep your own farm account; we never resell the minutes."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I see what happened when nobody was watching?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Every device's screen is recorded for 24 hours. The fleet heatmap shows where incidents happened, and you can scrub back to the exact minute."
+     }
+    }
+   ]
+  }
+ ]
 }
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>/* top bar like the live site: navigation left, controls right */
+.topbar.navwrap{display:block;padding:0;pointer-events:auto;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.bar{display:flex;align-items:center;gap:32px;min-height:72px;}
+.bar .brand{font-size:18px;line-height:28px;}.bar .brand img{width:32px;height:32px;}
+.bar .links{gap:4px;}.bar .links a,.linkbtn{font:500 15px/20px Geist,system-ui,sans-serif;color:var(--text-2);text-decoration:none;padding:8px 12px;border-radius:8px;background:none;border:0;cursor:pointer;white-space:nowrap;}
+.bar .links a:hover,.linkbtn:hover{color:var(--text);background:var(--hover);}
+.bar .utils{margin-left:auto;gap:8px;}
+.ctl{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;min-width:40px;padding:0 12px;border-radius:8px;border:1px solid var(--border-strong);background:transparent;color:var(--text);font:600 14px/20px Geist,system-ui,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .4s var(--fluid);}
+.ctl:hover{background:var(--hover);}.ctl.theme-btn{padding:0;width:40px;}
+.ctl .ico-s{color:var(--text-2);}.ctl.star .ico-s{color:var(--accent-text);}
+.bar .nav-cta{height:40px;border-radius:8px;}
+.devstrip{border-bottom:1px solid var(--border);background:var(--surface);}
+.devstrip .wrap{display:flex;align-items:center;gap:24px;min-height:48px;overflow-x:auto;scrollbar-width:none;}
+.devstrip .dl{font:500 12px/16px "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);white-space:nowrap;}
+.devstrip ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;}
+.devstrip li{display:inline-flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:var(--text);white-space:nowrap;}
+.devstrip li .ico-s{color:var(--accent-text);}
+@media (max-width:1100px){.ctl.star{display:none;}}
+@media (max-width:960px){.bar .links{display:none;}.bar{gap:16px;}}
+@media (max-width:480px){.bar .brand span{display:none;}.bar .nav-cta{display:none;}}
+/* hero: copy left, live screenshots right */
+.hero{padding:80px 0 64px;}
+.hb{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center;}
+.hb-t{display:flex;flex-direction:column;gap:24px;align-items:flex-start;}
+.hb-t .kick{font:500 12px/16px "Geist Mono",monospace;letter-spacing:.14em;text-transform:uppercase;}
+.hb-t .h1{font-size:48px;line-height:1.05;}
+.pdfs{display:flex;gap:24px;flex-wrap:wrap;}.pdfs a{font:400 14px/20px "Geist Mono",monospace;color:var(--text-2);text-decoration:none;}.pdfs a:hover{color:var(--accent-text);}
+.carousel{border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:8px;box-shadow:var(--shadow);}
+.carousel .chrome{display:flex;align-items:center;gap:8px;padding:4px 8px 12px;}
+.carousel .chrome i{width:8px;height:8px;border-radius:9999px;background:var(--border-strong);}
+.carousel .live{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font:600 12px/16px "Geist Mono",monospace;letter-spacing:.12em;color:var(--error);}
+.dot.err{background:var(--error);}
+.stage{position:relative;aspect-ratio:16/10;border-radius:8px;overflow:hidden;background:var(--surface-2);border:1px solid var(--border);}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .8s var(--e2);}
+.slide.on{opacity:1;pointer-events:auto;}
+.slide .shot{position:absolute;inset:0;border:0;border-radius:0;}
+.slide img{width:100%;height:100%;object-fit:cover;object-position:top left;}
+.nav-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:9999px;border:1px solid var(--border);background:var(--glass);color:var(--text);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .3s var(--e2);}
+.nav-arrow.prev{left:8px;}.nav-arrow.next{right:8px;}
+.stage:hover .nav-arrow,.nav-arrow:focus-visible{opacity:1;}
+.cap-text{margin:12px 8px 0;font-size:13px;line-height:20px;color:var(--text-2);min-height:40px;}
+.cctl{display:flex;align-items:center;gap:12px;padding:0 4px 4px;}
+.cctl .ic-play{display:none;}.cctl [data-play].paused .ic-play{display:block;}.cctl [data-play].paused .ic-pause{display:none;}
+.dots{display:flex;gap:4px;flex-wrap:wrap;}
+.dots button{width:24px;height:24px;border:0;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;}
+.dots button::after{content:"";width:8px;height:8px;border-radius:9999px;background:var(--border-strong);transition:width .4s var(--fluid),background-color .4s var(--fluid);}
+.dots button[aria-current="true"]::after{width:20px;background:var(--accent);}
+/* proof bar: the live site's line, kept word for word */
+.proofbar{border-bottom:1px solid var(--border);background:var(--surface);}
+.proofbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-top:24px;padding-bottom:24px;}
+.proofbar p{flex:1 1 auto;min-width:0;max-width:500px;font-size:16px;line-height:24px;color:var(--text-2);}.proofbar strong{color:var(--text);}
+.chips{display:flex;gap:8px;flex:none;}
+@media (max-width:1100px){.proofbar .wrap{flex-direction:column;align-items:flex-start;gap:16px;}.chips{flex-wrap:wrap;}}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:8px 16px;border-radius:9999px;border:1px solid var(--border-strong);font:400 14px/20px "Geist Mono",monospace;color:var(--text-2);}
+.chip b{color:var(--text);font-weight:600;}
+/* spotlights (from proof first) and the rest as tiles */
+.rows{display:flex;flex-direction:column;gap:16px;}
+.row{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:8px;}
+.row.flip{grid-template-columns:1.6fr 1fr;}.row.flip .txt{order:2;}
+.row .txt{padding:24px;display:flex;flex-direction:column;gap:8px;}
+.row .lbl{display:inline-flex;gap:8px;font:500 12px/16px "Geist Mono",monospace;color:var(--accent-text);}
+.row h3{font-size:24px;line-height:32px;}.row p{font-size:16px;line-height:24px;color:var(--text-2);}
+.row .vis.pair{grid-template-columns:1fr;}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:8px;}
+.tile .lbl{display:inline-flex;gap:8px;font:500 12px/16px "Geist Mono",monospace;color:var(--accent-text);}
+.tile h3{font-size:16px;line-height:24px;}.tile p{font-size:14px;line-height:20px;color:var(--text-2);}
+.farmtile{grid-column:1 / -1;flex-direction:row;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.farmtile > div:first-child{display:flex;flex-direction:column;gap:8px;max-width:640px;}
+.step .n{letter-spacing:.06em;}
+.proof-block{margin:16px 0;}
+.reps{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+.rep{position:relative;margin:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:8px;overflow:hidden;}
+.rep figcaption{display:flex;flex-direction:column;gap:4px;padding:12px 12px 16px;font-size:14px;line-height:20px;color:var(--text-2);}
+.st{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:16px;line-height:24px;}
+.st.ok{color:var(--success);}.st.ko{color:var(--error);}
+.rep-note{margin-top:16px;text-align:center;font-size:14px;line-height:20px;color:var(--text-2);}
+.rep .scan{position:absolute;left:8px;right:8px;top:92px;height:2px;background:var(--error);opacity:0;pointer-events:none;}
+.rep.ko.in .scan{animation:repscan 2.6s var(--io) .6s 1 both;}
+@keyframes repscan{0%{transform:translateY(0);opacity:0}10%{opacity:.85}85%{transform:translateY(300px);opacity:.85}100%{transform:translateY(320px);opacity:0}}
+.video{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--surface-2);}
+.video .shot{position:absolute;inset:0;border:0;border-radius:0;}.video .shot img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:saturate(.8);}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.vplay{position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:9999px;border:0;background:var(--accent);color:var(--on-accent);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .5s var(--fluid);}
+.vplay:hover{transform:scale(1.06);}.vplay .ico{width:28px;height:28px;margin-left:4px;fill:currentColor;}
+.vdur{position:absolute;right:12px;bottom:12px;padding:2px 8px;border-radius:6px;background:var(--glass);font:500 12px/16px "Geist Mono",monospace;color:var(--text);}
+.video-link{white-space:normal;text-align:left;padding-left:0;}.vlinks{display:flex;gap:16px;flex-wrap:wrap;}
+.worksw{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:24px 0 8px;font-size:14px;line-height:20px;color:var(--text-2);}
+.worksw .farm{min-width:0;height:48px;padding:0 16px;}
+/* motion: hero lands in order, screenshots drift, cards lift on hover */
+@media (prefers-reduced-motion:no-preference){
+  .hb-t > *{animation:land .9s var(--e) both;}
+  .hb-t > *:nth-child(2){animation-delay:.08s}.hb-t > *:nth-child(3){animation-delay:.16s}.hb-t > *:nth-child(4){animation-delay:.24s}.hb-t > *:nth-child(5){animation-delay:.32s}
+  .hb-v{animation:land 1.1s var(--e) .2s both;}
+  .chip{animation:pop .7s var(--e) both;}.chip:nth-child(2){animation-delay:.1s}.chip:nth-child(3){animation-delay:.2s}.chip:nth-child(4){animation-delay:.3s}
+  .slide.on img{animation:drift 6s linear both;}
+  .tile,.row,.rep{transition:transform .5s var(--fluid),border-color .5s var(--fluid);}
+  .tile:hover,.row:hover,.rep:hover{transform:translateY(-2px);border-color:var(--border-strong);}
+}
+@keyframes land{from{opacity:0;transform:translateY(16px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.035)}}
+@media (max-width:860px){.reps{grid-template-columns:1fr;}}
+.dg .any-p{opacity:0;animation:any-p 4s var(--io) infinite;}
+@keyframes any-p{0%{transform:translate(0,0);opacity:0}8%{opacity:1}45%{transform:translate(var(--dx),var(--dy));opacity:1}52%,100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+.dg .any-c{opacity:0;animation:any-c 4s var(--io) infinite;animation-delay:1.2s;}
+@keyframes any-c{0%{transform:translate(0,0);opacity:0}8%{opacity:1}45%{transform:translate(-94px,-130px);opacity:1}52%,100%{transform:translate(-94px,-130px);opacity:0}}
+.dg .any-r{opacity:0;animation:hw-r 4s var(--io) infinite;}
+@media (max-width:1100px){.tiles{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:960px){.hb{grid-template-columns:1fr;}.tiles{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:720px){.hero{padding:48px 0 40px;}.hb-t .h1{font-size:30px;line-height:36px;}.row,.row.flip{grid-template-columns:1fr;}.row.flip .txt{order:0;}.row .txt{padding:16px;}.proofbar .wrap{flex-direction:column;align-items:flex-start;}}
+@media (max-width:520px){.tiles{grid-template-columns:1fr;}}</style>
 </head>
 <body>
-
-<header class="site">
-  <div class="wrap navrow">
-    <a class="brand" href="#top">
-      <img class="brand-logo" src="images/logo.png" width="240" height="185" alt="VirtualPyTest" decoding="async" />
-      <span class="brand-word">VirtualPyTest</span>
-    </a>
-    <nav class="links">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a>
-      <a href="#ask" data-ask-open>Ask AI</a>
-    </nav>
-    <div class="navcta">
-      <div class="nav-prefs">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
-        </button>
-        <div class="language-picker">
-          <button class="language-select" id="language-select" type="button" aria-label="Language: English" aria-haspopup="listbox" aria-expanded="false">
-            <span data-language-code>EN</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
-          </button>
-          <div class="language-menu" id="language-menu" role="listbox" aria-label="Language" hidden>
-            <button class="language-option" type="button" role="option" data-locale="en" aria-selected="true">EN</button>
-            <button class="language-option" type="button" role="option" data-locale="fr" aria-selected="false">FR</button>
-            <button class="language-option" type="button" role="option" data-locale="es" aria-selected="false">ES</button>
-            <button class="language-option" type="button" role="option" data-locale="de" aria-selected="false">DE</button>
-            <button class="language-option" type="button" role="option" data-locale="zh-CN" aria-selected="false">ZH</button>
-            <button class="language-option" type="button" role="option" data-locale="hi" aria-selected="false">HI</button>
-          </div>
-        </div>
-      </div>
-      <div class="nav-actions">
-        <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener"><svg class="github-star-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.8 2.78 5.63 6.21.9-4.5 4.39 1.06 6.18L12 16.98l-5.55 2.92 1.06-6.18-4.5-4.39 6.21-.9L12 2.8z"/></svg><span>Star on GitHub</span></a>
-        <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live</a>
-      </div>
-      <button class="nav-burger" type="button" id="nav-burger" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu">
-        <svg class="ico-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        <svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-  </div>
-  <nav class="nav-drawer" id="nav-drawer" aria-label="Menu">
-    <a href="#features">Features<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
-    <a href="#how">How it works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
-    <a href="#pricing">Pricing<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
-    <a href="#faq">FAQ<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
-    <a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
-    <a href="#ask" data-ask-open>Ask AI<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
-  </nav>
-</header>
-
-<div class="platform-bar">
-  <div class="wrap platform-row">
-    <span class="platform-label">Tests &amp; monitors</span>
-    <div class="platform-items">
-      <span class="platform-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="12" rx="1.2"/><path d="M8.5 20h7M12 16v4"/></svg>
-        Web
-      </span>
-      <span class="platform-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M10.5 18h3"/></svg>
-        Mobile
-      </span>
-      <span class="platform-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="2.5" width="17" height="19" rx="2"/><path d="M13.2 19h-2.4"/></svg>
-        Tablet
-      </span>
-      <span class="platform-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="12.5" rx="1.2"/><path d="M8 21h8M12 17.5V21M6 2.5 9.5 5M18 2.5 14.5 5"/></svg>
-        Android TV
-      </span>
-    </div>
-  </div>
-</div>
-
-<main id="top">
-
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow">Open source · AI-native · any screen</div>
-        <h1>Any device with a screen — tested and monitored 24/7 by AI.</h1>
-        <p class="lead">Real remotes. Real HDMI capture. Real verification, not a green checkmark. Open source, one flat fee — no per-device licenses, no robots.</p>
-        <div class="ctas">
-          <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live →</a>
-          <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">View on GitHub</a>
-        </div>
-        <div class="resource-links">
-          <a href="docs/VirtualPyTest-Overview.pdf" target="_blank" rel="noopener">Overview (PDF) ↗</a>
-          <a href="docs/VirtualPyTest-Features.pdf" target="_blank" rel="noopener">Features (PDF) ↗</a>
-        </div>
-      </div>
-      <div class="device-frame carousel-widget">
-        <div class="device-topbar">
-          <div class="device-dots"><span></span><span></span><span></span></div>
-          <div class="live-chip"><span class="live-dot"></span>LIVE FLEET</div>
-        </div>
-        <div class="carousel-stage">
-        <div class="device-screen carousel" data-autoplay="5000" tabindex="0" aria-label="VirtualPyTest product screenshots">
-          <div class="carousel-slide is-active" data-caption="/fleet — hosts, devices, live screens, one pane of glass">
-            <img src="images/webp/dashboard-520.webp" srcset="images/webp/dashboard-520.webp 520w, images/webp/dashboard-760.webp 760w, images/webp/dashboard-1040.webp 1040w" sizes="(max-width:940px) 90vw, 484px" width="1040" height="545" alt="Fleet dashboard showing hosts, devices and live status" loading="eager" decoding="async" fetchpriority="high" />
-          </div>
-          <div class="carousel-slide" data-caption="/device — live screen, status and control for one unit">
-            <img src="images/webp/device-view-520.webp" srcset="images/webp/device-view-520.webp 520w, images/webp/device-view-760.webp 760w, images/webp/device-view-1040.webp 1040w" sizes="(max-width:940px) 90vw, 484px" width="1040" height="446" alt="Single device view with live screen and controls" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Navigation — map the app once, every test reuses it">
-            <img src="images/webp/navigation-tree-520.webp" srcset="images/webp/navigation-tree-520.webp 520w, images/webp/navigation-tree-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="397" alt="Navigation tree editor" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Verification — source, reference and pixel-diff, not a checkmark">
-            <img src="images/webp/verification-report-520.webp" srcset="images/webp/verification-report-520.webp 520w, images/webp/verification-report-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="388" alt="Verification report with source, reference and diff" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Monitoring — blackscreen, freeze and audio loss, caught live">
-            <img src="images/webp/monitoring-incidents-520.webp" srcset="images/webp/monitoring-incidents-520.webp 520w, images/webp/monitoring-incidents-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="457" alt="Monitoring incident feed" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="AI-native — ask what's on screen, it acts through MCP">
-            <img src="images/webp/ai-chat-mcp-520.webp" srcset="images/webp/ai-chat-mcp-520.webp 520w, images/webp/ai-chat-mcp-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="378" alt="AI chat driving a device via MCP" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Heatmap &amp; rewind — 24h of screen, scrub back to the moment">
-            <img src="images/webp/heatmap-520.webp" srcset="images/webp/heatmap-520.webp 520w, images/webp/heatmap-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="447" alt="Fleet heatmap and rewind" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Workspaces — permissions down to the last action">
-            <img src="images/webp/workspaces-520.webp" srcset="images/webp/workspaces-520.webp 520w, images/webp/workspaces-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="427" alt="Workspace and permission matrix" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Web UI — the whole lab, in the browser you already have open">
-            <img src="images/webp/webui-desktop-520.webp" srcset="images/webp/webui-desktop-520.webp 520w, images/webp/webui-desktop-760.webp 760w" sizes="(max-width:940px) 90vw, 484px" width="760" height="486" alt="VirtualPyTest web app running responsively" loading="lazy" decoding="async" />
-          </div>
-          <div class="carousel-slide" data-caption="Reports — pass/fail, KPIs and execution video, every run">
-            <img src="images/webp/test-report-520.webp" srcset="images/webp/test-report-520.webp 520w, images/webp/test-report-760.webp 760w, images/webp/test-report-1040.webp 1040w" sizes="(max-width:940px) 90vw, 484px" width="1040" height="763" alt="Test execution report" loading="lazy" decoding="async" />
-          </div>
-        </div>
-        </div>
-        <div class="carousel-foot">
-          <div class="carousel-caption mono">/fleet — hosts, devices, live screens, one pane of glass</div>
-          <div class="carousel-dots"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="smpte" role="presentation"></div>
-
-  <div class="proof">
-    <div class="wrap proof-row">
-      <div class="proof-line"><strong>In production today</strong> at a tier-1 European TV operator — real set-top boxes, real IR &amp; Bluetooth remotes, real HDMI capture.</div>
-      <div class="stat-chips">
-        <span class="chip"><b>63</b> MCP tools</span>
-        <span class="chip"><b>4</b> devices per unit</span>
-        <span class="chip"><b>24/7</b> monitoring</span>
-        <span class="chip"><b>€0</b> software, forever</span>
-      </div>
-    </div>
-  </div>
-
-  <section id="features">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Platform</div>
-        <h2>One platform, the whole test loop.</h2>
-        <p>Map the app once, prove what's on screen, watch it around the clock, and let an AI agent see and act on the device — all in the same open-source stack.</p>
-      </div>
-    </div>
-    <div class="wrap">
-      <div class="feature-grid">
-
-        <div class="feature-card is-lead">
-          <div class="feature-thumb"><img src="images/webp/navigation-tree-520.webp" srcset="images/webp/navigation-tree-520.webp 520w, images/webp/navigation-tree-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="397" alt="Navigation tree editor" loading="lazy" decoding="async" /></div>
-          <div class="feature-tag">Navigation</div>
-          <h3>Map your app once. Every test reuses it.</h3>
-          <p>Every screen and path becomes a reusable graph. Change a screen once, and every test that touches it follows.</p>
-        </div>
-
-        <div class="feature-card is-lead">
-          <div class="feature-thumb"><img src="images/webp/verification-report-520.webp" srcset="images/webp/verification-report-520.webp 520w, images/webp/verification-report-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="388" alt="Verification report with source, reference and diff" loading="lazy" decoding="async" /></div>
-          <div class="feature-tag">Verification</div>
-          <h3>It proves what's actually on screen.</h3>
-          <p>Image matching, OCR and AI detectors — every check shows the source, the reference and the pixel-diff. A frame, not a claim.</p>
-        </div>
-
-        <div class="feature-card is-lead">
-          <div class="feature-thumb"><img src="images/webp/monitoring-incidents-520.webp" srcset="images/webp/monitoring-incidents-520.webp 520w, images/webp/monitoring-incidents-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="457" alt="Monitoring incident feed" loading="lazy" decoding="async" /></div>
-          <div class="feature-tag">Monitoring</div>
-          <h3>Blackscreen, freeze, audio loss — caught live.</h3>
-          <p>Every device watched 24/7. Alerted the moment something breaks, not at the next QA pass.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-thumb"><img src="images/webp/ai-chat-mcp-520.webp" srcset="images/webp/ai-chat-mcp-520.webp 520w, images/webp/ai-chat-mcp-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="378" alt="AI chat driving a device via MCP" loading="lazy" decoding="async" /></div>
-          <div class="feature-tag">AI-native</div>
-          <h3>Ask the AI what's on screen. It acts.</h3>
-          <p>A built-in MCP server exposes the whole platform — any AI client can inspect and operate a real device.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-thumb"><img src="images/webp/heatmap-520.webp" srcset="images/webp/heatmap-520.webp 520w, images/webp/heatmap-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="447" alt="Fleet heatmap and rewind" loading="lazy" decoding="async" /></div>
-          <div class="feature-tag">Heatmap &amp; rewind</div>
-          <h3>24 hours of screen, scrubbable.</h3>
-          <p>A fleet-wide heatmap shows where it hurts. Rewind any device to the exact moment it broke.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-thumb"><img src="images/webp/workspaces-520.webp" srcset="images/webp/workspaces-520.webp 520w, images/webp/workspaces-760.webp 760w" sizes="(max-width:620px) 90vw, (max-width:900px) 45vw, 372px" width="760" height="427" alt="Workspace and permission matrix" loading="lazy" decoding="async" /></div>
-          <div class="feature-tag">Workspaces</div>
-          <h3>Permissions, down to the last action.</h3>
-          <p>Scoped at workspace, team and user level. Grant or deny view, execute, reboot, edit — deny always wins.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <div class="smpte" role="presentation"></div>
-
-  <section id="how">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Signal path</div>
-        <h2>How a device gets tested.</h2>
-        <p>The same four-stage path runs on every device, on every platform.</p>
-      </div>
-      <div class="chain">
-        <div class="chain-step">
-          <div class="step-num mono">01 / MAP</div>
-          <h3>Build the navigation graph</h3>
-          <p>Walk the app once. Every screen and transition becomes a node any test can reuse.</p>
-        </div>
-        <div class="chain-step">
-          <div class="step-num mono">02 / VERIFY</div>
-          <h3>Prove the screen and audio</h3>
-          <p>Image match, OCR and AI detectors confirm what's actually rendering — with the evidence attached.</p>
-        </div>
-        <div class="chain-step">
-          <div class="step-num mono">03 / MONITOR</div>
-          <h3>Watch it around the clock</h3>
-          <p>Blackscreen, freeze and audio-loss detection run continuously, independent of any scheduled test.</p>
-        </div>
-        <div class="chain-step">
-          <div class="step-num mono">04 / REPORT &amp; ACT</div>
-          <h3>Dashboards, plus a hand on the wheel</h3>
-          <p>KPIs land in native Grafana. An AI agent can see the same screen and act on it through MCP.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="tour-band">
-    <div class="wrap">
-      <section style="padding:76px 0;">
-        <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
-          <div>
-            <div class="eyebrow">See it in motion</div>
-            <h2>A quick look at the platform.</h2>
-          </div>
-          <a class="chip" href="https://www.youtube.com/watch?v=RBgS376Blvo" target="_blank" rel="noopener">Watch the 60-second tour on YouTube ↗</a>
-        </div>
-        <div class="tour-frame video-frame">
-          <div class="video-embed">
-            <img class="video-still" src="images/webp/dashboard-520.webp" srcset="images/webp/dashboard-520.webp 520w, images/webp/dashboard-760.webp 760w, images/webp/dashboard-1040.webp 1040w" sizes="(max-width:700px) 90vw, 1094px" width="1040" height="545" alt="" loading="lazy" decoding="async" />
-            <span class="video-veil"></span>
-            <button class="video-play" type="button" data-video-src="https://www.youtube-nocookie.com/embed/RBgS376Blvo?rel=0&amp;autoplay=1" aria-label="Play the 60-second tour"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-            <span class="video-dur mono" aria-hidden="true">1:00</span>
-          </div>
-          <div class="carousel-foot">
-            <div class="carousel-caption mono">VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents</div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <section id="pricing">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Pricing</div>
-        <h2>One standard offer. Devices are unlimited.</h2>
-        <p>The software is free, full stop. You pay for hardware units and one flat subscription per lab — never a per-device license.</p>
-      </div>
-      <aside class="hardware-note">
-        <strong>Run it on your hardware—or get a ready-to-use lab unit.</strong>
-        <span>Self-host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug-and-play? We can configure and ship a complete unit.</span>
-      </aside>
-      <div class="price-grid">
-
-        <div class="price-card">
-          <div class="price-name mono">Open Source</div>
-          <div class="price-amount">€0 <small>/ forever</small></div>
-          <ul class="price-list">
-            <li>Full source, AGPLv3</li>
-            <li>Self-host on your own hardware</li>
-            <li>Community support on GitHub</li>
-          </ul>
-          <a class="btn btn-ghost" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">Get the code</a>
-        </div>
-
-        <div class="price-card is-highlight">
-          <div class="price-name mono">Standard hardware unit</div>
-          <div class="price-amount">€3,000 <small>/ unit</small></div>
-          <ul class="price-list">
-            <li>Drives up to 4 devices + web tests at once</li>
-            <li>Pre-configured: capture, control, compute</li>
-            <li>Plug in and go — no assembly</li>
-          </ul>
-          <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live</a>
-        </div>
-
-        <div class="price-card">
-          <div class="price-name mono">Managed Lab</div>
-          <div class="price-amount">Custom <small>/ per lab</small></div>
-          <ul class="price-list">
-            <li>Flat monthly fee — unlimited devices</li>
-            <li>Integration, training, ongoing support</li>
-            <li>Optional 24/7 SLA + AI test generation</li>
-          </ul>
-          <a class="btn btn-ghost" href="mailto:contact@virtualpytest.com">Talk to us</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <div class="cta-band">
-  <section id="faq">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">FAQ</div>
-        <h2>Frequently Asked Questions</h2>
-      </div>
-      <div class="faq-list">
-        <details class="faq-item" open>
-          <summary>Is it really free?</summary>
-          <div class="faq-body">
-            <p>Yes. VirtualPyTest is open source under the GNU AGPL v3. You can use, modify and self-host it at no cost, including for commercial internal use. No paid tiers, no usage limits, no feature gates.</p>
-            <p>The one obligation: if you distribute a modified version or offer it to others as a service, you must publish your changes under the same license. For commercial licensing outside those terms, talk to us.</p>
-          </div>
-        </details>
-        <details class="faq-item" open>
-          <summary>What devices are supported?</summary>
-          <div class="faq-body">
-            <p>Anything that can be remotely controlled: Android and iOS phones and tablets, Android TV, Apple TV, Fire TV and smart TVs, set-top boxes with IR or network control, any browser, and Windows, macOS or Linux desktop apps.</p>
-            <p>Control goes through ADB, Appium, IR blasters, smart-TV network APIs or browser automation. Any device with an HDMI output can be captured with a USB capture card.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>How does one script work on every device?</summary>
-          <div class="faq-body">
-            <p>Test logic and navigation are separate. A navigation tree maps your app once: nodes are screens, edges are the actions that move between them. Your script only says <code>navigate_to("settings")</code> and <code>verify_screen("settings")</code>; the tree knows how to get there on each platform.</p>
-            <p>Same script on Android, iOS, a set-top box or the web. Change a screen once and every test that touches it follows.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>How does verification work?</summary>
-          <div class="faq-body">
-            <p>Every check runs against what is actually on screen. Image matching, OCR and AI vision detectors confirm the expected content is there, and each result keeps the source frame, the reference and the pixel diff as evidence.</p>
-            <p>No brittle DOM selectors, so checks survive UI redesigns and work the same on every platform.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>How is the screen captured?</summary>
-          <div class="faq-body">
-            <p>Real devices are always captured through an HDMI acquisition card, whether they are set-top boxes, TVs, phones or tablets. You see exactly what a viewer sees, with no dependency on the device's own APIs. Only emulators are captured through ADB.</p>
-            <p>Every run keeps a frame-by-frame replay and a screenshot timeline you can attach to bug reports.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>How is it different from Appium or Selenium?</summary>
-          <div class="faq-body">
-            <p>VirtualPyTest is visual-first and platform-agnostic: one script for every device, AI vision instead of element selectors, and built-in support for set-top boxes and TVs through IR and HDMI capture, which Appium and Selenium do not cover. Monitoring and Grafana dashboards are built in.</p>
-            <p>It complements them rather than replacing them: Appium and Playwright are used under the hood for mobile and web.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>Can I run it from CI/CD?</summary>
-          <div class="faq-body">
-            <p>Yes. Trigger scripts and campaigns through the REST API from any pipeline, and receive a completion callback on a URL you provide when a long run finishes. Point your CI at a running server, or launch the stack with the setup scripts as part of the job.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>What do I need to get started?</summary>
-          <div class="faq-body">
-            <p>Docker and Docker Compose for the stack, Python 3.11 or newer for local development. Per device: ADB access for Android, a Mac with Xcode and Appium for iOS, an IR blaster or network API for set-top boxes and TVs, a USB capture card for HDMI, and Chrome or Firefox for web.</p>
-            <p>Clone the repository and run the install and launch scripts under <code>setup/docker</code>. The quick-start guide in the docs walks through it.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary>How do I add a new device?</summary>
-          <div class="faq-body">
-            <p>Controllers already exist for Android, iOS, web and IR-controlled devices, so most devices only need connection details and a navigation tree, which the AI can help build. For a new platform, implement the controller interface once and every feature works with it.</p>
-          </div>
-        </details>
-      </div>
-      <p class="faq-more">Something else? Read the <a href="https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md" target="_blank" rel="noopener">full FAQ on GitHub</a> or <button type="button" data-ask-open>ask the AI</button>.</p>
-    </div>
-  </section>
-
-    <div class="wrap">
-      <section class="cta-grid" style="padding:76px 0;">
-        <div>
-          <div class="eyebrow">See it live</div>
-          <h2>Log in for a read-only look at a real lab.</h2>
-          <p>No install, nothing to set up. Sign in on a read-only account and watch real devices, real dashboards, real incidents — as they happen.</p>
-          <a class="btn btn-primary" href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live →</a>
-        </div>
-        <div class="mini-frame">
-          <img src="images/webp/webui-desktop-520.webp" srcset="images/webp/webui-desktop-520.webp 520w, images/webp/webui-desktop-760.webp 760w" sizes="(max-width:860px) 90vw, 475px" width="760" height="486" alt="VirtualPyTest web app running responsively" loading="lazy" decoding="async" />
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <div class="smpte" role="presentation"></div>
-
+<a class="skip" href="#main">Skip to content</a>
+<header class="navwrap topbar"><nav class="bar wrap" aria-label="Main">
+<a class="brand" href="#top"><img src="images/logo.png" alt="" width="32" height="32"><span class="no-i18n">VirtualPyTest</span></a>
+<div class="links"><a href="#features" class="cur">Features</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a><button type="button" class="linkbtn" data-ask-open>Ask AI</button></div>
+<div class="utils">
+<button class="ctl theme-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg class="ico sun" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="128" cy="128" r="48"/><path d="M128 24v20M128 212v20M24 128h20M212 128h20M54 54l14 14M188 188l14 14M54 202l14-14M188 68l14-14"/></svg><svg class="ico moon" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M216 152A88 88 0 0 1 104 40a88 88 0 1 0 112 112z"/></svg></button>
+<div class="lang"><button class="ctl lang-btn" id="language-select" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu" aria-label="Language"><span data-language-code class="no-i18n">EN</span><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M72 104l56 56 56-56"/></svg></button>
+<ul class="lang-menu" id="language-menu" role="listbox" hidden><li><button type="button" role="option" data-locale="en" aria-selected="false" class="no-i18n"><span>English</span><small>EN</small></button></li><li><button type="button" role="option" data-locale="fr" aria-selected="false" class="no-i18n"><span>Français</span><small>FR</small></button></li><li><button type="button" role="option" data-locale="es" aria-selected="false" class="no-i18n"><span>Español</span><small>ES</small></button></li><li><button type="button" role="option" data-locale="de" aria-selected="false" class="no-i18n"><span>Deutsch</span><small>DE</small></button></li><li><button type="button" role="option" data-locale="zh-CN" aria-selected="false" class="no-i18n"><span>中文</span><small>ZH</small></button></li><li><button type="button" role="option" data-locale="hi" aria-selected="false" class="no-i18n"><span>हिन्दी</span><small>HI</small></button></li></ul></div>
+<a class="ctl star" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 24l31 64 70 10-51 49 12 70-62-33-62 33 12-70-51-49 70-10z"/></svg><span>Star on GitHub</span></a>
+<a class="btn btn-p btn-sm nav-cta" href="https://virtualpytest.angelstreet.io/">Try it live</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="sheet"><i></i><i></i></button>
+</div></nav></header>
+<div class="sheet" id="sheet" aria-hidden="true"><a href="#features" class="cur">Features</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a><a href="#" data-ask-open>Ask AI</a><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live</a></div>
+<div class="devstrip"><div class="wrap"><span class="dl">Tests &amp; monitors</span><ul><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="32" y="48" width="192" height="128" rx="16"/><path d="M96 216h64M128 176v40"/></svg><span>Web</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="72" y="24" width="112" height="208" rx="16"/><path d="M112 200h32"/></svg><span>Mobile</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="48" y="32" width="160" height="192" rx="16"/><path d="M112 196h32"/></svg><span>Tablet</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="24" y="48" width="208" height="136" rx="12"/><path d="M96 216h64"/></svg><span>Android TV</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="24" y="96" width="208" height="72" rx="10"/><circle cx="64" cy="132" r="8"/><path d="M120 132h72"/></svg><span>Set top box</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="32" y="48" width="192" height="128" rx="16"/><path d="M96 216h64M128 176v40"/></svg><span>PC</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M72 80h112a48 48 0 0 1 46 62l-14 48a24 24 0 0 1-40 8l-26-26h-44l-26 26a24 24 0 0 1-40-8l-14-48a48 48 0 0 1 46-62z"/><path d="M80 128h40M100 108v40"/><circle cx="164" cy="116" r="6"/><circle cx="184" cy="140" r="6"/></svg><span>Console</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="64" cy="64" r="28"/><circle cx="192" cy="64" r="28"/><circle cx="64" cy="192" r="28"/><circle cx="192" cy="192" r="28"/><rect x="104" y="104" width="48" height="48" rx="8"/><path d="M84 84l20 20M172 84l-20 20M84 172l20-20M172 172l-20-20"/></svg><span>Drone</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="128" cy="128" r="16"/><path d="M88 88a56 56 0 0 0 0 80M168 88a56 56 0 0 1 0 80M56 56a102 102 0 0 0 0 144M200 56a102 102 0 0 1 0 144"/></svg><span>Stream</span></li></ul></div></div>
+<main id="main">
+<section class="hero" id="top"><div class="wrap hb"><div class="hb-t"><span class="kick">Open source · AI-native · any screen</span><h1 class="h1 grad">Any device with a screen — tested and monitored 24/7 by AI.</h1><p class="sub">Real remotes. Real HDMI capture. Real verification, not a green checkmark. Open source, one flat fee — no per-device licenses, no robots.</p><div class="tags" style="gap:16px;align-items:center"><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live<svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M144 56l72 72-72 72"/></svg></a><a class="btn btn-t" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">View on GitHub</a></div><div class="pdfs"><a href="https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf">Overview (PDF) ↗</a><a href="https://virtualpytest.com/docs/VirtualPyTest-Features.pdf">Features (PDF) ↗</a></div></div><div class="hb-v" data-rv="1"><div class="carousel" data-carousel aria-roledescription="carousel" aria-label="VirtualPyTest product screenshots"><div class="chrome"><i></i><i></i><i></i><span class="live"><span class="dot err"></span>LIVE FLEET</span></div><div class="stage"><div class="slide on" data-caption="Reports — pass/fail, KPIs and execution video, every run" aria-hidden="false"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-run-detail-dark-1040.webp 1040w, images/shots/c-run-detail-dark.webp 2880w"><img src="images/shots/c-run-detail-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-run-detail-light-1040.webp 1040w, images/shots/c-run-detail-light.webp 2880w" width="1040" height="650" alt="Campaign run report with status, the 30 day trend and every test it ran" fetchpriority="high" decoding="async"></picture></div></div><div class="slide" data-caption="Navigation — map the app once, every test reuses it" aria-hidden="true"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-nav-tree-dark-1040.webp 1040w, images/shots/c-nav-tree-dark.webp 2880w"><img src="images/shots/c-nav-tree-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-nav-tree-light-1040.webp 1040w, images/shots/c-nav-tree-light.webp 2880w" width="1040" height="650" alt="Navigation tree editor for a set top box app: each screen is a node, each action an edge" loading="lazy" decoding="async"></picture></div></div><div class="slide" data-caption="Monitoring — blackscreen, freeze and audio loss, caught live" aria-hidden="true"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-incidents-dark-1040.webp 1040w, images/shots/c-incidents-dark.webp 2880w"><img src="images/shots/c-incidents-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-incidents-light-1040.webp 1040w, images/shots/c-incidents-light.webp 2880w" width="1040" height="650" alt="Alerts page with active and closed black screen, freeze and audio loss incidents" loading="lazy" decoding="async"></picture></div></div><div class="slide" data-caption="Heatmap &amp; rewind — 24h of screen, scrub back to the moment" aria-hidden="true"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-heatmap-dark-1040.webp 1040w, images/shots/c-heatmap-dark.webp 2880w"><img src="images/shots/c-heatmap-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-heatmap-light-1040.webp 1040w, images/shots/c-heatmap-light.webp 2880w" width="1040" height="650" alt="Fleet heatmap: one frame per minute per device for the last 24 hours, with a scrub bar" loading="lazy" decoding="async"></picture></div></div><div class="slide" data-caption="AI-native — ask what&#x27;s on screen, it acts through MCP" aria-hidden="true"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-ai-agent-dark-1040.webp 1040w, images/shots/c-ai-agent-dark.webp 2880w"><img src="images/shots/c-ai-agent-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-ai-agent-light-1040.webp 1040w, images/shots/c-ai-agent-light.webp 2880w" width="1040" height="650" alt="AI agent chat with its device, interface and preset prompts" loading="lazy" decoding="async"></picture></div></div><div class="slide" data-caption="/fleet — hosts, devices, live screens, one pane of glass" aria-hidden="true"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-status-dark-1040.webp 1040w, images/shots/c-status-dark.webp 2880w"><img src="images/shots/c-status-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-status-light-1040.webp 1040w, images/shots/c-status-light.webp 2880w" width="1040" height="650" alt="System status with healthy services, server CPU, RAM and disk, and every host" loading="lazy" decoding="async"></picture></div></div><button class="nav-arrow prev" type="button" data-prev aria-label="Show previous screenshot"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M160 48l-80 80 80 80"/></svg></button><button class="nav-arrow next" type="button" data-next aria-label="Show next screenshot"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M96 48l80 80-80 80"/></svg></button></div><p class="cap-text no-i18n mono" aria-live="polite">Reports — pass/fail, KPIs and execution video, every run</p><div class="cctl"><button class="iconbtn" type="button" data-play aria-label="Pause slideshow"><svg class="ico-s ic-pause" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M88 56v144M168 56v144"/></svg><svg class="ico-s ic-play" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 48l128 80-128 80z"/></svg></button><div class="dots" role="group" aria-label="Screenshots"></div></div></div></div></div></section><div class="smpte" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="proofbar"><div class="wrap"><p><strong>In production today</strong> <span>at a tier-1 European TV operator — real set-top boxes, IR &amp; Bluetooth remotes, and HDMI capture.</span></p><div class="chips"><span class="chip"><b class="no-i18n">77</b> <span>MCP tools</span></span><span class="chip"><b class="no-i18n">4</b> <span>devices per unit</span></span><span class="chip"><b class="no-i18n">24/7</b> <span>monitoring</span></span><span class="chip"><b class="no-i18n">€0</b> <span>software, forever</span></span></div></div></div><section class="sec" id="features"><div class="wrap"><div class="sh" data-rv="1"><span class="kick">Platform</span><h2>One platform, the whole test loop.</h2><p>Map the app once, prove what's on screen, watch it around the clock, and let an AI agent see and act on the device — all in the same open-source stack.</p></div><div class="rows"><article class="row" data-rv="1"><div class="txt"><span class="lbl"><span class="no-i18n">01</span><span>Navigation</span></span><h3>Map your app once. Every test reuses it.</h3><p>Every screen and path becomes a reusable graph. Change a screen once, and every test that touches it follows.</p></div><div class="vis" data-story="1" style="padding:16px"><svg class="dg" viewBox="0 0 560 240" role="img" aria-label="Navigation graph: Home links to Settings, Guide and Search; Guide leads to Player"><path class="ln" d="M120 120C176 120 176 52 232 52"/><path class="ln" d="M120 120H232"/><path class="ln" d="M120 120C176 120 176 188 232 188"/><path class="ln" d="M328 120H440"/><path class="ln-acc an nv-trail" d="M120 120H440" pathLength="1"/><circle class="acc an nv-p" cx="120" cy="120" r="6"/><rect class="n-box" x="24" y="102" width="96" height="36" rx="8"/><text class="t-strong" x="72" y="124" text-anchor="middle">Home</text><rect class="n-box" x="232" y="34" width="96" height="36" rx="8"/><text class="t-strong" x="280" y="56" text-anchor="middle">Settings</text><rect class="n-box" x="232" y="102" width="96" height="36" rx="8"/><text class="t-strong" x="280" y="124" text-anchor="middle">Guide</text><rect class="n-box" x="232" y="170" width="96" height="36" rx="8"/><text class="t-strong" x="280" y="192" text-anchor="middle">Search</text><rect class="n-box" x="440" y="102" width="96" height="36" rx="8"/><text class="t-strong" x="488" y="124" text-anchor="middle">Player</text><rect class="n-acc an nv-g on-rest" x="232" y="102" width="96" height="36" rx="8"/><rect class="n-acc an nv-pl on-rest" x="440" y="102" width="96" height="36" rx="8"/><text class="t-mono no-i18n" x="280" y="230" text-anchor="middle">navigate_to_node("player")</text></svg></div></article></div><div class="proof-block"><div class="tagline" style="padding:64px 0 32px"><p class="no-i18n" data-tagline="Stop trusting a green checkmark.|Keep the frame that proves it." data-accent="4"></p></div><div class="reps"><figure class="rep ok" data-rv="1"><figcaption><span class="st ok"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Passed</span></span><span>8 of 8 steps, with the start and end screens and the run video.</span></figcaption><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/report-ok-dark-1040.webp 1040w, images/shots/report-ok-dark.webp 2880w"><img src="images/shots/report-ok-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/report-ok-light-1040.webp 1040w, images/shots/report-ok-light.webp 2880w" width="1040" height="487" alt="A passed test report: 8 of 8 steps, with the initial and final screen and the run video" loading="lazy" decoding="async"></picture></div></figure><figure class="rep ko d1" data-rv="1"><figcaption><span class="st ko"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"/></svg><span>Failed</span></span><span>The steps that broke, with what the screen showed instead.</span></figcaption><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/report-ko-dark-1040.webp 1040w, images/shots/report-ko-dark.webp 2880w"><img src="images/shots/report-ko-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/report-ko-light-1040.webp 1040w, images/shots/report-ko-light.webp 2880w" width="1040" height="398" alt="A failed test report: the two steps that failed, each with what the screen showed instead" loading="lazy" decoding="async"></picture></div><i class="scan" aria-hidden="true"></i></figure></div><p class="rep-note">Every run, a report you can read. Image matching, OCR and AI detectors keep the source, the reference and the diff.</p></div><div class="rows"><article class="row flip" data-rv="1"><div class="txt"><span class="lbl"><span class="no-i18n">10</span><span>AI native</span></span><h3>Talk to your lab. The AI drives the device.</h3><p>A built in MCP server: any AI client can inspect and control a real device.</p></div><div class="vis" data-story="1" style="padding:16px"><svg class="dg" viewBox="0 0 640 270" role="img" aria-label="An AI client calls the VirtualPyTest MCP server, which drives a real device through its host and returns the frame"><path class="ln" d="M160 135H220"/><path class="ln" d="M420 135H460"/><path class="ln" d="M530 135H552"/><circle class="acc an mc-req" cx="160" cy="135" r="6"/><circle class="ok an mc-res" cx="552" cy="135" r="6"/><rect class="n-box" x="16" y="90" width="144" height="90" rx="12"/><path class="ic-acc" d="M76 118l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/><text class="t-strong" x="88" y="160" text-anchor="middle">AI client</text><text class="t-dim" x="88" y="198" text-anchor="middle">Any MCP client</text><rect class="n-box" x="220" y="24" width="200" height="222" rx="12"/><text class="t-strong" x="236" y="50">MCP server</text><text class="t-dim" x="404" y="50" text-anchor="end">77 tools</text><rect class="n-soft" x="232" y="66" width="176" height="32" rx="6"/><rect class="n-acc an mc-t0 on-rest-0" x="232" y="66" width="176" height="32" rx="6"/><text class="t-mono no-i18n" x="244" y="86">take_control</text><rect class="n-soft" x="232" y="108" width="176" height="32" rx="6"/><rect class="n-acc an mc-t1 on-rest-0" x="232" y="108" width="176" height="32" rx="6"/><text class="t-mono no-i18n" x="244" y="128">navigate_to_node</text><rect class="n-soft" x="232" y="150" width="176" height="32" rx="6"/><rect class="n-acc an mc-t2 on-rest-1" x="232" y="150" width="176" height="32" rx="6"/><text class="t-mono no-i18n" x="244" y="170">verify_node</text><rect class="n-soft" x="232" y="192" width="176" height="32" rx="6"/><rect class="n-acc an mc-t3 on-rest-0" x="232" y="192" width="176" height="32" rx="6"/><text class="t-mono no-i18n" x="244" y="212">capture_screenshot</text><rect class="n-box" x="460" y="100" width="70" height="70" rx="12"/><text class="t-strong" x="495" y="140" text-anchor="middle">Host</text><rect class="scr" x="552" y="106" width="76" height="52" rx="4"/><rect class="scr-hi" x="560" y="114" width="40" height="18" rx="2"/><rect class="scr-ink" x="560" y="138" width="60" height="12" rx="2"/><path class="ln" d="M590 158v10M576 170h28"/><text class="t-strong" x="590" y="198" text-anchor="middle">Device</text></svg></div></article></div></div></section><section class="sec" id="devices" style="padding-top:0"><div class="wrap"><div class="sh" data-rv="1"><span class="kick">Devices</span><h2>Anything with a screen and a controller.</h2><p>TVs, set top boxes, phones, PCs, consoles, drones. If it has a screen and something to drive it, it can be tested. A stream alone works too: watched, not driven.</p></div><div class="panel" data-rv="1" data-story="1"><svg class="dg" viewBox="0 0 760 300" role="img" aria-label="Any device with a screen: its picture goes into capture, a controller drives it, both meet on the host and results go to the server. A stream is only watched."><path class="ln" d="M196 41L290 85"/><path class="ln" d="M196 41L290 215" /><circle class="acc an any-p" cx="196" cy="41" r="5" style="--dx:94px;--dy:44px;animation-delay:0.0s"/><path class="ln" d="M196 85L290 85"/><path class="ln" d="M196 85L290 215" /><circle class="acc an any-p" cx="196" cy="85" r="5" style="--dx:94px;--dy:0px;animation-delay:0.6s"/><path class="ln" d="M196 129L290 85"/><path class="ln" d="M196 129L290 215" /><circle class="acc an any-p" cx="196" cy="129" r="5" style="--dx:94px;--dy:-44px;animation-delay:1.2s"/><path class="ln" d="M196 173L290 85"/><path class="ln" d="M196 173L290 215" /><circle class="acc an any-p" cx="196" cy="173" r="5" style="--dx:94px;--dy:-88px;animation-delay:1.8s"/><path class="ln" d="M196 217L290 85"/><path class="ln" d="M196 217L290 215" /><circle class="acc an any-p" cx="196" cy="217" r="5" style="--dx:94px;--dy:-132px;animation-delay:2.4s"/><path class="ln" d="M196 261L290 85"/><circle class="acc an any-p" cx="196" cy="261" r="5" style="--dx:94px;--dy:-176px;animation-delay:3.0s"/><path class="ln" d="M470 85C500 85 500 140 520 140"/><path class="ln" d="M470 215C500 215 500 160 520 160"/><path class="ln" d="M610 150H650"/><circle class="ok an any-c" cx="290" cy="215" r="5"/><circle class="acc an any-r" cx="610" cy="150" r="5"/><rect class="n-box" x="16" y="24" width="180" height="34" rx="8"/><circle class="acc" cx="34" cy="41" r="4"/><text class="t-strong" x="48" y="46">TV and set top box</text><rect class="n-box" x="16" y="68" width="180" height="34" rx="8"/><circle class="acc" cx="34" cy="85" r="4"/><text class="t-strong" x="48" y="90">Phone and tablet</text><rect class="n-box" x="16" y="112" width="180" height="34" rx="8"/><circle class="acc" cx="34" cy="129" r="4"/><text class="t-strong" x="48" y="134">PC and browser</text><rect class="n-box" x="16" y="156" width="180" height="34" rx="8"/><circle class="acc" cx="34" cy="173" r="4"/><text class="t-strong" x="48" y="178">Console</text><rect class="n-box" x="16" y="200" width="180" height="34" rx="8"/><circle class="acc" cx="34" cy="217" r="4"/><text class="t-strong" x="48" y="222">Drone</text><rect class="n-soft" x="16" y="244" width="180" height="34" rx="8"/><circle class="ok" cx="34" cy="261" r="4"/><text class="t-strong" x="48" y="266">Stream</text><rect class="n-box" x="290" y="50" width="180" height="70" rx="12"/><text class="t-strong" x="306" y="78">Capture</text><text class="t-dim" x="306" y="100">HDMI, camera or stream URL</text><rect class="n-box" x="290" y="180" width="180" height="70" rx="12"/><text class="t-strong" x="306" y="208">Controller</text><text class="t-dim" x="306" y="230">IR, Bluetooth, ADB, network</text><rect class="n-box" x="520" y="110" width="90" height="80" rx="12"/><text class="t-strong" x="565" y="155" text-anchor="middle">Host</text><rect class="n-box" x="650" y="110" width="100" height="80" rx="12"/><text class="t-strong" x="700" y="146" text-anchor="middle">Server</text><text class="t-dim" x="700" y="166" text-anchor="middle">Web UI, MCP</text><text class="t-dim" x="290" y="286">A stream needs no controller: it is watched, not driven.</text></svg></div><div class="worksw" data-rv="1"><span class="kick">Works with</span><span>Your cloud device farm, driven as an ordinary device.</span><a class="farm" href="https://www.browserstack.com" target="_blank" rel="noopener"><img src="images/farm/browserstack.svg" alt="BrowserStack" height="22"></a><a class="farm" href="https://saucelabs.com" target="_blank" rel="noopener"><img src="images/farm/saucelabs.svg" alt="Sauce Labs" height="18"></a></div><p class="note">BrowserStack and Sauce Labs are trademarks of their respective owners. VirtualPyTest is not affiliated with or endorsed by either; the logos mark compatibility only.</p></div></section><section class="sec" id="tour" style="padding-top:0"><div class="wrap"><div class="ghead" data-rv="1"><div><span class="kick">See it in motion</span><h3>A quick look at the platform.</h3></div><div class="vlinks"><a class="btn btn-t video-link" href="https://www.youtube.com/watch?v=RBgS376Blvo&list=PLT2zmwBUsZgk" target="_blank" rel="noopener">Watch the 60-second tour on YouTube ↗</a><a class="btn btn-t video-link" href="https://www.youtube.com/playlist?list=PLT2zmwBUsZgk" target="_blank" rel="noopener">All videos on YouTube ↗</a></div></div><div class="video" data-rv="1"><div class="shot"><picture><source data-dark media="(prefers-color-scheme: dark)" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-heatmap-dark-1040.webp 1040w, images/shots/c-heatmap-dark.webp 2880w"><img src="images/shots/c-heatmap-light-1040.webp" sizes="(max-width: 1100px) 100vw, 640px" srcset="images/shots/c-heatmap-light-1040.webp 1040w, images/shots/c-heatmap-light.webp 2880w" width="1040" height="650" alt="Fleet heatmap: one frame per minute per device for the last 24 hours, with a scrub bar" loading="lazy" decoding="async"></picture></div><button class="vplay" type="button" data-video-src="https://www.youtube-nocookie.com/embed/RBgS376Blvo?list=PLT2zmwBUsZgk&amp;rel=0&amp;autoplay=1" aria-label="Play the 60-second tour"><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 48l128 80-128 80z"/></svg></button><span class="vdur no-i18n">1:00</span></div><p class="note" style="margin-top:12px">VirtualPyTest in 60 seconds — dashboard, live control, one-click runs, reports, KPIs, heatmap, incidents</p></div></section><section class="sec" id="all" style="padding-top:0"><div class="wrap"><div class="ghead" data-rv="1"><h3>And the rest, in the box.</h3><p>Free and open source, nothing sold as an add on.</p></div><div class="tiles"><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">02</span><span>Authoring</span></span><h3>No code for the team, Python for engineers.</h3><p>A visual builder for everyone, and full Python the moment you need real logic.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">03</span><span>Variants</span></span><h3>One script, every platform.</h3><p>Named variants override only what differs per model.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">05</span><span>References</span></span><h3>Reference images and text, easy to keep.</h3><p>One library with auto OCR and focus detection. Recapture in one click when the UI changes.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">07</span><span>A/V quality</span></span><h3>Audio and video quality, measured every minute.</h3><p>Per minute A/V KPIs per device, trended by platform and software version.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">06</span><span>Monitoring</span></span><h3>Black screen, freeze, audio loss. Caught live.</h3><p>Every device watched day and night, alerted the moment it breaks.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">11</span><span>Heatmap and rewind</span></span><h3>A fleet heatmap and 24 hours to scrub back.</h3><p>One glance shows where the fleet hurts. Rewind to what happened at 3 a.m.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">12</span><span>Dashboard and device</span></span><h3>Your whole fleet, status and live screen.</h3><p>Hosts, devices and system metrics, with every live screen side by side.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">13</span><span>Device info</span></span><h3>Device details, read straight off the screen.</h3><p>Reads the device's own About screen, by OCR or menu, in any language.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">16</span><span>Occupancy and health</span></span><h3>Every device accounted for, every host healthy.</h3><p>Busy or idle, manual or script. CPU, memory, disk and temperature, around the clock.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">09</span><span>Analytics</span></span><h3>The basics in the app, the whole story in Grafana.</h3><p>Pass rates, durations and volume with nothing to query, on standard Grafana you own.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">14</span><span>Workspaces</span></span><h3>Permissions, down to the last action.</h3><p>Scoped by workspace, team and user. Grant or deny every action; deny always wins.</p></article><article class="tile" data-rv="1"><span class="lbl"><span class="no-i18n">15</span><span>Web UI</span></span><h3>Runs in any browser, desktop to phone.</h3><p>Nothing to install. Operate the whole lab from anywhere.</p></article></div></div></section><section class="sec" id="pricing"><div class="wrap"><div class="sh c" data-rv="1"><span class="kick">Pricing</span><h2>One standard offer. Devices are unlimited.</h2><p>The software is free. You pay only for the hardware you want, never a per device license.</p></div><div class="prices"><div class="price d0" data-rv="1"><h3>Open source</h3><div class="amt"><span>€0</span><small>/ forever</small></div><ul><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Full source, AGPLv3</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Self host on your own hardware</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Community support on GitHub</span></li></ul><a class="btn btn-s" href="https://github.com/AngelStreetCorp/virtualpytest">Get the code</a></div><div class="price hl d1" data-rv="1"><h3>Standard hardware unit</h3><div class="amt"><span>€3,000</span><small>/ unit</small></div><ul><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Drives up to 4 devices + web tests at once</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Capture, control and compute, preconfigured</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Plug in and go, no assembly</span></li></ul><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live</a></div><div class="price d2" data-rv="1"><h3>Managed lab</h3><div class="amt" style="font-size:30px;line-height:36px"><span>Talk to us</span></div><ul><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Unlimited devices</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Integration, training, ongoing support</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 136l56 56 120-128"/></svg><span>Optional 24/7 SLA + AI test generation</span></li></ul><a class="btn btn-s" href="mailto:contact@virtualpytest.com">Talk to us</a></div></div><p class="note" style="margin:24px auto 0;text-align:center">Self host on a Raspberry Pi, standard PC, or Minisforum mini PC. We recommend Linux. Prefer plug and play? We can configure and ship a complete unit.</p></div></section><section class="sec" id="faq"><div class="wrap"><div class="sh c" data-rv="1"><span class="kick">FAQ</span><h2>Frequently Asked Questions</h2></div><div class="faq" data-rv="1"><details><summary><span>Is it really free?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Yes. VirtualPyTest is open source under the GNU AGPL v3. You can use, modify and self host it at no cost, including for commercial internal use. No paid tiers, no usage limits, no feature gates.</p><p>The one obligation: if you distribute a modified version or offer it to others as a service, you must publish your changes under the same license. For commercial licensing outside those terms, talk to us.</p></div></details><details><summary><span>What devices are supported?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Anything that can be remotely controlled: Android and iOS phones and tablets, Android TV, Apple TV, Fire TV and smart TVs, set top boxes with IR or network control, any browser, and Windows, macOS or Linux desktop apps.</p><p>Control goes through ADB, Appium, IR blasters, smart TV network APIs or browser automation. Any device with an HDMI output can be captured with a USB capture card.</p></div></details><details><summary><span>How does one script work on every device?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Test logic and navigation are separate. A navigation tree maps your app once: nodes are screens, edges are the actions that move between them.</p><p>Same script on Android, iOS, a set top box or the web. Change a screen once and every test that touches it follows.</p></div></details><details><summary><span>How does verification work?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Every check runs against what is actually on screen. Image matching, OCR and AI vision detectors confirm the expected content is there, and each result keeps the source frame, the reference and the pixel diff as evidence.</p><p>No brittle DOM selectors, so checks survive UI redesigns and work the same on every platform.</p></div></details><details><summary><span>How is the screen captured?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Real devices are always captured through an HDMI acquisition card, whether they are set top boxes, TVs, phones or tablets. You see exactly what a viewer sees, with no dependency on the device's own APIs. Only emulators are captured through ADB.</p><p>Every run keeps a frame by frame replay and a screenshot timeline you can attach to bug reports.</p></div></details><details><summary><span>How is it different from Appium or Selenium?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>VirtualPyTest is visual first and platform agnostic: one script for every device, AI vision instead of element selectors, and built in support for set top boxes and TVs through IR and HDMI capture, which Appium and Selenium do not cover. Monitoring and Grafana dashboards are built in.</p><p>It complements them rather than replacing them: Appium and Playwright are used under the hood for mobile and web.</p></div></details><details><summary><span>Can I run it from CI/CD?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Yes. Trigger scripts and campaigns through the REST API from any pipeline, and receive a completion callback on a URL you provide when a long run finishes. Point your CI at a running server, or launch the stack with the setup scripts as part of the job.</p></div></details><details><summary><span>What do I need to get started?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Docker and Docker Compose for the stack, Python 3.11 or newer for local development. Per device: ADB access for Android, a Mac with Xcode and Appium for iOS, an IR blaster or network API for set top boxes and TVs, a USB capture card for HDMI, and Chrome or Firefox for web.</p></div></details><details><summary><span>How do I add a new device?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Controllers already exist for Android, iOS, web and IR controlled devices, so most devices only need connection details and a navigation tree, which the AI can help build. For a new platform, implement the controller interface once and every feature works with it.</p></div></details><details><summary><span>Which AI clients can connect?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Any client that speaks MCP, such as Claude Desktop or Cursor. The built in server exposes 77 tools: take control of a device, navigate, verify, capture the screen, run tests and read the results.</p></div></details><details><summary><span>Does it work with BrowserStack or Sauce Labs?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Yes. A phone from your farm account joins the fleet as an ordinary device, with the same navigation graph, scripts and reports. You keep your own farm account; we never resell the minutes.</p></div></details><details><summary><span>Can I see what happened when nobody was watching?</span><svg class="ico" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M128 40v176"/></svg></summary><div class="a"><p>Yes. Every device's screen is recorded for 24 hours. The fleet heatmap shows where incidents happened, and you can scrub back to the exact minute.</p></div></details></div><p class="faq-more"><span>Something else? Read the</span> <a href="https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/faq/README.md" target="_blank" rel="noopener">full FAQ on GitHub</a> <span>or</span> <button type="button" data-ask-open>ask the AI</button><span class="no-i18n">.</span></p></div></section><section class="sec" id="live" style="padding-top:0"><div class="wrap"><div class="final" data-rv="1"><h2 class="h1 grad">Any device with a screen — tested and monitored 24/7 by AI.</h2><p class="sub">No install, nothing to set up. Sign in on a read only account and watch real devices, real dashboards, real incidents, as they happen.</p><div class="tags" style="gap:16px;align-items:center;justify-content:center"><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live<svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 128h176M144 56l72 72-72 72"/></svg></a><a class="btn btn-t" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">View on GitHub</a></div></div></div></section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-row">
-      <div class="foot-brand">
-        <a class="brand" href="#top">
-          <img class="brand-logo" src="images/logo.png" width="240" height="185" alt="VirtualPyTest" decoding="async" />
-          <span class="brand-word">VirtualPyTest</span>
-        </a>
-        <p>The open standard for testing anything with a screen.</p>
-      </div>
-      <div class="foot-links">
-        <div class="foot-col">
-          <h3>Product</h3>
-          <a href="#features">Features</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
-          <a href="https://virtualpytest.angelstreet.io/" target="_blank" rel="noopener">Try it live</a>
-        </div>
-        <div class="foot-col">
-          <h3>Project</h3>
-          <a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a>
-          <a href="#">Documentation</a>
-          <a href="mailto:contact@virtualpytest.com">Contact</a>
-        </div>
-        <div class="foot-col">
-          <h3>Resources</h3>
-          <a href="docs/VirtualPyTest-Overview.pdf" target="_blank" rel="noopener">Overview (PDF)</a>
-          <a href="docs/VirtualPyTest-Features.pdf" target="_blank" rel="noopener">Features (PDF)</a>
-        </div>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 VirtualPyTest — AGPLv3</span>
-      <span>Web · Mobile · Tablet · Android TV — any screen, one open platform.</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  var button = document.querySelector('[data-theme-toggle]');
-  if(!button) return;
-  var root = document.documentElement;
-  var systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-  function currentTheme(){ return root.getAttribute('data-theme') || (systemTheme.matches ? 'dark' : 'light'); }
-  function updateButton(){
-    var next = currentTheme() === 'dark' ? 'light' : 'dark';
-    button.setAttribute('aria-label', window.vptT ? window.vptT('Switch to ' + next + ' theme') : 'Switch to ' + next + ' theme');
-    button.setAttribute('title', window.vptT ? window.vptT('Switch to ' + next + ' theme') : 'Switch to ' + next + ' theme');
-    button.innerHTML = next === 'dark'
-      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>'
-      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>';
-  }
-  button.addEventListener('click', function(){
-    var next = currentTheme() === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('virtualpytest:theme', next); } catch(e) {}
-    updateButton();
-  });
-  if(systemTheme.addEventListener) systemTheme.addEventListener('change', function(){ if(!root.hasAttribute('data-theme')) updateButton(); });
-  updateButton();
-})();
-</script>
-
-<script>
-(function(){
-  var burger = document.getElementById('nav-burger');
-  var drawer = document.getElementById('nav-drawer');
-  if(!burger || !drawer) return;
-  function setOpen(open){
-    drawer.classList.toggle('is-open', open);
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-  burger.addEventListener('click', function(){
-    setOpen(!drawer.classList.contains('is-open'));
-  });
-  drawer.addEventListener('click', function(event){
-    if(event.target.closest('a')) setOpen(false);
-  });
-  document.addEventListener('keydown', function(event){
-    if(event.key === 'Escape' && drawer.classList.contains('is-open')){
-      setOpen(false);
-      burger.focus();
-    }
-  });
-  document.addEventListener('click', function(event){
-    if(!event.target.closest('#nav-drawer') && !event.target.closest('#nav-burger')) setOpen(false);
-  });
-  // Growing past the mobile breakpoint hides the burger, so never leave the panel open.
-  var wide = window.matchMedia('(min-width: 941px)');
-  var onWide = function(event){ if(event.matches) setOpen(false); };
-  if(wide.addEventListener) wide.addEventListener('change', onWide);
-  else if(wide.addListener) wide.addListener(onWide);
-})();
-</script>
-
-<script>
-(function(){
-  // Video facade: the poster is local, the player is not created until a click,
-  // so no YouTube script or cookie is requested by a visitor who never presses play.
-  Array.prototype.forEach.call(document.querySelectorAll('.video-embed'), function(box){
-    var play = box.querySelector('.video-play');
-    if(!play) return;
-    var loaded = false;
-    play.addEventListener('click', function(){
-      if(loaded) return;
-      var iframe = document.createElement('iframe');
-      iframe.src = play.getAttribute('data-video-src');
-      iframe.title = 'VirtualPyTest in 60 seconds';
-      iframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-      iframe.allowFullscreen = true;
-      box.appendChild(iframe);
-      box.classList.add('is-live');
-      loaded = true;
-    });
-  });
-})();
-</script>
-
-<script>
-(function(){
-  var supported = ['en','fr','es','de','zh-CN','hi'];
-  var root = document.documentElement;
-  var picker = document.getElementById('language-select');
-  var languageMenu = document.getElementById('language-menu');
-  var catalogs = {};
-  var current = 'en';
-  var localeReadyResolve;
-  window.vptLocaleReady = new Promise(function(resolve){ localeReadyResolve = resolve; });
-
-  function t(message){
-    var translated = catalogs[current] && catalogs[current][message];
-    if(translated) return translated;
-    var match = /^Show screenshot (\d+) of (\d+)$/.exec(message);
-    if(match){
-      var pattern = (catalogs[current] && catalogs[current]['Show screenshot {index} of {count}']) || message;
-      return pattern.replace('{index}', match[1]).replace('{count}', match[2]);
-    }
-    return message;
-  }
-  window.vptT = t;
-  window.vptLocale = function(){ return current; };
-
-  function applyLocale(lang){
-    current = supported.indexOf(lang) >= 0 ? lang : 'en';
-    root.lang = current;
-    document.documentElement.setAttribute('lang', current);
-    document.title = t('VirtualPyTest — open-source device testing & monitoring, driven by AI');
-
-    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    var node;
-    while((node = walker.nextNode())){
-      if(node.parentElement.closest('script,style')) continue;
-      if(typeof node.__sourceText === 'undefined') node.__sourceText = node.nodeValue;
-      var key = node.__sourceText.trim();
-      node.nodeValue = node.__sourceText.replace(key, t(key));
-    }
-
-    Array.prototype.forEach.call(document.querySelectorAll('[alt],[aria-label],[title],[placeholder],[data-caption],[content]'), function(el){
-      ['alt','aria-label','title','placeholder','data-caption','content'].forEach(function(attr){
-        if(!el.hasAttribute(attr)) return;
-        var original = el.getAttribute('data-source-' + attr);
-        if(original === null){ original = el.getAttribute(attr); el.setAttribute('data-source-' + attr, original); }
-        el.setAttribute(attr, t(original));
-      });
-    });
-
-    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-key]'), function(el){
-      var key = el.getAttribute('data-i18n-key');
-      if(el.hasAttribute('data-i18n-text')) el.textContent = t(key);
-      else el.setAttribute('aria-label', t(key));
-    });
-    if(picker){
-      var code = picker.querySelector('[data-language-code]');
-      var languageName = ({en:'English',fr:'French',es:'Spanish',de:'German','zh-CN':'Chinese',hi:'Hindi'})[current] || 'English';
-      if(code) code.textContent = ({en:'EN',fr:'FR',es:'ES',de:'DE','zh-CN':'ZH',hi:'HI'})[current] || 'EN';
-      // Visible text is the short code, so the accessible name has to carry it.
-      picker.setAttribute('aria-label', t('Language: ' + languageName));
-      if(languageMenu) Array.prototype.forEach.call(languageMenu.querySelectorAll('[data-locale]'), function(option){
-        option.setAttribute('aria-selected', option.getAttribute('data-locale') === current ? 'true' : 'false');
-      });
-    }
-    var themeButton = document.querySelector('[data-theme-toggle]');
-    if(themeButton){
-      var nextTheme = document.documentElement.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      themeButton.setAttribute('aria-label', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
-      themeButton.setAttribute('title', t('Switch to ' + (nextTheme === 'dark' ? 'light' : 'dark') + ' theme'));
-    }
-    // Controls built after the first pass (carousel) re-label themselves here.
-    (window.vptLocaleHooks || []).forEach(function(hook){ try { hook(); } catch(e) {} });
-  }
-
-  function closeLanguageMenu(returnFocus){
-    if(!picker || !languageMenu) return;
-    languageMenu.hidden = true;
-    picker.setAttribute('aria-expanded','false');
-    if(returnFocus) picker.focus();
-  }
-  if(picker && languageMenu){
-    picker.addEventListener('click', function(){
-      var opening = languageMenu.hidden;
-      languageMenu.hidden = !opening;
-      picker.setAttribute('aria-expanded', opening ? 'true' : 'false');
-      if(opening){
-        var selected = languageMenu.querySelector('[data-locale="' + current + '"]');
-        if(selected) selected.focus();
-      }
-    });
-    languageMenu.addEventListener('click', function(event){
-      var option = event.target.closest('[data-locale]');
-      if(!option) return;
-      applyLocale(option.getAttribute('data-locale'));
-      try { localStorage.setItem('virtualpytest:language', current); } catch(e) {}
-      closeLanguageMenu(true);
-    });
-    languageMenu.addEventListener('keydown', function(event){
-      var options = Array.prototype.slice.call(languageMenu.querySelectorAll('[data-locale]'));
-      var index = options.indexOf(document.activeElement);
-      if(event.key === 'Escape'){
-        event.preventDefault();
-        closeLanguageMenu(true);
-      } else if(event.key === 'ArrowDown' || event.key === 'ArrowUp'){
-        event.preventDefault();
-        var step = event.key === 'ArrowDown' ? 1 : -1;
-        options[(index + step + options.length) % options.length].focus();
-      } else if(event.key === 'Home'){
-        event.preventDefault(); options[0].focus();
-      } else if(event.key === 'End'){
-        event.preventDefault(); options[options.length - 1].focus();
-      }
-    });
-    document.addEventListener('click', function(event){
-      if(!event.target.closest('.language-picker')) closeLanguageMenu(false);
-    });
-  }
-
-  var domReady = new Promise(function(resolve){
-    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', resolve, {once:true});
-    else resolve();
-  });
-  fetch('locales.json').then(function(response){
-    if(!response.ok) throw new Error('Could not load locale catalog');
-    return response.json();
-  }).then(function(data){ catalogs = data; }).catch(function(){ catalogs = {}; }).then(function(){
-    return domReady;
-  }).then(function(){
-    var requested = '';
-    try { requested = localStorage.getItem('virtualpytest:language') || ''; } catch(e) {}
-    if(supported.indexOf(requested) < 0){
-      var systemLanguage = (navigator.language || 'en').toLowerCase();
-      var browserLanguage = systemLanguage.indexOf('zh') === 0 ? 'zh-CN' : systemLanguage.slice(0,2);
-      requested = supported.indexOf(browserLanguage) >= 0 ? browserLanguage : 'en';
-    }
-    applyLocale(requested);
-    localeReadyResolve();
-  });
-})();
-</script>
-
-<script>
-(function(){
-  function initWidget(widget){
-    var root = widget.querySelector('.carousel');
-    if(!root) return;
-    var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel-slide'));
-    var caption = widget.querySelector('.carousel-caption');
-    var dotsWrap = widget.querySelector('.carousel-dots');
-    var interval = parseInt(root.getAttribute('data-autoplay'), 10) || 5000;
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var paused = false;
-    var idx = 0;
-    var timer = null;
-
-    // Pause/play control sits with the dots. Autoplay never starts when the
-    // visitor asked for reduced motion, so the button opens showing "play".
-    var actions = widget.querySelector('.carousel-actions');
-    if(!actions && dotsWrap){
-      actions = document.createElement('div');
-      actions.className = 'carousel-actions';
-      dotsWrap.parentNode.insertBefore(actions, dotsWrap);
-      actions.appendChild(dotsWrap);
-    }
-    var playButton = null;
-    if(actions){
-      playButton = document.createElement('button');
-      playButton.type = 'button';
-      playButton.className = 'carousel-play';
-      playButton.setAttribute('aria-pressed', reducedMotion.matches ? 'true' : 'false');
-      playButton.innerHTML = '<svg class="ico-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>' +
-                             '<svg class="ico-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
-      actions.insertBefore(playButton, actions.firstChild);
-      playButton.addEventListener('click', function(){
-        paused = playButton.getAttribute('aria-pressed') !== 'true';
-        syncPlayButton();
-        restart();
-      });
-    }
-
-    function syncPlayButton(){
-      if(!playButton) return;
-      playButton.setAttribute('aria-pressed', (paused || reducedMotion.matches) ? 'true' : 'false');
-      var label = playButton.getAttribute('aria-pressed') === 'true' ? 'Play slideshow' : 'Pause slideshow';
-      playButton.setAttribute('data-i18n-key', label);
-      playButton.setAttribute('aria-label', window.vptT(label));
-      playButton.setAttribute('title', window.vptT(label));
-    }
-    window.vptLocaleHooks = window.vptLocaleHooks || [];
-    window.vptLocaleHooks.push(syncPlayButton);
-
-    function makeControl(direction, label, symbol){
-      var button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'carousel-control carousel-' + direction;
-      button.setAttribute('data-i18n-key', label);
-      button.setAttribute('aria-label', window.vptT(label));
-      button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + symbol + '"/></svg>';
-      button.addEventListener('click', function(){
-        show(direction === 'next' ? (idx + 1) % slides.length : (idx - 1 + slides.length) % slides.length);
-        restart();
-      });
-      root.parentNode.appendChild(button);
-    }
-
-    makeControl('prev', 'Show previous screenshot', 'M15 18l-6-6 6-6');
-    makeControl('next', 'Show next screenshot', 'M9 18l6-6-6-6');
-
-    slides.forEach(function(slide, i){
-      var dot = document.createElement('button');
-      dot.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
-      dot.type = 'button';
-      var dotLabel = 'Show screenshot ' + (i + 1) + ' of ' + slides.length;
-      dot.setAttribute('data-i18n-key', dotLabel);
-      dot.setAttribute('aria-label', window.vptT(dotLabel));
-      dot.addEventListener('click', function(){ show(i); restart(); });
-      dotsWrap.appendChild(dot);
-    });
-    var dots = Array.prototype.slice.call(dotsWrap.children);
-
-    function show(i){
-      slides[idx].classList.remove('is-active');
-      dots[idx].classList.remove('is-active');
-      idx = i;
-      slides[idx].classList.add('is-active');
-      dots[idx].classList.add('is-active');
-      var captionKey = slides[idx].getAttribute('data-source-data-caption') || slides[idx].getAttribute('data-caption');
-      caption.setAttribute('data-i18n-key', captionKey);
-      caption.setAttribute('data-i18n-text', '');
-      caption.textContent = window.vptT(captionKey);
-    }
-    function next(){ show((idx + 1) % slides.length); }
-    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
-    function restart(){
-      stop();
-      if(paused || reducedMotion.matches) return;
-      timer = setInterval(next, interval);
-    }
-    if(reducedMotion.addEventListener){
-      reducedMotion.addEventListener('change', function(){ syncPlayButton(); restart(); });
-    }
-
-    root.addEventListener('keydown', function(event){
-      if(event.key === 'ArrowLeft' || event.key === 'ArrowRight'){
-        event.preventDefault();
-        show(event.key === 'ArrowRight' ? (idx + 1) % slides.length : (idx - 1 + slides.length) % slides.length);
-        restart();
-      }
-    });
-
-    var firstCaptionKey = slides[0].getAttribute('data-source-data-caption') || slides[0].getAttribute('data-caption');
-    caption.setAttribute('data-i18n-key', firstCaptionKey);
-    caption.setAttribute('data-i18n-text', '');
-    caption.textContent = window.vptT(firstCaptionKey);
-    syncPlayButton();
-    restart();
-  }
-
-  window.vptLocaleReady.then(function(){
-    Array.prototype.forEach.call(document.querySelectorAll('.carousel-widget'), initWidget);
-  });
-})();
-</script>
-
-
-<button class="ask-fab" type="button" data-ask-open aria-haspopup="dialog" aria-controls="ask-panel">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z"/></svg>
-  Ask AI
-</button>
-
+<footer class="foot"><div class="wrap"><div class="cols">
+<div><a class="brand" href="#top"><img src="images/logo.png" alt="" width="28" height="28"><span class="no-i18n">VirtualPyTest</span></a><p class="tag-line">The open standard for testing, controlling and monitoring anything.</p></div>
+<div><h4>Product</h4><ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li><li><a href="https://virtualpytest.angelstreet.io/">Try it live</a></li></ul></div>
+<div><h4>Project</h4><ul><li><a href="https://github.com/AngelStreetCorp/virtualpytest">GitHub</a></li><li><a href="https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs">Documentation</a></li><li><a href="mailto:contact@virtualpytest.com">Contact</a></li></ul></div>
+<div><h4>Resources</h4><ul><li><a href="https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf">Overview (PDF)</a></li><li><a href="https://virtualpytest.com/docs/VirtualPyTest-Features.pdf">Features (PDF)</a></li><li><a href="https://www.youtube.com/playlist?list=PLT2zmwBUsZgk" target="_blank" rel="noopener">Videos (YouTube)</a></li></ul></div>
+</div><div class="legal"><span>© 2026 VirtualPyTest — AGPLv3</span><nav aria-label="Legal"><a href="#privacy" aria-disabled="true" title="Placeholder">Privacy</a><a href="#terms" aria-disabled="true" title="Placeholder">Terms</a></nav></div></div></footer>
+<button class="ask-fab" type="button" data-ask-open aria-haspopup="dialog" aria-controls="ask-panel"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32l18 58 58 18-58 18-18 58-18-58-58-18 58-18z"/><path d="M204 168l7 21 21 7-21 7-7 21-7-21-21-7 21-7z"/></svg><span>Ask AI</span></button>
 <div class="ask-panel" id="ask-panel" data-api="https://api.virtualpytest.com" role="dialog" aria-label="Ask about VirtualPyTest">
-  <div class="ask-head">
-    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z"/></svg>Ask about VirtualPyTest</span>
-    <div class="ask-head-actions">
-      <button class="ask-clear" type="button" data-ask-clear aria-label="Clear conversation" title="Clear conversation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-      </button>
-      <button class="ask-expand" type="button" data-ask-expand aria-label="Expand" title="Expand">
-        <svg class="ico-grow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        <svg class="ico-shrink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>
-      </button>
-      <button class="ask-close" type="button" data-ask-close aria-label="Close">&times;</button>
-    </div>
-  </div>
-  <div class="ask-history" id="ask-history" hidden>
-    <button class="ask-history-toggle" type="button" id="ask-history-toggle" aria-expanded="false" aria-controls="ask-history-body">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      <span id="ask-history-label">Previous questions</span>
-    </button>
-    <div class="ask-history-body" id="ask-history-body"></div>
-  </div>
-  <div class="ask-log" id="ask-log" aria-live="polite">
-  </div>
-  <div class="ask-chips">
-    <button class="ask-chip" type="button" data-ask-chip>Does it work with IR remotes?</button>
-    <button class="ask-chip" type="button" data-ask-chip>How is it priced?</button>
-    <button class="ask-chip" type="button" data-ask-chip>Which devices are supported?</button>
-  </div>
-  <form class="ask-form" id="ask-form">
-    <input type="text" id="ask-input" maxlength="500" placeholder="Ask a question about the platform" autocomplete="off" />
-    <button type="submit" id="ask-send" aria-label="Send">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </button>
-  </form>
+<div class="ask-head"><span><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32l18 58 58 18-58 18-18 58-18-58-58-18 58-18z"/><path d="M204 168l7 21 21 7-21 7-7 21-7-21-21-7 21-7z"/></svg><span>Ask about VirtualPyTest</span></span><div class="ask-head-actions">
+<button class="iconbtn ask-clear" type="button" data-ask-clear aria-label="Clear conversation" title="Clear conversation" hidden><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 64h176M104 112v64M152 112v64M56 64l12 144a16 16 0 0 0 16 16h88a16 16 0 0 0 16-16l12-144M96 64V40h64v24"/></svg></button>
+<button class="iconbtn ask-expand" type="button" data-ask-expand aria-label="Expand" title="Expand"><svg class="ico-s ico-grow" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M152 40h64v64M104 216H40v-64M216 40l-72 72M40 216l72-72"/></svg><svg class="ico-s ico-shrink" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 152h56v56M208 104h-56V48M152 104l64-64M40 216l64-64"/></svg></button>
+<button class="iconbtn" type="button" data-ask-close aria-label="Close" title="Close"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"/></svg></button></div></div>
+<div class="ask-history" id="ask-history" hidden><button class="ask-history-toggle" type="button" id="ask-history-toggle" aria-expanded="false" aria-controls="ask-history-body"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M96 48l80 80-80 80"/></svg><span id="ask-history-label" class="no-i18n">Previous questions</span></button><div class="ask-history-body" id="ask-history-body"></div></div>
+<div class="ask-log" id="ask-log" aria-live="polite"></div>
+<div class="ask-chips"><button class="ask-chip" type="button" data-ask-chip>Does it work with IR remotes?</button><button class="ask-chip" type="button" data-ask-chip>How is it priced?</button><button class="ask-chip" type="button" data-ask-chip>Which devices are supported?</button></div>
+<form class="ask-form" id="ask-form"><input type="text" id="ask-input" maxlength="500" placeholder="Ask a question about the platform" autocomplete="off" aria-label="Ask a question about the platform"><button type="submit" id="ask-send" aria-label="Send"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 208V48M64 112l64-64 64 64"/></svg></button></form>
 </div>
-
-<script>
-(function(){
-  var panel = document.getElementById('ask-panel');
-  var log = document.getElementById('ask-log');
-  var form = document.getElementById('ask-form');
-  var input = document.getElementById('ask-input');
-  var send = document.getElementById('ask-send');
-  var fab = document.querySelector('.ask-fab');
-  var api = panel.getAttribute('data-api').replace(/\/$/, '') + '/server/public/ask';
-  var docsBase = 'https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/';
-  var busy = false;
-
-  // The transcript lives in localStorage, so a reload (or coming back tomorrow)
-  // still shows the questions that were asked. Bounded so it can never fill the quota.
-  var HISTORY_KEY = 'askai:history';
-  var HISTORY_MAX = 40;
-  var history = [];
-
-  function readHistory(){
-    try {
-      var raw = localStorage.getItem(HISTORY_KEY);
-      var parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch(e){ return []; }
-  }
-  function writeHistory(){
-    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-HISTORY_MAX))); } catch(e){}
-  }
-  function dropHistory(){
-    history = [];
-    try { localStorage.removeItem(HISTORY_KEY); } catch(e){}
-  }
-
-  function open(){ panel.classList.add('is-open'); fab.style.display = 'none'; input.focus(); }
-  function close(){ panel.classList.remove('is-open'); fab.style.display = ''; }
-
-  Array.prototype.forEach.call(document.querySelectorAll('[data-ask-open]'), function(el){
-    el.addEventListener('click', function(e){ e.preventDefault(); open(); });
-  });
-  panel.querySelector('[data-ask-close]').addEventListener('click', close);
-  var expandBtn = panel.querySelector('[data-ask-expand]');
-  function setLarge(on){
-    panel.classList.toggle('is-large', on);
-    expandBtn.setAttribute('aria-label', window.vptT(on ? 'Shrink' : 'Expand'));
-    expandBtn.setAttribute('title', window.vptT(on ? 'Shrink' : 'Expand'));
-    try { localStorage.setItem('askai:large', on ? '1' : '0'); } catch(e) {}
-    log.scrollTop = log.scrollHeight;
-  }
-  expandBtn.addEventListener('click', function(){ setLarge(!panel.classList.contains('is-large')); });
-  try { if(localStorage.getItem('askai:large') === '1') setLarge(true); } catch(e) {}
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && panel.classList.contains('is-open')) close(); });
-
-  function makeMsg(kind, text){
-    var div = document.createElement('div');
-    div.className = 'ask-msg ' + kind;
-    div.textContent = text;
-    return div;
-  }
-  function makeSources(paths){
-    var div = document.createElement('div');
-    div.className = 'ask-src';
-    div.appendChild(document.createTextNode(window.vptT('Sources: ')));
-    paths.forEach(function(p, i){
-      if(i) div.appendChild(document.createTextNode(' · '));
-      var a = document.createElement('a');
-      a.href = docsBase + p; a.target = '_blank'; a.rel = 'noopener'; a.textContent = p;
-      div.appendChild(a);
-    });
-    return div;
-  }
-  function addMsg(kind, text, persist){
-    var div = makeMsg(kind, text);
-    log.appendChild(div);
-    log.scrollTop = log.scrollHeight;
-    if(persist !== false){
-      history.push({ role: kind === 'user' ? 'user' : (kind === 'error' ? 'error' : 'bot'), text: text });
-      writeHistory();
-      syncClearBtn();
-    }
-    return div;
-  }
-  function addSources(paths, persist){
-    if(!paths || !paths.length) return;
-    log.appendChild(makeSources(paths));
-    log.scrollTop = log.scrollHeight;
-    if(persist !== false && history.length){
-      history[history.length - 1].sources = paths;
-      writeHistory();
-    }
-  }
-
-  var clearBtn = panel.querySelector('[data-ask-clear]');
-  var historyBox = document.getElementById('ask-history');
-  var historyBody = document.getElementById('ask-history-body');
-  var historyToggle = document.getElementById('ask-history-toggle');
-  var historyLabel = document.getElementById('ask-history-label');
-  var restoredQuestions = 0;
-
-  function setHistoryLabel(){
-    historyLabel.textContent = window.vptT('Previous questions') + ' (' + restoredQuestions + ')';
-    clearBtn.setAttribute('aria-label', window.vptT('Clear conversation'));
-    clearBtn.setAttribute('title', window.vptT('Clear conversation'));
-  }
-  function syncClearBtn(){ clearBtn.hidden = history.length === 0; }
-
-  function renderHistory(){
-    history.forEach(function(item){
-      if(!item || !item.text) return;
-      if(item.role === 'user') restoredQuestions++;
-      historyBody.appendChild(makeMsg(item.role === 'user' ? 'user' : (item.role === 'error' ? 'error' : 'bot'), item.text));
-      if(item.sources && item.sources.length) historyBody.appendChild(makeSources(item.sources));
-    });
-    historyBox.hidden = history.length === 0;
-    setHistoryLabel();
-  }
-
-  historyToggle.addEventListener('click', function(){
-    var open = historyBox.classList.toggle('is-open');
-    historyToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if(!open) log.scrollTop = log.scrollHeight;
-  });
-
-  // One click clears. No arming step: a bin icon that needs pressing twice
-  // reads as broken, and a long transcript is cheap to rebuild.
-  clearBtn.addEventListener('click', function(){
-    dropHistory();
-    log.innerHTML = '';
-    historyBody.innerHTML = '';
-    historyBox.hidden = true;
-    restoredQuestions = 0;
-    input.value = '';
-    input.focus();
-    syncClearBtn();
-  });
-
-  // Re-label on language change, like the other controls.
-  window.vptLocaleHooks = window.vptLocaleHooks || [];
-  window.vptLocaleHooks.push(setHistoryLabel);
-  history = readHistory();
-  syncClearBtn();
-  if(history.length) renderHistory();
-
-  function ask(question){
-    question = (question || '').trim();
-    if(!question || busy) return;
-    busy = true; send.disabled = true; input.value = '';
-    addMsg('user', question);
-    var typing = addMsg('bot ask-typing', window.vptT('Checking the docs'), false);
-    var dots = document.createElement('span'); dots.className = 'ask-dots'; typing.appendChild(dots);
-    fetch(api, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: question, language: window.vptLocale() })
-    })
-    .then(function(r){ return r.json().then(function(b){ return { ok: r.ok, body: b }; }); })
-    .then(function(res){
-      typing.remove();
-      if(res.ok && res.body && res.body.success){
-        addMsg('bot', res.body.answer);
-        addSources(res.body.sources);
-      } else {
-        addMsg('error', window.vptT((res.body && res.body.error) || 'Something went wrong. Try again in a moment.'));
-      }
-    })
-    .catch(function(){
-      typing.remove();
-      addMsg('error', window.vptT('Could not reach the assistant. Try again in a moment.'));
-    })
-    .then(function(){ busy = false; send.disabled = false; input.focus(); });
-  }
-
-  form.addEventListener('submit', function(e){ e.preventDefault(); ask(input.value); });
-  Array.prototype.forEach.call(document.querySelectorAll('[data-ask-chip]'), function(chip){
-    chip.addEventListener('click', function(){ ask(chip.textContent); });
-  });
-})();
-</script>
-
-<script>
-(function(){var h=document.querySelector('header.site');if(!h)return;var last=window.scrollY;
-window.addEventListener('scroll',function(){var y=window.scrollY;
-if(y>last+4&&y>80)h.classList.add('is-hidden');else if(y<last-4||y<=80)h.classList.remove('is-hidden');last=y;},{passive:true});})();
-</script>
+<dialog class="zoom" id="zoom" aria-label="Screenshot"><button class="iconbtn zoom-x" type="button" data-zoom-close aria-label="Close" title="Close"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"/></svg></button><img alt="" id="zoom-img"><p class="zoom-cap" id="zoom-cap"></p></dialog>
+<script src="site.js"></script>
 </body>
 </html>
