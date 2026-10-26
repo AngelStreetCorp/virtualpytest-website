@@ -246,6 +246,23 @@
     document.querySelectorAll('.shot img').forEach(function(img){ img.tabIndex = 0; img.setAttribute('role', 'button'); });
   }
 
+  /* ---------- Feature details: one dialog, filled from the hidden store ---------- */
+  var fd = document.getElementById('fd-dialog');
+  if(fd && fd.showModal){
+    var fdBody = document.getElementById('fd-body');
+    document.addEventListener('click', function(e){
+      var b = e.target.closest('[data-fd-open]'); if(!b) return;
+      var src = document.querySelector('#fd-store [data-fd="' + b.getAttribute('data-fd-open') + '"]'); if(!src) return;
+      fdBody.innerHTML = ''; fdBody.appendChild(src.cloneNode(true));
+      fdBody.querySelectorAll('[data-story]').forEach(function(el){ el.classList.add('playing'); });
+      fdBody.querySelectorAll('.shot img').forEach(function(img){ img.loading = 'eager'; img.tabIndex = 0; img.setAttribute('role', 'button'); });
+      syncPictures();
+      fd.setAttribute('aria-label', (src.querySelector('h2') || {}).textContent || '');
+      fd.showModal();
+    });
+    fd.addEventListener('click', function(e){ if(e.target === fd || e.target.closest('[data-fd-close]')) fd.close(); });
+  }
+
   /* ---------- Motion ---------- */
   if('IntersectionObserver' in window && !reduce){
     // Card intro once, at about 30% visible.
