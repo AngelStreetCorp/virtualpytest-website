@@ -3,7 +3,8 @@
 
 /* ---------- Tokens: light (default) ---------- */
 :root{
-  color-scheme:light;
+  /* only light: the page has its own dark theme, so the browser must not darken the light one */
+  color-scheme:only light;
   --bg:#f2f0ec;          /* page, warm grey under white cards (app UI_STYLE §2) */
   --surface:#ffffff;     /* cards */
   --surface-2:#f7f5f1;   /* inset areas, diagram nodes */
