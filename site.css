@@ -139,7 +139,7 @@ img{max-width:100%;display:block;}
   .burger{display:block;}
   .island{gap:8px;}
 }
-@media (max-width:420px){.brand span{display:none;}}
+@media (max-width:420px){.island .brand span{display:none;}}
 
 /* ---------- Type roles ---------- */
 .grad{background:linear-gradient(90deg,var(--grad-a),var(--grad-b));-webkit-background-clip:text;background-clip:text;color:transparent;}
@@ -305,7 +305,17 @@ img{max-width:100%;display:block;}
 .foot .legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;line-height:16px;color:var(--text-3);}
 .foot .legal a{font-size:12px;line-height:16px;color:var(--text-3);}
 .foot .legal nav{display:flex;gap:16px;}
-@media (max-width:720px){.foot .cols{grid-template-columns:1fr 1fr;}.foot .cols > div:first-child{grid-column:1 / -1;}}
+/* Phones: brand on its own line, the three link groups side by side, room for the Ask AI button */
+@media (max-width:720px){
+  .foot{margin-top:0;padding:24px 0 96px;}
+  #live{padding-bottom:32px;}
+  .foot .cols{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px;}
+  .foot .cols > div:first-child{grid-column:1 / -1;}
+  .foot h4{font-size:13px;line-height:20px;margin-bottom:4px;}
+  .foot a{font-size:13px;line-height:20px;}
+  .foot ul{gap:2px;}
+  .foot .legal{margin-top:16px;}
+}
 
 /* ---------- Ask AI (same API, history and clear button as the live site) ---------- */
 .ask-fab{position:fixed;right:24px;bottom:24px;z-index:60;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:9999px;cursor:pointer;background:var(--accent);color:var(--on-accent);border:0;font:600 14px/20px Geist,system-ui,sans-serif;box-shadow:var(--shadow);transition:transform .5s var(--fluid),background-color .5s var(--fluid);}
