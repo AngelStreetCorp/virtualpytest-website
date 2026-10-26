@@ -437,10 +437,19 @@ img{max-width:100%;display:block;}
 @media (prefers-reduced-motion:reduce){.on-rest,.on-rest-1{opacity:1 !important;transform:none !important;}}
 
 /* Phones: a diagram keeps a readable size and scrolls sideways inside its card, never the page. */
+/* Phones: diagrams with a tall version swap to it; the others keep their size and scroll from the left edge. */
+.dg-tall{display:none;}
 @media (max-width:680px){
-  :has(> .dg){overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;}
-  .dg{min-width:520px;}
+  .dg-wide{display:none;}
+  .dg-tall{display:block;max-width:400px;margin:0 auto;}
+  :has(> .dg:not(.dg-wide):not(.dg-tall)){overflow-x:auto;overscroll-behavior-x:contain;justify-content:flex-start;}
+  .dg:not(.dg-wide):not(.dg-tall){min-width:520px;}
 }
+/* generic travelling pulse: --dx, --dy, optional --t */
+.dg .mv{opacity:0;animation:mv var(--t,4s) var(--io) infinite;}
+@keyframes mv{0%{transform:translate(0,0);opacity:0}8%{opacity:1}45%{transform:translate(var(--dx),var(--dy));opacity:1}52%,100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+.dg .nvv-p{opacity:0;animation:nvv-p 6s var(--io) infinite;}
+@keyframes nvv-p{0%{transform:translateY(0);opacity:0}6%{opacity:1}40%{transform:translateY(68px)}52%{transform:translateY(104px)}80%{transform:translateY(172px);opacity:1}88%,100%{transform:translateY(172px);opacity:0}}
 
 /* SMPTE colour bars under the hero: the signal every screen test starts from */
 .smpte{display:flex;height:8px;}
