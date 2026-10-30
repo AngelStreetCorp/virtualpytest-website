@@ -152,51 +152,16 @@
 // Topics of the course (scripts/promo/concepts/LEARN_TREE.md in the product repo). `cards` = published steps;
 // a topic without cards lists its planned lessons. `need` = step ids to know first, "<topic>.<step>".
 const TOPICS = [
-  { id: 1, name: 'Control any device', plan: ['See your devices live', 'The right remote for each device', 'Add your own phone', 'Add phones from the cloud', 'More than TVs and phones'] },
-  { id: 2, name: 'User interface', cards: [
-    { card: 'user-interface', title: 'Map your app once', sub: 'Every test reuses the same screens and keys',
-      text: 'The user interface is a map of your app: its screens and the keys that move between them. You map it once; every test reuses it.',
-      need: ['1.1'] },
-    { card: 'go-anywhere', title: 'Just name the screen', sub: 'We find the shortest way and press the keys',
-      text: 'Your test only names the screen. VirtualPyTest reads the map, finds the shortest way from where the device is, and presses the keys.',
-      need: ['2.1'] },
-    { card: 'variants', title: 'Many models, one map', sub: 'Add only what differs; the same test runs on all',
-      text: 'A named variant keeps only what differs on one model, like a key. Everything else comes from the same map, and the test does not change.',
-      need: ['2.1', '2.2'] },
-    { card: 'repair-map', title: 'Your app changed?', sub: 'Fix one move on the map; every test follows',
-      text: 'When an update moves a screen, one move in the map breaks. Fix it there once, and every test that goes through it follows.',
-      need: ['2.1'] },
-  ] },
-  { id: 3, name: 'UI verification', cards: [
-    { card: 'check', title: 'Be sure you reached the screen', sub: 'After each key, the real screen is checked',
-      text: 'Sending a key is not arriving. After every move, VirtualPyTest looks at the screen and proves it is the one expected.',
-      need: ['2.2'] },
-    { card: 'references', title: 'Save a picture or a word once', sub: 'Found again in the same spot on every run',
-      text: 'Save a piece of the screen or a word once. Each run compares it in the same spot. When the app changes, someone retakes it.',
-      need: ['3.1'] },
-    { card: 'why-fingerprint', title: 'Your app updated, nothing broke', sub: 'Screenshots fail anyway; a fingerprint keeps up',
-      text: 'A new poster or language makes a screenshot fail. The layout stays the same, so the fingerprint still knows it.',
-      need: ['3.2'] },
-    { card: 'fingerprint', title: 'Every screen gets a fingerprint', sub: 'Made from its pixels; same screen, same code',
-      text: 'We shrink the screen to a tiny grid and note where it gets lighter or darker. New content barely moves the code.',
-      need: ['3.3'] },
-    { card: 'speed', title: 'Know the screen in 11 ms', sub: 'One fingerprint against all 27 screens in 11 ms',
-      text: 'The fingerprint of the frame is made once. Comparing it with all 27 screens then costs almost nothing; a screenshot is searched again for each one.',
-      need: ['3.4'] },
-    { card: 'in-the-tree', title: 'No pictures to take or retake', sub: 'The fingerprint is made from the screen itself',
-      text: 'The fingerprint is made from the screen itself: nothing to capture, nothing to retake. Every run checks arrival and times it.',
-      need: ['2.1', '3.4'] },
-    { card: 'localize', title: 'Which screen is this?', sub: 'Its fingerprint is matched to your map and named',
-      text: "Localize compares the screen's fingerprint with every screen of the user interface. Video only, no access to the app.",
-      need: ['2.1', '3.4'] },
-  ] },
-  { id: 4, name: 'Write tests', plan: ['Build a test without code', 'Need loops or conditions?', 'Prompt Testing with AI', 'Run your tests every night'] },
-  { id: 5, name: 'Measure', plan: ['How fast does your app answer?', 'Shown is not loaded', 'How long does a zap take?', 'Every run, proof you can check'] },
-  { id: 6, name: 'Monitor 24/7', plan: ['Your devices, watched 24/7', 'Is the picture any good?', 'Your whole fleet at a glance', 'It broke at 3 a.m.?'] },
-  { id: 7, name: 'AI in the lab', plan: ['Talk to your lab', 'Fewer false alarms', 'A test failed. Real bug?'] },
-  { id: 8, name: 'Run the lab', plan: ['Follow your project', 'Your whole lab on one page', 'One lab, many teams', 'Every result, kept and charted'] },
-  { id: 9, name: 'More features', plan: ['Fly a drone from your browser', 'Play a Nintendo Switch remotely', 'A bot that plays Tetris', 'The page opens beside the chat'] },
-  { id: 10, name: 'How it runs', plan: ['Three parts: web app, server, host', 'Hosts anywhere, one platform', 'Host profiles: what each host runs', 'The services behind a host'] },
+  { id: 1, name: "Control any device", cards: [{"card": "live-screen", "title": "See your devices live", "sub": "Any browser, desktop or mobile, nothing to install", "text": "VirtualPyTest films the device's own HDMI output and streams it to any browser, on a desktop or a phone. Nothing to install.", "need": []}, {"card": "own-remote", "title": "The right remote for each device", "sub": "TV box, phone, web or console: each gets its own keys", "text": "Each device gets the remote it really uses: a TV box's keys, a phone's taps, a web page's clicks, a console's buttons. Tests use the same ones.", "need": ["1.1"]}, {"card": "own-phone", "title": "Add your own phone", "sub": "Install the app, pair it: it joins your devices", "text": "Install the VirtualPyTest app on your Android phone and scan the code. Over Wi-Fi, with no cable, it becomes a device like the others.", "need": ["1.2"]}, {"card": "cloud-phones", "title": "Add phones from the cloud", "sub": "Rented Android phones, nothing to plug in", "text": "A phone rented from a cloud phone farm joins your devices like one on your desk: live screen, its own remote, the same tests.", "need": ["1.3"]}, {"card": "any-device", "title": "More than TVs and phones", "sub": "Consoles, emulators, drones: same page, same tests", "text": "A game console, an Android emulator or a drone shows up like any other device: a live picture, its own remote, and tests that run the same way.", "need": ["1.4"]}] },
+  { id: 2, name: "User interface", cards: [{"card": "user-interface", "title": "Map your app once", "sub": "Every test reuses the same screens and keys", "text": "The user interface is a map of your app: its screens and the keys that move between them. You map it once; every test reuses it.", "need": ["1.5"]}, {"card": "go-anywhere", "title": "Just name the screen", "sub": "We find the shortest way and press the keys", "text": "Your test only names the screen. VirtualPyTest reads the map, finds the shortest way from where the device is, and presses the keys.", "need": ["2.1"]}, {"card": "variants", "title": "Many models, one map", "sub": "Add only what differs; the same test runs on all", "text": "A named variant keeps only what differs on one model, like a key. Everything else comes from the same map, and the test does not change.", "need": ["2.2"]}, {"card": "repair-map", "title": "Your app changed?", "sub": "Fix one move on the map; every test follows", "text": "When an update moves a screen, one move in the map breaks. Fix it there once, and every test that goes through it follows.", "need": ["2.3"]}] },
+  { id: 3, name: "UI verification", cards: [{"card": "check", "title": "Be sure you reached the screen", "sub": "After each key, the real screen is checked", "text": "Sending a key is not arriving. After every move, VirtualPyTest looks at the screen and proves it is the one expected.", "need": ["2.4"]}, {"card": "references", "title": "Save a picture or a word once", "sub": "Found again in the same spot on every run", "text": "Save a piece of the screen or a word once. Each run compares it in the same spot. When the app changes, someone retakes it.", "need": ["3.1"]}, {"card": "why-fingerprint", "title": "Your app updated, nothing broke", "sub": "Screenshots fail anyway; a fingerprint keeps up", "text": "A new poster or language makes a screenshot fail. The layout stays the same, so the fingerprint still knows it.", "need": ["3.2"]}, {"card": "fingerprint", "title": "Every screen gets a fingerprint", "sub": "Made from its pixels; same screen, same code", "text": "We shrink the screen to a tiny grid and note where it gets lighter or darker. New content barely moves the code.", "need": ["3.3"]}, {"card": "speed", "title": "Know the screen in 11 ms", "sub": "One fingerprint against all 27 screens in 11 ms", "text": "The fingerprint of the frame is made once. Comparing it with all 27 screens then costs almost nothing; a screenshot is searched again for each one.", "need": ["3.4"]}, {"card": "in-the-tree", "title": "No pictures to take or retake", "sub": "The fingerprint is made from the screen itself", "text": "The fingerprint is made from the screen itself: nothing to capture, nothing to retake. Every run checks arrival and times it.", "need": ["3.5"]}, {"card": "localize", "title": "Which screen is this?", "sub": "Its fingerprint is matched to your map and named", "text": "Localize compares the screen's fingerprint with every screen of the user interface. Video only, no access to the app.", "need": ["3.6"]}] },
+  { id: 4, name: "Write tests", cards: [{"card": "test-builder", "title": "Build a test without code", "sub": "Boxes and arrows: go to, press a key, check", "text": "Put boxes in order and join them: go to a screen, press a key, check what shows. The map finds the way for you.", "need": ["3.7"]}, {"card": "virtual-script", "title": "Need loops or conditions?", "sub": "Write Python in the browser, run it right away", "text": "When boxes are not enough, write Python in the browser. Save it and it runs at once, with the same report as any test.", "need": ["4.1"]}, {"card": "test-prompt", "title": "Prompt Testing with AI", "sub": "Describe the test; the AI builds it, replays need no AI", "text": "Describe the test in plain words. The AI builds the steps and runs them once. Saved as a test, every later run replays them with no AI.", "need": ["4.2"]}, {"card": "schedule", "title": "Run your tests every night", "sub": "Group them, pick a device, set the time: done", "text": "Put your tests in one campaign and pick a device. Set it to repeat, and it runs every night with nobody there.", "need": ["4.3"]}] },
+  { id: 5, name: "Measure", cards: [{"card": "response-time", "title": "How fast does your app answer?", "sub": "From key press to the right screen, timed after every run", "text": "A KPI is the time you wait: from the key press to the right screen. A service reads the recorded frames in the background, so the test never waits.", "need": ["4.4"]}, {"card": "loaded", "title": "Shown is not loaded", "sub": "We also time when the last grey box is filled", "text": "Many apps first draw grey boxes, then fill them. Loaded means no grey box is left and nothing new is drawn for 2 seconds.", "need": ["5.1"]}, {"card": "zapping", "title": "How long does a zap take?", "sub": "Key to new picture, black time too, every zap", "text": "Press channel up: the screen goes black, then the new channel plays. Every zap is timed, with the black time, the average, the fastest and the slowest.", "need": ["5.2"]}, {"card": "report", "title": "Every run, proof you can check", "sub": "Each step, a mosaic of frames, the video, the verdict", "text": "Every run writes its report: the verdict, each step with its screenshot and KPI, a mosaic of the whole run, and the video.", "need": ["5.3"]}] },
+  { id: 6, name: "Monitor 24/7", cards: [{"card": "incidents", "title": "Your devices, watched 24/7", "sub": "Freeze, black screen, lost sound: caught live", "text": "Your devices are watched around the clock. A black screen, a frozen picture or lost sound that lasts 30 seconds becomes an incident, with its picture.", "need": ["5.4"]}, {"card": "av-quality", "title": "Is the picture any good?", "sub": "A picture and sound score, every minute, 24 h", "text": "Every minute, each device gets a picture score and a sound score. A drop shows on the 24-hour line; click it to watch that minute.", "need": ["6.1"]}, {"card": "heatmap", "title": "Your whole fleet at a glance", "sub": "One frame a minute, problems outlined in red", "text": "Once a minute, the heatmap takes one frame of every device. A device with a problem is outlined in red, and the last 24 hours are kept.", "need": ["6.2"]}, {"card": "timeline", "title": "It broke at 3 a.m.?", "sub": "Scroll the day, click the moment, watch it", "text": "The timeline shows one device's last 24 hours as small pictures. Zoom from the day to ten minutes, click the frozen moment and watch it.", "need": ["6.3"]}] },
+  { id: 7, name: "AI in the lab", cards: [{"card": "talk-to-lab", "title": "Talk to your lab", "sub": "Ask in plain words; the AI moves the real device", "text": "Ask in plain words. The AI moves the real device, looks at the screen and answers you. Other AI tools can connect the same way.", "need": ["6.4"]}, {"card": "discard-incidents", "title": "Fewer false alarms", "sub": "The AI sets harmless incidents aside, and learns", "text": "Many alarms are harmless, like a menu left open. The AI sets them aside and remembers the screen, so next time no AI is needed.", "need": ["7.1"]}, {"card": "discard-scripts", "title": "A test failed. Real bug?", "sub": "Lab problems are set aside; real failures stay", "text": "When a run fails, the AI reads its report. A lab problem, like no signal, is set aside, so the pass rate counts only real results.", "need": ["7.2"]}] },
+  { id: 8, name: "Run the lab", cards: [{"card": "projects", "title": "Follow your project", "sub": "Runs per script, pass rate, devices and AI tokens", "text": "A project gathers its scripts and devices. See how often each script ran and passed, the last runs, the AI tokens spent and who is on the team.", "need": ["7.3"]}, {"card": "dashboard", "title": "Your whole lab on one page", "sub": "What's up, what's running, what needs you first", "text": "One page shows which devices are up, free or in use, what is running and how the lab machines cope. Problems come first; each opens its page.", "need": ["8.1"]}, {"card": "permissions", "title": "One lab, many teams", "sub": "Each team sees its own devices and scripts", "text": "A workspace shows each team only its devices and scripts. Permissions decide who may do what, down to a single action, for each role and person.", "need": ["8.2"]}, {"card": "analytics", "title": "Every result, kept and charted", "sub": "Basics at a glance, dashboards to dig deeper", "text": "Every test, incident and quality minute is kept. See the basics in the app, then open about 30 ready-made dashboards to dig deeper.", "need": ["8.3"]}] },
+  { id: 9, name: "More features", cards: [{"card": "drone", "title": "Fly a drone from your browser", "sub": "Live video, take-off and landing, like any device", "text": "A drone joins your devices: its video live in the browser, its own remote to take off, move and land. Every move is checked against safety limits.", "need": ["8.4"]}, {"card": "game-console", "title": "Play a Nintendo Switch remotely", "sub": "Its controller over Bluetooth, its picture live", "text": "The host acts as a wireless controller over Bluetooth while the dock's picture plays live. Pair once, then click the buttons or let a test press them.", "need": ["9.1"]}, {"card": "game-bot", "title": "A bot that plays Tetris", "sub": "It sees the screen, decides and presses the keys", "text": "The bot reads the board from the live picture, works out the best spot for the piece and sends the keys in one go. Piece after piece.", "need": ["9.2"]}, {"card": "companion", "title": "The page opens beside the chat", "sub": "Atlas shows the real app page, already filtered", "text": "Atlas answers in the chat, then opens the real app page beside it, filtered the same way. Ask a follow-up and the filters change.", "need": ["9.3"]}] },
+  { id: 10, name: "How it runs", cards: [{"card": "three-parts", "title": "Three parts: web app, server, host", "sub": "Click in a browser; the host by the device acts", "text": "The web app is where you click. The server plans the run and keeps the results. The host by your devices presses the keys and sends the video.", "need": ["9.4"]}, {"card": "hosts-anywhere", "title": "Hosts anywhere, one platform", "sub": "Hosts at any site; one web app sees them all", "text": "Put a host wherever your devices are. Each host joins one server, and one web app shows every server, or all of them at once.", "need": ["10.1"]}, {"card": "host-profiles", "title": "What each host runs", "sub": "Only the services its devices need are on", "text": "A host comes full, lite for one device on a small board, or as a runner for web tests. Each device's profile starts only what it needs.", "need": ["10.2"]}, {"card": "host-services", "title": "The services behind a host", "sub": "Stream, watch, record, measure: each its own job", "text": "A host runs small services, each with one job: stream, watch, record, measure. See each one's state and restart it from the dashboard.", "need": ["10.3"]}] },
 ];
 const START = 1200;            // the diagram starts at 1.6 s: skip the social loop's empty header time
 const STEP_S = 12;             // seconds one step plays, for "min left"
@@ -210,7 +175,7 @@ const store = {
   mark(id) { try { const d = store.get(); d[id] = 1; localStorage.setItem('vpt-learn-done', JSON.stringify(d)); } catch {} },
 };
 
-let topic = TOPICS[1], step = 1, rate = 1, paused = false, ended = false;
+let topic = TOPICS[0], step = 1, rate = 1, paused = false, ended = false;
 
 function renderTopics() {
   const nav = $('topics'); nav.innerHTML = '';
@@ -261,7 +226,7 @@ function go(t, n) {
 function nextOf() {
   if (step < steps(topic) && topic.cards) return [topic, step + 1];
   const i = TOPICS.indexOf(topic);
-  return i < TOPICS.length - 1 ? [TOPICS[i + 1], 1] : null;
+  return i < TOPICS.length - 1 ? [TOPICS[i + 1], 1] : [TOPICS[0], 1];   // after the last step: start again
 }
 function setNext() {
   const nx = nextOf(), up = $('upnext');
@@ -272,7 +237,8 @@ function setNext() {
     up.onclick = () => go(t, n);
   }
   $('bNext').disabled = !nx;
-  $('nextLbl').textContent = topic.cards ? 'Done, next step' : 'Next topic';
+  const last = nx && nx[0] === TOPICS[0] && topic !== TOPICS[0];
+  $('nextLbl').textContent = last ? 'Done, start again' : topic.cards ? 'Done, next step' : 'Next topic';
   $('bBack').disabled = topic === TOPICS[0] && step === 1;
 }
 
@@ -329,7 +295,7 @@ document.addEventListener('keydown', e => {
 function fromHash() {
   const m = location.hash.match(/^#(\d+)\.(\d+)$/), t0 = m && TOPICS.find(t => t.id === +m[1]);
   const n = t0 ? Math.max(1, Math.min(+m[2], steps(t0))) : 1;
-  if (t0 !== topic || n !== step || !frame.src) go(t0 || TOPICS[1], n);
+  if (t0 !== topic || n !== step || !frame.src) go(t0 || TOPICS[0], n);
 }
 window.addEventListener('hashchange', fromHash);
 fromHash();
