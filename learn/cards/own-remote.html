@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Its Own Remote</title>
+<!-- Concept card 1.2 of the Learn course, topic 1 "Control any device": each kind of device gets the remote it really uses.
+     1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
+     One timeline (T ms, loops); render.py seeks it. Built on the topic-2 scaffold: same TV, same cards. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 440px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: var(--h1, 72px); line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  body.sq h1 { font-size: var(--h1sq, 58px); }
+  .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
+  body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
+  .stage { position: absolute; left: 0; top: 0; width: 888px; height: var(--dh); }
+  body.sq .stage { left: 50%; margin-left: -444px; transform: scale(var(--sqs, 0.8)); transform-origin: center top; }
+  .mono { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; }
+  .white { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 3px; text-align: center; color: var(--muted); }
+  .abs { position: absolute; }
+  /* a label centred on a column: left/width set inline, never a translateX(-50%) */
+  .lbl { position: absolute; display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; }
+  .lbl > span { text-wrap: balance; }
+  .lbl.grey { color: var(--muted); font-size: 26px; }
+  .lbl.red { color: var(--bad); }
+  .lbl.gold { color: var(--goldText); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .chip.greyc { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .okdot, .xdot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* the TV look of fingerprint.html, smaller; .nm layers carry the screen name */
+  .tv { position: absolute; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 26px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .tv .tick { position: absolute; right: 10px; top: 8px; }
+
+  /* ---- the user-interface map: same block in user-interface, go-anywhere, variants, repair-map ---- */
+  .uimap { position: absolute; width: 400px; height: 300px; }
+  .uibg { position: absolute; inset: 0; background: var(--card); border: 2px solid var(--line); border-radius: 22px; box-shadow: 0 6px 18px rgba(0,0,0,.06); padding-top: 13px; }
+  .uimap svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .uimap .arw { color: #a89f93; }
+  .uimap .arw path { stroke: currentColor; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .uimap .arw path.hd { fill: currentColor; stroke-width: 1.5; }
+  .scr { position: absolute; width: 128px; height: 58px; border-radius: 12px; background: var(--dark); color: #fff; font-size: 26px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .scr::before { content: ''; position: absolute; left: 10px; top: 7px; width: 28px; height: 4px; border-radius: 2px; background: #4a4a4a; }
+  #sHome { left: 136px; top: 50px; } #sGuide { left: 14px; top: 222px; } #sSettings { left: 258px; top: 222px; }
+  .kw { position: absolute; width: 0; display: flex; justify-content: center; }      /* centres its key on left: */
+  .key { position: relative; white-space: nowrap; font-size: 26px; font-weight: 700; line-height: 1.2; padding: 1px 12px 2px; border-radius: 10px; background: var(--card); border: 2px solid #c9c2b8; border-bottom-width: 5px; color: var(--ink); }
+  .key .mk { position: absolute; right: -16px; top: -18px; }
+  /* ---- end of the map block ---- */
+
+  .caption { margin-top: auto; font-size: 34px; line-height: 1.3; color: var(--ink); max-width: 888px; }
+  body.sq .caption { font-size: 29px; }
+  .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
+  body.sq .ctarow { margin-top: 24px; }
+
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 30px; }
+  .drop { position: absolute; display: flex; justify-content: center; }
+  .drop span { font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  .dk { background: var(--dark); color: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .dk .t { color: #cfcfcf; }
+  .pad { padding-top: 14px; }
+  .row { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .sub { font-size: 26px; color: var(--muted); text-align: center; line-height: 1.2; }
+  .dk .sub { color: #bdbdbd; }
+  .res { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .res .row { justify-content: flex-start; }
+  .chips { position: absolute; display: flex; justify-content: center; gap: 14px; }
+  .livec { position: absolute; z-index: 3; font-size: 18px; font-weight: 700; letter-spacing: 2px; padding: 2px 10px; border-radius: 6px; background: var(--gold); color: var(--ink); }
+  .stb { position: absolute; border-radius: 10px; background: var(--dark); box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  .stb::before { content: ''; position: absolute; left: 16px; top: 50%; width: 40%; height: 4px; margin-top: -2px; border-radius: 2px; background: #3a3a3a; }
+  .stb::after { content: ''; position: absolute; right: 16px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--ok); }
+  .phone { position: absolute; background: var(--card); border: 2px solid var(--line); border-radius: 26px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .phone::after { content: ''; position: absolute; left: 50%; bottom: 9px; width: 34px; height: 5px; margin-left: -17px; border-radius: 3px; background: #d9d4cc; }
+  .tv.sm .nm { font-size: 24px; } .tv.sm .tiles i { height: 16px; } .tv.sm .bar { height: 7px; }
+  :root { --h1: 56px; } body.sq { --h1sq: 50px; }
+  .devs { padding: 14px 12px; }
+  .dv { display: flex; align-items: center; gap: 12px; height: 58px; margin-top: 10px; padding: 0 12px; border-radius: 12px; font-size: 26px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .dv svg { flex: none; color: #8a8378; }
+  .rm { position: absolute; left: 0; right: 0; top: 50px; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+  .rm .key { font-size: 24px; }
+  .krow { display: flex; gap: 12px; justify-content: center; }
+  .dpad { position: relative; width: 150px; height: 150px; border-radius: 50%; background: #2e2e2e; display: grid; place-items: center; }
+  .dpad::before { content: ''; position: absolute; inset: 12px; border-radius: 50%; border: 3px dashed #4a4a4a; }
+  .mini { position: relative; width: 104px; height: 150px; border-radius: 16px; border: 3px solid #555; display: grid; place-items: center; }
+  .ripple { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--gold); }
+  .url { width: 240px; height: 46px; border-radius: 23px; background: #2e2e2e; color: #fff; font-size: 24px; font-weight: 700; display: flex; align-items: center; padding: 0 18px; gap: 6px; white-space: nowrap; }
+  .url i { width: 3px; height: 26px; background: var(--gold); }
+  .pad2 { position: relative; width: 250px; height: 130px; border-radius: 50px; background: #2e2e2e; }
+  .cross { position: absolute; left: 34px; top: 38px; width: 54px; height: 54px; }
+  .cross::before, .cross::after { content: ''; position: absolute; background: #555; border-radius: 4px; }
+  .cross::before { left: 18px; top: 0; width: 18px; height: 54px; } .cross::after { left: 0; top: 18px; width: 54px; height: 18px; }
+  .abxy { position: absolute; right: 26px; top: 18px; width: 96px; height: 96px; }
+  .abxy span { position: absolute; width: 38px; height: 38px; border-radius: 50%; background: #fff; color: var(--ink); font-size: 22px; font-weight: 700; display: grid; place-items: center; }
+  .how { padding: 14px 14px; }
+  .how .row { justify-content: flex-start; font-size: 24px; height: 58px; margin-top: 10px; gap: 10px; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">CONTROL ANY DEVICE · ITS OWN REMOTE · 2/5</div>
+  <h1><span id="h1a">The right remote for each device</span><span class="l2" id="h1b">TV box, phone, web or console: each gets its own keys</span></h1>
+
+  <div class="diagram"><div class="stage" id="stage">
+    <svg class="links" id="links"></svg>
+    <div class="white abs devs" id="devs" style="left:0; top:20px; width:226px; height:330px"><div class="t">YOUR DEVICES</div><div class="dv" id="d0"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="12.5" r="1.3" fill="currentColor"/></svg><span>TV box</span></div><div class="dv" id="d1"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span>Phone</span></div><div class="dv" id="d2"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3 9h18" stroke="currentColor" stroke-width="2.2"/></svg><span>Web app</span></div><div class="dv" id="d3"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4v2a3 3 0 0 1-5.5 1.6L14.5 14h-5l-1 1.6A3 3 0 0 1 3 14v-2a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M7 11v3M5.5 12.5h3" stroke="currentColor" stroke-width="2"/></svg><span>Console</span></div></div>
+    <div class="dk abs pad" id="rem" style="left:258px; top:20px; width:300px; height:330px"><div class="t">ITS REMOTE</div>
+      <div class="rm" id="rm0"><div class="dpad"><span class="key" id="k0">OK</span></div><div class="krow"><span class="key">Menu</span><span class="key">Back</span></div></div>
+      <div class="rm" id="rm1"><div class="mini"><span class="ripple" id="k1"></span></div><div class="krow"><span class="key">Home</span><span class="key">Back</span><span class="key" style="background:#d4a574">Tap</span></div></div>
+      <div class="rm" id="rm2"><div class="url">Go to page<i></i></div><div class="krow"><span class="key" id="k2">Click</span><span class="key">Type</span></div></div>
+      <div class="rm" id="rm3"><div class="pad2"><div class="cross"></div><div class="abxy"><span style="left:29px; top:-8px">X</span><span style="left:-8px; top:29px">Y</span><span style="left:66px; top:29px" id="k3">A</span><span style="left:29px; top:66px">B</span></div></div></div>
+    </div>
+    <div class="white abs how" id="how" style="left:590px; top:20px; width:298px; height:330px"><div style="height:24px"></div><div class="row" id="h0">TV box: infrared <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="h1">Phone: Android <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="h2">Web app: browser <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="h3">Console: Bluetooth <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+    <div class="lbl grey" id="lTwo" style="left:0px; top:380px; width:888px"><span>One box can even have two: infrared and Bluetooth.</span></div>
+
+  </div></div>
+
+  <p class="caption" id="caption">Each device gets the remote it really uses: a TV box's keys, a phone's taps, a web page's clicks, a console's buttons. Tests use the same ones.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See device control <span class="arrow">→</span></div><span class="next">Next: Your own phone</span></div>
+</div>
+<script>
+const T = 15000;                         // loop length, ms
+const F = new URLSearchParams(location.search).get('f');
+if (F === 'sq') document.body.classList.add('sq');
+if (F === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
+function fade(el, t0, t1 = null, dur = 300) {
+  const k = [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(el, k);
+}
+// a key press: the key dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+// dotted connectors, dot by dot
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+// map helpers: an arrow's colour, and a thick line that runs along an arrow (drawn from its start)
+function arrowColor(id, keys) { at($(id), keys.map(([t, c]) => [t, { color: c }])); }
+function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
+  const src = $(id).querySelector('path'), p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', src.getAttribute('d')); p.setAttribute('pathLength', '1');
+  p.setAttribute('style', `fill:none;stroke:${color};stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1`);
+  $('uiRun').appendChild(p);
+  at(p, [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }], [tOff, { strokeDashoffset: 0, opacity: 1 }],
+         [tOff + 400, { strokeDashoffset: 0, opacity: 0 }], [T, { strokeDashoffset: 1, opacity: 0 }]], 'linear');
+}
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('devs'), 1600); [0, 1, 2, 3].forEach(i => enter($('d' + i), 1750 + i * 120, 400));
+dots(230, 185, 254, 185, 2600, 3000);
+enter($('rem'), 3000);
+dots(562, 185, 586, 185, 3300, 3500);
+enter($('how'), 3400);
+// 3.2 / 4.3 / 5.4 / 6.5: each device picked in turn; its remote replaces the last one; its row appears on the right
+const PICK = [3200, 4300, 5400, 6500];
+const ON = { background: '#d4a574' }, OFF = { background: 'rgba(212,165,116,0)' };
+PICK.forEach((t, i) => {
+  const last = i === 3;
+  at($('d' + i), last ? [[t, OFF], [t + 250, ON], [OUT1, ON], [T, OFF]] : [[t, OFF], [t + 250, ON], [PICK[i + 1], ON], [PICK[i + 1] + 250, OFF]]);
+  fade($('rm' + i), t + 100, last ? null : PICK[i + 1], 250);
+  enter($('h' + i), t + 400, 400);
+});
+press($('k0'), 3800); press($('k2'), 6000); press($('k3'), 7100);
+at($('k1'), [[4800, { transform: 'scale(0.4)', opacity: 1 }], [5200, { transform: 'scale(1.5)', opacity: 0 }]]);
+enter($('lTwo'), 7800);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+
+// master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
+function tick(ms) {}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

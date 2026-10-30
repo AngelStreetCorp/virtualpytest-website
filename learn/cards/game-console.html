@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play a Game Console</title>
+<!-- Concept card 9.2 of the Learn course, topic 9 "More features": a game console played remotely, its controller over Bluetooth, its picture live.
+     1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
+     One timeline (T ms, loops); render.py seeks it. Built on the topic-2 scaffold: same TV, same cards. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 450px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: var(--h1, 72px); line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  body.sq h1 { font-size: var(--h1sq, 58px); }
+  .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
+  body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
+  .stage { position: absolute; left: 0; top: 0; width: 888px; height: var(--dh); }
+  body.sq .stage { left: 50%; margin-left: -444px; transform: scale(var(--sqs, 0.8)); transform-origin: center top; }
+  .mono { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; }
+  .white { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 3px; text-align: center; color: var(--muted); }
+  .abs { position: absolute; }
+  /* a label centred on a column: left/width set inline, never a translateX(-50%) */
+  .lbl { position: absolute; display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; }
+  .lbl > span { text-wrap: balance; }
+  .lbl.grey { color: var(--muted); font-size: 26px; }
+  .lbl.red { color: var(--bad); }
+  .lbl.gold { color: var(--goldText); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .chip.greyc { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .okdot, .xdot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* the TV look of fingerprint.html, smaller; .nm layers carry the screen name */
+  .tv { position: absolute; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 26px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .tv .tick { position: absolute; right: 10px; top: 8px; }
+
+  /* ---- the user-interface map: same block in user-interface, go-anywhere, variants, repair-map ---- */
+  .uimap { position: absolute; width: 400px; height: 300px; }
+  .uibg { position: absolute; inset: 0; background: var(--card); border: 2px solid var(--line); border-radius: 22px; box-shadow: 0 6px 18px rgba(0,0,0,.06); padding-top: 13px; }
+  .uimap svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .uimap .arw { color: #a89f93; }
+  .uimap .arw path { stroke: currentColor; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .uimap .arw path.hd { fill: currentColor; stroke-width: 1.5; }
+  .scr { position: absolute; width: 128px; height: 58px; border-radius: 12px; background: var(--dark); color: #fff; font-size: 26px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .scr::before { content: ''; position: absolute; left: 10px; top: 7px; width: 28px; height: 4px; border-radius: 2px; background: #4a4a4a; }
+  #sHome { left: 136px; top: 50px; } #sGuide { left: 14px; top: 222px; } #sSettings { left: 258px; top: 222px; }
+  .kw { position: absolute; width: 0; display: flex; justify-content: center; }      /* centres its key on left: */
+  .key { position: relative; white-space: nowrap; font-size: 26px; font-weight: 700; line-height: 1.2; padding: 1px 12px 2px; border-radius: 10px; background: var(--card); border: 2px solid #c9c2b8; border-bottom-width: 5px; color: var(--ink); }
+  .key .mk { position: absolute; right: -16px; top: -18px; }
+  /* ---- end of the map block ---- */
+
+  .caption { margin-top: auto; font-size: 34px; line-height: 1.3; color: var(--ink); max-width: 888px; }
+  body.sq .caption { font-size: 29px; }
+  .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
+  body.sq .ctarow { margin-top: 24px; }
+
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 30px; }
+  .drop { position: absolute; display: flex; justify-content: center; }
+  .drop span { font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  .dk { background: var(--dark); color: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .dk .t { color: #cfcfcf; }
+  .pad { padding-top: 14px; }
+  .row { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .sub { font-size: 26px; color: var(--muted); text-align: center; line-height: 1.2; }
+  .dk .sub { color: #bdbdbd; }
+  .res { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .res .row { justify-content: flex-start; }
+  .chips { position: absolute; display: flex; justify-content: center; gap: 14px; }
+  .livec { position: absolute; z-index: 3; font-size: 18px; font-weight: 700; letter-spacing: 2px; padding: 2px 10px; border-radius: 6px; background: var(--gold); color: var(--ink); }
+  .stb { position: absolute; border-radius: 10px; background: var(--dark); box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  .stb::before { content: ''; position: absolute; left: 16px; top: 50%; width: 40%; height: 4px; margin-top: -2px; border-radius: 2px; background: #3a3a3a; }
+  .stb::after { content: ''; position: absolute; right: 16px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--ok); }
+  .phone { position: absolute; background: var(--card); border: 2px solid var(--line); border-radius: 26px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .phone::after { content: ''; position: absolute; left: 50%; bottom: 9px; width: 34px; height: 5px; margin-left: -17px; border-radius: 3px; background: #d9d4cc; }
+  .tv.sm .nm { font-size: 24px; } .tv.sm .tiles i { height: 16px; } .tv.sm .bar { height: 7px; }
+  :root { --h1: 60px; } body.sq { --h1sq: 52px; }
+  .dock { position: absolute; border-radius: 10px 10px 14px 14px; background: #2b2b2b; }
+  .plug { position: absolute; width: 22px; height: 16px; border-radius: 4px; background: #8a8378; }
+  .gp { position: absolute; border-radius: 10px; overflow: hidden; background: #2a2a2a; }
+  .gt { position: absolute; top: 40px; width: 62px; height: 62px; border-radius: 8px; background: #555; }
+  .gt:nth-child(2n) { background: #6e6e6e; }
+  .sel { position: absolute; top: 34px; width: 74px; height: 74px; border-radius: 11px; border: 5px solid var(--gold); }
+  .game { position: absolute; inset: 0; background: linear-gradient(160deg, #8fb0bd, #4f6b76 60%, #3b3833); }
+  .game i { position: absolute; left: 130px; top: 70px; width: 40px; height: 40px; border-radius: 8px; background: var(--gold); }
+  .ctl { position: absolute; border-radius: 44px; background: #2e2e2e; }
+  .cross { position: absolute; width: 60px; height: 60px; }
+  .cross::before, .cross::after { content: ''; position: absolute; background: #555; border-radius: 4px; }
+  .cross::before { left: 20px; top: 0; width: 20px; height: 60px; } .cross::after { left: 0; top: 20px; width: 60px; height: 20px; }
+  .rt { position: absolute; left: 40px; top: 20px; width: 20px; height: 20px; border-radius: 3px; }
+  .abxy { position: absolute; width: 96px; height: 96px; }
+  .abxy span { position: absolute; width: 36px; height: 36px; border-radius: 50%; background: #fff; color: var(--ink); font-size: 21px; font-weight: 700; display: grid; place-items: center; }
+  .st { position: absolute; display: flex; justify-content: center; }
+  .st .chip { position: absolute; }
+  .btl { position: absolute; display: flex; align-items: center; gap: 6px; font-size: 24px; font-weight: 700; color: var(--goldText); white-space: nowrap; }
+  .res .row { font-size: 24px; white-space: normal; line-height: 1.2; gap: 10px; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">MORE FEATURES · GAME CONSOLE · 2/4</div>
+  <h1><span id="h1a">Play a Nintendo Switch remotely</span><span class="l2" id="h1b">Its controller over Bluetooth, its picture live</span></h1>
+
+  <div class="diagram"><div class="stage" id="stage">
+    <svg class="links" id="links"></svg>
+    <div class="abs" id="con" style="left:6px; top:84px; width:220px; height:180px">
+      <div class="abs" style="left:24px; top:0"><svg width="180" height="96" viewBox="0 0 120 64"><rect x="22" y="4" width="76" height="52" rx="6" fill="#1a1a1a"/><rect x="29" y="11" width="62" height="38" rx="3" fill="#3d3d3d"/><rect x="2" y="4" width="22" height="52" rx="11" fill="#8a8378"/><rect x="96" y="4" width="22" height="52" rx="11" fill="#d4a574"/><circle cx="13" cy="20" r="4" fill="#1a1a1a"/><circle cx="107" cy="38" r="4" fill="#1a1a1a"/></svg></div>
+      <div class="dock" style="left:44px; top:62px; width:140px; height:80px"></div>
+      <div class="plug" style="left:186px; top:116px"></div>
+    </div>
+    <div class="lbl " id="lCon" style="left:0px; top:282px; width:236px"><span>Game console</span></div>
+    <div class="lbl grey" id="lHdmi" style="left:-12px; top:320px; width:260px"><span><span style="white-space:nowrap">HDMI from the dock</span></span></div>
+    <div class="white abs pad" id="web" style="left:262px; top:0; width:356px; height:396px"><div class="t">IN YOUR BROWSER</div></div>
+    <div class="gp" id="gp" style="left:280px; top:46px; width:320px; height:150px"><span class="gt" style="left:18px"></span><span class="gt" style="left:94px"></span><span class="gt" style="left:170px"></span><span class="gt" style="left:246px"></span>
+      <span class="sel" id="sel" style="left:12px"></span><div class="game" id="game"><i></i></div></div>
+    <div class="ctl" id="ctl" style="left:300px; top:212px; width:280px; height:116px">
+      <div class="cross" style="left:34px; top:28px"><span class="rt" id="kR"></span></div>
+      <div class="abxy" style="left:162px; top:10px"><span style="left:30px; top:-6px">X</span><span style="left:-6px; top:30px">Y</span><span style="left:66px; top:30px" id="kA">A</span><span style="left:30px; top:66px">B</span></div>
+    </div>
+    <div class="st" style="left:262px; top:340px; width:356px"><span class="chip" id="pPair" style="background:#1a1a1a; color:#fff; border-color:#1a1a1a">Pair</span><span class="chip" id="pIng" style="color:var(--goldText)">Pairing</span><span class="chip" id="pOk">Connected <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
+    <div class="btl" id="btl" style="left:40px; top:12px"><svg width="22" height="26" viewBox="0 0 24 28"><path d="M6 8l12 12-6 5V3l6 5L6 20" fill="none" stroke="#141414" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Bluetooth</span></div>
+    <div class="white abs res" id="res" style="left:646px; top:40px; width:242px"><div class="row" id="r1">Pair once <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="r2">Reconnects by itself <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="r3">Tests use the same buttons <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+    <div class="lbl grey" id="lNoMod" style="left:0px; top:416px; width:888px"><span>Nothing to change on the console.</span></div>
+
+  </div></div>
+
+  <p class="caption" id="caption">The host acts as a wireless controller over Bluetooth while the dock's picture plays live. Pair once, then click the buttons or let a test press them.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See the console guide <span class="arrow">→</span></div><span class="next">Next: Game bot</span></div>
+</div>
+<script>
+const T = 15000;                         // loop length, ms
+const F = new URLSearchParams(location.search).get('f');
+if (F === 'sq') document.body.classList.add('sq');
+if (F === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
+function fade(el, t0, t1 = null, dur = 300) {
+  const k = [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(el, k);
+}
+// a key press: the key dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+// dotted connectors, dot by dot
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+// map helpers: an arrow's colour, and a thick line that runs along an arrow (drawn from its start)
+function arrowColor(id, keys) { at($(id), keys.map(([t, c]) => [t, { color: c }])); }
+function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
+  const src = $(id).querySelector('path'), p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', src.getAttribute('d')); p.setAttribute('pathLength', '1');
+  p.setAttribute('style', `fill:none;stroke:${color};stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1`);
+  $('uiRun').appendChild(p);
+  at(p, [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }], [tOff, { strokeDashoffset: 0, opacity: 1 }],
+         [tOff + 400, { strokeDashoffset: 0, opacity: 0 }], [T, { strokeDashoffset: 1, opacity: 0 }]], 'linear');
+}
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('con'), 1600); enter($('lCon'), 1800); enter($('lHdmi'), 2000);
+dots(226, 200, 256, 160, 2600, 3000);
+enter($('web'), 3200); enter($('gp'), 3300); enter($('ctl'), 3500);
+// the status chip: Pair, then Pairing (4.0), then Connected (4.8)
+fade($('pPair'), 3600, 4000, 200); fade($('pIng'), 4050, 4800, 200); fade($('pOk'), 4850, null, 200);
+at($('pPair'), [[3950, { transform: 'scale(1)' }], [4050, { transform: 'scale(0.92)' }]]);
+// 4.0: a gold Bluetooth line runs back to the console
+const BT = []; for (let k = 0; k <= 12; k++) { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', 262 - k * 12); c.setAttribute('cy', 70 + k * 2.5); c.setAttribute('r', 4.4); c.setAttribute('fill', '#d4a574'); svg.appendChild(c);
+  at(c, [[4000 + k * 50, { opacity: 0 }], [4100 + k * 50, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]); }
+fade($('btl'), 4100);
+// 5.4: right on the D-pad moves the gold tile, then A opens the game
+at($('kR'), [[5400, { background: 'rgba(212,165,116,0)' }], [5500, { background: '#d4a574' }], [5800, { background: '#d4a574' }], [6000, { background: 'rgba(212,165,116,0)' }]]);
+at($('sel'), [[5500, { transform: 'translateX(0px)' }], [5800, { transform: 'translateX(76px)' }], [OUT1, { transform: 'translateX(76px)' }], [T, { transform: 'translateX(0px)' }]], 'ease-in-out');
+at($('kA'), [[6000, { background: '#ffffff', transform: 'scale(1)' }], [6100, { background: '#d4a574', transform: 'scale(1.15)' }], [6400, { background: '#d4a574', transform: 'scale(1)' }], [6700, { background: '#ffffff', transform: 'scale(1)' }]]);
+fade($('game'), 6250, null, 350);
+dots(622, 120, 642, 120, 6400, 6600);
+enter($('res'), 6600); enter($('r1'), 6800, 400); enter($('r2'), 7100, 400); enter($('r3'), 7400, 400);
+enter($('lNoMod'), 8000);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+
+// master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
+function tick(ms) {}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
