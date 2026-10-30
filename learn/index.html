@@ -94,6 +94,7 @@
 
   /* phone: stage on top, the text under it, the step buttons pinned at the bottom */
   @media (max-width: 900px) {
+    .pn { display: none; }   /* phone: the Prev / Next buttons below already say it */
     header { padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
     nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
     main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
