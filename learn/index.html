@@ -52,8 +52,7 @@
   /* body: stage + side panel */
   main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 20px 24px 24px; min-height: 0; }
   /* the stage is always the cards' own light background, also in dark mode: the cards are light */
-  .stage { position: relative; background: #f2f0ec; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 70px 0; }
-  .stage .num { position: absolute; left: 26px; top: 14px; font-size: 76px; font-weight: 700; letter-spacing: -3px; line-height: 1; color: #141414; z-index: 2; }
+  .stage { position: relative; background: #f2f0ec; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 24px 0 76px; }
   .stage .fit { position: relative; width: 100%; }
   .stage iframe { position: absolute; left: 0; top: 0; width: 1080px; height: 600px; border: 0; transform-origin: 0 0; }
   .controls { position: absolute; left: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 2; }
@@ -70,6 +69,7 @@
   .panel .body { padding: 26px 26px 18px; overflow-y: auto; flex: 1; }
   .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
   .panel h1 { margin-top: 14px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
+  .panel h1 .sn { color: var(--goldText); margin-right: 4px; }   /* the step number, e.g. 1.1, in front of the title */
   .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
   .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
   .panel h3 { margin-top: 24px; font-size: 14px; color: var(--muted); font-weight: 700; }
@@ -97,8 +97,7 @@
     header { padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
     nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
     main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
-    .stage { min-height: 0; border-radius: 16px; padding: 52px 0 62px; }
-    .stage .num { font-size: 40px; left: 16px; top: 10px; letter-spacing: -2px; }
+    .stage { min-height: 0; border-radius: 16px; padding: 8px 0 58px; }
     .controls { left: 12px; bottom: 10px; }
     .controls button { height: 40px; min-width: 40px; }
     aside.panel { border: 0; background: transparent; border-radius: 0; }
@@ -120,7 +119,6 @@
 </header>
 <main>
   <section class="stage" id="stage" aria-label="Animation">
-    <div class="num" id="num" aria-hidden="true"></div>
     <div class="fit" id="fit"><iframe id="card" title="Animated lesson" scrolling="no"></iframe></div>
     <div class="soonbox" id="soon" hidden></div>
     <div class="controls" id="controls">
@@ -192,7 +190,6 @@ function go(t, n) {
   renderTopics();
   const live = !!t.cards, total = steps(t);
   $('fit').hidden = $('controls').hidden = !live; $('soon').hidden = live;
-  $('num').textContent = live ? `${t.id}.${n}` : '';
   $('stepOf').textContent = live ? `Step ${n} of ${total}` : `Topic ${t.id} · ${total} lessons`;
   if (!live) {
     frame.src = 'about:blank';
@@ -202,7 +199,7 @@ function go(t, n) {
     return setNext();
   }
   const s = t.cards[n - 1];
-  $('title').textContent = s.title; $('sub').textContent = s.sub; $('text').textContent = s.text;
+  $('title').innerHTML = `<span class="sn">${t.id}.${n}</span> `; $('title').append(s.title); $('sub').textContent = s.sub; $('text').textContent = s.text;
   setNext();
   load(s.card);
 }
