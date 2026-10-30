@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Its Own Remote</title>
-<!-- Concept card 1.2 of the Learn course, topic 1 "Control any device": each kind of device gets the remote it really uses.
+<!-- Concept card 1.2 of the Learn course, topic 1 "Control any device": each device, its controller, the keys it sends (review round 2026-10-30).
      1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
      One timeline (T ms, loops); render.py seeks it. Built on the topic-2 scaffold: same TV, same cards. -->
 <style>
@@ -13,7 +13,7 @@
   :root {
     --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
     --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
-    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 440px;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 456px;
   }
   body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -102,49 +102,45 @@
   .phone::after { content: ''; position: absolute; left: 50%; bottom: 9px; width: 34px; height: 5px; margin-left: -17px; border-radius: 3px; background: #d9d4cc; }
   .tv.sm .nm { font-size: 24px; } .tv.sm .tiles i { height: 16px; } .tv.sm .bar { height: 7px; }
   :root { --h1: 56px; } body.sq { --h1sq: 50px; }
-  .devs { padding: 14px 12px; }
-  .dv { display: flex; align-items: center; gap: 12px; height: 58px; margin-top: 10px; padding: 0 12px; border-radius: 12px; font-size: 26px; font-weight: 700; color: var(--ink); white-space: nowrap; }
-  .dv svg { flex: none; color: #8a8378; }
-  .rm { position: absolute; left: 0; right: 0; top: 50px; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
-  .rm .key { font-size: 24px; }
-  .krow { display: flex; gap: 12px; justify-content: center; }
-  .dpad { position: relative; width: 150px; height: 150px; border-radius: 50%; background: #2e2e2e; display: grid; place-items: center; }
-  .dpad::before { content: ''; position: absolute; inset: 12px; border-radius: 50%; border: 3px dashed #4a4a4a; }
-  .mini { position: relative; width: 104px; height: 150px; border-radius: 16px; border: 3px solid #555; display: grid; place-items: center; }
-  .ripple { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--gold); }
-  .url { width: 240px; height: 46px; border-radius: 23px; background: #2e2e2e; color: #fff; font-size: 24px; font-weight: 700; display: flex; align-items: center; padding: 0 18px; gap: 6px; white-space: nowrap; }
-  .url i { width: 3px; height: 26px; background: var(--gold); }
-  .pad2 { position: relative; width: 250px; height: 130px; border-radius: 50px; background: #2e2e2e; }
-  .cross { position: absolute; left: 34px; top: 38px; width: 54px; height: 54px; }
-  .cross::before, .cross::after { content: ''; position: absolute; background: #555; border-radius: 4px; }
-  .cross::before { left: 18px; top: 0; width: 18px; height: 54px; } .cross::after { left: 0; top: 18px; width: 54px; height: 18px; }
-  .abxy { position: absolute; right: 26px; top: 18px; width: 96px; height: 96px; }
-  .abxy span { position: absolute; width: 38px; height: 38px; border-radius: 50%; background: #fff; color: var(--ink); font-size: 22px; font-weight: 700; display: grid; place-items: center; }
-  .how { padding: 14px 14px; }
-  .how .row { justify-content: flex-start; font-size: 24px; height: 58px; margin-top: 10px; gap: 10px; }
+  .rdv { position: absolute; left: 0; width: 250px; height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 14px; font-size: 28px; font-weight: 700; white-space: nowrap; border-radius: 14px; }
+  .rdv svg { flex: none; color: #8a8378; }
+  body.embed .rdv { font-size: 30px; }
+  .rct { position: absolute; left: 300px; width: 212px; height: 64px; display: flex; align-items: center; justify-content: center; }
+  .rct span { font-size: 28px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  .rks { position: absolute; left: 560px; width: 328px; height: 64px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 14px; }
+  .rks .key { font-size: 26px; }
 </style>
 </head>
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
   <div class="eyebrow" id="eyebrow">CONTROL ANY DEVICE · ITS OWN REMOTE · 2/5</div>
-  <h1><span id="h1a">The right remote for each device</span><span class="l2" id="h1b">TV box, phone, web or console: each gets its own keys</span></h1>
+  <h1><span id="h1a">The right remote for each device</span><span class="l2" id="h1b">Each device gets its own controller and its own keys</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
-    <div class="white abs devs" id="devs" style="left:0; top:20px; width:226px; height:330px"><div class="t">YOUR DEVICES</div><div class="dv" id="d0"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="12.5" r="1.3" fill="currentColor"/></svg><span>TV box</span></div><div class="dv" id="d1"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span>Phone</span></div><div class="dv" id="d2"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3 9h18" stroke="currentColor" stroke-width="2.2"/></svg><span>Web app</span></div><div class="dv" id="d3"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4v2a3 3 0 0 1-5.5 1.6L14.5 14h-5l-1 1.6A3 3 0 0 1 3 14v-2a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M7 11v3M5.5 12.5h3" stroke="currentColor" stroke-width="2"/></svg><span>Console</span></div></div>
-    <div class="dk abs pad" id="rem" style="left:258px; top:20px; width:300px; height:330px"><div class="t">ITS REMOTE</div>
-      <div class="rm" id="rm0"><div class="dpad"><span class="key" id="k0">OK</span></div><div class="krow"><span class="key">Menu</span><span class="key">Back</span></div></div>
-      <div class="rm" id="rm1"><div class="mini"><span class="ripple" id="k1"></span></div><div class="krow"><span class="key">Home</span><span class="key">Back</span><span class="key" style="background:#d4a574">Tap</span></div></div>
-      <div class="rm" id="rm2"><div class="url">Go to page<i></i></div><div class="krow"><span class="key" id="k2">Click</span><span class="key">Type</span></div></div>
-      <div class="rm" id="rm3"><div class="pad2"><div class="cross"></div><div class="abxy"><span style="left:29px; top:-8px">X</span><span style="left:-8px; top:29px">Y</span><span style="left:66px; top:29px" id="k3">A</span><span style="left:29px; top:66px">B</span></div></div></div>
-    </div>
-    <div class="white abs how" id="how" style="left:590px; top:20px; width:298px; height:330px"><div style="height:24px"></div><div class="row" id="h0">TV box: infrared <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="h1">Phone: Android <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="h2">Web app: browser <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="row" id="h3">Console: Bluetooth <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
-    <div class="lbl grey" id="lTwo" style="left:0px; top:380px; width:888px"><span>One box can even have two: infrared and Bluetooth.</span></div>
+    <div class="white rdv" id="rd0" style="top:0px"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span>Android</span></div>
+    <div class="rct" id="rc0" style="top:0px"><span>ADB</span></div>
+    <div class="dk rks" id="rk0" style="top:0px"><span class="key" id="k0_0">Tap</span><span class="key" id="k0_1">Swipe</span><span class="key" id="k0_2">Back</span></div>
+    <div class="white rdv" id="rd1" style="top:76px"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span>iPhone</span></div>
+    <div class="rct" id="rc1" style="top:76px"><span>Appium</span></div>
+    <div class="dk rks" id="rk1" style="top:76px"><span class="key" id="k1_0">Tap</span><span class="key" id="k1_1">Swipe</span><span class="key" id="k1_2">Home</span></div>
+    <div class="white rdv" id="rd2" style="top:152px"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3 9h18" stroke="currentColor" stroke-width="2.2"/></svg><span>Web app</span></div>
+    <div class="rct" id="rc2" style="top:152px"><span>Playwright</span></div>
+    <div class="dk rks" id="rk2" style="top:152px"><span class="key" id="k2_0">Click</span><span class="key" id="k2_1">Type</span></div>
+    <div class="white rdv" id="rd3" style="top:228px"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="2.2" fill="none"/></svg><span>Linux PC</span></div>
+    <div class="rct" id="rc3" style="top:228px"><span>bash</span></div>
+    <div class="dk rks" id="rk3" style="top:228px"><span class="key" id="k3_0">Run command</span></div>
+    <div class="white rdv" id="rd4" style="top:304px"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="12.5" r="1.3" fill="currentColor"/></svg><span>TV box</span></div>
+    <div class="rct" id="rc4" style="top:304px"><span>Infrared</span></div>
+    <div class="dk rks" id="rk4" style="top:304px"><span class="key" id="k4_0">OK</span><span class="key" id="k4_1">Menu</span><span class="key" id="k4_2">Back</span></div>
+    <div class="white rdv" id="rd5" style="top:380px"><svg width="34" height="34" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="12.5" r="1.3" fill="currentColor"/></svg><span>Same box</span></div>
+    <div class="rct" id="rc5" style="top:380px"><span>Bluetooth</span></div>
+    <div class="dk rks" id="rk5" style="top:380px"><span class="key" id="k5_0">OK</span><span class="key" id="k5_1">Menu</span><span class="key" id="k5_2">Back</span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">Each device gets the remote it really uses: a TV box's keys, a phone's taps, a web page's clicks, a console's buttons. Tests use the same ones.</p>
+  <p class="caption" id="caption">Each device gets the controller it really needs: ADB, Appium, Playwright, a shell, infrared or Bluetooth. Tests send the same keys.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See device control <span class="arrow">→</span></div><span class="next">Next: Your own phone</span></div>
 </div>
 <script>
@@ -200,23 +196,17 @@ function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
 }
 
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
-enter($('devs'), 1600); [0, 1, 2, 3].forEach(i => enter($('d' + i), 1750 + i * 120, 400));
-dots(230, 185, 254, 185, 2600, 3000);
-enter($('rem'), 3000);
-dots(562, 185, 586, 185, 3300, 3500);
-enter($('how'), 3400);
-// 3.2 / 4.3 / 5.4 / 6.5: each device picked in turn; its remote replaces the last one; its row appears on the right
-const PICK = [3200, 4300, 5400, 6500];
-const ON = { background: '#d4a574' }, OFF = { background: 'rgba(212,165,116,0)' };
-PICK.forEach((t, i) => {
-  const last = i === 3;
-  at($('d' + i), last ? [[t, OFF], [t + 250, ON], [OUT1, ON], [T, OFF]] : [[t, OFF], [t + 250, ON], [PICK[i + 1], ON], [PICK[i + 1] + 250, OFF]]);
-  fade($('rm' + i), t + 100, last ? null : PICK[i + 1], 250);
-  enter($('h' + i), t + 400, 400);
-});
-press($('k0'), 3800); press($('k2'), 6000); press($('k3'), 7100);
-at($('k1'), [[4800, { transform: 'scale(0.4)', opacity: 1 }], [5200, { transform: 'scale(1.5)', opacity: 0 }]]);
-enter($('lTwo'), 7800);
+ROWS_N = 6;
+for (let i = 0; i < 6; i++) {
+  const t = 1600 + i * 1000, y = i * 76 + 32;
+  enter($('rd' + i), t, 450);
+  dots(254, y, 296, y, t + 350, t + 550);
+  enter($('rc' + i), t + 500, 400);
+  dots(516, y, 556, y, t + 800, t + 1000);
+  enter($('rk' + i), t + 900, 400);
+  const n = $('rk' + i).children.length;
+  for (let j = 0; j < n; j++) press($('k' + i + '_' + j), t + 1500 + j * 250 - (i === 5 ? 700 : 0));
+}
 enter($('caption'), 9200); enter($('ctarow'), 10000);
 
 // master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
