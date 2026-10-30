@@ -66,28 +66,27 @@
   .soonbox p { margin-top: 6px; color: var(--muted); }
   .soonbox ol { margin: 18px 0 0 22px; line-height: 1.9; font-size: 16px; }
 
-  aside.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; display: flex; flex-direction: column; min-height: 0; }
+  aside.panel { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; display: flex; flex-direction: column; min-height: 0; }
   .panel .body { padding: 26px 26px 18px; overflow-y: auto; flex: 1; }
   .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
-  .meta .left { border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
   .panel h1 { margin-top: 14px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
   .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
   .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
   .panel h3 { margin-top: 24px; font-size: 14px; color: var(--muted); font-weight: 700; }
-  .needs { margin-top: 10px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-  .needs .row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; font-size: 15px; width: 100%; text-align: left; }
-  .needs .row + .row { border-top: 1px solid var(--line); }
-  .needs .row .tag { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 30px; }
-  .needs .row .st { margin-left: auto; font-size: 12px; color: var(--muted); white-space: nowrap; }
-  .needs .row .st.done { color: var(--ok); }
-  .upnext { margin-top: 10px; display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px; border-radius: 14px; background: var(--stage); font-size: 16px; font-weight: 700; text-align: left; }
-  .upnext .n { font-size: 20px; }
-  .upnext small { font-weight: 400; color: var(--muted); }
-  .upnext .arr { margin-left: auto; }
+  .steps { margin-top: 20px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+  .steps::-webkit-scrollbar { display: none; }
+  .steps button { flex-shrink: 0; min-width: 48px; height: 36px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
+  .steps button.done { color: var(--ok); }
+  .steps button[aria-current="true"] { background: var(--chipOn); border-color: var(--chipOn); color: var(--chipOnInk); }
+  .pn { margin-top: 10px; display: flex; gap: 10px; font-size: 14px; color: var(--muted); }
+  .pn button { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; padding: 6px 0; color: var(--muted); }
+  .pn button:last-child { text-align: right; }
+  .pn button b { color: var(--ink2); }
+  .pn button:disabled { opacity: .35; cursor: default; }
   .keys { margin-top: 18px; font-size: 13px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
   .keys kbd { font: inherit; font-weight: 700; color: var(--ink2); }
   .foot { display: flex; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
-  .foot .back { width: 52px; height: 52px; border-radius: 999px; border: 1px solid var(--line); display: grid; place-items: center; flex-shrink: 0; }
+  .foot .back { height: 52px; padding: 0 20px; gap: 8px; border-radius: 999px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; flex-shrink: 0; }
   .foot .done { flex: 1; height: 52px; border-radius: 999px; background: var(--dark); color: var(--onDark); display: flex; align-items: center; gap: 12px; padding: 0 18px; font-size: 17px; font-weight: 700; }
   .foot .done .tick { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; }
   .foot .done .arr { margin-left: auto; }
@@ -97,7 +96,7 @@
   @media (max-width: 900px) {
     header { padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
     nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
-    main { grid-template-columns: 1fr; padding: 12px 16px 0; gap: 14px; }
+    main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
     .stage { min-height: 0; border-radius: 16px; padding: 52px 0 62px; }
     .stage .num { font-size: 40px; left: 16px; top: 10px; letter-spacing: -2px; }
     .controls { left: 12px; bottom: 10px; }
@@ -132,19 +131,17 @@
   </section>
   <aside class="panel" aria-live="polite">
     <div class="body">
-      <div class="meta"><span id="stepOf"></span><span class="left" id="left"></span></div>
+      <div class="meta"><span id="stepOf"></span></div>
       <h1 id="title"></h1>
       <div class="l2" id="sub"></div>
       <p class="text" id="text"></p>
-      <h3 id="needsH">Before this</h3>
-      <div class="needs" id="needs"></div>
-      <h3 id="upH">Up next</h3>
-      <button class="upnext" id="upnext"></button>
+      <div class="steps" id="steps" role="group" aria-label="Steps of this topic"></div>
+      <div class="pn"><button id="prevB"></button><button id="nextB"></button></div>
       <div class="keys"><span><kbd>←</kbd> <kbd>→</kbd> to move</span><span><kbd>R</kbd> to replay</span><span><kbd>Space</kbd> to pause</span></div>
     </div>
     <div class="foot">
-      <button class="back" id="bBack" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-      <button class="done" id="bNext"><span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#141414" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="nextLbl">Done, next step</span><span class="arr" aria-hidden="true">→</span></button>
+      <button class="back" id="bBack" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Prev</span></button>
+      <button class="done" id="bNext"><span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#141414" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="nextLbl">Next</span><span class="arr" aria-hidden="true">→</span></button>
     </div>
   </aside>
 </main>
@@ -164,7 +161,6 @@ const TOPICS = [
   { id: 10, name: "How it runs", cards: [{"card": "three-parts", "title": "Three parts: web app, server, host", "sub": "Click in a browser; the host by the device acts", "text": "The web app is where you click. The server plans the run and keeps the results. The host by your devices presses the keys and sends the video.", "need": ["9.4"]}, {"card": "hosts-anywhere", "title": "Hosts anywhere, one platform", "sub": "Hosts at any site; one web app sees them all", "text": "Put a host wherever your devices are. Each host joins one server, and one web app shows every server, or all of them at once.", "need": ["10.1"]}, {"card": "host-profiles", "title": "What each host runs", "sub": "Only the services its devices need are on", "text": "A host comes full, lite for one device on a small board, or as a runner for web tests. Each device's profile starts only what it needs.", "need": ["10.2"]}, {"card": "host-services", "title": "The services behind a host", "sub": "Stream, watch, record, measure: each its own job", "text": "A host runs small services, each with one job: stream, watch, record, measure. See each one's state and restart it from the dashboard.", "need": ["10.3"]}] },
 ];
 const START = 1200;            // the diagram starts at 1.6 s: skip the social loop's empty header time
-const STEP_S = 12;             // seconds one step plays, for "min left"
 const $ = id => document.getElementById(id);
 const stepTitle = (t, n) => (t.cards ? t.cards[n - 1]?.title : t.plan?.[n - 1]) || '';
 const steps = t => (t.cards || t.plan).length;
@@ -196,29 +192,17 @@ function go(t, n) {
   renderTopics();
   const live = !!t.cards, total = steps(t);
   $('fit').hidden = $('controls').hidden = !live; $('soon').hidden = live;
-  $('num').textContent = live ? n : '';
+  $('num').textContent = live ? `${t.id}.${n}` : '';
   $('stepOf').textContent = live ? `Step ${n} of ${total}` : `Topic ${t.id} · ${total} lessons`;
-  $('left').textContent = live ? `≈ ${Math.max(1, Math.ceil((total - n + 1) * STEP_S / 60))} min left` : 'Coming soon';
   if (!live) {
     frame.src = 'about:blank';
     $('title').textContent = t.name; $('sub').textContent = 'Coming soon';
     $('text').textContent = 'These lessons are being made. Here is what this topic will teach.';
     $('soon').innerHTML = `<h2>${t.name}</h2><p>Coming soon</p><ol>${t.plan.map(p => `<li>${p}</li>`).join('')}</ol>`;
-    $('needsH').hidden = $('needs').hidden = true;
     return setNext();
   }
-  const s = t.cards[n - 1], done = store.get(), needs = $('needs');
+  const s = t.cards[n - 1];
   $('title').textContent = s.title; $('sub').textContent = s.sub; $('text').textContent = s.text;
-  needs.innerHTML = '';
-  $('needsH').hidden = needs.hidden = !s.need.length;
-  s.need.forEach(id => {
-    const [ti, si] = id.split('.').map(Number), tt = TOPICS.find(x => x.id === ti);
-    const row = document.createElement('button'); row.className = 'row';
-    const st = done[id] ? '<span class="st done">✓ Done</span>' : tt.cards ? '' : '<span class="st">soon</span>';
-    row.innerHTML = `<span class="tag">${id}</span>${stepTitle(tt, si)}${st}`;
-    row.onclick = () => go(tt, si);
-    needs.appendChild(row);
-  });
   setNext();
   load(s.card);
 }
@@ -228,18 +212,36 @@ function nextOf() {
   const i = TOPICS.indexOf(topic);
   return i < TOPICS.length - 1 ? [TOPICS[i + 1], 1] : [TOPICS[0], 1];   // after the last step: start again
 }
+function prevOf() {
+  if (step > 1) return [topic, step - 1];
+  const i = TOPICS.indexOf(topic);
+  if (i === 0) return null;
+  const t = TOPICS[i - 1];
+  return [t, t.cards ? steps(t) : 1];
+}
 function setNext() {
-  const nx = nextOf(), up = $('upnext');
-  up.hidden = $('upH').hidden = !nx;
-  if (nx) {
-    const [t, n] = nx;
-    up.innerHTML = `<span class="n">${t === topic ? n : t.id + '.' + n}</span><span>${stepTitle(t, n)}${t.cards ? '' : ' <small>soon</small>'}</span><span class="arr" aria-hidden="true">→</span>`;
-    up.onclick = () => go(t, n);
+  const nx = nextOf(), pv = prevOf(), done = store.get(), box = $('steps');
+  box.innerHTML = '';
+  for (let n = 1; n <= steps(topic); n++) {
+    const b = document.createElement('button'), id = `${topic.id}.${n}`, d = topic.cards && done[id];
+    b.textContent = (d && n !== step ? '✓ ' : '') + id;
+    b.setAttribute('aria-current', String(n === step)); b.title = stepTitle(topic, n);
+    if (d) b.className = 'done';
+    b.onclick = () => go(topic, n);
+    box.appendChild(b);
   }
+  const cur = box.querySelector('[aria-current="true"]');
+  if (cur) box.scrollTo({ left: cur.offsetLeft - box.clientWidth / 2 + cur.offsetWidth / 2 });
+  const pb = $('prevB'), nb = $('nextB');
+  pb.disabled = !pv; nb.disabled = !nx;
+  pb.innerHTML = pv ? `← Prev: <b></b>` : '';
+  nb.innerHTML = nx ? `Next: <b></b> →` : '';
+  if (pv) { pb.querySelector('b').textContent = stepTitle(pv[0], pv[1]); pb.onclick = () => go(...pv); }
+  if (nx) { nb.querySelector('b').textContent = stepTitle(nx[0], nx[1]); nb.onclick = () => go(...nx); }
   $('bNext').disabled = !nx;
   const last = nx && nx[0] === TOPICS[0] && topic !== TOPICS[0];
-  $('nextLbl').textContent = last ? 'Done, start again' : topic.cards ? 'Done, next step' : 'Next topic';
-  $('bBack').disabled = topic === TOPICS[0] && step === 1;
+  $('nextLbl').textContent = last ? 'Start again' : 'Next';
+  $('bBack').disabled = !pv;
 }
 
 // the card: a same-origin iframe in its embed view (1080 x 600), scaled to the stage width
@@ -280,8 +282,7 @@ $('bPause').onclick = () => (ended ? replay() : paused ? play() : pause());
 $('bSlow').onclick = () => { rate = rate === 1 ? 0.5 : 1; $('bSlow').setAttribute('aria-pressed', String(rate !== 1)); if (!paused) play(); };
 $('bNext').onclick = () => { if (topic.cards) store.mark(`${topic.id}.${step}`); const nx = nextOf(); if (nx) go(...nx); };
 $('bBack').onclick = () => {
-  if (step > 1) return go(topic, step - 1);
-  const i = TOPICS.indexOf(topic); if (i > 0) { const t = TOPICS[i - 1]; go(t, t.cards ? steps(t) : 1); }
+  const pv = prevOf(); if (pv) go(...pv);
 };
 document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
