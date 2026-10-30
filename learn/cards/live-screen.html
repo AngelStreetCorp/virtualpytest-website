@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>See Devices Live</title>
-<!-- Concept card 1.1 of the Learn course, topic 1 "Control any device": the HDMI picture, live in any browser, desktop or mobile.
+<!-- Concept card 1.1 of the Learn course, topic 1 "Control any device": one live view of any device, in any browser (review round 2026-10-30).
      1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
      One timeline (T ms, loops); render.py seeks it. Built on the topic-2 scaffold: same TV, same cards. -->
 <style>
@@ -101,10 +101,15 @@
   .phone { position: absolute; background: var(--card); border: 2px solid var(--line); border-radius: 26px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
   .phone::after { content: ''; position: absolute; left: 50%; bottom: 9px; width: 34px; height: 5px; margin-left: -17px; border-radius: 3px; background: #d9d4cc; }
   .tv.sm .nm { font-size: 24px; } .tv.sm .tiles i { height: 16px; } .tv.sm .bar { height: 7px; }
-  .win { position: absolute; }
-  .win .dots3 { position: absolute; left: 16px; top: 12px; display: flex; gap: 7px; } .win .dots3 i { width: 11px; height: 11px; border-radius: 50%; background: #d9d4cc; }
-  .plug { position: absolute; width: 26px; height: 18px; border-radius: 4px; background: #8a8378; }
-  .plug::after { content: ''; position: absolute; left: 26px; top: 7px; width: 26px; height: 4px; background: #8a8378; border-radius: 2px; }
+  .lt { position: absolute; width: 204px; }
+  .lt .sc { position: relative; height: 104px; border-radius: 14px; background: var(--dark); box-shadow: 0 6px 14px rgba(0,0,0,.10); display: grid; place-items: center; overflow: hidden; }
+  .lt .sc svg { margin-top: -10px; }
+  .lt .tl { position: absolute; left: 10px; right: 10px; bottom: 9px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .lt .tl i { height: 12px; border-radius: 4px; background: #3a3a3a; }
+  .lt .hl { position: absolute; left: 10px; bottom: 9px; width: 41px; height: 12px; border-radius: 4px; background: var(--gold); z-index: 2; }
+  .lt .tn { margin-top: 8px; text-align: center; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  body.embed .lt .tn { font-size: 30px; }
+  .livec { font-size: 22px; padding: 1px 9px; }
 </style>
 </head>
 <body>
@@ -115,26 +120,27 @@
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
-    <div class="tv abs sm" id="tvBox" style="left:0px; top:20px; width:220px; height:140px"><div class="bar"></div><div class="nm" id="tvBoxHome">Home</div><div class="nm" id="tvBoxGuide">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div></div>
-    <div class="stb" id="box" style="left:20px; top:182px; width:170px; height:44px"></div>
-    <div class="plug" id="plug" style="left:190px; top:195px"></div>
-    <div class="lbl " id="lBox" style="left:0px; top:246px; width:220px"><span>A TV box</span></div>
-    <div class="lbl grey" id="lHdmi" style="left:0px; top:284px; width:220px"><span>HDMI out</span></div>
-    <div class="win white" id="lap" style="left:268px; top:0; width:384px; height:270px"><div class="dots3"><i></i><i></i><i></i></div></div>
-    <div class="tv abs sm" id="tvLap" style="left:284px; top:38px; width:352px; height:174px"><div class="bar"></div><div class="nm" id="tvLapHome">Home</div><div class="nm" id="tvLapGuide">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div></div>
-    <span class="livec" id="live1" style="left:296px; top:50px">LIVE</span>
-    <div class="chips" id="q" style="left:268px; top:222px; width:384px; gap:10px"><span class="chip greyc" style="font-size:20px; padding:3px 12px">LOW</span><span class="chip greyc" style="font-size:20px; padding:3px 12px">SD</span><span class="chip greyc" style="font-size:20px; padding:3px 12px; background:#fff; border-color:#d9d4cc; color:#141414">HD</span></div>
-    <div class="phone" id="ph" style="left:690px; top:0; width:170px; height:270px"></div>
-    <div class="tv abs sm" id="tvPh" style="left:704px; top:30px; width:142px; height:206px"><div class="bar"></div><div class="nm" id="tvPhHome">Home</div><div class="nm" id="tvPhGuide">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div></div>
-    <span class="livec" id="live2" style="left:714px; top:42px">LIVE</span>
-    <div class="lbl " id="lDesk" style="left:268px; top:284px; width:384px"><span>Desktop</span></div>
-    <div class="lbl " id="lMob" style="left:670px; top:284px; width:210px"><span>Mobile</span></div>
-    <div class="chips" id="res" style="left:0px; top:336px; width:888px"><span class="chip" id="c1">Live <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="c2">Desktop or mobile <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="c3">Nothing to install <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
-    <div class="lbl grey" id="lHdmiNote" style="left:0px; top:400px; width:888px"><span>Filmed from the HDMI output, as a viewer sees it.</span></div>
+    <div class="lt" id="t0" style="left:0px; top:0px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg><i class="hl" id="hl0"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Web app</div></div>
+    <span class="livec" id="lv0" style="left:10px; top:10px">LIVE</span>
+    <div class="lt" id="t1" style="left:228px; top:0px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg><i class="hl" id="hl1"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Linux PC</div></div>
+    <span class="livec" id="lv1" style="left:238px; top:10px">LIVE</span>
+    <div class="lt" id="t2" style="left:456px; top:0px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg><i class="hl" id="hl2"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Windows PC</div></div>
+    <span class="livec" id="lv2" style="left:466px; top:10px">LIVE</span>
+    <div class="lt" id="t3" style="left:684px; top:0px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="3" width="8" height="18" rx="2"/></svg><i class="hl" id="hl3"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Phone</div></div>
+    <span class="livec" id="lv3" style="left:694px; top:10px">LIVE</span>
+    <div class="lt" id="t4" style="left:0px; top:168px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="5" width="16" height="14" rx="2"/></svg><i class="hl" id="hl4"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Tablet</div></div>
+    <span class="livec" id="lv4" style="left:10px; top:178px">LIVE</span>
+    <div class="lt" id="t5" style="left:228px; top:168px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg><i class="hl" id="hl5"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Fire TV</div></div>
+    <span class="livec" id="lv5" style="left:238px; top:178px">LIVE</span>
+    <div class="lt" id="t6" style="left:456px; top:168px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="10" width="18" height="6" rx="2"/><circle cx="17" cy="13" r="0.8"/></svg><i class="hl" id="hl6"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Apple TV</div></div>
+    <span class="livec" id="lv6" style="left:466px; top:178px">LIVE</span>
+    <div class="lt" id="t7" style="left:684px; top:168px"><div class="sc"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9a9388" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="3" y="10" width="18" height="6" rx="2"/><circle cx="17" cy="13" r="0.8"/></svg><i class="hl" id="hl7"></i><div class="tl"><i></i><i></i><i></i><i></i></div></div><div class="tn">Set-top box</div></div>
+    <span class="livec" id="lv7" style="left:694px; top:178px">LIVE</span>
+    <div class="chips" id="res" style="left:0px; top:366px; width:888px"><span class="chip" id="c1">Live <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="c2">Desktop or mobile <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="c3">Nothing to install <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">VirtualPyTest films the device's own HDMI output and streams it to any browser, on a desktop or a phone. Nothing to install.</p>
+  <p class="caption" id="caption">Web apps, desktops, phones, tablets and TV boxes: VirtualPyTest streams the real screen of every device to any browser, desktop or mobile. Nothing to install.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See the live screen <span class="arrow">→</span></div><span class="next">Next: Its own remote</span></div>
 </div>
 <script>
@@ -190,21 +196,14 @@ function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
 }
 
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
-enter($('tvBox'), 1600); enter($('box'), 1700); enter($('plug'), 1800); enter($('lBox'), 1800); enter($('lHdmi'), 2000);
-dots(226, 100, 262, 100, 2600, 3100);
-enter($('lap'), 3200); enter($('tvLap'), 3300); enter($('lDesk'), 3500);
-['live1', 'live2'].forEach((id, i) => at($(id), [[3500 + i * 900, { opacity: 0 }], [3700 + i * 900, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]));
-enter($('q'), 3800);
-dots(656, 140, 686, 140, 4000, 4200);
-enter($('ph'), 4200); enter($('tvPh'), 4300); enter($('lMob'), 4500);
-// 5.4: the box goes to Guide; a beat later both browsers follow
-fade($('tvBoxHome'), 1600, 5400, 200); fade($('tvBoxGuide'), 5450, null, 200);
-fade($('tvLapHome'), 3300, 5800, 200); fade($('tvLapGuide'), 5850, null, 200);
-fade($('tvPhHome'), 4300, 5900, 200); fade($('tvPhGuide'), 5950, null, 200);
-at($('tvBox'), [[5400, { boxShadow: '0 0 0 0 #d4a574' }], [5600, { boxShadow: '0 0 0 5px #d4a574' }], [6000, { boxShadow: '0 0 0 0 #d4a574' }]]);
-// 6.6: results, one by one
+for (let i = 0; i < 8; i++) {
+  enter($('t' + i), 1600 + i * 330, 450);
+  at($('lv' + i), [[2200 + i * 330, { opacity: 0 }], [2400 + i * 330, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  // 5.4: every picture moves at once, live
+  const hl = $('hl' + i), j = i % 3 + 1;
+  at(hl, [[0, { transform: 'translateX(0)' }], [5400, { transform: 'translateX(0)' }], [5700, { transform: 'translateX(' + j * 47 + 'px)' }], [OUT0, { transform: 'translateX(' + j * 47 + 'px)' }], [OUT1, { transform: 'translateX(' + j * 47 + 'px)' }]], 'ease-in-out');
+}
 enter($('c1'), 6600, 400); enter($('c2'), 6900, 400); enter($('c3'), 7200, 400);
-enter($('lHdmiNote'), 8000);
 enter($('caption'), 9200); enter($('ctarow'), 10000);
 
 // master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
