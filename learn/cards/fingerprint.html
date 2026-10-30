@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Fingerprint</title>
+<!-- Concept card 2 of series 1 (TASK-193): a screen becomes a fingerprint, the same screen keeps it when its
+     content changes. 1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only). One timeline (T ms, loops); render.py seeks it. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 64px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 36px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: 72px; line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 8px; }
+  body.sq h1 { font-size: 58px; }
+  .diagram { position: relative; height: 420px; margin-top: var(--gapTop); }
+  body.sq .diagram { height: 290px; transform: scale(0.8); transform-origin: center top; margin-top: 28px; }
+  .node { position: absolute; top: 0; display: flex; flex-direction: column; align-items: center; }
+  .node .lbl { margin-top: 22px; font-size: 28px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  /* left: the screen */
+  .tv { width: 250px; height: 170px; margin-top: 50px; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .tv .bar { height: 12px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .hero { margin-top: 10px; height: 62px; border-radius: 6px; position: relative; overflow: hidden; }
+  .tv .hero i { position: absolute; inset: 0; border-radius: 6px; }
+  #heroA { background: linear-gradient(90deg, #8fb0bd, #4f6b76); } #heroB { background: linear-gradient(90deg, #d9a56c, #8a5a3a); opacity: 0; }
+  .tv .tiles { margin-top: 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 42px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .newtag { position: absolute; left: 50%; top: 24px; margin-left: -62px; width: 124px; text-align: center; font-size: 20px; font-weight: 700; padding: 6px 0; border-radius: 999px; background: var(--gold); color: var(--ink); }
+  /* middle: the tiny grid */
+  .gridc { width: 270px; height: 270px; border-radius: 22px; background: var(--dark); padding: 18px 20px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .gridc .t, .code .t { font-size: 17px; font-weight: 700; letter-spacing: 2px; color: #cfcfcf; text-align: center; }
+  .grid { margin: 14px auto 0; width: 190px; display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+  .grid i { aspect-ratio: 1; border-radius: 3px; }
+  /* right: the code */
+  .code { width: 250px; height: 170px; margin-top: 50px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); padding: 18px 20px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .code .t { color: var(--muted); }
+  .hex { margin-top: 14px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 34px; font-weight: 700; line-height: 1.35; text-align: center; color: var(--ink); letter-spacing: 1px; }
+  .hex span { opacity: 0; } .hex span.chg { border-radius: 4px; }
+  .same { position: absolute; left: -40px; right: -40px; top: 300px; display: flex; justify-content: center; }
+  .same .chip { display: inline-flex; align-items: center; gap: 10px; }
+  .chip { font-size: 22px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .okdot { width: 24px; height: 24px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; }
+  .next { font-size: 28px; color: var(--muted); font-weight: 700; }
+  .ctarow { margin-top: 40px; display: flex; align-items: center; gap: 30px; }
+  h1 .l2 { font-size: 0.86em; line-height: 1.12; margin-top: 10px; text-wrap: balance; }
+  body:not(.sq) h1 { font-size: 61px; }
+  body.sq .ctarow { margin-top: 28px; }
+  .ctarow .cta { margin-top: 0 !important; }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .caption { margin-top: auto; font-size: 38px; line-height: 1.3; color: var(--ink); max-width: 880px; }
+  body.sq .caption { font-size: 34px; }
+  .cta { margin-top: 40px; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { margin-top: 28px; font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 32px; }
+  body.embed .chip { font-size: 26px; } body.embed .gridc .t, body.embed .code .t { font-size: 20px; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">FINGERPRINT · HOW · 2/5</div>
+  <h1><span id="h1a">Every screen gets a fingerprint</span><span class="l2" id="h1b">Made from its pixels; same screen, same code</span></h1>
+
+  <div class="diagram">
+    <svg class="links" id="links"></svg>
+    <div class="node" style="left:0" id="nLeft">
+      <div class="tv"><div class="bar"></div><div class="hero"><i id="heroA"></i><i id="heroB"></i></div>
+        <div class="tiles"><i></i><i></i><i></i><i></i></div></div>
+      <div class="lbl">A screen</div>
+      <div class="newtag" id="newtag">New poster</div>
+    </div>
+    <div class="node" style="left:309px" id="nMid">
+      <div class="gridc" id="gridc"><div class="t">TINY GRID</div><div class="grid" id="grid"></div></div>
+      <div class="lbl" id="lMid" style="margin-top:22px">Lighter or darker?</div>
+    </div>
+    <div class="node" style="left:638px" id="nRight">
+      <div class="code" id="code"><div class="t">FINGERPRINT</div><div class="hex" id="hex"></div></div>
+      <div class="lbl" id="lRight">Its code</div>
+      <div class="same" id="same"><span class="chip"><span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Same screen</span></div>
+    </div>
+  </div>
+
+  <p class="caption" id="caption">We shrink the screen to a tiny grid and note where it gets lighter or darker. New content barely moves the code.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See Fingerprint <span class="arrow">→</span></div><span class="next">Next: Fingerprints are fast</span></div>
+</div>
+<script>
+const T = 15000;                         // loop length, ms
+if (new URLSearchParams(location.search).get('f') === 'sq') document.body.classList.add('sq');
+if (new URLSearchParams(location.search).get('f') === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const swaps = [];
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('nLeft'), 1600); enter($('gridc'), 3300); enter($('lMid'), 3500);
+enter($('code'), 6400); enter($('lRight'), 6600);
+enter($('caption'), 10400); enter($('ctarow'), 11100);
+const CHANGE = 8200;                     // the poster changes: same screen, new content
+at($('heroB'), [[CHANGE, { opacity: 0 }], [CHANGE + 400, { opacity: 1 }], [OUT1, { opacity: 1 }], [T, { opacity: 0 }]]);
+at($('newtag'), [[CHANGE - 200, { opacity: 0, transform: 'scale(0.8)' }], [CHANGE + 100, { opacity: 1, transform: 'scale(1)' }],
+                 [CHANGE + 1600, { opacity: 1, transform: 'scale(1)' }], [CHANGE + 1900, { opacity: 0, transform: 'scale(1)' }]]);
+enter($('same'), CHANGE + 1100, 400);
+
+// an 8x8 picture of the screen (bar, hero, tiles): brightness 0..1 per cell; the hero changes at CHANGE
+const L = [], L2 = []; let seed = 11;
+const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+  let v = (r === 0 ? (c < 4 ? 0.30 : 0.12) : r <= 3 ? 0.68 - c * 0.06 : (Math.floor(c / 2) % 2 ? 0.20 : 0.36)) + (rnd() - 0.5) * 0.3;
+  let v2 = r >= 1 && r <= 3 ? v + (rnd() - 0.5) * 0.09 : v;      // new poster: only the hero moves, a little
+  L.push(v); L2.push(v2);
+}
+const bit = (A, i) => (i % 8 < 7 ? A[i] > A[i + 1] + 0.005 : A[i] > A[i - 7] + 0.005);   // brighter than the right neighbour
+const grey = v => { const g = Math.round(40 + v * 180); return `rgb(${g},${g},${g})`; };
+const grid = $('grid');
+L.forEach((v, i) => {
+  const el = document.createElement('i'); grid.appendChild(el);
+  const r = Math.floor(i / 8), c = i % 8, tg = 3700 + r * 60, tb = 4300 + c * 150 + r * 20;
+  const on = bit(L, i) ? '#d4a574' : '#2e2e2e', on2 = bit(L2, i) ? '#d4a574' : '#2e2e2e';
+  const k = [[tg, { background: '#1a1a1a' }], [tg + 200, { background: grey(v) }], [tb, { background: grey(v) }], [tb + 200, { background: on }]];
+  if (on2 !== on) k.push([CHANGE + 300, { background: on }], [CHANGE + 500, { background: grey(L2[i]) }], [CHANGE + 800, { background: on2 }]);
+  k.push([OUT1, { background: on2 }], [T, { background: '#1a1a1a' }]);
+  at(el, k);
+});
+// the code: 2x8 hex characters, typed in; the characters whose bits moved flash gold at CHANGE
+const hexOf = A => { let s = ''; for (let q = 0; q < 16; q++) { let n = 0; for (let b = 0; b < 4; b++) n = n * 2 + (bit(A, q * 4 + b) ? 1 : 0); s += n.toString(16); } return s; };
+const h1 = hexOf(L), h2 = hexOf(L2), hex = $('hex');
+[...h2].forEach((ch, q) => {
+  if (q === 8) hex.appendChild(document.createElement('br'));
+  const sp = document.createElement('span'); sp.textContent = h1[q]; hex.appendChild(sp);
+  const t = 6800 + q * 70;
+  at(sp, [[t, { opacity: 0 }], [t + 80, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]], 'linear');
+  if (h1[q] !== ch) {
+    at(sp, [[CHANGE + 700, { background: 'transparent' }], [CHANGE + 800, { background: '#d4a574' }], [CHANGE + 1800, { background: '#d4a574' }], [CHANGE + 2400, { background: 'transparent' }]]);
+    swaps.push([sp, h1[q], ch]);
+  }
+});
+// dotted connectors, dot by dot
+const svg = $('links'), NS = 'http://www.w3.org/2000/svg';
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.round(Math.hypot(x1 - x0, y1 - y0) / 16);
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+dots(262, 135, 304, 135, 2500, 3200);
+dots(588, 135, 632, 135, 5800, 6400);
+
+// the changed characters switch text at CHANGE: driven from a master animation in the DOM, like the KPI clock
+function tick(ms) { swaps.forEach(([sp, a, b]) => { sp.textContent = ms >= CHANGE + 800 && ms < OUT1 ? b : a; }); }
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

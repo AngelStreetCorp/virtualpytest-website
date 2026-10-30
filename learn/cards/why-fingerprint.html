@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why a Fingerprint</title>
+<!-- Concept card 3.3.1 of the Learn course (Fingerprint 1/5, version A): an app update fails a saved screenshot; the fingerprint keeps up.
+     1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
+     One timeline (T ms, loops); render.py seeks it. Built on the topic-2 scaffold: same TV, same user-interface map. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 450px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: var(--h1, 72px); line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  body.sq h1 { font-size: 58px; }
+  .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
+  body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
+  .stage { position: absolute; left: 0; top: 0; width: 888px; height: var(--dh); }
+  body.sq .stage { left: 50%; margin-left: -444px; transform: scale(var(--sqs, 0.8)); transform-origin: center top; }
+  .mono { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; }
+  .white { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 3px; text-align: center; color: var(--muted); }
+  .abs { position: absolute; }
+  /* a label centred on a column: left/width set inline, never a translateX(-50%) */
+  .lbl { position: absolute; display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; }
+  .lbl > span { text-wrap: balance; }
+  .lbl.grey { color: var(--muted); font-size: 26px; }
+  .lbl.red { color: var(--bad); }
+  .lbl.gold { color: var(--goldText); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .chip.greyc { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .okdot, .xdot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* the TV look of fingerprint.html, smaller; .nm layers carry the screen name */
+  .tv { position: absolute; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 26px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .tv .tick { position: absolute; right: 10px; top: 8px; }
+
+  /* ---- the user-interface map: same block in user-interface, go-anywhere, variants, repair-map ---- */
+  .uimap { position: absolute; width: 400px; height: 300px; }
+  .uibg { position: absolute; inset: 0; background: var(--card); border: 2px solid var(--line); border-radius: 22px; box-shadow: 0 6px 18px rgba(0,0,0,.06); padding-top: 13px; }
+  .uimap svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .uimap .arw { color: #a89f93; }
+  .uimap .arw path { stroke: currentColor; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .uimap .arw path.hd { fill: currentColor; stroke-width: 1.5; }
+  .scr { position: absolute; width: 128px; height: 58px; border-radius: 12px; background: var(--dark); color: #fff; font-size: 26px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .scr::before { content: ''; position: absolute; left: 10px; top: 7px; width: 28px; height: 4px; border-radius: 2px; background: #4a4a4a; }
+  #sHome { left: 136px; top: 50px; } #sGuide { left: 14px; top: 222px; } #sSettings { left: 258px; top: 222px; }
+  .kw { position: absolute; width: 0; display: flex; justify-content: center; }      /* centres its key on left: */
+  .key { position: relative; white-space: nowrap; font-size: 26px; font-weight: 700; line-height: 1.2; padding: 1px 12px 2px; border-radius: 10px; background: var(--card); border: 2px solid #c9c2b8; border-bottom-width: 5px; color: var(--ink); }
+  .key .mk { position: absolute; right: -16px; top: -18px; }
+  /* ---- end of the map block ---- */
+
+  .caption { margin-top: auto; font-size: 34px; line-height: 1.3; color: var(--ink); max-width: 888px; }
+  body.sq .caption { font-size: 29px; }
+  .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
+  body.sq .ctarow { margin-top: 24px; }
+
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 30px; }
+  .tvp { position: absolute; border-radius: 18px; background: var(--dark); box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tvp .pbar { position: absolute; left: 12px; top: 12px; width: 90px; height: 12px; border-radius: 4px; background: #4a4a4a; }
+  .tvp .hero { position: absolute; left: 12px; right: 12px; top: 34px; bottom: 66px; border-radius: 6px; }
+  .tvp .tl { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tvp .tl i { height: 42px; border-radius: 5px; background: #555; } .tvp .tl i:nth-child(2n) { background: #2e2e2e; }
+  .pA { background: linear-gradient(90deg, #8fb0bd, #4f6b76); } .pB { background: linear-gradient(90deg, #d9a56c, #8a5a3a); }
+  .drop { position: absolute; display: flex; justify-content: center; }
+  .drop span { font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  .dk { background: var(--dark); color: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .dk .t { color: #cfcfcf; }
+  .pad { padding-top: 14px; }
+  .row { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .sub { font-size: 26px; color: var(--muted); text-align: center; line-height: 1.2; }
+  .dk .sub { color: #bdbdbd; }
+  :root { --h1: 58px; }
+  .thumb { width: 84px; height: 54px; border-radius: 8px; position: relative; overflow: hidden; background: var(--dark); }
+  .thumb b { position: absolute; left: 5px; right: 5px; top: 5px; bottom: 18px; border-radius: 4px; } .thumb s { position: absolute; left: 5px; right: 5px; bottom: 5px; height: 9px; border-radius: 2px; background: #555; }
+  .neq { font-size: 34px; font-weight: 700; color: var(--muted); }
+  .track { position: relative; height: 16px; border-radius: 8px; background: #e3ded6; margin: 14px auto 0; width: 252px; }
+  .track .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 8px; background: var(--gold); }
+  .track .mark { position: absolute; left: 80%; top: -7px; width: 4px; height: 30px; margin-left: -2px; border-radius: 2px; background: var(--ink); }
+  .fpg { display: grid; grid-template-columns: repeat(8, 16px); gap: 3px; }
+  .fpg i { height: 16px; border-radius: 2px; background: #3a3a3a; } .fpg i.on { background: var(--gold); }
+  .out { position: absolute; display: flex; align-items: center; gap: 12px; padding: 0 12px 0 14px; }
+  .out .dot { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; }
+  .out b { display: block; font-size: 27px; white-space: nowrap; } .out .s { display: block; font-size: 24px; color: var(--ink2); line-height: 1.2; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">FINGERPRINT · WHY · 1/5</div>
+  <h1><span id="h1a">Your app updated, nothing broke</span><span class="l2" id="h1b">Screenshots fail anyway; a fingerprint keeps up</span></h1>
+
+  <div class="diagram"><div class="stage" id="stage">
+    <svg class="links" id="links"></svg>
+    <div class="tvp" id="tv" style="left:0px; top:110px; width:250px; height:170px"><div class="pbar" id="tvBar"></div><div class="hero pA"></div><div class="hero pB" id="tvB"></div><div class="tl"><i></i><i></i><i></i><i></i></div></div>
+    <div class="drop" style="left:0; top:56px; width:250px"><span id="upd">App update</span></div>
+    <div class="white abs pad" id="lPic" style="left:286px; top:0; width:306px; height:184px">
+      <div class="t">SAVED SCREENSHOT</div>
+      <div class="row" style="margin-top:12px; gap:16px"><span class="thumb"><b class="pA"></b><s></s></span><span class="neq">≠</span><span class="thumb"><b class="pB"></b><s style="width:60%"></s></span></div>
+      <div class="track"><div class="fill" id="fill"></div><div class="mark"></div></div>
+      <div class="row" id="noMatch" style="margin-top:10px; font-size:26px; color:var(--bad)">Not a match</div>
+    </div>
+    <div class="dk abs pad" id="lFp" style="left:286px; top:206px; width:306px; height:184px">
+      <div class="t">FINGERPRINT</div><div class="sub" style="margin-top:4px; font-size:24px">layout, not detail</div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:18px; margin-top:14px"><div class="fpg" id="fpg"></div><div class="row" id="barely" style="font-size:26px; color:var(--gold); white-space:normal; width:90px; line-height:1.15">Barely moved</div></div>
+    </div>
+    <div class="out white" id="oPic" style="left:616px; top:30px; width:272px; height:124px"><span class="dot" style="background:var(--bad)"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg></span><div><b>Test fails</b><span class="s">Retake the picture</span></div></div>
+    <div class="out white" id="oFp" style="left:616px; top:236px; width:272px; height:124px"><span class="dot" style="background:var(--ok)"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Same screen</b><span class="s">Nothing to redo</span></div></div>
+    <div class="lbl " id="l1" style="left:0px; top:410px; width:250px"><span>The app updates</span></div>
+    <div class="lbl " id="l2" style="left:286px; top:410px; width:306px"><span>Two ways to check</span></div>
+    <div class="lbl " id="l3" style="left:616px; top:410px; width:272px"><span>What happens</span></div>
+
+  </div></div>
+
+  <p class="caption" id="caption">A new poster or language makes a screenshot fail. The layout stays the same, so the fingerprint still knows it.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See Fingerprint <span class="arrow">→</span></div><span class="next">Next: How a fingerprint works</span></div>
+</div>
+<script>
+const T = 15000;                         // loop length, ms
+const F = new URLSearchParams(location.search).get('f');
+if (F === 'sq') document.body.classList.add('sq');
+if (F === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
+function fade(el, t0, t1 = null, dur = 300) {
+  const k = [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(el, k);
+}
+// a key press: the key dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+// dotted connectors, dot by dot
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+// map helpers: an arrow's colour, and a thick line that runs along an arrow (drawn from its start)
+function arrowColor(id, keys) { at($(id), keys.map(([t, c]) => [t, { color: c }])); }
+function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
+  const src = $(id).querySelector('path'), p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', src.getAttribute('d')); p.setAttribute('pathLength', '1');
+  p.setAttribute('style', `fill:none;stroke:${color};stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1`);
+  $('uiRun').appendChild(p);
+  at(p, [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }], [tOff, { strokeDashoffset: 0, opacity: 1 }],
+         [tOff + 400, { strokeDashoffset: 0, opacity: 0 }], [T, { strokeDashoffset: 1, opacity: 0 }]], 'linear');
+}
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('tv'), 1600); enter($('l1'), 1700); enter($('l2'), 1850); enter($('l3'), 2000);
+// 2.7: the update: new poster, longer title (another language)
+const UPD = 2700;
+at($('upd'), [[UPD - 200, { opacity: 0, transform: 'scale(0.8)' }], [UPD + 100, { opacity: 1, transform: 'scale(1)' }], [UPD + 1500, { opacity: 1, transform: 'scale(1)' }], [UPD + 1800, { opacity: 0, transform: 'scale(1)' }]]);
+at($('tvB'), [[UPD, { opacity: 0 }], [UPD + 400, { opacity: 1 }], [OUT1, { opacity: 1 }], [T, { opacity: 0 }]]);
+at($('tvBar'), [[UPD, { width: '90px' }], [UPD + 400, { width: '160px' }], [OUT1, { width: '160px' }], [T, { width: '90px' }]]);
+dots(256, 170, 282, 92, 3400, 3900); dots(256, 220, 282, 298, 3500, 4200);
+enter($('lPic'), 4000); enter($('lFp'), 4300);
+// the screenshot match stalls near 60 % (under the 80 % mark) and turns red
+at($('fill'), [[4700, { width: '0%', background: '#d4a574' }], [5700, { width: '60%', background: '#d4a574' }], [5900, { width: '60%', background: '#dc2626' }], [OUT1, { width: '60%', background: '#dc2626' }], [T, { width: '0%', background: '#d4a574' }]]);
+enter($('noMatch'), 5900, 400);
+// the fingerprint: an 8x4 light/dark grid, three squares flip
+const fpg = $('fpg'); let seed = 5; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+const FLIP = [5, 18, 27];
+for (let i = 0; i < 32; i++) { const el = document.createElement('i'), on = rnd() < 0.5; if (on) el.className = 'on'; fpg.appendChild(el);
+  if (FLIP.includes(i)) { const a = on ? '#d4a574' : '#3a3a3a', b = on ? '#3a3a3a' : '#d4a574', t = 4900 + FLIP.indexOf(i) * 250;
+    at(el, [[t, { background: a, boxShadow: '0 0 0 0 #fff' }], [t + 200, { background: b, boxShadow: '0 0 0 2px #ffffff' }], [t + 700, { background: b, boxShadow: '0 0 0 0 #fff' }], [OUT1, { background: b }], [T, { background: a }]]); } }
+enter($('barely'), 5900, 400);
+dots(596, 92, 612, 92, 6800, 7200); dots(596, 298, 612, 298, 7100, 7600);
+enter($('oPic'), 7300); enter($('oFp'), 7700);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+
+// master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
+function tick(ms) {}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
