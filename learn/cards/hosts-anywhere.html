@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hosts Anywhere</title>
-<!-- Concept card 10.2 of the Learn course, topic 10 "How it runs": hosts at any site, each server owns its hosts, one web app sees them all.
+<!-- Concept card 0.2 of the Learn course, topic 0 "Infra architecture": servers in the cloud or on site, hosts at any site, one frontend sees them all.
      1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
      One timeline (T ms, loops); render.py seeks it. Built on the topic-2 scaffold: same TV, same user-interface map. -->
 <style>
@@ -120,25 +120,25 @@
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">HOW IT RUNS · DECENTRALIZED · 2/4</div>
-  <h1><span id="h1a">Hosts anywhere, one platform</span><span class="l2" id="h1b">Hosts at any site; one web app sees them all</span></h1>
+  <div class="eyebrow" id="eyebrow">ARCHITECTURE · DECENTRALIZED · 2/4</div>
+  <h1><span id="h1a">Servers and hosts, anywhere</span><span class="l2" id="h1b">Nothing central: one frontend sees them all</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
     <div class="site white" id="st0" style="left:0; top:0px; width:250px; height:92px"><div><b>Lab</b><s>2 hosts</s></div><span class="hg"><span style="flex:none; width:26px; height:20px; border-radius:5px; background:#2b2b2b"></span><span style="flex:none; width:26px; height:20px; border-radius:5px; background:#2b2b2b"></span></span></div>
     <div class="site white" id="st1" style="left:0; top:106px; width:250px; height:92px"><div><b>Office</b><s>1 host</s></div><span class="hg"><span style="flex:none; width:26px; height:20px; border-radius:5px; background:#2b2b2b"></span></span></div>
     <div class="site white" id="st2" style="left:0; top:212px; width:250px; height:92px"><div><b>At home</b><s>1 host</s></div><span class="hg"><span style="flex:none; width:26px; height:20px; border-radius:5px; background:#2b2b2b"></span></span></div>
-    <div class="dk abs pad" id="sv1" style="left:296px; top:10px; width:270px; height:118px"><div class="t">SERVER 1</div><div class="row" style="margin-top:14px">owns 3 hosts</div></div>
-    <div class="dk abs pad" id="sv2" style="left:296px; top:186px; width:270px; height:118px"><div class="t">SERVER 2</div><div class="row" style="margin-top:14px">owns 1 host</div></div>
-    <div class="white abs pad" id="web" style="left:604px; top:10px; width:284px; height:294px"><div class="t">WEB APP</div><div class="opt" id="o0" style="top:50px">Server 1</div><div class="opt" id="o1" style="top:106px">Server 2</div><div class="opt" id="o2" style="top:162px">All servers</div><div class="line" id="res" style="top:232px; justify-content:center">4 hosts, one list</div></div>
-    <div class="lbl " id="lAny" style="left:0px; top:330px; width:250px"><span>Any site</span></div>
-    <div class="lbl " id="lOwn" style="left:286px; top:330px; width:290px"><span>Each server owns its hosts</span></div>
-    <div class="lbl " id="lOne" style="left:604px; top:330px; width:284px"><span>One web app</span></div>
+    <div class="dk abs pad" id="sv1" style="left:296px; top:10px; width:270px; height:118px"><div class="t">SERVER 1</div><div class="row" style="margin-top:14px">Cloud · 3 hosts</div></div>
+    <div class="dk abs pad" id="sv2" style="left:296px; top:186px; width:270px; height:118px"><div class="t">SERVER 2</div><div class="row" style="margin-top:14px">On site · 1 host</div></div>
+    <div class="white abs pad" id="web" style="left:604px; top:10px; width:284px; height:294px"><div class="t">FRONTEND</div><div class="opt" id="o0" style="top:50px">Server 1</div><div class="opt" id="o1" style="top:106px">Server 2</div><div class="opt" id="o2" style="top:162px">All servers</div><div class="line" id="res" style="top:232px; justify-content:center">4 hosts, one list</div></div>
+    <div class="lbl " id="lAny" style="left:0px; top:330px; width:250px"><span>Hosts at any site</span></div>
+    <div class="lbl " id="lOwn" style="left:286px; top:330px; width:290px"><span>Servers anywhere</span></div>
+    <div class="lbl " id="lOne" style="left:604px; top:330px; width:284px"><span>One frontend</span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">Put a host wherever your devices are. Each host joins one server, and one web app shows every server, or all of them at once.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See the infrastructure <span class="arrow">→</span></div><span class="next">Next: What each host runs</span></div>
+  <p class="caption" id="caption">Run a server in the cloud or on site, and put hosts wherever your devices are. Each host joins one server; one frontend shows every server, or all at once.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See the infrastructure <span class="arrow">→</span></div><span class="next">Next: A profile is a set of services</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms
