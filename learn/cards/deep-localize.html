@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How Localize Names the Screen</title>
+<!-- Deep dive "deep-localize" (Learn, Go deeper, from lesson 3.7): the gates the live fingerprint goes through, in the
+     code's order. Embed only (1080x600). CH = chapter starts (ms) as in SCRIPTS.md "# Deep dives". One timeline. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .abs { position: absolute; }
+  .cap { position: absolute; font-size: 26px; font-weight: 700; letter-spacing: 2px; color: var(--muted); text-align: center; white-space: nowrap; }
+  .small { position: absolute; font-size: 22px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  /* the live frame: one drawn TV, the Movies tab of the menu */
+  #tv { position: absolute; left: 0; top: 38px; width: 280px; height: 158px; border-radius: 16px; background: var(--dark); overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  #tv i { position: absolute; display: block; }
+  #blk { position: absolute; inset: 0; background: #0a0a0a; }
+  #tframe { position: absolute; left: 8px; top: 6px; width: 90px; height: 24px; border: 3px solid var(--gold); border-radius: 7px; }
+  .track { position: absolute; left: 78px; top: 214px; width: 202px; height: 18px; border-radius: 9px; background: #e4dfd6; }
+  #bar { position: absolute; left: 0; top: 0; height: 18px; width: 12px; border-radius: 9px; background: var(--gold); }
+  .chipw { position: absolute; left: 0; width: 280px; top: 248px; display: flex; justify-content: center; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; }
+  .chip.bad { color: var(--bad); border-color: var(--bad); }
+  .okdot, .xdot { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  /* the seven known screens */
+  .rw { position: absolute; left: 310px; width: 360px; height: 44px; border-radius: 12px; background: var(--card); border: 2px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 24px; font-weight: 700; white-space: nowrap; box-shadow: 0 3px 10px rgba(0,0,0,.05); }
+  .rw .nums { font-size: 24px; font-weight: 700; }
+  .rw .nums.mut { color: var(--muted); font-size: 22px; }
+  .rw .st { position: absolute; right: 14px; top: 9px; width: 148px; height: 22px; }
+  .st b { position: absolute; top: 3px; width: 22px; height: 7px; border-radius: 3px; background: #b9b2a6; }
+  .st u { position: absolute; top: 15px; width: 22px; height: 5px; border-radius: 3px; background: var(--gold); }
+  /* the gate card */
+  #card { position: absolute; left: 690px; top: 0; width: 246px; height: 400px; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .ly { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 0 12px; }
+  .ly > div { font-size: 26px; font-weight: 700; line-height: 1.2; }
+  .big { font-size: 48px !important; color: var(--goldText); letter-spacing: -1px; }
+  .gt { font-size: 32px !important; }
+  .mu { color: var(--muted); font-size: 22px !important; }
+  .barw { position: relative; width: 200px; height: 18px; border-radius: 9px; background: #e4dfd6; }
+  #cbar { position: absolute; left: 0; top: 0; height: 18px; width: 0; border-radius: 9px; background: var(--gold); }
+  #floor { position: absolute; left: 110px; top: -6px; width: 4px; height: 30px; background: var(--ink); border-radius: 2px; }
+  .gbar { display: flex; gap: 6px; }
+  .gbar i { display: block; width: 22px; height: 12px; border-radius: 4px; background: #ebe7e0; }
+  .thumb { width: 96px; height: 54px; border-radius: 8px; background: linear-gradient(120deg, #3c4a52, #8fb0bd 45%, #d9a56c); }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 7</span><span class="h">Anything to see?</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 7</span><span class="h">Compare with every known screen</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 7</span><span class="h">Two regions must agree</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 7</span><span class="h">Menus: the underline</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 7</span><span class="h">Look-alikes: read the title</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 7</span><span class="h">Close and sure enough</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 7</span><span class="h">One answer, or not sure</span></div>
+<div class="say" id="say0">Nothing to see, no answer</div>
+<div class="say" id="say1">Two closest regions per screen</div>
+<div class="say" id="say2">Same menu, three look-alikes</div>
+<div class="say" id="say3">Same tab, same width</div>
+<div class="say" id="say4">The title decides</div>
+<div class="say" id="say5">Weak matches are dropped</div>
+<div class="say" id="say6">An answer, or an honest no</div>
+
+<div class="stage" id="stage">
+  <div class="abs" id="lc" style="left:0; top:0; width:280px; height:400px">
+    <div class="cap" style="left:0; width:280px; top:0">LIVE FRAME</div>
+    <div id="tv">
+      <i style="left:14px; top:12px; width:72px; height:10px; border-radius:4px; background:#cfcfcf"></i>
+      <i style="left:14px; top:38px; width:38px; height:8px; border-radius:3px; background:#6b6b6b"></i>
+      <i style="left:64px; top:38px; width:38px; height:8px; border-radius:3px; background:#6b6b6b"></i>
+      <i style="left:114px; top:38px; width:38px; height:8px; border-radius:3px; background:#bdbdbd"></i>
+      <i style="left:164px; top:38px; width:38px; height:8px; border-radius:3px; background:#6b6b6b"></i>
+      <i style="left:214px; top:38px; width:38px; height:8px; border-radius:3px; background:#6b6b6b"></i>
+      <i id="uline" style="left:114px; top:50px; width:38px; height:4px; border-radius:2px; background:#d4a574"></i>
+      <i style="left:14px; right:14px; top:66px; height:46px; border-radius:6px; background:linear-gradient(90deg,#d9a56c,#8a5a3a)"></i>
+      <i style="left:14px; top:122px; width:56px; height:24px; border-radius:5px; background:#555"></i>
+      <i style="left:78px; top:122px; width:56px; height:24px; border-radius:5px; background:#2e2e2e"></i>
+      <i style="left:142px; top:122px; width:56px; height:24px; border-radius:5px; background:#555"></i>
+      <i style="left:206px; top:122px; width:56px; height:24px; border-radius:5px; background:#2e2e2e"></i>
+      <div id="tframe"></div>
+      <div id="blk"></div>
+    </div>
+    <div class="small" style="left:0; top:212px; line-height:22px">Edges</div>
+    <div class="track"><div id="bar"></div></div>
+    <div class="chipw"><span class="chip bad" id="chipBad" style="position:absolute">Too dark: can't tell</span><span class="chip" id="chipOk" style="position:absolute"><span id="okA"></span>Enough to read</span></div>
+  </div>
+
+  <div class="cap" id="klab" style="left:310px; width:360px; top:0px">KNOWN SCREENS</div>
+  <div id="rows"></div>
+  <div id="card"></div>
+</div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 58000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+// opacity-only window (t1 = null: to the end)
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag6'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say6'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
+$('okA').innerHTML = OK(24);
+
+// ---- the live frame (left column): starts centred, slides left when the list arrives
+const SL = { opacity: 1 };
+at($('lc'), [[900, { opacity: 0, transform: 'translate(328px,16px)' }], [1500, { opacity: 1, transform: 'translate(328px,0px)' }],
+             [8400, { opacity: 1, transform: 'translate(328px,0px)' }], [9300, { opacity: 1, transform: 'translate(0px,0px)' }],
+             [OUT0, { opacity: 1, transform: 'translate(0px,0px)' }], [OUT1, { opacity: 0, transform: 'translate(0px,0px)' }]]);
+// 0.6-8.3: black frame, edge meter low, then the menu and the meter fills
+at($('blk'), [[4300, { opacity: 1 }], [5000, { opacity: 0 }], [OUT1, { opacity: 0 }]]);
+at($('bar'), [[2000, { width: '12px' }], [2600, { width: '24px' }], [3200, { width: '12px' }], [4000, { width: '18px' }], [4900, { width: '18px' }], [6600, { width: '176px' }], [OUT0, { width: '176px' }]], 'ease-in-out');
+win($('chipBad'), 2600, 4600);
+win($('chipOk'), 6900);
+
+// ---- the seven known screens
+const SCR = [['Home', '12 · 38'], ['Guide', '11 · 58'], ['Movies', '3 · 9'], ['Movies · Kids', '5 · 14'], ['Apps', '41 · 83'], ['Settings', '17 · 40'], ['Standby', 'black: left out']];
+// strips for chapter 4: where each candidate's stored underline sits (tab 0 = Home, tab 2 = Movies)
+const UND = { 0: 0, 2: 2, 3: 2 };
+const rows = $('rows');
+SCR.forEach(([nm, nums], i) => {
+  const r = document.createElement('div'); r.className = 'rw'; r.id = 'r' + i; r.style.top = (38 + i * 52) + 'px';
+  let strip = '';
+  if (i in UND) strip = `<div class="st" id="s${i}">${[0, 1, 2, 3, 4].map(k => `<b style="left:${k * 30}px"></b>`).join('')}<u style="left:${UND[i] * 30}px"></u></div>`;
+  r.innerHTML = `<span>${nm}</span><span class="nums${i === 6 ? ' mut' : ''}" id="n${i}">${nums}</span>${strip}`;
+  rows.appendChild(r);
+  enter(r, 9200 + i * 250);
+  win($('n' + i), 11800 + i * 350, null, 500);
+  if (i in UND) at($('s' + i), [[26200, { opacity: 0 }], [27000, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+});
+// in chapter 4 the three candidates swap their numbers for the stored underline
+[0, 2, 3].forEach(i => at($('n' + i), [[11800 + i * 350, { opacity: 0 }], [12300 + i * 350, { opacity: 1 }], [26000, { opacity: 1 }], [26600, { opacity: 0 }], [OUT1, { opacity: 0 }]]));
+enter($('klab'), 9000);
+const W = { background: '#ffffff', color: '#141414', borderColor: '#d9d4cc' }, G = { background: '#ebe7e0', color: '#6e6e6e', borderColor: '#ebe7e0' }, Y = { background: '#d4a574', color: '#141414', borderColor: '#d4a574' };
+const grey = (i, t) => at($('r' + i), [[t, W], [t + 500, G]]);
+// gate 1 (chapter 3): Guide, Apps, Settings, Standby are ruled out one by one; the failing numbers flash red first
+[[1, 17800], [4, 18900], [5, 20000], [6, 21100]].forEach(([i, t]) => {
+  if (i !== 6) at($('n' + i), [[t - 600, { color: '#141414' }], [t - 300, { color: '#dc2626' }], [t + 400, { color: '#dc2626' }], [t + 700, { color: '#6e6e6e' }]]);
+  grey(i, t);
+});
+// gate 2 (chapter 4): the underline; gate 3 (chapter 5): the title
+grey(0, 29000); grey(3, 36200);
+// chapter 7: the answer
+at($('r2'), [[49400, W], [49900, Y]]);
+// the tab underline of the live frame glows (chapter 4); the title is framed (chapter 5)
+at($('uline'), [[25000, { boxShadow: '0 0 0 0 rgba(212,165,116,0)' }], [25700, { boxShadow: '0 0 12px 6px rgba(212,165,116,.9)' }], [31600, { boxShadow: '0 0 12px 6px rgba(212,165,116,.9)' }], [32400, { boxShadow: '0 0 0 0 rgba(212,165,116,0)' }]]);
+win($('tframe'), 33200, 40400, 500);
+
+// ---- the gate card (chapters 3..7): one layer per chapter, centred
+const card = $('card');
+const layers = [
+  [2, `<div class="gt" id="a0">1st ≤ 14</div><div class="gt" id="a1">2nd ≤ 44</div><div class="big" id="a2">3 left</div>`],
+  [3, `<div class="gt" id="b0" style="color:var(--goldText)">Under Movies</div><div id="b1">Home: under Home ${XX(24)}</div><div class="big" id="b2">2 left</div>`],
+  [4, `<div id="c0">Title read: Movies</div><div id="c1" style="color:var(--bad)">Kids ${XX(24)}</div><div class="big" id="c2">1 left</div>`],
+  [5, `<div id="d0">Within 14 of the best ${OK(24)}</div><div id="d1"><span class="mu">Confidence</span><br><span class="big" id="confv">0.00</span></div><div class="barw"><div id="cbar"></div><div id="floor"></div></div><div id="d3" class="mu">Floor 0.55</div>`],
+  [6, `<div class="mu" id="e0" style="letter-spacing:3px">ON SCREEN</div><div id="e1" class="gt" style="display:flex;align-items:center;gap:8px;font-size:28px !important">Movies ${OK(26)} 0.98</div>` +
+      `<div id="e2" class="thumb"></div><div class="mu" id="e3">Live video</div><div class="gbar" id="e4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="chip bad" id="e5">Not sure</div>`],
+];
+layers.forEach(([c, html]) => {
+  const d = document.createElement('div'); d.className = 'ly'; d.id = 'ly' + c; d.innerHTML = html; card.appendChild(d);
+  win(d, CH[c], c === 6 ? null : end(c) + 300, 300);
+});
+at(card, [[16500, { opacity: 0, transform: 'translateY(16px)' }], [17000, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]);
+// chapter 3
+enter($('a0'), 17000); enter($('a1'), 17400); enter($('a2'), 22000);
+// chapter 4
+enter($('b0'), 25700); enter($('b1'), 29200); enter($('b2'), 30400);
+// chapter 5
+enter($('c0'), 35000); enter($('c1'), 36400); enter($('c2'), 37600);
+// chapter 6: the confidence bar fills past the floor
+enter($('d0'), 41400); enter($('d1'), 42200); enter($('d3'), 42200);
+at($('floor'), [[41800, { opacity: 0 }], [42300, { opacity: 1 }]]);
+at($('cbar'), [[43000, { width: '0px' }], [45600, { width: '196px' }], [OUT0, { width: '196px' }]], 'ease-in-out');
+// chapter 7: the answer, then the second case
+enter($('e0'), 49000); enter($('e1'), 49600); enter($('e2'), 52200); enter($('e3'), 52500); enter($('e4'), 53300); enter($('e5'), 54000);
+
+// ---- text that changes with time
+function tick(ms) {
+  const c = Math.max(0, Math.min(1, (ms - 43000) / 2600));
+  $('confv').textContent = (0.98 * c).toFixed(2);
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

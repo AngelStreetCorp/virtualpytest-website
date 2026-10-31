@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How Shown and Loaded Are Timed</title>
+<!-- Deep dive "deep-loading" (Learn, Go deeper, from lesson 5.2): from the key press to the last grey box. Embed only
+     (1080x600). CH = chapter starts (ms) as in SCRIPTS.md "# Deep dives". The frames are drawn on canvases from one
+     small model of a Guide screen loading in over 2.2 s (t = seconds after the key press). -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .abs { position: absolute; }
+  canvas { display: block; }
+  #wrapStrip { position: absolute; left: 0; top: 44px; width: 936px; height: 26px; overflow: hidden; }
+  #stripIn { position: absolute; left: 0; top: 0; width: 936px; height: 26px; }
+  .fr, .mos { position: absolute; top: 0; width: 34px; height: 26px; border-radius: 3px; }
+  .mos { image-rendering: pixelated; top: 44px; }
+  .ol { position: absolute; top: 41px; width: 40px; height: 32px; border: 3px solid var(--gold); border-radius: 6px; }
+  .pin { position: absolute; width: 3px; background: var(--gold); }
+  .mk { position: absolute; font-size: 26px; font-weight: 700; white-space: nowrap; line-height: 32px; }
+  .num, .chk { position: absolute; top: 74px; width: 34px; height: 28px; text-align: center; font-size: 22px; font-weight: 700; line-height: 28px; background: var(--bg); border-radius: 6px; display: flex; justify-content: center; align-items: center; }
+  #cur { position: absolute; top: 40px; width: 40px; height: 34px; border: 3px solid var(--goldText); border-radius: 6px; left: 75px; }
+  #brk { position: absolute; top: 38px; width: 390px; height: 38px; border: 3px solid var(--gold); border-radius: 8px; left: 390px; }
+  #brkl { position: absolute; top: 78px; width: 390px; left: 390px; text-align: center; font-size: 24px; font-weight: 700; color: var(--goldText); }
+  #bigw { position: absolute; left: 0; top: 150px; width: 420px; height: 236px; border-radius: 14px; overflow: hidden; background: var(--dark); box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  #bigw canvas { position: absolute; left: 0; top: 0; width: 420px; height: 236px; }
+  #liveo { position: absolute; left: 3px; top: 37px; width: 154px; height: 92px; border: 3px dashed var(--gold); border-radius: 6px; }
+  #livel { position: absolute; left: 12px; top: 56px; font-size: 22px; font-weight: 700; padding: 4px 12px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; }
+  #card { position: absolute; left: 460px; top: 144px; width: 476px; height: 256px; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .ly { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 0 16px; }
+  .ly > div { font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .mu { color: var(--muted); }
+  .big { font-size: 56px !important; font-weight: 700; letter-spacing: -1px; }
+  .gold { color: var(--goldText); }
+  .okdot, .xdot { flex: none; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -6px; }
+  .xdot { background: var(--bad); }
+  .dots { display: flex; gap: 14px; justify-content: center; }
+  .dots i { display: block; width: 36px; height: 36px; border-radius: 50%; background: #e4dfd6; }
+  .rep { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 32px; font-weight: 700; }
+  .rep + .rep { border-top: 2px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 6</span><span class="h">Every frame is kept</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 6</span><span class="h">Find the first change</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 6</span><span class="h">Is it the right screen?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 6</span><span class="h">Count the grey boxes</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 6</span><span class="h">Nothing new for 2 seconds</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 6</span><span class="h">Both times in the report</span></div>
+<div class="say" id="say0">Measured afterwards, from the recording</div>
+<div class="say" id="say1">More than 18 of 64, three frames in a row</div>
+<div class="say" id="say2">The KPI: press to the right screen</div>
+<div class="say" id="say3">Flat block = not drawn yet</div>
+<div class="say" id="say4">Done drawing, for 2 seconds</div>
+<div class="say" id="say5">Never loaded: shown as a finding</div>
+
+<div class="stage" id="stage">
+  <div id="wrapStrip"><div id="stripIn"></div></div>
+  <div id="mosW"></div>
+  <div id="markers"></div>
+  <div id="nums"></div>
+  <div class="abs" id="cur"></div>
+  <div class="abs" id="brk"></div>
+  <div id="brkl">next 2 s</div>
+  <div id="bigw"><canvas id="big" width="840" height="472"></canvas><canvas id="ov" width="840" height="472"></canvas>
+    <div id="liveo"></div><div id="livel">Live: left out</div></div>
+  <div id="card"></div>
+</div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 41600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 50000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag5'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say5'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
+
+// ================= the model: one Guide screen loading in; t = seconds after the key press =================
+const COLS = 16, ROWS = 8, NB = COLS * ROWS;
+const isLive = b => (b % COLS) < 6 && Math.floor(b / COLS) < 4;       // the video tile (top left)
+let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+const FILL = new Array(NB).fill(0);
+{ // fill times: reading order with jitter; 55 blocks drawn by 1.6 s (Shown), the other 49 between 1.65 and 2.14 s
+  const ids = []; for (let b = 0; b < NB; b++) if (!isLive(b)) ids.push([b, (Math.floor(b / COLS) * COLS + (b % COLS)) + (rnd() - 0.5) * 60]);
+  ids.sort((p, q) => p[1] - q[1]);
+  ids.forEach(([b], r) => { FILL[b] = r < 55 ? 0.5 + 1.1 * r / 55 : 1.65 + 0.5 * (r - 55) / 49; });
+}
+const flat = (b, t) => isLive(b) ? t < 0.45 : FILL[b] > t;
+const share = t => { let n = 0; for (let b = 0; b < NB; b++) if (flat(b, t)) n++; return Math.round(100 * n / NB); };
+const SHOWN = 1.6, LOADED = 2.2;
+
+function drawFrame(ctx, w, h, t) {
+  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 0, w, h);
+  if (t < 0.4) { // Home
+    ctx.fillStyle = '#4a4a4a'; ctx.fillRect(.05 * w, .05 * h, .22 * w, .05 * h);
+    ctx.fillStyle = '#6b6b6b'; for (let k = 0; k < 4; k++) ctx.fillRect((.05 + k * .12) * w, .14 * h, .09 * w, .03 * h);
+    const g = ctx.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#8fb0bd'); g.addColorStop(1, '#4f6b76');
+    ctx.fillStyle = g; ctx.fillRect(.05 * w, .22 * h, .9 * w, .42 * h);
+    for (let k = 0; k < 4; k++) { ctx.fillStyle = k % 2 ? '#2e2e2e' : '#555'; ctx.fillRect((.05 + k * .2375) * w, .7 * h, .2 * w, .22 * h); }
+    return;
+  }
+  // Guide: header (title drawn at Shown), then 16 x 8 blocks in the content rows 15 %..95 %
+  if (t >= SHOWN) {
+    ctx.fillStyle = '#d4a574'; ctx.fillRect(.05 * w, .05 * h, .2 * w, .05 * h);
+    ctx.fillStyle = '#6b6b6b'; for (let k = 0; k < 3; k++) ctx.fillRect((.3 + k * .1) * w, .055 * h, .07 * w, .04 * h);
+  } else { ctx.fillStyle = '#333'; ctx.fillRect(.05 * w, .04 * h, .9 * w, .07 * h); }
+  const bw = w / COLS, bh = .8 * h / ROWS, y0 = .15 * h, gp = Math.max(0.6, bw * 0.03);
+  for (let b = 0; b < NB; b++) {
+    const c = b % COLS, r = Math.floor(b / COLS), x = c * bw, y = y0 + r * bh;
+    if (isLive(b)) {
+      if (t < 0.45) ctx.fillStyle = '#4a4a4a';
+      else { const g = 95 + 60 * Math.sin(t * 2.4 + c * .6 + r * .9); ctx.fillStyle = `rgb(${g * .7 | 0},${g * .85 | 0},${g | 0})`; }
+      ctx.fillRect(x + gp, y + gp, bw - 2 * gp, bh - 2 * gp);
+    } else if (FILL[b] > t) { ctx.fillStyle = '#4a4a4a'; ctx.fillRect(x + gp, y + gp, bw - 2 * gp, bh - 2 * gp); }
+    else {
+      ctx.fillStyle = '#262626'; ctx.fillRect(x + gp, y + gp, bw - 2 * gp, bh - 2 * gp);
+      ctx.fillStyle = b % 5 === 0 ? '#d4a574' : '#cfcfcf'; ctx.fillRect(x + .14 * bw, y + .2 * bh, .72 * bw, .2 * bh);
+      ctx.fillStyle = '#8a8a8a'; ctx.fillRect(x + .14 * bw, y + .56 * bh, (.3 + .4 * ((b * 7) % 3) / 2) * bw, .16 * bh);
+    }
+  }
+}
+// 8 x 8 average of a frame (grey), for the mosaics
+function mosaic(t) {
+  const o = document.createElement('canvas'); o.width = 160; o.height = 90; const cx = o.getContext('2d'); drawFrame(cx, 160, 90, t);
+  const d = cx.getImageData(0, 0, 160, 90).data, out = [];
+  for (let j = 0; j < 8; j++) for (let i = 0; i < 8; i++) {
+    let s = 0, n = 0;
+    for (let y = Math.floor(j * 90 / 8); y < Math.floor((j + 1) * 90 / 8); y++) for (let x = i * 20; x < i * 20 + 20; x++) { const k = (y * 160 + x) * 4; s += .299 * d[k] + .587 * d[k + 1] + .114 * d[k + 2]; n++; }
+    out.push(s / n);
+  }
+  return out;
+}
+function putMosaic(cv, m) {
+  const cx = cv.getContext('2d'), im = cx.createImageData(8, 8);
+  m.forEach((v, k) => { const q = Math.min(255, v * 1.15 + 20); im.data[k * 4] = im.data[k * 4 + 1] = im.data[k * 4 + 2] = q; im.data[k * 4 + 3] = 255; });
+  cx.putImageData(im, 0, 0);
+}
+
+// ================= the strip: 24 frames, one every 0.2 s, from -0.4 s to 4.2 s; idx 2 = the key press =================
+const NF = 24, PITCH = 39, ft = i => (i - 2) * 0.2, fx = i => i * PITCH;
+const IDX = { press: 2, change: 4, shown: 10, loaded: 13 };
+const MOS = [];
+for (let i = 0; i < NF; i++) {
+  const cv = document.createElement('canvas'); cv.className = 'fr'; cv.width = 68; cv.height = 52; cv.style.left = fx(i) + 'px';
+  drawFrame(cv.getContext('2d'), 68, 52, ft(i)); $('stripIn').appendChild(cv);
+  MOS.push(mosaic(ft(i)));
+  const m = document.createElement('canvas'); m.className = 'mos'; m.width = 8; m.height = 8; m.style.left = fx(i) + 'px'; putMosaic(m, MOS[i]);
+  $('mosW').appendChild(m); win(m, 9200, 16500, 500);
+}
+at($('stripIn'), [[900, { opacity: 0, transform: 'translateX(400px)' }], [1300, { opacity: 1, transform: 'translateX(400px)' }], [5000, { opacity: 1, transform: 'translateX(0px)' }], [OUT0, { opacity: 1, transform: 'translateX(0px)' }], [OUT1, { opacity: 0, transform: 'translateX(0px)' }]], 'ease-in-out');
+
+// markers: press, change, shown, loaded (they accumulate); pins and outlines are gold
+function marker(idx, text, top, t, left, w, align) {
+  const x = fx(idx);
+  const ol = document.createElement('div'); ol.className = 'ol'; ol.style.left = (x - 3) + 'px';
+  const pin = document.createElement('div'); pin.className = 'pin'; pin.style.left = (x + 16) + 'px';
+  if (top) { pin.style.top = '32px'; pin.style.height = '12px'; } else { pin.style.top = '70px'; pin.style.height = '36px'; }
+  const lb = document.createElement('div'); lb.className = 'mk'; lb.textContent = text; lb.style.left = left + 'px'; lb.style.width = w + 'px'; lb.style.textAlign = align; lb.style.top = top ? '0px' : '106px';
+  [pin, lb, ol].forEach(e => $('markers').appendChild(e));
+  [pin, ol].forEach(e => win(e, t, null, 400)); enter(lb, t);
+}
+marker(IDX.press, 'OK pressed · 0.0 s', true, 5600, 0, 280, 'left');
+marker(IDX.change, 'Change · 0.4 s', false, 15000, fx(4) + 17 - 110, 220, 'center');
+marker(IDX.shown, 'Shown · 1.6 s', true, 22600, fx(10) + 17 - 110, 220, 'center');
+marker(IDX.loaded, 'Loaded · 2.2 s', false, 38600, fx(13) + 17 - 110, 220, 'center');
+
+// ================= numbers (chapter 2) and checks (chapter 3) under the frames =================
+const N8 = { 2: 2, 3: 3, 4: 24, 5: 29, 6: 34 };       // placeholder counts of differing bits (of 64), vs the frame before the press
+[2, 3, 4, 5, 6].forEach((i, k) => {
+  const e = document.createElement('div'); e.className = 'num'; e.textContent = N8[i]; e.style.left = fx(i) + 'px'; $('nums').appendChild(e);
+  const t = 10200 + k * 1000;
+  at(e, [[t, { opacity: 0 }], [t + 300, { opacity: 1 }], [16000, { opacity: 1 }], [16500, { opacity: 0 }], [OUT1, { opacity: 0 }]]);
+  if (i >= 4) at(e, [[t, { opacity: 0, color: '#8f5f2e' }], [t + 300, { opacity: 1, color: '#8f5f2e' }], [16000, { opacity: 1, color: '#8f5f2e' }], [16500, { opacity: 0, color: '#8f5f2e' }], [OUT1, { opacity: 0, color: '#8f5f2e' }]]);
+});
+for (let i = 4; i <= 10; i++) {
+  const e = document.createElement('div'); e.className = 'chk'; e.style.left = fx(i) + 'px'; e.innerHTML = i < 10 ? XX(22) : OK(26); $('nums').appendChild(e);
+  const t = 18000 + (i - 4) * 700 + 250;
+  at(e, [[t, { opacity: 0 }], [t + 250, { opacity: 1 }], [24000, { opacity: 1 }], [24500, { opacity: 0 }], [OUT1, { opacity: 0 }]]);
+}
+win($('cur'), 10000, 16300, 300); at($('cur'), [[0, { opacity: 0 }], [9800, { opacity: 0 }], [10000, { opacity: 1 }], [16300, { opacity: 1 }], [16500, { opacity: 0 }], [17400, { opacity: 0 }], [17600, { opacity: 1 }], [24400, { opacity: 1 }], [24600, { opacity: 0 }], [OUT1, { opacity: 0 }]], 'linear');
+at($('brk'), [[33400, { opacity: 0 }], [33900, { opacity: 1 }], [41000, { opacity: 1 }], [41400, { opacity: 0 }]]);
+at($('brkl'), [[33400, { opacity: 0 }], [33900, { opacity: 1 }], [41000, { opacity: 1 }], [41400, { opacity: 0 }]]);
+// the big frame and its overlay
+enter($('bigw'), 1000);
+win($('ov'), 9200, 16500, 500);
+at($('ov'), [[0, { opacity: 0 }], [9200, { opacity: 0 }], [9700, { opacity: 1 }], [16000, { opacity: 1 }], [16500, { opacity: 0 }], [25000, { opacity: 0 }], [25700, { opacity: 1 }], [40600, { opacity: 1 }], [41300, { opacity: 0 }], [OUT1, { opacity: 0 }]], 'linear');
+win($('liveo'), 33800, 41000, 500); win($('livel'), 33800, 41000, 500);
+
+// ================= the readout card: one layer per chapter =================
+const card = $('card');
+const layers = [
+  `<div class="big" id="a0" style="font-size:46px !important">5 frames a second</div><div class="dots" id="a1"><i></i><i></i><i></i><i></i><i></i></div>`,
+  `<div style="display:flex;align-items:center;gap:28px"><canvas id="mcard" width="8" height="8" style="width:152px;height:152px;image-rendering:pixelated;border-radius:8px"></canvas><div style="text-align:left"><div id="b0">8 × 8</div><div class="big" id="b1" style="font-size:52px !important">2 / 64</div></div></div>`,
+  `<div id="c0">Checks: title Guide</div><div id="c1" style="height:56px"><span id="icoX">${XX(52)}</span><span id="icoOk" style="display:none">${OK(52)}</span></div>`,
+  `<div id="d0" style="display:flex;align-items:center;gap:22px"><div style="width:160px;height:90px;border:3px solid var(--ink);border-radius:6px;position:relative;overflow:hidden"><div style="position:absolute;left:0;right:0;top:0;height:15%;background:#d9d4cc"></div><div style="position:absolute;left:0;right:0;bottom:0;height:5%;background:#d9d4cc"></div></div><div style="text-align:left"><div>320 × 180</div><div class="mu" style="font-size:26px">10 × 10 blocks</div></div></div><div id="d1" style="display:flex;align-items:baseline;gap:16px;justify-content:center"><span>Grey boxes</span><span class="big gold" id="gb4">0 %</span></div>`,
+  `<div id="e0" style="display:flex;align-items:baseline;gap:14px;justify-content:center"><span>Grey boxes</span></div><div id="e1" class="big gold" style="display:flex;gap:16px;align-items:baseline;justify-content:center"><span>38 %</span><span id="e2" style="display:flex;gap:16px"><span class="mu">→</span><span id="gb5">38 %</span></span></div>`,
+  `<div class="rep" id="f0"><span>Shown</span><span>1.6 s</span></div><div class="rep" id="f1"><span>Fully Loaded</span><span>2.2 s</span></div><div class="rep gold" id="f2"><span>Loading time</span><span>0.6 s</span></div>`,
+];
+layers.forEach((html, c) => {
+  const d = document.createElement('div'); d.className = 'ly'; d.id = 'ly' + c; d.innerHTML = html; card.appendChild(d);
+  win(d, CH[c] + 200, c === 5 ? null : end(c) + 300, 300);
+});
+at(card, [[1200, { opacity: 0, transform: 'translateY(16px)' }], [1700, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]);
+enter($('a0'), 2200); enter($('a1'), 3000);
+[0, 1, 2, 3, 4].forEach(k => at($('a1').children[k], [[3200 + k * 450, { background: '#e4dfd6' }], [3500 + k * 450, { background: '#d4a574' }]]));
+enter($('b0'), 9400); enter($('b1'), 9800);
+enter($('c0'), 17000); enter($('c1'), 17400);
+enter($('d0'), 25000); enter($('d1'), 27600);
+enter($('e0'), 33000); enter($('e1'), 33400);
+at($('e2'), [[34300, { opacity: 0 }], [34800, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+enter($('f0'), 42400); enter($('f1'), 43600); enter($('f2'), 44800);
+
+// ================= text and canvases that change with time =================
+const bctx = $('big').getContext('2d'), octx = $('ov').getContext('2d');
+bctx.scale(2, 2); octx.scale(2, 2);
+let lastB = null, lastO = null;
+function cursorIdx(ms) {
+  if (ms >= 9800 && ms < 16600) return Math.max(2, Math.min(6, 2 + Math.floor((ms - 10000) / 1000)));
+  if (ms >= 17400 && ms < 24600) return Math.max(4, Math.min(10, 4 + Math.floor((ms - 18000) / 700)));
+  return null;
+}
+function ftOf(ms, idx) {
+  if (idx !== null) return ft(idx);
+  if (ms < 9800) return -0.2;
+  if (ms < 17400) return 0.8;
+  if (ms < 34600) return SHOWN;
+  if (ms < 38200) return SHOWN + (LOADED - SHOWN) * (ms - 34600) / 3600;
+  return LOADED;
+}
+function overlay(mode, t) {
+  octx.clearRect(0, 0, 420, 236);
+  if (mode === '8') {
+    octx.strokeStyle = 'rgba(255,255,255,.35)'; octx.lineWidth = 1;
+    for (let k = 1; k < 8; k++) { octx.beginPath(); octx.moveTo(k * 420 / 8, 0); octx.lineTo(k * 420 / 8, 236); octx.stroke(); octx.beginPath(); octx.moveTo(0, k * 236 / 8); octx.lineTo(420, k * 236 / 8); octx.stroke(); }
+  } else if (mode === 'blk') {
+    const bw = 420 / COLS, bh = .8 * 236 / ROWS, y0 = .15 * 236;
+    for (let b = 0; b < NB; b++) {
+      if (!flat(b, t)) continue; if (isLive(b) && t >= 0.45) continue;
+      const x = (b % COLS) * bw, y = y0 + Math.floor(b / COLS) * bh;
+      octx.save(); octx.beginPath(); octx.rect(x + 1, y + 1, bw - 2, bh - 2); octx.clip();
+      octx.strokeStyle = 'rgba(212,165,116,.95)'; octx.lineWidth = 1.6;
+      for (let d = -bh; d < bw; d += 5) { octx.beginPath(); octx.moveTo(x + d, y + bh); octx.lineTo(x + d + bh, y); octx.stroke(); }
+      octx.restore();
+    }
+    octx.strokeStyle = 'rgba(255,255,255,.22)'; octx.lineWidth = 1;
+    for (let k = 0; k <= COLS; k++) { octx.beginPath(); octx.moveTo(k * bw, y0); octx.lineTo(k * bw, y0 + 8 * bh); octx.stroke(); }
+    for (let k = 0; k <= ROWS; k++) { octx.beginPath(); octx.moveTo(0, y0 + k * bh); octx.lineTo(420, y0 + k * bh); octx.stroke(); }
+  }
+}
+function tick(ms) {
+  const idx = cursorIdx(ms), t = ftOf(ms, idx);
+  const mode = (ms >= 9000 && ms < 16800) ? '8' : (ms >= 24800 && ms < 41300) ? 'blk' : '';
+  const kb = t.toFixed(3); if (kb !== lastB) { drawFrame(bctx, 420, 236, t); lastB = kb; }
+  const ko = mode + kb; if (ko !== lastO) { overlay(mode, t); lastO = ko; }
+  if (idx !== null) $('cur').style.left = (fx(idx) - 3) + 'px';
+  // chapter 2: the readout card
+  const i2 = idx !== null && ms < 17000 ? idx : (ms < 10000 ? 2 : 6);
+  if (ms < 17000) {
+    putMosaic($('mcard'), MOS[i2]); $('b1').textContent = N8[i2] + ' / 64'; $('b1').style.color = N8[i2] > 18 ? '#8f5f2e' : '#141414';
+  }
+  // chapter 3: ✗ until the frame that passes
+  const pass = idx === 10 || ms >= 24600 || (idx === null && ms >= 22200);
+  $('icoX').style.display = pass ? 'none' : ''; $('icoOk').style.display = pass ? '' : 'none';
+  // chapter 4: the share of grey boxes counts up to what the frame holds; chapter 5: it falls to 0
+  $('gb4').textContent = Math.round(share(SHOWN) * Math.max(0, Math.min(1, (ms - 28200) / 2000))) + ' %';
+  $('gb5').textContent = share(t) + ' %';
+  // the 2 s bracket follows the frame that is playing
+  const bx = fx(IDX.shown) + (t - SHOWN) / 0.2 * PITCH;
+  $('brk').style.left = bx + 'px'; $('brkl').style.left = bx + 'px';
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

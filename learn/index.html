@@ -72,6 +72,23 @@
   .panel h1 .sn { color: var(--goldText); margin-right: 4px; }   /* the step number, e.g. 1.1, in front of the title */
   .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
   .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
+  .panel p.note { margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--muted); padding-left: 10px; border-left: 3px solid var(--line); }
+  /* "Go deeper": a lesson's optional deep dive (a longer card in chapters, not a step) */
+  .deepb { margin-top: 18px; width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; text-align: left; }
+  .deepb:hover { border-color: var(--gold); }
+  .deepb small { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--goldText); }
+  .deepb b { display: block; margin-top: 2px; font-size: 16px; }
+  .deepb .arr { margin-left: auto; font-size: 20px; color: var(--goldText); }
+  .badge { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 3px 9px; border-radius: 999px; background: var(--gold); color: #141414; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
+  .chapters { margin-top: 16px; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .chapters button { width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border-left: 3px solid transparent; display: block; }
+  .chapters button:hover { background: var(--bg); }
+  .chapters h4 { font-size: 15px; display: flex; gap: 10px; }
+  .chapters h4 .k { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .chapters p { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .chapters li[aria-current="true"] button { background: var(--bg); border-left-color: var(--gold); }
+  .chapters li[aria-current="true"] h4 .k { color: var(--goldText); }
+  .chapters li[aria-current="true"] p { color: var(--ink2); }
   .panel h3 { margin-top: 24px; font-size: 14px; color: var(--muted); font-weight: 700; }
   .steps { margin-top: 20px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
   .steps::-webkit-scrollbar { display: none; }
@@ -92,6 +109,12 @@
   .foot .done .arr { margin-left: auto; }
   .foot button:disabled { opacity: .35; cursor: default; }
 
+  /* desktop: the page is the window; a long panel (a deep dive's chapters) scrolls inside itself */
+  @media (min-width: 901px) {
+    body { height: 100vh; height: 100dvh; }
+    main, aside.panel { min-height: 0; }
+    aside.panel { overflow: hidden; }
+  }
   /* phone: stage on top, the text under it, the step buttons pinned at the bottom */
   @media (max-width: 900px) {
     .pn { display: none; }   /* phone: the Prev / Next buttons below already say it */
@@ -134,8 +157,11 @@
       <h1 id="title"></h1>
       <div class="l2" id="sub"></div>
       <p class="text" id="text"></p>
+      <p class="note" id="note" hidden></p>
+      <button class="deepb" id="deepB" hidden><span><small>GO DEEPER · ABOUT 1 MIN</small><b id="deepT"></b></span><span class="arr" aria-hidden="true">→</span></button>
+      <ol class="chapters" id="chapters" hidden></ol>
       <div class="steps" id="steps" role="group" aria-label="Steps of this topic"></div>
-      <div class="pn"><button id="prevB"></button><button id="nextB"></button></div>
+      <div class="pn" id="pnRow"><button id="prevB"></button><button id="nextB"></button></div>
       <div class="keys"><span><kbd>←</kbd> <kbd>→</kbd> to move</span><span><kbd>R</kbd> to replay</span><span><kbd>Space</kbd> to pause</span></div>
     </div>
     <div class="foot">
@@ -148,12 +174,12 @@
 // Topics of the course (scripts/promo/concepts/LEARN_TREE.md in the product repo). `cards` = published steps;
 // a topic without cards lists its planned lessons. `need` = step ids to know first, "<topic>.<step>".
 const TOPICS = [
-  { id: 1, name: "Control any device", cards: [{"card": "live-screen", "title": "See your devices live", "sub": "Any browser, desktop or mobile, nothing to install", "text": "Web apps, desktops, phones, tablets and TV boxes: VirtualPyTest streams the real screen of every device to any browser, desktop or mobile. Nothing to install.", "need": []}, {"card": "own-remote", "title": "The right remote for each device", "sub": "Each device gets its own controller and its own keys", "text": "Each device gets the controller it really needs: ADB, Appium, Playwright, a shell, infrared or Bluetooth. Tests send the same keys.", "need": ["1.1"]}, {"card": "own-phone", "title": "Add your own phone", "sub": "Install the app, pair it: it joins your devices", "text": "Install the VirtualPyTest app on your Android phone and scan the code. Over Wi-Fi, with no cable, it becomes a device like the others.", "need": ["1.2"]}, {"card": "cloud-phones", "title": "Add phones from the cloud", "sub": "Rented Android phones, nothing to plug in", "text": "A phone rented from a cloud phone farm joins your devices like one on your desk: live screen, its own remote, the same tests.", "need": ["1.3"]}, {"card": "any-device", "title": "More than TVs and phones", "sub": "Consoles, emulators, drones: same page, same tests", "text": "A game console, an Android emulator or a drone shows up like any other device: a live picture, its own remote, and tests that run the same way.", "need": ["1.4"]}] },
-  { id: 2, name: "User interface", cards: [{"card": "user-interface", "title": "Map your app once", "sub": "Every test reuses the same screens and keys", "text": "The user interface is a map of your app: its screens and the keys that move between them. You map it once; every test reuses it.", "need": ["1.5"]}, {"card": "go-anywhere", "title": "Just name the screen", "sub": "We find the shortest way and press the keys", "text": "Your test only names the screen. VirtualPyTest reads the map, finds the shortest way from where the device is, and presses the keys.", "need": ["2.1"]}, {"card": "variants", "title": "Many models, one map", "sub": "Add only what differs; the same test runs on all", "text": "A named variant keeps only what differs on one model, like a key. Everything else comes from the same map, and the test does not change.", "need": ["2.2"]}, {"card": "repair-map", "title": "Your app changed?", "sub": "Fix one move on the map; every test follows", "text": "When an update moves a screen, one move in the map breaks. Fix it there once, and every test that goes through it follows.", "need": ["2.3"]}] },
-  { id: 3, name: "UI verification", cards: [{"card": "check", "title": "Be sure you reached the screen", "sub": "After each key, the real screen is checked", "text": "Sending a key is not arriving. After every move, VirtualPyTest looks at the screen and proves it is the one expected.", "need": ["2.4"]}, {"card": "references", "title": "Save a picture or a word once", "sub": "Found again in the same spot on every run", "text": "Save a piece of the screen or a word once. Each run compares it in the same spot. When the app changes, someone retakes it.", "need": ["3.1"]}, {"card": "why-fingerprint", "title": "Your app updated, nothing broke", "sub": "Screenshots fail anyway; a fingerprint keeps up", "text": "A new poster or language makes a screenshot fail. The layout stays the same, so the fingerprint still knows it.", "need": ["3.2"]}, {"card": "fingerprint", "title": "Every screen gets a fingerprint", "sub": "Made from its pixels; same screen, same code", "text": "We shrink the screen to a tiny grid and note where it gets lighter or darker. New content barely moves the code.", "need": ["3.3"]}, {"card": "speed", "title": "Know the screen in 11 ms", "sub": "One fingerprint against all 27 screens in 11 ms", "text": "The fingerprint of the frame is made once. Comparing it with all 27 screens then costs almost nothing; a screenshot is searched again for each one.", "need": ["3.4"]}, {"card": "in-the-tree", "title": "No pictures to take or retake", "sub": "The fingerprint is made from the screen itself", "text": "The fingerprint is made from the screen itself: nothing to capture, nothing to retake. Every run checks arrival and times it.", "need": ["3.5"]}, {"card": "localize", "title": "Which screen is this?", "sub": "Its fingerprint is matched to your map and named", "text": "Localize compares the screen's fingerprint with every screen of the user interface. Video only, no access to the app.", "need": ["3.6"]}] },
+  { id: 1, name: "Control any device", cards: [{"card": "live-screen", "title": "See your devices live", "sub": "Any browser, desktop or mobile, nothing to install", "text": "Web apps, desktops, phones, tablets and TV boxes: VirtualPyTest streams the real screen of every device to any browser, desktop or mobile. Nothing to install.", "need": []}, {"card": "own-remote", "title": "The right remote for each device", "sub": "Each device gets its own controller and its own keys", "text": "Each device gets the controller it really needs: ADB, Appium, Playwright, a shell, infrared or Bluetooth. Tests send the same keys.", "need": ["1.1"]}, {"card": "own-phone", "title": "Add your own phone", "sub": "Install the app, pair it: it joins your devices", "text": "Install the VirtualPyTest app on your Android phone and scan the code. Over Wi-Fi, with no cable, it becomes a device like the others.", "need": ["1.2"]}, {"card": "cloud-phones", "title": "Add phones from the cloud", "sub": "Rented Android phones, nothing to plug in", "text": "A phone rented from a cloud phone farm joins your devices like one on your desk: live screen, its own remote, the same tests.", "need": ["1.3"]}, {"card": "any-device", "title": "More than TVs and phones", "sub": "Consoles, emulators, drones: same page, same tests", "text": "A game console, an Android emulator or a drone shows up like any other device: a live picture, its own remote, and tests that run the same way.", "need": ["1.4"]}, {"card": "many-screens", "title": "Watch many devices at once", "sub": "Side by side, a 2×2, or 24 to a page", "text": "Choose how the Devices page shows your devices: two side by side, stacked, three in a row, a 2×2 or 3×2 grid, or 12 or 24 to a page.", "need": ["1.5"]}, {"card": "group-control", "title": "One remote, many devices", "sub": "Press once: every box of that model follows", "text": "Select up to six devices of the same model and drive them with one remote. Each press goes to all of them, and each shows whether it got it.", "need": ["1.6"]}, {"card": "device-shortcuts", "title": "Three shortcuts on every device", "sub": "Go to a screen, run a script, ask the AI", "text": "In a device's view, one menu takes it to any screen of its map, runs a script on it, or lets you tell the AI what to do.", "need": ["1.7"]}] },
+  { id: 2, name: "User interface", cards: [{"card": "user-interface", "title": "Map your app once", "sub": "Every test reuses the same screens and keys", "text": "The user interface is a map of your app: its screens and the keys that move between them. You map it once; every test reuses it.", "need": ["1.8"]}, {"card": "go-anywhere", "title": "Just name the screen", "sub": "We find the shortest way and press the keys", "text": "Your test only names the screen. VirtualPyTest reads the map, finds the shortest way from where the device is, and presses the keys.", "need": ["2.1"]}, {"card": "variants", "title": "Many models, one map", "sub": "Add only what differs; the same test runs on all", "text": "A named variant keeps only what differs on one model, like a key. Everything else comes from the same map, and the test does not change.", "need": ["2.2"]}, {"card": "repair-map", "title": "Your app changed?", "sub": "Fix one move on the map; every test follows", "text": "When an update moves a screen, one move in the map breaks. Fix it there once, and every test that goes through it follows.", "need": ["2.3"]}] },
+  { id: 3, name: "UI verification", cards: [{"card": "check", "title": "Be sure you reached the screen", "sub": "After each key, the real screen is checked", "text": "Sending a key is not arriving. After every move, VirtualPyTest looks at the screen and proves it is the one expected.", "need": ["2.4"]}, {"card": "references", "title": "Save a picture or a word once", "sub": "Found again in the same spot on every run", "text": "Save a piece of the screen or a word once. Each run compares it in the same spot. When the app changes, someone retakes it.", "need": ["3.1"]}, {"card": "why-fingerprint", "title": "Your app updated, nothing broke", "sub": "Screenshots fail anyway; a fingerprint keeps up", "text": "A new poster or language makes a screenshot fail. The layout stays the same, so the fingerprint still knows it.", "need": ["3.2"]}, {"card": "fingerprint", "title": "Every screen gets a fingerprint", "sub": "Made from its pixels; same screen, same code", "text": "We shrink the screen to a tiny grid and note where it gets lighter or darker. New content barely moves the code.", "deep": {"card": "deep-fingerprint", "title": "How a fingerprint is computed", "sub": "From one frame to 256 bits, step by step", "chapters": [{"t": 600, "h": "Make it grey", "text": "It starts from one frame of the device's screen. The frame is turned to grey: colour is dropped and only brightness is kept, 0.30 × red + 0.59 × green + 0.11 × blue."}, {"t": 7600, "h": "Shrink to 17 × 16", "text": "The grey frame is shrunk to 17 columns and 16 rows. Each cell is the average of the pixels under it: text, grain and small details melt away, the layout stays."}, {"t": 14600, "h": "Brighter than its left neighbour?", "text": "In each row, every cell is compared with the cell on its left. Brighter gives a 1, not brighter a 0. 16 pairs in each of the 16 rows: 256 bits."}, {"t": 23600, "h": "Write it as a code", "text": "Every 4 bits become one hexadecimal character, 0 to f. The 256 bits become a 64-character code: the screen's difference hash, or dHash."}, {"t": 30600, "h": "Five regions, five codes", "text": "The same is done on five parts of the screen: the full frame, the top band, the centre, the left column and the bottom band. When a poster changes or a label is translated, the regions it does not touch keep their code."}, {"t": 38600, "h": "Count the bits that differ", "text": "Two codes are compared bit by bit. The distance is the number of bits that differ, out of 256. A new poster moves the regions it covers, but the top and bottom bands stay at 0: still the same screen. Another screen moves nearly all of them."}, {"t": 47600, "h": "Plus the focus and the title", "text": "Two more things are stored: where the highlight is (the underline under a menu tab, or a focused tile) and the title read from the top-left corner. They tell apart two screens that look alike."}]}, "need": ["3.3"]}, {"card": "speed", "title": "Know the screen in 11 ms", "sub": "One fingerprint against all 27 screens in 11 ms", "text": "The fingerprint of the frame is made once. Comparing it with all 27 screens then costs almost nothing; a screenshot is searched again for each one.", "need": ["3.4"]}, {"card": "in-the-tree", "title": "No pictures to take or retake", "sub": "The fingerprint is made from the screen itself", "text": "The fingerprint is made from the screen itself: nothing to capture, nothing to retake. Every run checks arrival and times it.", "need": ["3.5"]}, {"card": "localize", "title": "Which screen is this?", "sub": "Its fingerprint is matched to your map and named", "text": "Localize compares the screen's fingerprint with every screen of the user interface. Video only, no access to the app.", "deep": {"card": "deep-localize", "title": "How Localize names the screen", "sub": "Every gate it passes, or it says \"not sure\"", "chapters": [{"t": 600, "h": "Anything to see?", "text": "First, Localize counts the edges in the live frame. A black, sleeping or fading screen has almost none: there is nothing to recognise, so it stops and says it cannot tell."}, {"t": 8600, "h": "Compare with every known screen", "text": "The live fingerprint is compared with the stored fingerprint of every screen of the map, region by region. Each screen keeps its two closest regions. A region that is all black, like Standby's, is left out."}, {"t": 16600, "h": "Two regions must agree", "text": "A screen stays only if its closest region is within 14 bits and its second within 44. One region that matches by luck is not enough."}, {"t": 24600, "h": "Menus: the underline", "text": "On a menu, the tab's underline must be at the same place, with the same width, as the stored one. If no screen has that underline, Localize gives no answer rather than the nearest guess."}, {"t": 32600, "h": "Look-alikes: read the title", "text": "Two screens can share the tab and almost every pixel. Then the title in the top-left corner is read, and only the screens whose title matches stay. A clear winner skips this: reading text is slow."}, {"t": 40600, "h": "Close and sure enough", "text": "Screens more than 14 bits behind the best are dropped, and a match needs a confidence of at least 0.55. On a menu the confidence comes from the underline and the title: 0.6, up to 1.0 with a matching title."}, {"t": 48600, "h": "One answer, or \"not sure\"", "text": "One screen left: that is the answer, with its confidence. None left: Localize says it is not sure. It never picks at random between screens it cannot tell apart."}]}, "need": ["3.6"]}] },
   { id: 4, name: "Write tests", cards: [{"card": "test-builder", "title": "Build a test without code", "sub": "Boxes and arrows: go to, press a key, check", "text": "Put boxes in order and join them: go to a screen, press a key, check what shows. The map finds the way for you.", "need": ["3.7"]}, {"card": "virtual-script", "title": "Need loops or conditions?", "sub": "Write Python in the browser, run it right away", "text": "When boxes are not enough, write Python in the browser. Save it and it runs at once, with the same report as any test.", "need": ["4.1"]}, {"card": "test-prompt", "title": "Prompt Testing with AI", "sub": "Describe the test; the AI builds it, replays need no AI", "text": "Describe the test in plain words. The AI builds the steps and runs them once. Saved as a test, every later run replays them with no AI.", "need": ["4.2"]}, {"card": "schedule", "title": "Run your tests every night", "sub": "Group them, pick a device, set the time: done", "text": "Put your tests in one campaign and pick a device. Set it to repeat, and it runs every night with nobody there.", "need": ["4.3"]}] },
-  { id: 5, name: "Measure", cards: [{"card": "response-time", "title": "How fast does your app answer?", "sub": "From key press to the right screen, timed after every run", "text": "A KPI is the time you wait: from the key press to the right screen. A service reads the recorded frames in the background, so the test never waits.", "need": ["4.4"]}, {"card": "loaded", "title": "Shown is not loaded", "sub": "We also time when the last grey box is filled", "text": "Many apps first draw grey boxes, then fill them. Loaded means no grey box is left and nothing new is drawn for 2 seconds.", "need": ["5.1"]}, {"card": "zapping", "title": "How long does a zap take?", "sub": "Key to new picture, black time too, every zap", "text": "Press channel up: the screen goes black, then the new channel plays. Every zap is timed, with the black time, the average, the fastest and the slowest.", "need": ["5.2"]}, {"card": "report", "title": "Every run, proof you can check", "sub": "Each step, a mosaic of frames, the video, the verdict", "text": "Every run writes its report: the verdict, each step with its screenshot and KPI, a mosaic of the whole run, and the video.", "need": ["5.3"]}] },
-  { id: 6, name: "Monitor 24/7", cards: [{"card": "incidents", "title": "Your devices, watched 24/7", "sub": "Freeze, black screen, lost sound: caught live", "text": "Your devices are watched around the clock. A black screen, a frozen picture or lost sound that lasts 30 seconds becomes an incident, with its picture.", "need": ["5.4"]}, {"card": "av-quality", "title": "Is the picture any good?", "sub": "A picture and sound score, every minute, 24 h", "text": "Every minute, each device gets a picture score and a sound score. A drop shows on the 24-hour line; click it to watch that minute.", "need": ["6.1"]}, {"card": "heatmap", "title": "Your whole fleet at a glance", "sub": "One frame a minute, problems outlined in red", "text": "Once a minute, the heatmap takes one frame of every device. A device with a problem is outlined in red, and the last 24 hours are kept.", "need": ["6.2"]}, {"card": "timeline", "title": "It broke at 3 a.m.?", "sub": "Scroll the day, click the moment, watch it", "text": "The timeline shows one device's last 24 hours as small pictures. Zoom from the day to ten minutes, click the frozen moment and watch it.", "need": ["6.3"]}] },
+  { id: 5, name: "Measure", cards: [{"card": "response-time", "title": "How fast does your app answer?", "sub": "From key press to the right screen, timed after every run", "text": "A KPI is the time you wait: from the key press to the right screen. A service reads the recorded frames in the background, so the test never waits.", "need": ["4.4"]}, {"card": "loaded", "title": "Shown is not loaded", "sub": "We also time when the last grey box is filled", "text": "Many apps first draw grey boxes, then fill them. Loaded means no grey box is left and nothing new is drawn for 2 seconds.", "deep": {"card": "deep-loading", "title": "How shown and loaded are timed", "sub": "From the key press to the last grey box", "chapters": [{"t": 600, "h": "Every frame is kept", "text": "The host records the screen 5 times a second. After a key press, a separate worker reads the frames from the press on, so the test never waits for the measure."}, {"t": 8600, "h": "Find the first change", "text": "Each frame is shrunk to 8 × 8 and compared with the frame before the press. The first frame that differs by more than 18 of 64 bits, and still differs on the next 2 frames, is where the change starts."}, {"t": 16600, "h": "Is it the right screen?", "text": "From that frame on, the screen's own checks run on up to 8 frames. The first frame where they pass is Shown: the KPI, counted from the key press."}, {"t": 24600, "h": "Count the grey boxes", "text": "Each frame after it is shrunk to 320 × 180, the top 15 % and the bottom 5 % left out, and cut into 10 × 10 blocks. A block of almost one shade is skeleton: a blank area or a grey box. Half the blocks or more is a blank page."}, {"t": 32600, "h": "Nothing new for 2 seconds", "text": "A frame is Loaded when, in the 2 seconds after it, no grey boxes get filled and at most 5 blocks gain detail. Blocks that keep moving, like a playing video or a rotating poster, do not count."}, {"t": 41600, "h": "Both times in the report", "text": "Shown and Loaded are stored side by side, with the loading time between them. If no frame qualifies within 20 seconds, Loaded stays empty: that is a finding, not a pass."}]}, "need": ["5.1"]}, {"card": "zapping", "title": "How long does a zap take?", "sub": "Key to new picture, black time too, every zap", "text": "Press channel up: the screen goes black, then the new channel plays. Every zap is timed, with the black time, the average, the fastest and the slowest.", "need": ["5.2"]}, {"card": "report", "title": "Every run, proof you can check", "sub": "Each step, a mosaic of frames, the video, the verdict", "text": "Every run writes its report: the verdict, each step with its screenshot and KPI, a mosaic of the whole run, and the video.", "need": ["5.3"]}] },
+  { id: 6, name: "Monitor 24/7", cards: [{"card": "incidents", "title": "Your devices, watched 24/7", "sub": "Freeze, black screen, lost sound: caught live", "text": "Your devices are watched around the clock. A black screen, a frozen picture or lost sound that lasts 30 seconds becomes an incident, with its picture.", "note": "Watched on devices whose profile looks at the screen: TV app, the default. See 10.3 What each host runs.", "need": ["5.4"]}, {"card": "av-quality", "title": "Is the picture any good?", "sub": "A picture and sound score, every minute, 24 h", "text": "Every minute, each device gets a picture score and a sound score. A drop shows on the 24-hour line; click it to watch that minute.", "note": "Scored on devices whose profile runs the quality service: TV app, the default. See 10.3 What each host runs.", "need": ["6.1"]}, {"card": "heatmap", "title": "Your whole fleet at a glance", "sub": "One frame a minute, problems outlined in red", "text": "Once a minute, the heatmap takes one frame of every device. A device with a problem is outlined in red, and the last 24 hours are kept.", "need": ["6.2"]}, {"card": "timeline", "title": "It broke at 3 a.m.?", "sub": "Scroll the day, click the moment, watch it", "text": "The timeline shows one device's last 24 hours as small pictures. Zoom from the day to ten minutes, click the frozen moment and watch it.", "need": ["6.3"]}] },
   { id: 7, name: "AI in the lab", cards: [{"card": "talk-to-lab", "title": "Talk to your lab", "sub": "Ask in plain words; the AI moves the real device", "text": "Ask in plain words. The AI moves the real device, looks at the screen and answers you. Other AI tools can connect the same way.", "need": ["6.4"]}, {"card": "discard-incidents", "title": "Fewer false alarms", "sub": "The AI sets harmless incidents aside, and learns", "text": "Many alarms are harmless, like a menu left open. The AI sets them aside and remembers the screen, so next time no AI is needed.", "need": ["7.1"]}, {"card": "discard-scripts", "title": "A test failed. Real bug?", "sub": "Lab problems are set aside; real failures stay", "text": "When a run fails, the AI reads its report. A lab problem, like no signal, is set aside, so the pass rate counts only real results.", "need": ["7.2"]}] },
   { id: 8, name: "Run the lab", cards: [{"card": "projects", "title": "Follow your project", "sub": "Runs per script, pass rate, devices and AI tokens", "text": "A project gathers its scripts and devices. See how often each script ran and passed, the last runs, the AI tokens spent and who is on the team.", "need": ["7.3"]}, {"card": "dashboard", "title": "Your whole lab on one page", "sub": "What's up, what's running, what needs you first", "text": "One page shows which devices are up, free or in use, what is running and how the lab machines cope. Problems come first; each opens its page.", "need": ["8.1"]}, {"card": "permissions", "title": "One lab, many teams", "sub": "Each team sees its own devices and scripts", "text": "A workspace shows each team only its devices and scripts. Permissions decide who may do what, down to a single action, for each role and person.", "need": ["8.2"]}, {"card": "analytics", "title": "Every result, kept and charted", "sub": "Basics at a glance, dashboards to dig deeper", "text": "Every test, incident and quality minute is kept. See the basics in the app, then open about 30 ready-made dashboards to dig deeper.", "need": ["8.3"]}] },
   { id: 9, name: "More features", cards: [{"card": "drone", "title": "Fly a drone from your browser", "sub": "Live video, take-off and landing, like any device", "text": "A drone joins your devices: its video live in the browser, its own remote to take off, move and land. Every move is checked against safety limits.", "need": ["8.4"]}, {"card": "game-console", "title": "Play a Nintendo Switch remotely", "sub": "Its controller over Bluetooth, its picture live", "text": "The host acts as a wireless controller over Bluetooth while the dock's picture plays live. Pair once, then click the buttons or let a test press them.", "need": ["9.1"]}, {"card": "game-bot", "title": "A bot that plays Tetris", "sub": "It sees the screen, decides and presses the keys", "text": "The bot reads the board from the live picture, works out the best spot for the piece and sends the keys in one go. Piece after piece.", "need": ["9.2"]}, {"card": "companion", "title": "The page opens beside the chat", "sub": "Atlas shows the real app page, already filtered", "text": "Atlas answers in the chat, then opens the real app page beside it, filtered the same way. Ask a follow-up and the filters change.", "need": ["9.3"]}] },
@@ -170,7 +196,7 @@ const store = {
   mark(id) { try { const d = store.get(); d[id] = 1; localStorage.setItem('vpt-learn-done', JSON.stringify(d)); } catch {} },
 };
 
-let topic = TOPICS[0], step = 1, rate = 1, paused = false, ended = false;
+let topic = TOPICS[0], step = 1, deep = false, rate = 1, paused = false, ended = false;
 
 function renderTopics() {
   const nav = $('topics'); nav.innerHTML = '';
@@ -185,9 +211,10 @@ function renderTopics() {
   if (cur) nav.scrollTo({ left: cur.offsetLeft - nav.clientWidth / 2 + cur.offsetWidth / 2 });
 }
 
-function go(t, n) {
-  topic = t; step = n;
-  history.replaceState(null, '', `#${t.id}.${n}`);
+function go(t, n, d = false) {
+  d = d && !!t.cards?.[n - 1]?.deep;
+  topic = t; step = n; deep = d;
+  history.replaceState(null, '', `#${t.id}.${n}${d ? '/deep' : ''}`);
   renderTopics();
   const live = !!t.cards, total = steps(t);
   $('fit').hidden = $('controls').hidden = !live; $('soon').hidden = live;
@@ -200,9 +227,40 @@ function go(t, n) {
     return setNext();
   }
   const s = t.cards[n - 1];
-  $('title').innerHTML = `<span class="sn">${t.id}.${n}</span> `; $('title').append(s.title); $('sub').textContent = s.sub; $('text').textContent = s.text;
+  $('text').hidden = $('steps').hidden = d; $('chapters').hidden = !d;
+  $('note').hidden = d || !s.note; $('note').textContent = s.note || '';
+  $('deepB').hidden = d || !s.deep;
+  if (s.deep) $('deepT').textContent = s.deep.title;
+  if (d) {
+    $('stepOf').textContent = `Deep dive of ${t.id}.${n} · ${s.deep.chapters.length} chapters`;
+    $('title').innerHTML = '<span class="badge">DEEP DIVE</span>'; $('title').append(s.deep.title); $('sub').textContent = s.deep.sub;
+    renderChapters(s.deep);
+  } else {
+    $('title').innerHTML = `<span class="sn">${t.id}.${n}</span> `; $('title').append(s.title); $('sub').textContent = s.sub; $('text').textContent = s.text;
+  }
   setNext();
-  load(s.card);
+  load(d ? s.deep.card : s.card, d ? 0 : START);
+}
+
+// a deep dive's chapters: all their text in the panel, the one playing marked, a click jumps to it
+let chapter = -1;
+function renderChapters(dp) {
+  const ol = $('chapters'); ol.innerHTML = ''; chapter = -1;
+  dp.chapters.forEach((c, i) => {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.innerHTML = `<h4><span class="k">${i + 1}</span><span></span></h4><p></p>`;
+    b.querySelector('h4 span:last-child').textContent = c.h; b.querySelector('p').textContent = c.text;
+    b.onclick = () => { seek(c.t); play(); };
+    li.appendChild(b); ol.appendChild(li);
+  });
+}
+function markChapter(ms) {
+  const chs = topic.cards[step - 1].deep.chapters;
+  let i = 0; while (i + 1 < chs.length && ms >= chs[i + 1].t - 300) i++;
+  if (i === chapter) return;
+  chapter = i;
+  [...$('chapters').children].forEach((li, k) => li.setAttribute('aria-current', String(k === i)));
+  if (matchMedia('(min-width: 901px)').matches) $('chapters').children[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 function nextOf() {
@@ -236,10 +294,13 @@ function setNext() {
   nb.innerHTML = nx ? `Next: <b></b> →` : '';
   if (pv) { pb.querySelector('b').textContent = stepTitle(pv[0], pv[1]); pb.onclick = () => go(...pv); }
   if (nx) { nb.querySelector('b').textContent = stepTitle(nx[0], nx[1]); nb.onclick = () => go(...nx); }
+  $('pnRow').hidden = deep;
   $('bNext').disabled = !nx;
   const last = nx && nx[0] === TOPICS[0] && topic !== TOPICS[0];
   $('nextLbl').textContent = last ? 'Start again' : 'Next';
-  $('bBack').disabled = !pv;
+  $('bBack').disabled = !pv && !deep;
+  $('bBack').querySelector('span').textContent = deep ? 'Lesson' : 'Prev';
+  $('bBack').setAttribute('aria-label', deep ? 'Back to the lesson' : 'Previous step');
 }
 
 // the card: a same-origin iframe in its embed view (1080 x 600), scaled to the stage width
@@ -248,15 +309,16 @@ function fit() { const k = $('fit').clientWidth / 1080; frame.style.transform = 
 new ResizeObserver(fit).observe($('fit'));
 const win = () => { try { return frame.contentWindow.__T ? frame.contentWindow : null; } catch { return null; } };
 const anims = () => win()?.document.getAnimations() || [];
-function load(name) {
-  ended = false; paused = false; setPause();
-  frame.onload = () => { seek(START); play(); };
+let start = START;
+function load(name, from = START) {
+  ended = false; paused = false; setPause(); start = from;
+  frame.onload = () => { seek(start); play(); };
   frame.src = `cards/${name}.html?f=embed`;
 }
 function seek(ms) { win()?.__seek(ms); }
 function play() { anims().forEach(a => { a.playbackRate = rate; a.play(); }); paused = ended = false; setPause(); }
 function pause() { anims().forEach(a => a.pause()); paused = true; setPause(); }
-function replay() { seek(START); play(); }
+function replay() { seek(start); play(); }
 function setPause() {
   const b = $('bPause');
   b.setAttribute('aria-label', paused ? 'Play' : 'Pause');
@@ -270,8 +332,9 @@ function setPause() {
   const w = win(), a = anims()[0];
   if (w && a && !paused && a.currentTime % w.__T >= w.__T - 1100) {
     pause(); seek(w.__T - 1100); ended = true; setPause();
-    store.mark(`${topic.id}.${step}`);
+    if (!deep) store.mark(`${topic.id}.${step}`);
   }
+  if (deep && a && w) markChapter(a.currentTime % w.__T);
   requestAnimationFrame(watch);
 })();
 
@@ -279,7 +342,9 @@ $('bReplay').onclick = replay;
 $('bPause').onclick = () => (ended ? replay() : paused ? play() : pause());
 $('bSlow').onclick = () => { rate = rate === 1 ? 0.5 : 1; $('bSlow').setAttribute('aria-pressed', String(rate !== 1)); if (!paused) play(); };
 $('bNext').onclick = () => { if (topic.cards) store.mark(`${topic.id}.${step}`); const nx = nextOf(); if (nx) go(...nx); };
+$('deepB').onclick = () => go(topic, step, true);
 $('bBack').onclick = () => {
+  if (deep) return go(topic, step);
   const pv = prevOf(); if (pv) go(...pv);
 };
 document.addEventListener('keydown', e => {
@@ -290,11 +355,11 @@ document.addEventListener('keydown', e => {
   else if (e.key === ' ') { e.preventDefault(); $('bPause').click(); }
 });
 
-// deep link: #2.3 = topic 2, step 3 (also when only the hash changes)
+// deep link: #2.3 = topic 2, step 3; #3.4/deep = its deep dive (also when only the hash changes)
 function fromHash() {
-  const m = location.hash.match(/^#(\d+)\.(\d+)$/), t0 = m && TOPICS.find(t => t.id === +m[1]);
-  const n = t0 ? Math.max(1, Math.min(+m[2], steps(t0))) : 1;
-  if (t0 !== topic || n !== step || !frame.src) go(t0 || TOPICS[0], n);
+  const m = location.hash.match(/^#(\d+)\.(\d+)(\/deep)?$/), t0 = m && TOPICS.find(t => t.id === +m[1]);
+  const n = t0 ? Math.max(1, Math.min(+m[2], steps(t0))) : 1, d = !!(m && m[3]);
+  if (t0 !== topic || n !== step || d !== deep || !frame.src) go(t0 || TOPICS[0], n, d);
 }
 window.addEventListener('hashchange', fromHash);
 fromHash();

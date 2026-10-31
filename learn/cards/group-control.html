@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Remote Many Devices</title>
+<!-- Concept card 1.7 of the Learn course, topic 1 "Control any device": group control, one remote for several devices of the same model.
+     1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
+     One timeline (T ms, loops); render.py seeks it. Same scaffold as any-device.html. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 470px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: var(--h1, 72px); line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  body.sq h1 { font-size: var(--h1sq, 58px); }
+  .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
+  body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
+  .stage { position: absolute; left: 0; top: 0; width: 888px; height: var(--dh); }
+  body.sq .stage { left: 50%; margin-left: -444px; transform: scale(var(--sqs, 0.8)); transform-origin: center top; }
+  .mono { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; }
+  .white { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 3px; text-align: center; color: var(--muted); }
+  .abs { position: absolute; }
+  /* a label centred on a column: left/width set inline, never a translateX(-50%) */
+  .lbl { position: absolute; display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; }
+  .lbl > span { text-wrap: balance; }
+  .lbl.grey { color: var(--muted); font-size: 26px; }
+  .lbl.red { color: var(--bad); }
+  .lbl.gold { color: var(--goldText); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .chip.greyc { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .okdot, .xdot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* the TV look of fingerprint.html, smaller; .nm layers carry the screen name */
+  .tv { position: absolute; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 26px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .tv .tick { position: absolute; right: 10px; top: 8px; }
+
+  /* ---- the user-interface map: same block in user-interface, go-anywhere, variants, repair-map ---- */
+  .uimap { position: absolute; width: 400px; height: 300px; }
+  .uibg { position: absolute; inset: 0; background: var(--card); border: 2px solid var(--line); border-radius: 22px; box-shadow: 0 6px 18px rgba(0,0,0,.06); padding-top: 13px; }
+  .uimap svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .uimap .arw { color: #a89f93; }
+  .uimap .arw path { stroke: currentColor; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .uimap .arw path.hd { fill: currentColor; stroke-width: 1.5; }
+  .scr { position: absolute; width: 128px; height: 58px; border-radius: 12px; background: var(--dark); color: #fff; font-size: 26px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .scr::before { content: ''; position: absolute; left: 10px; top: 7px; width: 28px; height: 4px; border-radius: 2px; background: #4a4a4a; }
+  #sHome { left: 136px; top: 50px; } #sGuide { left: 14px; top: 222px; } #sSettings { left: 258px; top: 222px; }
+  .kw { position: absolute; width: 0; display: flex; justify-content: center; }      /* centres its key on left: */
+  .key { position: relative; white-space: nowrap; font-size: 26px; font-weight: 700; line-height: 1.2; padding: 1px 12px 2px; border-radius: 10px; background: var(--card); border: 2px solid #c9c2b8; border-bottom-width: 5px; color: var(--ink); }
+  .key .mk { position: absolute; right: -16px; top: -18px; }
+  /* ---- end of the map block ---- */
+
+  .caption { margin-top: auto; font-size: 34px; line-height: 1.3; color: var(--ink); max-width: 888px; }
+  body.sq .caption { font-size: 29px; }
+  .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
+  body.sq .ctarow { margin-top: 24px; }
+
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 30px; }
+  .drop { position: absolute; display: flex; justify-content: center; }
+  .drop span { font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  .dk { background: var(--dark); color: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .dk .t { color: #cfcfcf; }
+  .pad { padding-top: 14px; }
+  .row { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .sub { font-size: 26px; color: var(--muted); text-align: center; line-height: 1.2; }
+  .dk .sub { color: #bdbdbd; }
+  .res { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .res .row { justify-content: flex-start; }
+  .chips { position: absolute; display: flex; justify-content: center; gap: 14px; }
+  .livec { position: absolute; z-index: 3; font-size: 18px; font-weight: 700; letter-spacing: 2px; padding: 2px 10px; border-radius: 6px; background: var(--gold); color: var(--ink); }
+  .stb { position: absolute; border-radius: 10px; background: var(--dark); box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  .stb::before { content: ''; position: absolute; left: 16px; top: 50%; width: 40%; height: 4px; margin-top: -2px; border-radius: 2px; background: #3a3a3a; }
+  .stb::after { content: ''; position: absolute; right: 16px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--ok); }
+  .phone { position: absolute; background: var(--card); border: 2px solid var(--line); border-radius: 26px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .phone::after { content: ''; position: absolute; left: 50%; bottom: 9px; width: 34px; height: 5px; margin-left: -17px; border-radius: 3px; background: #d9d4cc; }
+  .tv.sm .nm { font-size: 24px; } .tv.sm .tiles i { height: 16px; } .tv.sm .bar { height: 7px; }
+  :root { --h1: 64px; } body.sq { --sqs: 0.76; }
+  .nd { position: absolute; left: 0; width: 200px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .nd .lb { font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .tl { position: absolute; width: 190px; height: 132px; }
+  .tl .sc { position: absolute; left: 0; top: 0; width: 190px; height: 96px; border-radius: 12px; background: var(--dark); display: grid; place-items: center; overflow: hidden; }
+  .tl .sc svg { transform: scale(0.72); }
+  .tl .lb { position: absolute; left: -10px; right: -10px; top: 102px; text-align: center; font-size: 22px; font-weight: 700; white-space: nowrap; }
+  .tl.old .sc { background: #8a8378; } .tl.old .lb { color: var(--muted); }
+  .tl .rk { position: absolute; right: 8px; top: 8px; color: #6e6e6e; }
+  .chips .chip { font-size: 25px; }
+
+  /* ---- cards 1.6-1.8: drawn device tiles showing the course screens Home / Guide / Settings / Live TV ---- */
+  .dev { position: absolute; border-radius: 14px; background: var(--dark); overflow: hidden; box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  .dev .ly, .stm .ly { position: absolute; inset: 0; }
+  .dev .nm { position: absolute; left: 0; right: 0; top: 20%; text-align: center; color: #fff; font-size: var(--fs, 26px); font-weight: 700; }
+  .dev.nonm .nm { display: none; }
+  .dev .bar { position: absolute; left: 7%; top: 9%; width: 30%; height: 6%; min-height: 4px; border-radius: 4px; background: #4a4a4a; }
+  .dev .tls { position: absolute; left: 7%; right: 7%; bottom: 9%; height: 22%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4%; }
+  .dev .tls i { border-radius: 4px; background: #555; } .dev .tls i:nth-child(2n) { background: #2e2e2e; }
+  .dev .hl { position: absolute; bottom: 9%; height: 22%; width: 17%; left: 7%; border-radius: 4px; background: var(--gold); }
+  .dev .gl { position: absolute; left: 8%; height: 9%; border-radius: 3px; background: #555; right: 8%; }
+  .dev .gl.g { background: var(--gold); right: 35%; }
+  .dev .sr { position: absolute; left: 8%; right: 8%; height: 10%; border-radius: 4px; background: #333; }
+  .dev .sr::after { content: ''; position: absolute; right: 5%; top: 50%; width: 12%; aspect-ratio: 1; height: auto; margin-top: -6%; border-radius: 50%; background: #8a8378; }
+  .dev .sr.g::after { background: var(--gold); }
+  .dev .pic { position: absolute; inset: 0; background: linear-gradient(135deg, #6b5a46, #2c2c2c); }
+  .dev .lvc { position: absolute; left: 8%; top: 9%; font-size: 15px; font-weight: 700; letter-spacing: 2px; padding: 1px 7px; border-radius: 5px; background: var(--gold); color: var(--ink); }
+  .dev.nonm .lvc { font-size: 0; padding: 0; width: 8px; height: 8px; border-radius: 50%; }
+  .chip.dkc { background: var(--dark); border-color: var(--dark); color: #fff; font-size: 24px; }
+  .lo { position: absolute; left: 12px; right: 12px; height: 44px; display: flex; align-items: center; gap: 12px; padding: 0 12px; border-radius: 10px; font-size: 26px; font-weight: 700; color: #fff; white-space: nowrap; }
+  .rkey { position: absolute; width: 50px; height: 50px; border-radius: 10px; background: #333; color: #fff; display: grid; place-items: center; font-size: 22px; font-weight: 700; }
+  .pill { display: inline-block; font-size: 24px; font-weight: 700; padding: 4px 14px; border-radius: 999px; background: var(--bad); color: #fff; white-space: nowrap; }
+  .pill.grey { background: #8a8378; }
+  .tickb { position: absolute; right: -9px; top: -9px; width: 30px; height: 30px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; z-index: 2; }
+  .inp { position: absolute; left: 14px; right: 14px; top: 206px; height: 140px; border-radius: 12px; background: #2b2b2b; }
+  .inp .ly { position: absolute; inset: 0; padding: 14px; font-size: 26px; font-weight: 700; color: #fff; line-height: 1.25; }
+  .rr { position: absolute; left: 16px; right: 16px; padding: 12px 14px; border-radius: 12px; background: #f7f5f1; border: 2px solid var(--line); display: flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; }
+  .mb { position: absolute; width: 46px; height: 46px; border-radius: 50%; background: var(--card); border: 2px solid var(--line); box-shadow: 0 4px 12px rgba(0,0,0,.18); display: grid; place-items: center; z-index: 3; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">CONTROL ANY DEVICE · GROUP CONTROL · 7/8</div>
+  <h1><span id="h1a">One remote, many devices</span><span class="l2" id="h1b">Press once: every box of that model follows</span></h1>
+
+  <div class="diagram"><div class="stage" id="stage">
+    <svg class="links" id="links"></svg>
+  </div></div>
+
+  <p class="caption" id="caption">Select up to six devices of the same model and drive them with one remote. Each press goes to all of them, and each shows whether it got it.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See group control <span class="arrow">→</span></div><span class="next">Next: Shortcuts on the device</span></div>
+</div>
+<script>
+const T = 15000;                         // loop length, ms
+const F = new URLSearchParams(location.search).get('f');
+if (F === 'sq') document.body.classList.add('sq');
+if (F === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
+function fade(el, t0, t1 = null, dur = 300) {
+  const k = [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(el, k);
+}
+// a key press: the key dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+// dotted connectors, dot by dot
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+// map helpers: an arrow's colour, and a thick line that runs along an arrow (drawn from its start)
+function arrowColor(id, keys) { at($(id), keys.map(([t, c]) => [t, { color: c }])); }
+function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
+  const src = $(id).querySelector('path'), p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', src.getAttribute('d')); p.setAttribute('pathLength', '1');
+  p.setAttribute('style', `fill:none;stroke:${color};stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1`);
+  $('uiRun').appendChild(p);
+  at(p, [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }], [tOff, { strokeDashoffset: 0, opacity: 1 }],
+         [tOff + 400, { strokeDashoffset: 0, opacity: 0 }], [T, { strokeDashoffset: 1, opacity: 0 }]], 'linear');
+}
+
+
+const STAGE = $('stage');
+function el(html, parent = STAGE) { const d = document.createElement('div'); d.innerHTML = html.trim(); const e = d.firstChild; parent.appendChild(e); return e; }
+const CHECK = '<svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const OK = '<span class="okdot">' + CHECK + '</span>';
+const NAMES = { H: 'Home', G: 'Guide', S: 'Settings', L: 'Live TV' };
+function scrHTML(k, id) {
+  let b = '';
+  if (k === 'H') b = '<i class="bar"></i><div class="tls"><i></i><i></i><i></i><i></i></div><i class="hl" id="' + id + '_hl"></i>';
+  if (k === 'G') b = '<i class="bar"></i><i class="gl" style="top:50%"></i><i class="gl g" style="top:63%"></i><i class="gl" style="top:76%"></i>';
+  if (k === 'S') b = '<i class="bar"></i><i class="sr" style="top:48%"></i><i class="sr g" style="top:62%"></i><i class="sr" style="top:76%"></i>';
+  if (k === 'L') b = '<div class="pic"></div><span class="lvc">LIVE</span>';
+  return b + '<div class="nm">' + NAMES[k] + '</div>';
+}
+// a drawn device tile; each screen is a layer #id_i (crossfaded by vis())
+function dev(id, l, t, w, h, kinds, fs, parent = STAGE, nonm = false) {
+  return el('<div class="dev' + (nonm ? ' nonm' : '') + '" id="' + id + '" style="left:' + l + 'px;top:' + t + 'px;width:' + w + 'px;height:' + h + 'px;--fs:' + fs + 'px">' +
+    kinds.map((k, i) => '<div class="ly" id="' + id + '_' + i + '">' + scrHTML(k, id + '_' + i) + '</div>').join('') + '</div>', parent);
+}
+// the gold highlight of Home steps along its tiles: the picture is live
+function live(id, t0) {
+  const h = $(id + '_hl'); if (!h) return; const ks = [];
+  for (let j = 0; t0 + j * 900 < OUT0; j++) ks.push([t0 + j * 900, { left: (7 + (j % 4) * 21.5) + '%' }]);
+  at(h, ks, 'ease-in-out');
+}
+// a layer visible from t0 to t1 (null: to the end); t0 = 0: visible from the start
+function vis(e, t0, t1 = null) {
+  const k = t0 > 0 ? [[0, { opacity: 0 }], [t0, { opacity: 0 }], [t0 + 250, { opacity: 1 }]] : [[0, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + 250, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(e, k);
+}
+function lbl(id, text, l, t, w, cls = '') { return el('<div class="lbl ' + cls + '" id="' + id + '" style="left:' + l + 'px;top:' + t + 'px;width:' + w + 'px"><span>' + text + '</span></div>'); }
+// a row of a dark card turns gold between t0 and t1 (null: to the end)
+function hi(e, t0, t1 = null) {
+  const on = { background: '#d4a574', color: '#141414' }, off = { background: 'rgba(212,165,116,0)', color: '#ffffff' };
+  const k = [[0, off], [t0, off], [t0 + 250, on]];
+  if (t1 !== null) k.push([t1, on], [t1 + 250, off]); else k.push([OUT0, on], [OUT1, off]);
+  return at(e, k);
+}
+function typeAt(id, text, t0, per) { TY.push([$(id), text, t0, per]); }
+const TY = [];
+function tick(ms) { TY.forEach(([e, text, t0, per]) => { e.textContent = text.slice(0, Math.max(0, Math.min(text.length, Math.floor((ms - t0) / per)))); }); }
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+
+const TK = '<svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#141414" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+[[0, 40], [140, 40], [0, 140], [140, 140]].forEach(([x, y], i) => {
+  dev('g' + i, x, y, 128, 92, ['H'], 24); live('g' + i + '_0', 1600);
+  el('<span class="tickb" id="tb' + i + '">' + TK + '</span>', $('g' + i));
+});
+// tick badges sit on the tile corner: move them out of the clipped tile
+[0, 1, 2, 3].forEach(i => { const b = $('tb' + i), g = $('g' + i); g.parentNode.appendChild(b); b.style.left = (parseInt(g.style.left) + 128 - 21) + 'px'; b.style.top = (parseInt(g.style.top) - 9) + 'px'; b.style.right = 'auto'; });
+el('<div class="chips" id="cc" style="left:0px;top:252px;width:268px"><span class="chip dkc">Control 4 together</span></div>');
+const rem = el('<div class="dk abs pad" id="rem" style="left:304px;top:0;width:180px;height:340px"><div class="t">REMOTE</div></div>');
+const AR = d => '<svg width="22" height="22" viewBox="0 0 24 24"><path d="' + d + '" fill="currentColor"/></svg>';
+const KEYS = [['up', 63, 64, AR('M12 5l8 12H4z')], ['left', 7, 120, AR('M5 12l12-8v16z')], ['ok', 63, 120, 'OK'], ['right', 119, 120, AR('M19 12L7 4v16z')], ['down', 63, 176, AR('M12 19L4 7h16z')]];
+KEYS.forEach(([n, x, y, g]) => el('<div class="rkey" id="k_' + n + '" style="left:' + x + 'px;top:' + y + 'px">' + g + '</div>', rem));
+function lit(id, t0, t1) { const on = { background: '#d4a574', color: '#141414' }, off = { background: '#333333', color: '#ffffff' }; at($(id), [[0, off], [t0, off], [t0 + 200, on], [t1, on], [t1 + 250, off]]); }
+lit('k_down', 3400, 4600); lit('k_right', 5600, 6800);
+el('<div class="row" id="kl1" style="position:absolute;left:0;right:0;top:252px;color:#fff">Down</div>', rem);
+el('<div class="row" id="kl2" style="position:absolute;left:0;right:0;top:252px;color:#fff">Right</div>', rem);
+const gc = el('<div class="white abs pad" id="gc" style="left:516px;top:0;width:372px;height:340px"><div class="t">GROUP</div></div>');
+const CX = [10, 58], RY = [30, 74];
+[0, 1, 2, 3].forEach(i => {
+  const x = 14 + (i % 2) * 176, y = 52 + Math.floor(i / 2) * 136;
+  const w = el('<div class="abs" id="s' + i + '" style="left:' + x + 'px;top:' + y + 'px;width:164px;height:120px"></div>', gc);
+  let cells = '';
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) cells += '<i style="position:absolute;left:' + (14 + c * 48) + 'px;top:' + (34 + r * 44) + 'px;width:40px;height:34px;border-radius:5px;background:' + ((r + c) % 2 ? '#2e2e2e' : '#555') + '"></i>';
+  const m = el('<div class="dev" id="m' + i + '" style="left:0;top:0;width:164px;height:120px"><i class="bar"></i>' + cells + '<b id="rg' + i + '" style="position:absolute;left:10px;top:30px;width:48px;height:42px;border:4px solid #d4a574;border-radius:8px"></b></div>', w);
+  const rx = (i === 3) ? 10 : 58;
+  at($('rg' + i), [[0, { left: '10px', top: '30px' }], [4000, { left: '10px', top: '30px' }], [4400, { left: '10px', top: '74px' }], [5600, { left: '10px', top: '74px' }], [6000, { left: rx + 'px', top: '74px' }]]);
+  el('<span class="okdot" id="ok' + i + '" style="position:absolute;right:6px;top:6px;z-index:3">' + CHECK + '</span>', w);
+  fade($('ok' + i), 4400 + i * 60);
+});
+// the fourth stream: the Right key is not received
+at($('ok3'), [[0, { opacity: 0 }], [4400, { opacity: 0 }], [4700, { opacity: 1 }], [5600, { opacity: 1 }], [5800, { opacity: 0 }]]);
+el('<div class="abs" id="pn" style="left:0;right:0;bottom:12px;display:flex;justify-content:center;z-index:3"><span class="pill">✗ Not sent</span></div>', $('s3'));
+el('<div class="abs" id="pg" style="left:0;right:0;bottom:12px;display:flex;justify-content:center;z-index:3"><span class="pill grey">Left out</span></div>', $('s3'));
+at($('pn'), [[0, { opacity: 0 }], [5700, { opacity: 0 }], [6000, { opacity: 1 }], [7000, { opacity: 1 }], [7250, { opacity: 0 }]]);
+vis($('pg'), 7000);
+at($('m3'), [[0, { opacity: 1 }], [7000, { opacity: 1 }], [7400, { opacity: .45 }], [OUT0, { opacity: .45 }], [OUT1, { opacity: 0 }]]);
+at($('g3_0'), [[0, { opacity: 1 }], [7000, { opacity: 1 }], [7400, { opacity: .45 }], [OUT0, { opacity: .45 }], [OUT1, { opacity: 0 }]]);
+at($('tb3'), [[0, { opacity: 1 }], [7000, { opacity: 1 }], [7300, { opacity: 0 }], [T, { opacity: 0 }]]);
+lbl('l1', 'Same model', 0, 372, 268); lbl('l2', 'One remote', 282, 372, 212); lbl('l3', 'Each one answers', 516, 372, 372);
+lbl('l4', 'Up to 6 at once', 516, 414, 372, 'gold');
+
+[0, 1, 2, 3].forEach(i => enter($('g' + i), 1600 + i * 120, 450));
+enter($('l1'), 1600); enter($('l2'), 1750); enter($('l3'), 1900);
+[0, 1, 2, 3].forEach(i => at($('tb' + i), [[0, { opacity: 0 }], [2400 + i * 250, { opacity: 0 }], [2650 + i * 250, { opacity: 1 }], [i === 3 ? 7000 : OUT0, { opacity: 1 }], [i === 3 ? 7300 : OUT1, { opacity: i === 3 ? 0 : 0 }], [T, { opacity: 0 }]]));
+enter($('cc'), 2400, 500);
+dots(272, 170, 300, 170, 3000, 3300); enter($('rem'), 3300, 500);
+at($('kl1'), [[0, { opacity: 0 }], [3400, { opacity: 0 }], [3600, { opacity: 1 }], [5400, { opacity: 1 }], [5600, { opacity: 0 }]]);
+vis($('kl2'), 5600);
+dots(488, 180, 512, 180, 3700, 3950); enter($('gc'), 3950, 450);
+enter($('l4'), 7800);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+
+// master animation, target in the DOM so document.getAnimations() reaches it; tick() drives the typed text
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
