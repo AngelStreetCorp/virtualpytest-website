@@ -128,7 +128,7 @@
     .controls button { height: 36px; min-width: 40px; }
     aside.panel { border: 0; background: transparent; border-radius: 0; }
     .panel .body { padding: 0 0 16px; overflow: visible; }
-    .panel h1 { font-size: 26px; }
+    .panel h1 { font-size: min(26px, calc((100vw - 32px) / 15.8)); }   /* the longest title (33 chars) stays on one line: 22 px at 390 */
     .panel .l2 { margin-top: 6px; font-size: 19px; }
     .panel p.text { margin-top: 10px; font-size: 15.5px; line-height: 1.45; }
     .deepb { margin-top: 12px; padding: 9px 14px; }
