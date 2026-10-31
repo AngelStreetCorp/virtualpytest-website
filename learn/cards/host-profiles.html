@@ -113,13 +113,14 @@
   .dk .gtag { color: #9a9a9a; }
   .pc { display: grid; place-items: center; height: 52px; border-radius: 999px; background: #2e2e2e; color: #fff; font-size: 26px; font-weight: 700; white-space: nowrap; }
   .idle { margin-left: auto; font-size: 20px; font-weight: 700; color: var(--muted); padding: 2px 8px; border-radius: 999px; background: #ebe7e0; }
+  :root { --h1: 60px; } body.sq { --h1sq: 52px; }
 </style>
 </head>
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">HOW IT RUNS · HOST PROFILES · 3/4</div>
-  <h1><span id="h1a">What each host runs</span><span class="l2" id="h1b">Only the services its devices need are on</span></h1>
+  <div class="eyebrow" id="eyebrow">ARCHITECTURE · PROFILES · 3/4</div>
+  <h1><span id="h1a">A profile is a set of services</span><span class="l2" id="h1b">Each device turns on only the services it needs</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
@@ -127,16 +128,16 @@
     <div class="white abs pad" id="h1" style="left:0px; top:106px; width:240px; height:92px"><div class="t">LITE</div><div class="row" style="margin-top:8px; font-size:24px">One device, 1 GB</div></div>
     <div class="white abs pad" id="h2" style="left:0px; top:212px; width:240px; height:92px"><div class="t">RUNNER</div><div class="row" style="margin-top:8px; font-size:24px">Web and API tests</div></div>
     <div class="dk abs pad" id="prof" style="left:276px; top:40px; width:300px; height:224px"><div class="t">DEVICE PROFILE</div><div style="position:absolute; left:18px; right:18px; top:62px; display:grid; grid-template-columns:1fr 1fr; gap:16px"><span class="pc" id="pf0">TV app</span><span class="pc" id="pf1">Phone</span><span class="pc" id="pf2">Desktop</span><span class="pc" id="pf3">Drone</span></div></div>
-    <div class="white abs pad" id="run" style="left:612px; top:0px; width:276px; height:304px"><div class="t">RUNNING</div><div class="line" id="ru0" style="top:56px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd0"></span><span id="rn0">Stream</span></div><div class="line" id="ru1" style="top:116px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd1"></span><span id="rn1">Watch</span><span class="idle" id="ri1">idle</span></div><div class="line" id="ru2" style="top:176px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd2"></span><span id="rn2">Record 24 h</span><span class="idle" id="ri2">idle</span></div><div class="line" id="ru3" style="top:236px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd3"></span><span id="rn3">Measure</span><span class="idle" id="ri3">idle</span></div></div>
+    <div class="white abs pad" id="run" style="left:612px; top:0px; width:276px; height:304px"><div class="t">SERVICES ON</div><div class="line" id="ru0" style="top:56px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd0"></span><span id="rn0">Stream</span></div><div class="line" id="ru1" style="top:116px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd1"></span><span id="rn1">Watch</span><span class="idle" id="ri1">idle</span></div><div class="line" id="ru2" style="top:176px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd2"></span><span id="rn2">Record 24 h</span><span class="idle" id="ri2">idle</span></div><div class="line" id="ru3" style="top:236px; padding:0 12px 0 16px; gap:10px"><span class="gd" id="rd3"></span><span id="rn3">Measure</span><span class="idle" id="ri3">idle</span></div></div>
     <div class="lbl " id="lHost" style="left:0px; top:330px; width:240px"><span>Host</span></div>
     <div class="lbl " id="lProf" style="left:276px; top:330px; width:300px"><span>Each device's profile</span></div>
-    <div class="lbl " id="lWhat" style="left:612px; top:330px; width:276px"><span>What runs</span></div>
-    <div class="lbl gold" id="lOnly" style="left:600px; top:376px; width:300px"><span>Only what is needed runs</span></div>
+    <div class="lbl " id="lWhat" style="left:612px; top:330px; width:276px"><span>Its services</span></div>
+    <div class="lbl gold" id="lOnly" style="left:548px; top:376px; width:400px"><span>Only what is needed runs</span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">A host comes full, lite for one device on a small board, or as a runner for web tests. Each device's profile starts only what it needs.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See host profiles <span class="arrow">→</span></div><span class="next">Next: The services behind a host</span></div>
+  <p class="caption" id="caption">A profile is a set of services. A host comes full, lite or as a runner, and each device's profile starts only the services it needs.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See host profiles <span class="arrow">→</span></div><span class="next">Next: Services are background jobs</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms
