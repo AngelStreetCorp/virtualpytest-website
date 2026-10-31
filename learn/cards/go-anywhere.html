@@ -25,6 +25,7 @@
   .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
   h1 { margin-top: var(--gapTop); font-size: 72px; line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
   h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  h1 { font-size: 62px; }   /* the headline is long: one line each at 4x5 */
   body.sq h1 { font-size: 58px; }
   .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
   body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
@@ -85,49 +86,56 @@
   body.embed .lbl { font-size: 30px; }
   .script { padding: 16px 10px 20px; }
   .script .ln { margin-top: 16px; font-size: 22px; font-weight: 700; letter-spacing: -0.6px; text-align: center; white-space: nowrap; }
-  .pin { position: absolute; display: flex; flex-direction: column; align-items: center; }
-  .pin .tip { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 12px solid var(--gold); }
-  .pin .tag { font-size: 24px; font-weight: 700; padding: 4px 14px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; }
+  /* the pathfinding map: six screens joined by moves; routes are drawn under the screens */
+  .pmap { position: absolute; padding-top: 13px; }
+  .pmap svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .pn { position: absolute; width: 96px; height: 46px; margin: -23px 0 0 -48px; border-radius: 12px; background: var(--dark); color: #fff; font-size: 19px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); white-space: nowrap; }
+  .ring { position: absolute; width: 108px; height: 60px; margin: -30px 0 0 -54px; border: 3px dashed var(--gold); border-radius: 16px; }
+  .here { position: absolute; width: 0; display: flex; justify-content: center; }
+  .here span { font-size: 19px; font-weight: 700; padding: 3px 12px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; }
+  #script .ln { font-size: 20px; }
+  #lKeys > span { white-space: nowrap; }
+  .chip.goldc { background: var(--gold); border-color: var(--gold); }
+  .keys { padding: 12px 12px 14px; }
+  .keys .row { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 21px; font-weight: 700; white-space: nowrap; }
+  .keys .key { font-size: 20px; padding: 0 9px 1px; }
 </style>
 </head>
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
   <div class="eyebrow" id="eyebrow">USER INTERFACE · GO ANYWHERE · 2/4</div>
-  <h1><span id="h1a">Just name the screen</span><span class="l2" id="h1b">We find the shortest way and press the keys</span></h1>
+  <h1><span id="h1a">Write goto, we find the way</span><span class="l2" id="h1b">Pathfinding takes the shortest route on the map</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
-    <div class="script white abs" id="script" style="left:0; top:96px; width:226px">
+    <div class="script white abs" id="script" style="left:0; top:110px; width:212px">
       <div class="t">YOUR TEST</div><div class="ln mono">goto("Settings")</div>
     </div>
-    <div class="lbl " id="lScript" style="left:0px; top:226px; width:226px"><span>Says where, not how</span></div>
-    <div class="uimap" id="uimap" style="left:258px; top:10px">
-      <div class="uibg" id="uibg"><div class="t">USER INTERFACE</div></div>
-      <svg width="400" height="300" viewBox="0 0 400 300">
-        <g class="arw" id="aOk"><path pathLength="1" d="M136 79H78V219"/><path class="hd" d="M70 206L78 221L86 206Z"/></g>
-        <g class="arw" id="aBackG"><path pathLength="1" d="M128 220L176 112"/><path class="hd" d="M176.7 127.6L176 112L163.9 122Z"/></g>
-        <g class="arw" id="aMenu"><path pathLength="1" d="M264 79H322V219"/><path class="hd" d="M314 206L322 221L330 206Z"/></g>
-        <g class="arw" id="aBackS"><path pathLength="1" d="M272 220L224 112"/><path class="hd" d="M236.1 122L224 112L223.3 127.6Z"/></g>
-        <g id="uiRun"></g>
+    <div class="lbl " id="lScript" style="left:0px; top:238px; width:212px"><span>Just one line</span></div>
+    <div class="pmap white" id="pmap" style="left:236px; top:10px; width:404px; height:330px">
+      <div class="t">PATHFINDING</div>
+      <svg width="404" height="330" viewBox="0 0 404 330">
+        <g style="stroke:#d9d4cc; stroke-width:4"><line x1="58" y1="112" x2="202" y2="112"/><line x1="202" y1="112" x2="346" y2="112"/><line x1="58" y1="112" x2="58" y2="262"/><line x1="58" y1="262" x2="202" y2="262"/><line x1="202" y1="262" x2="346" y2="262"/><line x1="346" y1="262" x2="346" y2="112"/><line x1="202" y1="112" x2="202" y2="262"/></g>
+        <path id="rGrey" pathLength="1" d="M58 112V262H346V112" style="fill:none; stroke:#a89f93; stroke-width:9; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1 1"/>
+        <path id="rGold" pathLength="1" d="M58 112H346" style="fill:none; stroke:#d4a574; stroke-width:10; stroke-linecap:round; stroke-dasharray:1 1"/>
       </svg>
-      <div class="kw" id="wOk" style="left:78px; top:122px"><span class="key" id="kOk">OK</span></div>
-      <div class="kw" id="wBackG" style="left:145px; top:164px"><span class="key" id="kBackG">Back</span></div>
-      <div class="kw" id="wMenu" style="left:322px; top:122px"><span class="key" id="kMenu">Menu</span></div>
-      <div class="kw" id="wBackS" style="left:255px; top:164px"><span class="key" id="kBackS">Back</span></div>
-      <div class="kw" style="left:78px; top:282px"><div class="pin" id="pin" style="left:-70px; width:140px"><span class="tip"></span><span class="tag">You are here</span></div></div>
-      <div class="scr" id="sHome">Home</div>
-      <div class="scr" id="sGuide">Guide</div>
-      <div class="scr" id="sSettings">Settings</div>
+      <div class="ring" id="ring" style="left:346px; top:112px"></div>
+      <div class="pn" style="left:58px; top:112px">Guide</div><div class="pn" style="left:202px; top:112px">Home</div><div class="pn" style="left:346px; top:112px">Settings</div><div class="pn" style="left:58px; top:262px">Live TV</div><div class="pn" style="left:202px; top:262px">Apps</div><div class="pn" style="left:346px; top:262px">Search</div>
+      <div class="here" id="here" style="left:58px; top:54px"><span>You are here</span></div>
     </div>
-    <div class="lbl" style="left:128px; top:354px; width:600px; gap:12px"><span class="chip" id="cWay">Shortest way: 2 keys</span><span class="chip greyc" id="cEst">Estimated: ~2.4 s</span></div>
-    <div class="tv abs" id="tv" style="left:690px; top:96px; width:198px; height:136px"><div class="bar"></div><div class="nm" id="tvGuide">Guide</div><div class="nm" id="tvHome">Home</div><div class="nm" id="tvSettings">Settings</div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tick" id="tvTick"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
-    <div class="lbl " id="lTv" style="left:670px; top:248px; width:238px"><span>Settings <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
-    <div class="lbl grey" id="lKeys" style="left:670px; top:290px; width:238px"><span>Keys pressed for you</span></div>
+    <div class="lbl" style="left:120px; top:356px; width:640px; gap:14px"><span class="chip greyc" id="cLong">Another way: 4 steps</span><span class="chip goldc" id="cShort">Shortest: 2 steps</span></div>
+    <div class="keys white abs" id="keys" style="left:664px; top:58px; width:224px">
+      <div class="t">KEYS</div>
+      <div class="row" id="k1"><span class="key" id="kb1">Back</span><span>→ Home</span></div>
+      <div class="row" id="k2"><span class="key" id="kb2">Menu</span><span>→ Settings</span></div>
+      <div class="row" id="k3"><span>Settings</span><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </div>
+    <div class="lbl grey" id="lKeys" style="left:664px; top:290px; width:224px"><span>Pressed for you</span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">Your test only names the screen. VirtualPyTest reads the map, finds the shortest way from where the device is, and presses the keys.</p>
+  <p class="caption" id="caption">Your test writes one line: goto("Settings"). VirtualPyTest's pathfinding looks at the map from the screen the device is on, takes the route with the fewest steps and presses its keys.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See the user interface <span class="arrow">→</span></div><span class="next">Next: One map, many models</span></div>
 </div>
 <script>
@@ -184,20 +192,21 @@ function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
 
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
 enter($('script'), 1600); enter($('lScript'), 1900);
-dots(232, 164, 252, 164, 2600, 3100);
-enter($('uimap'), 3200); enter($('pin'), 3600, 400);
-// 4.2-5.2: the way, Guide -> Home (Back) -> Settings (Menu); the other moves dim
-['aOk', 'aBackS', 'wOk', 'wBackS'].forEach(id => at($(id), [[4200, { opacity: 1 }], [4500, { opacity: 0.25 }], [OUT0, { opacity: 0.25 }], [OUT1, { opacity: 0 }]]));
-run('aBackG', 4200, 4700); run('aMenu', 4700, 5200);
-press($('kBackG'), 4500); press($('kMenu'), 5000);
-enter($('cWay'), 5600); enter($('cEst'), 6200);
-// 6.8: the keys go out, the TV follows: Guide -> Home -> Settings
-dots(666, 164, 684, 164, 6700, 6900);
-enter($('tv'), 6800, 400);
-press($('kBackG'), 7100); press($('kMenu'), 7500);
-fade($('tvGuide'), 6800, 7200, 150); fade($('tvHome'), 7250, 7600, 150); fade($('tvSettings'), 7650, null, 150);
-at($('tvTick'), [[7800, { opacity: 0, transform: 'scale(0.6)' }], [8100, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]);
-enter($('lTv'), 7800); enter($('lKeys'), 8100);
+dots(216, 170, 230, 170, 2600, 3100);
+enter($('pmap'), 3200); enter($('here'), 3600, 400); fade($('ring'), 3900);
+// a route draws itself (dash offset 1 -> 0), stays, then dims or goes with the loop
+function draw(el, t0, t1, keep = 1) {
+  const k = [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }]];
+  if (keep < 1) k.push([5800, { strokeDashoffset: 0, opacity: 1 }], [6200, { strokeDashoffset: 0, opacity: keep }]);   // the longer route dims
+  at(el, [...k, [OUT0, { strokeDashoffset: 0, opacity: keep }], [OUT1, { strokeDashoffset: 0, opacity: 0 }]], 'linear');
+}
+draw($('rGrey'), 4200, 5200, 0.25);
+draw($('rGold'), 5600, 6200); enter($('cShort'), 6200);
+at($('cLong'), [[5200, HIDE], [5800, SHOW], [6200, { opacity: 0.45, transform: 'translateY(0)' }], [OUT0, { opacity: 0.45, transform: 'translateY(0)' }], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]);
+// 6.6: the keys of the shortest route, pressed one by one
+dots(644, 170, 658, 170, 6600, 6800);
+enter($('keys'), 6700, 400); enter($('k1'), 7000); press($('kb1'), 7300); enter($('k2'), 7500); press($('kb2'), 7800);
+enter($('k3'), 8000); enter($('lKeys'), 8300);
 enter($('caption'), 9200); enter($('ctarow'), 10000);
 
 // master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
