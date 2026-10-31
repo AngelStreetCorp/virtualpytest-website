@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How the Quality Scores Are Made</title>
+<!-- Deep dive "deep-avq" (Learn, Go deeper, from lesson av-quality): how the picture and sound scores are made. Embed only
+     (1080x600). CH = chapter starts (ms) as in SCRIPTS.md "# Deep dives". Every shown number is computed below with the
+     real formulas (features/avq/backend_host/avq_analyze.py). -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .abs { position: absolute; }
+  .grp { position: absolute; inset: 0; }
+  canvas { display: block; }
+  .lb { position: absolute; font-size: 30px; font-weight: 700; white-space: nowrap; line-height: 34px; }
+  .lbc { position: absolute; left: 0; right: 0; text-align: center; font-size: 30px; font-weight: 700; line-height: 34px; }
+  .gold { color: var(--goldText); }
+  .cell { position: absolute; top: 10px; width: 13px; height: 44px; border-radius: 3px; background: #e4dfd6; }
+  .thumb { position: absolute; width: 28px; height: 16px; border-radius: 2px; }
+  .track { position: absolute; height: 22px; border-radius: 6px; background: #e4dfd6; }
+  .fill { position: absolute; height: 22px; border-radius: 6px; width: 0; }
+  .pic { position: absolute; width: 400px; height: 225px; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .sq { position: absolute; width: 24px; height: 24px; border-radius: 4px; background: #16a34a; opacity: .85; }
+  .eq { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: baseline; gap: 18px; font-size: 56px; font-weight: 700; letter-spacing: -1px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 6</span><span class="h">One minute at a time</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 6</span><span class="h">Blur and blocks</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 6</span><span class="h">Was the picture there?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 6</span><span class="h">The picture score</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 6</span><span class="h">The sound score</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 6</span><span class="h">A row every minute</span></div>
+<div class="say" id="say0">Every device, every minute</div>
+<div class="say" id="say1">Averaged over the minute</div>
+<div class="say" id="say2">Black or frozen frames don't count</div>
+<div class="say" id="say3">Sharp is 5, the worst is 2</div>
+<div class="say" id="say4">Close to −23, little silence, no clipping</div>
+<div class="say" id="say5">Approximate, every minute</div>
+<div class="stage" id="stage"></div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 40600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 50000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+const ramp = (ms, a, b) => Math.max(0, Math.min(1, (ms - a) / (b - a)));
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag5'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say5'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+// ================= the model: the real recipe (avq_analyze.py) =================
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const bad = (v, lo, hi) => clamp((v - lo) / (hi - lo), 0, 1);
+const BLUR = 5.6, BLOCKS = 18;
+const B_BLUR = bad(BLUR, 4, 9), B_BLOCK = bad(BLOCKS, 10, 40);                 // 0.32, 0.27
+const BADNESS = 0.55 * B_BLUR + 0.45 * B_BLOCK;                                  // 0.30
+const PIC = clamp(5 - 3 * BADNESS, 1, 5);                                        // 4.1
+const LKFS = -20, SIL = 3, SAT = 0;
+const D_LOUD = 0.05 * Math.abs(LKFS + 23), D_SIL = 4 * SIL / 60;                 // 0.15, 0.20
+const SND = clamp(5 - D_LOUD - D_SIL - SAT, 1, 5);                               // 4.65 -> 4.7
+const f1 = v => (Math.round(v * 10 + 1e-6) / 10).toFixed(1);
+const f2 = v => v.toFixed(2);
+const stage = $('stage');
+function mk(parent, cls, css, html) { const d = document.createElement('div'); if (cls) d.className = cls; Object.assign(d.style, css || {}); if (html !== undefined) d.innerHTML = html; parent.appendChild(d); return d; }
+const G = CH.map((t, c) => { const g = mk(stage, 'grp'); win(g, t + 200, c === 5 ? null : end(c) + 300, 300); return g; });
+
+// ================= drawn pictures (no brands, no real screens) =================
+function scene(ctx, w, h, v) {
+  const g = ctx.createLinearGradient(0, 0, 0, h * .6); g.addColorStop(0, '#6f9bb0'); g.addColorStop(1, '#dccaa8');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#d4a574'; ctx.beginPath(); ctx.arc(w * (.72 - v * .02), h * .24, h * .11, 0, 7); ctx.fill();
+  ctx.fillStyle = '#4f6b76'; ctx.beginPath(); ctx.moveTo(0, h * .62); ctx.lineTo(w * .22, h * .3); ctx.lineTo(w * .45, h * .62); ctx.fill();
+  ctx.fillStyle = '#2f4a55'; ctx.beginPath(); ctx.moveTo(w * .3, h * .62); ctx.lineTo(w * .58, h * .22); ctx.lineTo(w * .9, h * .62); ctx.fill();
+  ctx.fillStyle = '#3b4a3f'; ctx.fillRect(0, h * .6, w, h * .4);
+  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(w * .05, h * .66, w * .9, h * .28);       // a guide panel with fine detail
+  for (let r = 0; r < 4; r++) for (let k = 0; k < 6; k++) {
+    ctx.fillStyle = (r + k) % 3 === 0 ? '#d4a574' : '#cfcfcf';
+    ctx.fillRect(w * (.08 + k * .15), h * (.69 + r * .06), w * (.05 + ((k * 7 + r * 3) % 4) * .015), h * .014);
+    ctx.fillStyle = '#8a8a8a'; ctx.fillRect(w * (.08 + k * .15), h * (.713 + r * .06), w * .1, h * .01);
+  }
+}
+function sharpPic(cv) { scene(cv.getContext('2d'), cv.width, cv.height, 0); }
+function blockyPic(cv, bs) {
+  const o = document.createElement('canvas'); o.width = Math.ceil(cv.width / bs); o.height = Math.ceil(cv.height / bs);
+  scene(o.getContext('2d'), o.width, o.height, 0);
+  const c = cv.getContext('2d'); c.imageSmoothingEnabled = false; c.drawImage(o, 0, 0, cv.width, cv.height);
+}
+
+// ================= chapter 1: one minute at a time =================
+{
+  const g = G[0], P = 15.6;
+  for (let i = 0; i < 60; i++) {
+    const t = 1800 + i * 80;
+    const cell = mk(g, 'cell', { left: (i * P) + 'px' });
+    at(cell, [[t, { backgroundColor: '#e4dfd6' }], [t + 150, { backgroundColor: '#d4a574' }]], 'linear');
+    const th = document.createElement('canvas'); th.className = 'thumb'; th.width = 28; th.height = 16; scene(th.getContext('2d'), 28, 16, i % 5);
+    th.style.left = (i % 30 * P * 1 + (i % 30) * 0) + 'px'; th.style.left = ((i % 30) * 31.2 + 1.6) + 'px'; th.style.top = (i < 30 ? 92 : 116) + 'px'; g.appendChild(th);
+    at(th, [[t, { opacity: 0, transform: 'translateY(-60px)' }], [t + 350, { opacity: 1, transform: 'translateY(0)' }]]);
+  }
+  const l1 = mk(g, 'lb', { left: '0px', top: '150px' }, '60 pictures'); enter(l1, 2400);
+  const wv = mk(g, '', { position: 'absolute', left: '0px', top: '212px', width: '0px', height: '80px', overflow: 'hidden' });
+  const cv = document.createElement('canvas'); cv.width = 1872; cv.height = 160; cv.style.cssText = 'width:936px;height:80px'; wv.appendChild(cv);
+  const wc = cv.getContext('2d'); wc.scale(2, 2);
+  for (let x = 0; x < 156; x++) {
+    const a = (.35 + .35 * Math.sin(x * .09) * Math.sin(x * .031 + 1) + .22 * Math.abs(Math.sin(x * .7 + x * x * .002))) * 36;
+    wc.fillStyle = (x % 13 === 7) ? '#8f5f2e' : '#d4a574'; wc.fillRect(x * 6, 40 - a, 4, a * 2);
+  }
+  at(wv, [[1800, { width: '0px', opacity: 0 }], [2000, { width: '2px', opacity: 1 }], [6700, { width: '936px', opacity: 1 }], [OUT0, { width: '936px', opacity: 1 }], [OUT1, { width: '936px', opacity: 0 }]], 'linear');
+  const l2 = mk(g, 'lb', { left: '0px', top: '306px' }, '60 s of sound'); enter(l2, 3400);
+}
+
+// ================= chapter 2: blur and blocks =================
+const BL_BLUR_SHARP = 0.06, BL_BLOCK_SHARP = 0.04;
+{
+  const g = G[1];
+  const defs = [{ x: 20, sharp: true }, { x: 516, sharp: false }];
+  defs.forEach((d, k) => {
+    const box = mk(g, 'pic', { left: d.x + 'px', top: '0px' });
+    const cv = document.createElement('canvas'); cv.width = 400; cv.height = 225; box.appendChild(cv);
+    d.sharp ? sharpPic(cv) : blockyPic(cv, 15);
+    enter(box, 9000 + k * 500);
+    const t0 = 10000 + k * 500;
+    const rows = [[238, 'Blur', d.sharp ? BL_BLUR_SHARP : B_BLUR, 'bl'], [296, 'Blocks', d.sharp ? BL_BLOCK_SHARP : B_BLOCK, 'bk']];
+    rows.forEach(([y, name, b, id], r) => {
+      const lb = mk(g, 'lb', { left: d.x + 'px', top: y + 'px' }, d.sharp ? name : `<span id="${id}">${name}</span>`);
+      enter(lb, t0 + r * 400);
+      mk(g, 'track', { left: d.x + 'px', top: (y + 38) + 'px', width: '400px' });
+      const f = mk(g, 'fill', { left: d.x + 'px', top: (y + 38) + 'px', background: d.sharp ? '#d4a574' : '#8f5f2e' });
+      at(f, [[t0 + r * 400 + 300, { width: '0px' }], [t0 + r * 400 + 1700, { width: (400 * b) + 'px' }]], 'ease-in-out');
+    });
+  });
+}
+
+// ================= chapter 3: was the picture there? =================
+const DARK = new Map();   // cell index -> time (ms) it turns dark grey (black, frozen)
+{
+  const g = G[2];
+  const cells = []; [[61, 12], [150, 10], [233, 8]].forEach(([s, n]) => { for (let k = 0; k < n; k++) cells.push(s + k); });
+  cells.forEach((c, k) => DARK.set(c, 19000 + k * 120));
+  const grid = mk(g, '', { position: 'absolute', left: '48px', top: '0px', width: '840px', height: '280px' });
+  for (let i = 0; i < 300; i++) {
+    const s = mk(grid, 'sq', { left: ((i % 30) * 28) + 'px', top: (Math.floor(i / 30) * 28) + 'px' });
+    if (DARK.has(i)) { const t = DARK.get(i); at(s, [[t, { backgroundColor: '#16a34a', opacity: .85 }], [t + 250, { backgroundColor: '#3a3a3a', opacity: 1 }]]); }
+  }
+  enter(grid, 17000);
+  const q = mk(g, '', { position: 'absolute', left: '0', right: '0', top: '300px', display: 'flex', justifyContent: 'center' }, '<span class="gold" id="clean" style="font-size:64px;font-weight:700;letter-spacing:-1px">Clean 100 %</span>');
+  enter(q, 17600);
+}
+
+// ================= chapter 4: the picture score =================
+{
+  const g = G[3], W = 936;
+  const r = [['Blur ' + f2(B_BLUR), 0, 38, '#d4a574'], ['Blocks ' + f2(B_BLOCK), 76, 114, '#8f5f2e']];
+  r.forEach(([txt, ly, ty], k) => {
+    const lb = mk(g, 'lb', { left: '0px', top: ly + 'px' }, txt); enter(lb, 25200 + k * 1800);
+    mk(g, 'track', { left: '0px', top: ty + 'px', width: W + 'px' });
+  });
+  const wA = W * B_BLUR, wB = W * B_BLOCK, mA = W * .55 * B_BLUR, mB = W * .45 * B_BLOCK;
+  const fA = mk(g, 'fill', { left: '0px', top: '38px', background: '#d4a574' });
+  const fB = mk(g, 'fill', { left: '0px', top: '114px', background: '#8f5f2e' });
+  at(fA, [[25000, { width: '0px', transform: 'translate(0px,0px)' }], [26100, { width: wA + 'px', transform: 'translate(0px,0px)' }], [27500, { width: wA + 'px', transform: 'translate(0px,0px)' }], [28400, { width: mA + 'px', transform: 'translate(0px,160px)' }]], 'ease-in-out');
+  at(fB, [[26300, { width: '0px', transform: 'translate(0px,0px)' }], [27300, { width: wB + 'px', transform: 'translate(0px,0px)' }], [27500, { width: wB + 'px', transform: 'translate(0px,0px)' }], [28400, { width: mB + 'px', transform: `translate(${mA}px,84px)` }]], 'ease-in-out');
+  const lc = mk(g, 'lb', { left: '0px', top: '160px' }, 'Badness ' + f2(BADNESS)); enter(lc, 27800);
+  mk(g, 'track', { left: '0px', top: '198px', width: W + 'px' });
+  // the track below the combined bar must sit under the moving fills: re-append the fills on top
+  g.appendChild(fA); g.appendChild(fB);
+  const eq = mk(g, 'eq', { top: '254px' }, `<span>5 − 3 × ${f2(BADNESS)} =</span><span class="gold" id="s4">5.0</span>`); enter(eq, 28700);
+}
+
+// ================= chapter 5: the sound score =================
+{
+  const g = G[4], gx = v => 18 + (v + 40) / 30 * 900;
+  const lb = mk(g, 'lbc', { top: '0px' }, '−20 LUFS · target −23'); enter(lb, 33000);
+  const gauge = mk(g, '', { position: 'absolute', left: '18px', top: '58px', width: '900px', height: '20px', borderRadius: '6px', background: '#e4dfd6' });
+  for (let v = -40; v <= -10; v += 5) mk(g, '', { position: 'absolute', left: (gx(v) - 1) + 'px', top: '80px', width: '2px', height: '10px', background: '#b9b2a6' });
+  enter(gauge, 33000);
+  const band = mk(g, '', { position: 'absolute', left: gx(-23) + 'px', top: '58px', width: (gx(-20) - gx(-23)) + 'px', height: '20px', background: 'rgba(212,165,116,.55)' });
+  at(band, [[34900, { opacity: 0 }], [35300, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  mk(g, '', { position: 'absolute', left: (gx(-23) - 2) + 'px', top: '44px', width: '4px', height: '48px', background: '#141414', borderRadius: '2px' });
+  const nd = mk(g, '', { position: 'absolute', left: (gx(-20) - 4) + 'px', top: '40px', width: '8px', height: '56px', background: '#8f5f2e', borderRadius: '4px', border: '2px solid #d4a574' });
+  at(nd, [[33300, { opacity: 0, transform: `translateX(${gx(-38) - gx(-20)}px)` }], [33700, { opacity: 1, transform: `translateX(${gx(-38) - gx(-20)}px)` }], [35000, { opacity: 1, transform: 'translateX(0px)' }], [OUT0, { opacity: 1, transform: 'translateX(0px)' }], [OUT1, { opacity: 0, transform: 'translateX(0px)' }]], 'ease-in-out');
+  const sl = mk(g, 'lb', { left: '18px', top: '124px' }, 'Silence 3 s'); enter(sl, 35600);
+  mk(g, 'track', { left: '18px', top: '164px', width: '900px' });
+  [.2, .62].forEach((p, k) => { const s = mk(g, 'fill', { left: (18 + p * 900) + 'px', top: '164px', background: '#d97706', borderRadius: '2px' }); at(s, [[36000 + k * 300, { width: '0px' }], [36500 + k * 300, { width: (SIL / 2 / 60 * 900) + 'px' }]]); });
+  const eq = mk(g, 'eq', { top: '236px' });
+  const part = (txt, t, id) => { const s = mk(eq, '', {}, `<span ${id ? `id="${id}"` : ''}>${txt}</span>`); enter(s, t); return s; };
+  part('5', 33100);
+  part('− ' + f2(D_LOUD), 34600);
+  part('− ' + f2(D_SIL), 35800);
+  part('− ' + (SAT === 0 ? '0' : f2(SAT)), 36500);
+  const e = part('=', 37000); const r = part('5.0', 37200, 's5'); r.className = 'gold'; r.style.color = 'var(--goldText)';
+}
+
+// ================= chapter 6: a row every minute =================
+const N = 96, PIC_S = [], SND_S = [];
+{ let s = 11; const rn = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  const dip = { 51: 3.7, 52: 3.1, 53: 2.3, 54: 1.8, 55: 1.9, 56: 2.4, 57: 3.2, 58: 3.8 };
+  for (let i = 0; i < N; i++) { PIC_S.push(dip[i] !== undefined ? dip[i] : 4.15 + rn() * .4); SND_S.push(4.55 + rn() * .35); } }
+const colOf = v => v >= 4 ? '#16a34a' : v >= 2.5 ? '#d97706' : '#dc2626';
+const CW = 936, CHT = 270, cx = i => 24 + i * (CW - 48) / (N - 1), cy = v => 14 + (5 - v) / 3.6 * (CHT - 28);
+{
+  const g = G[5];
+  const l1 = mk(g, 'lb', { left: '24px', top: '0px' }, `<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#16a34a;margin-right:12px"></span>Picture ${f1(PIC)}`); enter(l1, 41000);
+  const l2 = mk(g, 'lb', { left: '330px', top: '0px' }, `<span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#16a34a;margin-right:12px"></span>Sound ${f1(SND)}`); enter(l2, 41400);
+  const wrap = mk(g, '', { position: 'absolute', left: '0', top: '46px', width: CW + 'px', height: CHT + 'px', background: '#fff', border: '2px solid #d9d4cc', borderRadius: '16px' });
+  const cv = document.createElement('canvas'); cv.id = 'ch6'; cv.width = CW * 2; cv.height = CHT * 2; cv.style.cssText = `width:${CW}px;height:${CHT}px;position:absolute;left:-2px;top:-2px`; wrap.appendChild(cv);
+  enter(wrap, 41000);
+  const o = mk(wrap, '', { position: 'absolute', left: (cx(50) - 4 - 2) + 'px', top: (cy(4.3) - 2 - 2) + 'px', width: (cx(59) - cx(50) + 8) + 'px', height: (cy(1.5) - cy(4.3) + 4) + 'px', border: '4px solid #d4a574', borderRadius: '14px' });
+  at(o, [[47200, { opacity: 0 }], [47800, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  const lg = mk(g, '', { position: 'absolute', left: '0', right: '0', top: '334px', textAlign: 'center', fontSize: '28px', fontWeight: '700', color: '#4a4a4a', whiteSpace: 'nowrap' },
+    '<span style="color:#16a34a">green 4+</span> · <span style="color:#d97706">amber 2.5+</span> · <span style="color:#dc2626">red</span>'); enter(lg, 42200);
+}
+const c6 = $('ch6').getContext('2d'); c6.scale(2, 2);
+let last6 = -1;
+function draw6(n) {
+  if (n === last6) return; last6 = n;
+  c6.clearRect(0, 0, CW, CHT);
+  c6.setLineDash([6, 6]); c6.strokeStyle = '#d9d4cc'; c6.lineWidth = 1.5;
+  [4, 2.5].forEach(v => { c6.beginPath(); c6.moveTo(12, cy(v)); c6.lineTo(CW - 12, cy(v)); c6.stroke(); });
+  c6.setLineDash([]);
+  for (let i = 0; i < n; i++) {
+    c6.fillStyle = colOf(SND_S[i]); c6.globalAlpha = .55; c6.fillRect(cx(i) - 3, cy(SND_S[i]) - 3, 6, 6);
+    c6.globalAlpha = 1; c6.fillStyle = colOf(PIC_S[i]); c6.beginPath(); c6.arc(cx(i), cy(PIC_S[i]), 4.8, 0, 7); c6.fill();
+  }
+}
+
+// ================= text and canvases that change with time =================
+function tick(ms) {
+  $('bl').textContent = 'Blur ' + (BLUR * ramp(ms, 10500, 11800)).toFixed(1);
+  $('bk').textContent = 'Blocks ' + Math.round(BLOCKS * ramp(ms, 10900, 12200));
+  let k = 0; DARK.forEach(t => { if (ms >= t + 100) k++; });
+  $('clean').textContent = 'Clean ' + Math.round(100 * (300 - k) / 300) + ' %';
+  $('s4').textContent = f1(5 - (5 - PIC) * ramp(ms, 28900, 30200));
+  $('s5').textContent = f1(5 - (5 - SND) * ramp(ms, 37300, 38400));
+  draw6(Math.round(N * ramp(ms, 41800, 46300)));
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How an Incident Is Caught</title>
+<!-- Deep dive "deep-incidents" (Learn, Go deeper, from lesson `incidents`): from one bad frame to an alert with its
+     picture. Embed only (1080x600). CH = chapter starts (ms) as in SCRIPTS.md "# Deep dives". Pictures are drawn on
+     canvases from small generic scene functions (no real screens). -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .abs { position: absolute; }
+  canvas { display: block; }
+  .tv { position: absolute; background: #0d0d0d; border-radius: 12px; padding: 6px; box-shadow: 0 6px 18px rgba(0,0,0,.14); }
+  .tv canvas { border-radius: 6px; }
+  .tv.hot { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .lab { position: absolute; text-align: center; font-size: 26px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .dk { position: absolute; border-radius: 16px; background: var(--dark); overflow: hidden; }
+  .ly { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 0 16px; }
+  .ly > div { font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .big { font-size: 56px !important; letter-spacing: -1px; }
+  .bad { color: var(--bad); }
+  .gold { color: var(--goldText); }
+  .mu { color: var(--muted); }
+  .okdot, .xdot { flex: none; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -6px; }
+  .xdot { background: var(--bad); }
+  .row { display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .flag { position: absolute; left: 400px; width: 536px; height: 84px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); display: flex; align-items: center; gap: 20px; padding: 0 28px; font-size: 36px; font-weight: 700; }
+  .band { position: absolute; left: 6px; right: 6px; border: 3px dashed var(--gold); border-radius: 4px; }
+  .chip { position: absolute; left: 0; right: 0; top: 330px; display: flex; justify-content: center; }
+  .chip span { background: var(--card); border: 2px solid var(--line); border-radius: 999px; padding: 10px 28px; font-size: 26px; font-weight: 700; color: var(--ink2); }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 7</span><span class="h">Every frame, every device</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 7</span><span class="h">Black, or no signal</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 7</span><span class="h">Frozen?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 7</span><span class="h">Sound lost?</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 7</span><span class="h">One problem at a time</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 7</span><span class="h">30 seconds, then an incident</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 7</span><span class="h">Closed when it is back</span></div>
+<div class="say" id="say0">Every frame, every device</div>
+<div class="say" id="say1">Dark band, nothing lit</div>
+<div class="say" id="say2">Under 0.8 % changed</div>
+<div class="say" id="say3">Peak under −60 dB</div>
+<div class="say" id="say4">Black first, then freeze, then sound</div>
+<div class="say" id="say5">30 s, then an incident</div>
+<div class="say" id="say6">Closed at the first good frame</div>
+
+<div class="stage" id="stage"></div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 58000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// like enter, but gone at t1
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag6'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say6'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
+
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const ramp = (ms, a, b) => clamp01((ms - a) / (b - a));
+const ease = x => x * x * (3 - 2 * x);
+
+// ================= helpers: elements and canvases =================
+const stage = $('stage');
+function el(cls, html, css, parent = stage) {
+  const d = document.createElement('div'); d.className = cls; if (html) d.innerHTML = html;
+  Object.assign(d.style, css || {}); parent.appendChild(d); return d;
+}
+const px = o => { const r = {}; for (const k in o) r[k] = (typeof o[k] === 'number' && !['fontWeight', 'zIndex', 'opacity'].includes(k)) ? o[k] + 'px' : o[k]; return r; };
+function canvas(w, h, parent, css) {
+  const c = document.createElement('canvas'); c.width = w * 2; c.height = h * 2; c.style.width = w + 'px'; c.style.height = h + 'px';
+  if (css) Object.assign(c.style, px(css)); parent.appendChild(c); const x = c.getContext('2d'); x.scale(2, 2); return x;
+}
+// a dark TV frame holding a picture canvas of w x h; returns { box, ctx }
+function tv(x, y, w, h, extra = '') {
+  const box = el('tv ' + extra, '', px({ left: x, top: y, width: w + 12, height: h + 12 }));
+  return { box, ctx: canvas(w, h, box), w, h };
+}
+
+// ================= the pictures: small generic scenes, no real screens =================
+function pic(ctx, w, h, kind, t) {
+  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 0, w, h);
+  if (kind === 0) {            // a home-like screen: header, hero, a row of tiles, a sun moving across the hero
+    ctx.fillStyle = '#4a4a4a'; ctx.fillRect(.05 * w, .06 * h, .22 * w, .06 * h);
+    const g = ctx.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#8fb0bd'); g.addColorStop(1, '#4f6b76');
+    ctx.fillStyle = g; ctx.fillRect(.05 * w, .18 * h, .9 * w, .42 * h);
+    ctx.fillStyle = '#f2d9a8'; ctx.beginPath(); ctx.arc(w * (.2 + .6 * ((t * .13) % 1)), .36 * h, .07 * h, 0, 7); ctx.fill();
+    const hi = Math.floor(t * .9) % 4;
+    for (let k = 0; k < 4; k++) { ctx.fillStyle = k % 2 ? '#2e2e2e' : '#555'; ctx.fillRect((.05 + k * .2375) * w, .68 * h, .2 * w, .24 * h); if (k === hi) { ctx.strokeStyle = '#d4a574'; ctx.lineWidth = 2; ctx.strokeRect((.05 + k * .2375) * w, .68 * h, .2 * w, .24 * h); } }
+  } else if (kind === 1) {     // a list-like screen: five rows, one highlighted
+    ctx.fillStyle = '#d4a574'; ctx.fillRect(.05 * w, .06 * h, .2 * w, .06 * h);
+    const hi = Math.floor(t * 1.3) % 5;
+    for (let r = 0; r < 5; r++) {
+      const y = (.2 + r * .15) * h;
+      ctx.fillStyle = r === hi ? '#5a4a36' : '#2c2c2c'; ctx.fillRect(.05 * w, y, .9 * w, .12 * h);
+      ctx.fillStyle = '#cfcfcf'; ctx.fillRect(.08 * w, y + .035 * h, .16 * w, .05 * h);
+      ctx.fillStyle = '#8a8a8a'; ctx.fillRect(.3 * w, y + .04 * h, (.25 + .12 * ((r * 5) % 3)) * w, .04 * h);
+    }
+  } else if (kind === 2) {     // moving video: soft gradient and two blobs
+    const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, `hsl(${(200 + t * 12) % 360},45%,40%)`); g.addColorStop(1, `hsl(${(260 + t * 12) % 360},40%,26%)`);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(255,230,190,.85)'; ctx.beginPath(); ctx.arc(w * (.5 + .3 * Math.sin(t * .9)), h * (.45 + .15 * Math.cos(t * 1.3)), h * .17, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(20,20,20,.45)'; ctx.fillRect(0, h * .78, w, h * .22);
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillRect(w * .06, h * .84, w * (.2 + .25 * ((t * .2) % 1)), h * .05);
+  } else if (kind === 5) {     // colour bars with no detail
+    const C = ['#c0c0c0', '#c0c000', '#00c0c0', '#00c000', '#c000c0', '#c00000', '#0000c0'];
+    C.forEach((c, k) => { ctx.fillStyle = c; ctx.fillRect(k * w / 7, 0, w / 7 + 1, h * .68); });
+    const D = ['#0000c0', '#101010', '#c000c0', '#101010', '#00c0c0', '#101010', '#c0c0c0'];
+    D.forEach((c, k) => { ctx.fillStyle = c; ctx.fillRect(k * w / 7, h * .68, w / 7 + 1, h * .1); });
+    const E = ['#00214c', '#ffffff', '#32006a', '#101010'];
+    [0, 1.43, 2.86, 4.3].forEach((p, k) => { ctx.fillStyle = E[k]; ctx.fillRect(p * w / 7, h * .78, w * (k === 3 ? 2.7 : 1.43) / 7 + 1, h * .22); });
+  }
+}
+function dim(ctx, w, h, a) { if (a > 0) { ctx.fillStyle = `rgba(0,0,0,${a})`; ctx.fillRect(0, 0, w, h); } }
+
+// ================= chapter 1: three tiles, a frame strip, a sound meter =================
+const TW = 268, TH = 160, TX = [20, 328, 636];
+const tiles = TX.map((x, k) => tv(x, 6, TW, TH, k === 0 ? 'hot' : ''));
+tiles.forEach((o, k) => during(o.box, 1000 + k * 300, end(0) + 300));
+const stripCtx = canvas(280, 44, stage, { position: 'absolute', left: 20, top: 214 });
+win(stripCtx.canvas, 2600, end(0) + 300);
+const lab1 = el('lab', '5 frames a second', px({ left: 20, top: 278, width: 280 }));
+const mWrap = el('dk', '', px({ left: 328, top: 206, width: 608, height: 60 }));
+const mCtx = canvas(608, 60, mWrap);
+win(mWrap, 4400, end(0) + 300);
+const lab2 = el('lab', 'Sound: every 5 s', px({ left: 328, top: 278, width: 608 }));
+during(lab1, 3200, end(0) + 300); during(lab2, 5000, end(0) + 300);
+
+function drawCh1(ms) {
+  const t = ms / 1000;
+  pic(tiles[0].ctx, TW, TH, 0, t); pic(tiles[1].ctx, TW, TH, 1, t); pic(tiles[2].ctx, TW, TH, 2, t);
+  // the strip: the first device's frames, 5 a second, sliding left; newest on the right
+  const c = stripCtx; c.clearRect(0, 0, 280, 44);
+  const FW = 50, FH = 36, P = 56, f = ms / 200, n = Math.floor(f), fr = f - n;
+  for (let k = 0; k < 6; k++) {
+    const idx = n - (5 - k), x = k * P - fr * P + 6 + 4;
+    const o = document.createElement('canvas'); o.width = 100; o.height = 72; const ox = o.getContext('2d'); ox.scale(2, 2);
+    pic(ox, FW, FH, 0, idx * .2);
+    c.save(); c.beginPath(); c.roundRect(x, 4, FW, FH, 4); c.clip(); c.drawImage(o, x, 4, FW, FH); c.restore();
+  }
+  const g = c.createLinearGradient(0, 0, 280, 0); g.addColorStop(0, 'rgba(242,240,236,1)'); g.addColorStop(.12, 'rgba(242,240,236,0)'); g.addColorStop(.92, 'rgba(242,240,236,0)'); g.addColorStop(1, 'rgba(242,240,236,0)');
+  c.fillStyle = g; c.fillRect(0, 0, 280, 44);
+  c.strokeStyle = '#d4a574'; c.lineWidth = 3; c.beginPath(); c.roundRect(280 - 6 - FW - 2, 2, FW + 4, FH + 4, 6); c.stroke();
+  // the sound meter: a level bar per moment, scrolling; a gold bracket every 5 s marks the piece that gets measured
+  const m = mCtx; m.fillStyle = '#1a1a1a'; m.fillRect(0, 0, 608, 60);
+  const lv = k => .35 + .3 * Math.abs(Math.sin(k * .9)) + .2 * Math.abs(Math.sin(k * 2.3 + 1));
+  const off = ms / 90, no = Math.floor(off), fo = off - no;
+  for (let k = 0; k < 62; k++) {
+    const v = lv(no - 61 + k), hh = v * 44, x = k * 10 - fo * 10 + 6;
+    m.fillStyle = '#e9e3d8'; m.fillRect(x, 30 - hh / 2, 6, hh);
+  }
+  const ph = ((ms - 2800) % 5000 + 5000) % 5000;
+  if (ms > 2600) { const a = ph < 900 ? 1 - ph / 900 : 0; m.strokeStyle = `rgba(212,165,116,${.25 + .75 * a})`; m.lineWidth = 3; m.strokeRect(608 - 120, 4, 112, 52); }
+}
+
+// ================= chapter 2: a big frame goes dark; then colour bars =================
+const B2 = tv(0, 56, 408, 230);
+during(B2.box, 9000, end(1) + 300);
+const band = el('band', '', px({ top: 6 + 230 * .05, height: 230 * .65 }), B2.box);
+win(band, 9800, end(1) + 300, 500);
+const c2 = el('card', '', px({ left: 460, top: 56, width: 476, height: 242 }));
+at(c2, [[9000, HIDE], [9500, SHOW], [end(1) + 100, SHOW], [end(1) + 300, { opacity: 0, transform: 'translateY(0)' }]]);
+const c2a = el('ly', `<div class="big" id="dkn">Dark 0 %</div><div class="row bad" id="blk" style="font-size:38px;font-weight:700">${XX(44)}<span>Black screen</span></div>`, null, c2);
+win(c2a, 9400, 13400, 300);
+enter($('blk'), 12400);
+const c2b = el('ly', `<div class="row bad" id="nos" style="font-size:52px;font-weight:700">${XX(60)}<span>No signal</span></div>`, null, c2);
+win(c2b, 13500, end(1) + 300, 300);
+enter($('nos'), 13900);
+const P2 = ms => ease(ramp(ms, 9800, 12200));
+function drawCh2(ms) {
+  const c = B2.ctx, w = B2.w, h = B2.h, p = P2(ms);
+  if (ms < 13500) { pic(c, w, h, 0, ms / 1000); dim(c, w, h, p); }
+  else { const q = ramp(ms, 13500, 13900); pic(c, w, h, 0, 0); dim(c, w, h, 1); c.globalAlpha = q; pic(c, w, h, 5, 0); c.globalAlpha = 1; }
+  $('dkn').textContent = 'Dark ' + Math.round(94 * p) + ' %';
+}
+
+// ================= chapter 3: four identical thumbnails, three small changes between them =================
+const TH3 = [0, 1, 2, 3].map(k => tv(k * 254, 80, 160, 90));
+TH3.forEach((o, k) => { during(o.box, 17400 + k * 500, end(2) + 300); pic(o.ctx, 160, 90, 1, 1.2); });
+['0.2 %', '0.1 %', '0.3 %'].forEach((s, k) => {
+  const d = el('lab', s, px({ left: k * 254 + 172, top: 111, width: 82, fontSize: 26, color: '#8f5f2e' }));
+  during(d, 19400 + k * 1000, end(2) + 300, 400);
+});
+const f3 = el('row bad', `${XX(56)}<span>Freeze</span>`, px({ position: 'absolute', left: 0, right: 0, top: 240, fontSize: 56, fontWeight: 700 }));
+f3.style.fontSize = '56px'; f3.style.fontWeight = '700';
+during(f3, 22600, end(2) + 300, 500);
+
+// ================= chapter 4: a sound meter falls under the -60 dB line =================
+const M4W = el('dk', '', px({ left: 0, top: 40, width: 600, height: 300 }));
+const M4 = canvas(600, 300, M4W);
+win(M4W, 25000, end(3) + 300, 500);
+const yDb = db => 20 + (-db / 90) * 260;
+const l60 = el('', '−60 dB', px({ left: 484, top: 40 + yDb(-60) - 30, width: 100, textAlign: 'right', fontSize: 24, fontWeight: 700, color: '#d4a574', position: 'absolute' }));
+win(l60, 25200, end(3) + 300, 400);
+const c4 = el('card', '', px({ left: 640, top: 40, width: 296, height: 300 }));
+at(c4, [[25000, HIDE], [25500, SHOW], [end(3) + 100, SHOW], [end(3) + 300, { opacity: 0, transform: 'translateY(0)' }]]);
+const c4a = el('ly', `<div id="pk" style="font-size:40px">Peak −20 dB</div><div class="row bad" id="sl" style="font-size:36px;font-weight:700">${XX(44)}<span>Sound lost</span></div>`, null, c4);
+enter($('sl'), 30800);
+const dbAt = i => i < 18 ? -20 - 10 * Math.abs(Math.sin(i * 1.7)) : i < 30 ? -20 - (i - 17) * 4.3 - 6 * Math.abs(Math.sin(i * 1.7)) * (30 - i) / 12 : -72 - Math.abs(Math.sin(i * 2.9)) * 4 + 3;
+function drawCh4(ms) {
+  const c = M4; c.clearRect(0, 0, 600, 300); c.fillStyle = '#1a1a1a'; c.fillRect(0, 0, 600, 300);
+  const n = Math.min(56, Math.floor((ms - 25400) / 100));
+  for (let i = 0; i < n; i++) {
+    const db = i < 55 ? dbAt(i) : -72, y = yDb(db), x = 16 + i * 10;
+    c.fillStyle = db < -60 ? '#dc2626' : '#e9e3d8'; c.fillRect(x, y, 8, 280 - y);
+  }
+  c.strokeStyle = '#d4a574'; c.lineWidth = 2.5; c.setLineDash([8, 6]); c.beginPath(); c.moveTo(10, yDb(-60)); c.lineTo(590, yDb(-60)); c.stroke(); c.setLineDash([]);
+  const cur = n > 0 ? Math.round(-dbAt(n - 1)) : 20;
+  $('pk').textContent = 'Peak −' + (n >= 50 ? 72 : cur) + ' dB';
+  $('pk').style.color = (n >= 50 || -cur < -60) ? '#dc2626' : '#141414';
+}
+
+// ================= chapter 5: three flags on a black frame; only the first stays =================
+const B5 = tv(0, 76, 340, 192);
+during(B5.box, 33000, end(4) + 300);
+{ const c = B5.ctx; c.fillStyle = '#000'; c.fillRect(0, 0, 340, 192); c.fillStyle = '#0d0d0d'; c.fillRect(0, 0, 340, 192); }
+const FL = ['Black screen', 'Freeze', 'Sound lost'].map((s, k) => {
+  const f = el('flag', `${XX(48)}<span>${s}</span>`, px({ top: 36 + k * 104 }));
+  const lit = { opacity: 1, color: '#dc2626', borderColor: '#dc2626', backgroundColor: '#fef2f2', filter: 'grayscale(0)' };
+  const off = { opacity: .4, color: '#6e6e6e', borderColor: '#d9d4cc', backgroundColor: '#ffffff', filter: 'grayscale(1)' };
+  const none = { opacity: 0, color: '#141414', borderColor: '#d9d4cc', backgroundColor: '#ffffff', filter: 'grayscale(0)' };
+  const L = k === 0 ? lit : off;
+  at(f, [[34000, none], [34500, lit], [37000, lit], [37900, L], [end(4) + 100, L], [end(4) + 300, { ...L, opacity: 0 }]], 'linear');
+  return f;
+});
+
+// ================= chapter 6: a ring counts to 30 s, a good frame resets it, the incident card =================
+const R6 = el('', '', px({ position: 'absolute', left: 80, top: 44, width: 220, height: 220 }));
+const RC = canvas(220, 220, R6);
+const rn = el('', '0 s', px({ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56, fontWeight: 700, letterSpacing: '-1px' }), R6);
+win(R6, 41200, end(5) + 300, 500);
+const FR6 = tv(517, 50, 300, 169);
+win(FR6.box, 41400, 46800, 400);
+const rst = el('lab', 'Reset', px({ left: 410, width: 526, top: 250, fontSize: 40, color: '#8f5f2e' }));
+at(rst, [[43900, HIDE], [44300, SHOW], [45400, SHOW], [45900, { opacity: 0, transform: 'translateY(0)' }]]);
+// ring value in seconds over time (the card plays it faster than real time)
+function ringS(ms) {
+  if (ms < 41800) return 0;
+  if (ms < 44000) return 18 * (ms - 41800) / 2200;
+  if (ms < 44700) return 18 * (1 - ease((ms - 44000) / 700));
+  if (ms < 44900) return 0;
+  if (ms < 46900) return 30 * (ms - 44900) / 2000;
+  return 30;
+}
+const IC = el('card', '', px({ left: 410, top: 45, width: 526, height: 214 }));
+IC.style.zIndex = 2;
+at(IC, [[46900, HIDE], [47400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]);
+at(IC, [[0, { borderColor: '#dc2626' }], [50400, { borderColor: '#dc2626' }], [50900, { borderColor: '#16a34a' }], [OUT0, { borderColor: '#16a34a' }], [OUT1, { borderColor: '#16a34a' }]], 'linear');
+const ttl1 = el('row bad', `${XX(40)}<span>Incident · Freeze</span>`, px({ position: 'absolute', left: 0, right: 0, top: 26, fontSize: 34, fontWeight: 700 }), IC);
+const ttl2 = el('row', `${OK(40)}<span>Closed</span>`, px({ position: 'absolute', left: 0, right: 0, top: 26, fontSize: 34, fontWeight: 700, color: '#16a34a' }), IC);
+at(ttl1, [[0, { opacity: 1 }], [50400, { opacity: 1 }], [50800, { opacity: 0 }], [OUT1, { opacity: 0 }]], 'linear');
+at(ttl2, [[0, { opacity: 0 }], [50500, { opacity: 0 }], [50900, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]], 'linear');
+[0, 1, 2].forEach(k => {
+  const t = tv(0, 0, 130, 73); IC.appendChild(t.box); Object.assign(t.box.style, px({ left: 32 + k * 158, top: 104 })); pic(t.ctx, 130, 73, 0, 1.2);
+});
+function drawCh6(ms) {
+  const r = ringS(ms), c = RC; c.clearRect(0, 0, 220, 220);
+  c.lineWidth = 20; c.lineCap = 'round'; c.strokeStyle = '#e4dfd6'; c.beginPath(); c.arc(110, 110, 90, 0, 7); c.stroke();
+  if (r > 0.05) { c.strokeStyle = r >= 29.99 ? '#dc2626' : '#d4a574'; c.beginPath(); c.arc(110, 110, 90, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * r / 30); c.stroke(); }
+  rn.textContent = Math.round(r) + ' s'; rn.style.color = r >= 29.99 ? '#dc2626' : '#141414';
+  const good = ms >= 44000 && ms < 44900;
+  if (good) pic(FR6.ctx, 300, 169, 2, ms / 1000); else pic(FR6.ctx, 300, 169, 0, 1.2);
+}
+
+// ================= chapter 7: the picture comes back; the card closes =================
+const B7 = tv(0, 45, 366, 200);
+enter(B7.box, 49000);
+const chip = el('chip', '<span>Short black after CH +: a zap</span>');
+enter(chip, 53200);
+function drawCh7(ms) {
+  const c = B7.ctx, q = ease(ramp(ms, 50000, 50500));
+  pic(c, 366, 200, 0, 1.2);
+  if (q > 0) { c.globalAlpha = q; pic(c, 366, 200, 2, ms / 1000); c.globalAlpha = 1; }
+}
+
+// ================= driving everything =================
+const inR = (ms, a, b) => ms >= a && ms < b;
+function tick(ms) {
+  if (inR(ms, 0, end(0) + 400)) drawCh1(ms);
+  if (inR(ms, end(0), end(1) + 400)) drawCh2(ms);
+  if (inR(ms, end(2), end(3) + 400)) drawCh4(ms);
+  if (inR(ms, end(4), end(5) + 400)) drawCh6(ms);
+  if (ms >= end(5)) drawCh7(ms);
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

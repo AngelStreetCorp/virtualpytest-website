@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How a Zap Is Measured</title>
+<!-- Deep dive "deep-zapping" (Learn, Go deeper, from lesson zapping): how the live monitor times one zap, CH + from
+     Channel 1 to Channel 2. Embed only (1080x600). CH = chapter starts (ms) as in SCRIPTS.md "# Deep dives". Pictures are
+     drawn on canvases from one small model (pic()). -->
+<style>
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .abs { position: absolute; }
+  canvas { display: block; }
+  .sc { position: absolute; inset: 0; }
+  #wrapStrip { position: absolute; left: 0; top: 10px; width: 936px; height: 34px; overflow: hidden; }
+  #stripIn { position: absolute; left: 0; top: 0; width: 936px; height: 34px; }
+  .fr { position: absolute; top: 0; width: 45px; height: 28px; border-radius: 3px; }
+  #cur { position: absolute; top: 7px; width: 51px; height: 34px; border: 3px solid var(--goldText); border-radius: 6px; }
+  .bigw { position: absolute; left: 0; top: 90px; width: 420px; height: 236px; border-radius: 14px; overflow: hidden; background: var(--dark); border: 2px solid #4a4a4a; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .bigw canvas { position: absolute; left: 0; top: 0; width: 416px; height: 232px; }
+  #band { position: absolute; left: 0; right: 0; top: 5%; height: 65%; border-top: 3px dashed var(--gold); border-bottom: 3px dashed var(--gold); }
+  #bandl { position: absolute; left: 10px; top: calc(5% + 10px); font-size: 20px; font-weight: 700; padding: 3px 12px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; }
+  #subo { position: absolute; left: 18%; right: 18%; top: 77%; height: 17%; border: 3px dashed var(--gold); border-radius: 6px; }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  #cardA { left: 460px; top: 90px; width: 476px; height: 236px; }
+  .ly { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 0 12px; }
+  .ly > div { font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .mu { color: var(--muted); }
+  .big { font-size: 56px !important; font-weight: 700; letter-spacing: -1px; }
+  .gold { color: var(--goldText); }
+  .okdot, .xdot { flex: none; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -6px; }
+  .xdot { background: var(--bad); }
+  .dots { display: flex; gap: 14px; justify-content: center; }
+  .dots i { display: block; width: 32px; height: 32px; border-radius: 50%; background: #e4dfd6; }
+  .row2 { position: relative; height: 44px; width: 100%; }
+  .row2 > div { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .th { position: absolute; top: 44px; width: 174px; height: 98px; border-radius: 8px; border: 2px solid var(--line); }
+  .df { position: absolute; top: 80px; width: 80px; text-align: center; font-size: 25px; font-weight: 700; color: var(--goldText); }
+  .lab { position: absolute; font-size: 22px; font-weight: 700; color: var(--muted); white-space: nowrap; text-align: center; width: 70px; }
+  .glab { color: var(--goldText); }
+  .brk { position: absolute; border: 3px solid var(--gold); border-bottom: none; border-radius: 8px 8px 0 0; height: 14px; }
+  .bl { position: absolute; text-align: center; font-size: 28px; font-weight: 700; color: var(--goldText); white-space: nowrap; }
+  .key { width: 200px; height: 118px; border-radius: 22px; background: var(--dark); color: #fff; font-size: 54px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 6px 0 #000, 0 10px 18px rgba(0,0,0,.18); }
+  .kc { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
+  .kc .r { display: flex; align-items: center; gap: 14px; font-size: 32px; font-weight: 700; height: 50px; }
+  .wrow { position: absolute; left: 0; width: 936px; height: 172px; }
+  .wrow canvas { position: absolute; left: 24px; top: 26px; width: 460px; height: 120px; }
+  .wl { position: absolute; left: 510px; width: 410px; top: 0; bottom: 0; display: flex; align-items: center; gap: 10px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .rep { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 32px; font-weight: 700; }
+  .rep + .rep { border-top: 2px solid var(--line); padding-top: 12px; }
+  .pw { position: absolute; top: 212px; width: 160px; height: 90px; border-radius: 8px; border: 2px solid var(--line); }
+  .pl { position: absolute; top: 310px; width: 160px; text-align: center; font-size: 26px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 7</span><span class="h">Every frame is checked</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 7</span><span class="h">Is it black?</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 7</span><span class="h">Or is it frozen?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 7</span><span class="h">The event ends</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 7</span><span class="h">Was a channel key pressed?</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 7</span><span class="h">Did the sound drop?</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 7</span><span class="h">The zap is recorded</span></div>
+<div class="say" id="say0">Checked live, as each frame arrives</div>
+<div class="say" id="say1">80 % dark, almost nothing lit</div>
+<div class="say" id="say2">Under 0.8 % changed, every time</div>
+<div class="say" id="say3">Under 10 s: maybe a zap</div>
+<div class="say" id="say4">Channel key, under 10 s before</div>
+<div class="say" id="say5">A gap in the sound</div>
+<div class="say" id="say6">Key press to new picture</div>
+
+<div class="stage" id="stage">
+  <!-- chapters 1 and 2 -->
+  <div class="sc" id="scA">
+    <div id="wrapStrip"><div id="stripIn"></div></div>
+    <div id="cur"></div>
+    <div class="bigw" id="bigw"><canvas id="big" width="832" height="464"></canvas>
+      <div id="band"></div><div id="bandl">5 % – 70 %</div><div id="subo"></div></div>
+    <div class="card" id="cardA">
+      <div class="ly" id="L1"><div class="big" id="a0" style="font-size:44px !important">5 frames a second</div><div class="dots" id="a1"><i></i><i></i><i></i><i></i><i></i></div><div id="a2" class="mu" style="font-size:30px">320 × 180, grey</div></div>
+      <div class="ly" id="L2"><div class="big" id="b0">Dark <span id="dk" class="gold">3</span> %</div>
+        <div class="row2"><div id="b1">Black <span id="okb"></span></div><div id="b2"><span>Lit <span class="gold">4</span> % · a dark scene</span><span id="xb"></span></div></div></div>
+    </div>
+  </div>
+  <!-- chapter 3 -->
+  <div class="sc" id="scB">
+    <div id="thumbs"></div>
+    <div class="card" id="cardB" style="left:230px;top:200px;width:476px;height:170px"><div class="ly"><div class="big" id="fz" style="display:flex;align-items:center;gap:16px">Frozen <span id="okf"></span></div></div></div>
+  </div>
+  <!-- chapter 4 -->
+  <div class="sc" id="scC">
+    <div class="bl" id="bl1" style="left:156px;width:343px;top:0">Black 1.1 s</div>
+    <div class="brk" id="bk1" style="left:156px;width:343px;top:38px"></div>
+    <div id="tbar" class="abs" style="left:0;top:56px;width:936px;height:50px;border-radius:10px;background:#e8d5b8;overflow:hidden"><div id="tblack" class="abs" style="left:156px;top:0;height:50px;width:0;background:#141414"></div></div>
+    <div id="tticks"></div>
+    <div class="bl" id="bl2" style="left:0;width:936px;top:150px">&lt; 10 s</div>
+    <div class="brk" id="bk2" style="left:0;width:936px;top:188px"></div>
+    <div id="rul" class="abs" style="left:0;top:202px;width:936px;height:14px;border-radius:7px;background:#e4dfd6"><div class="abs" style="left:47px;top:0;width:103px;height:14px;border-radius:4px;background:var(--gold)"></div></div>
+    <div id="rticks"></div>
+    <div class="card" id="cardC" style="left:230px;top:268px;width:476px;height:112px"><div class="ly"><div class="big" id="mz" style="font-size:48px !important">Maybe a zap</div></div></div>
+  </div>
+  <!-- chapter 5 -->
+  <div class="sc" id="scD">
+    <div class="card" id="kcard1" style="left:0;top:20px;width:436px;height:310px"><div class="ly kc"><div class="key" id="key1">CH +</div><div class="r" id="kr1"><span>0.4 s before</span><span id="okk"></span></div></div></div>
+    <div class="card" id="kcard2" style="left:500px;top:20px;width:436px;height:310px"><div class="ly kc"><div class="key" id="key2">OK</div><div class="r" id="kr2"><span id="xk"></span></div></div></div>
+  </div>
+  <!-- chapter 6 -->
+  <div class="sc" id="scE">
+    <div class="card wrow" id="wrA" style="top:6px"><canvas id="wvA" width="920" height="240"></canvas><div class="wl" id="wlA"><span class="big" style="font-size:52px">Gap</span><span id="okw"></span></div></div>
+    <div class="card wrow" id="wrB" style="top:204px"><canvas id="wvB" width="920" height="240"></canvas><div class="wl" id="wlB"><span>No gap · a dark scene</span><span id="xw"></span></div></div>
+  </div>
+  <!-- chapter 7 -->
+  <div class="sc" id="scF">
+    <div class="card" id="cardF" style="left:188px;top:10px;width:560px;height:180px"><div class="ly"><div class="rep" id="f0"><span>Zap</span><span>1.6 s</span></div><div class="rep gold" id="f1"><span>Black</span><span>1.1 s</span></div></div></div>
+    <div id="pics"></div>
+  </div>
+</div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 58000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag6'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say6'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
+$('okb').innerHTML = OK(34); $('xb').innerHTML = XX(34); $('okf').innerHTML = OK(52); $('okk').innerHTML = OK(46);
+$('xk').innerHTML = XX(46); $('okw').innerHTML = OK(48); $('xw').innerHTML = XX(38);
+
+// ================= the model: drawn pictures. kinds: ch1, ch2 (Live TV), black, film (dark scene with subtitles) =================
+function pic(ctx, w, h, kind, ph = 0, txt = false) {
+  if (kind === 'black') { ctx.fillStyle = '#0b0b0b'; ctx.fillRect(0, 0, w, h); return; }
+  if (kind === 'film') {
+    ctx.fillStyle = '#0e0e12'; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#1b1b22'; ctx.fillRect(.18 * w, .3 * h, .2 * w, .5 * h); ctx.beginPath(); ctx.arc(.28 * w, .24 * h, .07 * h, 0, 7); ctx.fill();
+    ctx.fillStyle = '#16161c'; ctx.fillRect(.6 * w, .38 * h, .22 * w, .4 * h); ctx.beginPath(); ctx.arc(.71 * w, .31 * h, .06 * h, 0, 7); ctx.fill();
+    ctx.fillStyle = '#f2f0ec'; ctx.font = `bold ${Math.round(.075 * h)}px Inter, sans-serif`; ctx.textAlign = 'center';
+    ctx.fillText('Do not look back.', .5 * w, .835 * h); ctx.fillText('Keep going.', .5 * w, .925 * h); ctx.textAlign = 'left';
+    return;
+  }
+  const g = ctx.createLinearGradient(0, 0, 0, h);
+  if (kind === 'ch1') { g.addColorStop(0, '#7fb0c4'); g.addColorStop(1, '#3d6272'); } else { g.addColorStop(0, '#e0a96b'); g.addColorStop(1, '#7a4a46'); }
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  if (kind === 'ch1') {
+    ctx.fillStyle = '#f0d9a8'; ctx.beginPath(); ctx.arc(.8 * w, .26 * h, .09 * h, 0, 7); ctx.fill();
+    ctx.fillStyle = '#26363e'; ctx.fillRect(0, .68 * h, w, .32 * h);
+    const x = (.22 + .035 * Math.sin(ph * 1.3)) * w;
+    ctx.fillStyle = '#f2f0ec'; ctx.fillRect(x, .38 * h, .12 * w, .3 * h); ctx.beginPath(); ctx.arc(x + .06 * w, .3 * h, .075 * h, 0, 7); ctx.fill();
+    ctx.fillStyle = '#d4a574'; ctx.fillRect(.5 * w, .45 * h, .22 * w, .06 * h); ctx.fillStyle = '#cfe1e8'; ctx.fillRect(.5 * w, .56 * h, .15 * w, .05 * h);
+  } else {
+    ctx.fillStyle = '#4b2f36'; ctx.beginPath(); ctx.moveTo(0, .75 * h); ctx.lineTo(.3 * w, .35 * h); ctx.lineTo(.6 * w, .75 * h); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(.4 * w, .75 * h); ctx.lineTo(.72 * w, .28 * h); ctx.lineTo(w, .75 * h); ctx.fill();
+    ctx.fillStyle = '#2e1c22'; ctx.fillRect(0, .75 * h, w, .25 * h);
+    ctx.fillStyle = '#f6e6c8'; ctx.beginPath(); ctx.arc(.18 * w, .22 * h, .08 * h, 0, 7); ctx.fill();
+    ctx.fillStyle = '#f2f0ec'; ctx.fillRect(.46 * w, .8 * h, .2 * w, .06 * h);
+  }
+  ctx.fillStyle = 'rgba(20,20,20,.55)'; ctx.fillRect(.04 * w, .05 * h, (txt ? .52 : .3) * w, .1 * h);
+  if (txt) { ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.round(.07 * h)}px Inter, sans-serif`; ctx.fillText(kind === 'ch1' ? 'Live TV · Channel 1' : 'Live TV · Channel 2', .06 * w, .125 * h); }
+}
+function greyify(cx, w, h) {
+  const im = cx.getImageData(0, 0, w, h), d = im.data;
+  for (let k = 0; k < d.length; k += 4) { const v = .299 * d[k] + .587 * d[k + 1] + .114 * d[k + 2]; d[k] = d[k + 1] = d[k + 2] = v; }
+  cx.putImageData(im, 0, 0);
+}
+function mk(cls, w, h, parent, css) { const c = document.createElement('canvas'); c.className = cls; c.width = w; c.height = h; if (css) Object.assign(c.style, css); parent.appendChild(c); return c; }
+
+// ================= chapters 1 and 2: the frame strip and the big grey 320 x 180 copy =================
+const NF = 19, PITCH = 49;
+const stripKind = i => i < 8 ? 'ch1' : i < 14 ? 'black' : 'ch2';
+for (let i = 0; i < NF; i++) { const c = mk('fr', 90, 56, $('stripIn'), { left: i * PITCH + 'px' }); pic(c.getContext('2d'), 90, 56, stripKind(i), i); }
+at($('stripIn'), [[900, { opacity: 0, transform: 'translateX(420px)' }], [1300, { opacity: 1, transform: 'translateX(420px)' }], [4600, { opacity: 1, transform: 'translateX(0px)' }], [OUT0, { opacity: 1, transform: 'translateX(0px)' }], [OUT1, { opacity: 0, transform: 'translateX(0px)' }]], 'ease-in-out');
+win($('scA'), 700, 16500, 400);
+at($('cur'), [[0, { opacity: 0 }], [4800, { opacity: 0 }], [5000, { opacity: 1 }], [14300, { opacity: 1 }], [14600, { opacity: 0 }]], 'linear');
+at($('bigw'), [[4600, HIDE], [5100, SHOW], [16100, SHOW], [16500, { opacity: 0, transform: 'translateY(0)' }]]);
+win($('band'), 10600, 16100, 400); win($('bandl'), 10600, 16100, 400); win($('subo'), 15200, 16100, 400);
+at($('cardA'), [[1200, HIDE], [1700, SHOW], [16100, SHOW], [16500, { opacity: 0, transform: 'translateY(0)' }]]);
+win($('L1'), 1200, 8300, 300); win($('L2'), 8900, 16300, 300);
+enter($('a0'), 2200); enter($('a1'), 3000); enter($('a2'), 5800);
+[0, 1, 2, 3, 4].forEach(k => at($('a1').children[k], [[3200 + k * 450, { background: '#e4dfd6' }], [3500 + k * 450, { background: '#d4a574' }]]));
+enter($('b0'), 9400);
+win($('b1'), 13600, 14500, 300); win($('b2'), 14700, 16200, 300);
+
+// ================= chapter 3: four thumbnails and the difference between neighbours =================
+const TX = i => i * 254;
+for (let i = 0; i < 4; i++) {
+  const c = mk('th', 348, 196, $('thumbs'), { left: TX(i) + 'px' }); pic(c.getContext('2d'), 348, 196, 'ch1', 4);
+  const cx = c.getContext('2d'); cx.fillStyle = '#d4a574';
+  for (let k = 0; k < 3 + i; k++) cx.fillRect(40 + ((k * 97 + i * 53) % 270), 30 + ((k * 61 + i * 29) % 140), 4, 4);   // the few pixels that moved
+  enter(c, 17200 + i * 700, 400);
+}
+[0.2, 0.1, 0.3].forEach((v, k) => {
+  const d = document.createElement('div'); d.className = 'df'; d.textContent = v.toFixed(1) + ' %'; d.style.left = (TX(k) + 174) + 'px'; $('thumbs').appendChild(d);
+  enter(d, 20000 + k * 1100, 400);
+});
+win($('scB'), 16800, 24300, 400);
+at($('cardB'), [[22700, HIDE], [23200, SHOW], [24000, SHOW], [24300, { opacity: 0, transform: 'translateY(0)' }]]);
+
+// ================= chapter 4: the time bar =================
+for (let s = 0; s <= 3; s++) { const l = document.createElement('div'); l.className = 'lab'; l.textContent = s + ' s'; l.style.left = (s === 0 ? 0 : s === 3 ? 936 - 70 : s * 312 - 35) + 'px'; l.style.top = '112px'; if (s === 0) l.style.textAlign = 'left'; if (s === 3) l.style.textAlign = 'right'; $('tticks').appendChild(l); }
+[[0.5, 156], [1.6, 499]].forEach(([s, x], k) => { const l = document.createElement('div'); l.className = 'lab glab'; l.textContent = s.toFixed(1) + ' s'; l.style.left = (x - 35) + 'px'; l.style.top = '112px'; $('tticks').appendChild(l); win(l, k ? 28400 : 26000, 32300, 300); });
+[['0 s', 0, 'left'], ['10 s', 866, 'right']].forEach(([t, x, a]) => { const l = document.createElement('div'); l.className = 'lab'; l.textContent = t; l.style.left = x + 'px'; l.style.top = '224px'; l.style.textAlign = a; $('rticks').appendChild(l); });
+win($('scC'), 24800, 32300, 400);
+enter($('tbar'), 25200); enter($('tticks'), 25400);
+at($('tblack'), [[26200, { width: '0px' }], [29000, { width: '343px' }]], 'linear');
+enter($('bl1'), 29400); enter($('bk1'), 29400);
+enter($('rul'), 30000); enter($('rticks'), 30200); enter($('bk2'), 30600); enter($('bl2'), 30600);
+at($('cardC'), [[31300, HIDE], [31800, SHOW], [32000, SHOW], [32300, { opacity: 0, transform: 'translateY(0)' }]]);
+
+// ================= chapter 5: key chips =================
+win($('scD'), 32800, 40300, 400);
+enter($('kcard1'), 33200); enter($('kr1').children[0], 34200); enter($('okk'), 35000);
+enter($('kcard2'), 36500); enter($('xk'), 38000);
+
+// ================= chapter 6: two sound waves =================
+const wA = $('wvA').getContext('2d'), wB = $('wvB').getContext('2d');
+function wave(cx, hasGap, prog, gapMark) {
+  cx.clearRect(0, 0, 920, 240); const n = 115, mid = 120;
+  for (let i = 0; i < n * prog; i++) {
+    const inGap = hasGap && i >= 52 && i <= 68;
+    const a = inGap ? 0.025 : 0.22 + 0.78 * Math.abs(Math.sin(i * 0.37) * Math.cos(i * 0.11 + 0.8)) + 0.12 * Math.abs(Math.sin(i * 2.7));
+    const hh = Math.max(3, Math.min(1, a) * 105);
+    cx.fillStyle = inGap && gapMark ? '#d4a574' : '#1a1a1a'; cx.fillRect(i * 8, mid - hh, 5, 2 * hh);
+  }
+  if (hasGap && gapMark && prog > 0.6) { cx.strokeStyle = '#d4a574'; cx.lineWidth = 4; cx.setLineDash([10, 8]); cx.strokeRect(52 * 8 - 10, 8, 17 * 8 + 14, 224); cx.setLineDash([]); }
+}
+win($('scE'), 40800, 48300, 400);
+enter($('wrA'), 41200); enter($('wrB'), 41500);
+enter($('wlA'), 44000); enter($('wlB'), 46600);
+
+// ================= chapter 7: the report and five pictures =================
+win($('scF'), 48800, null, 400);
+enter($('cardF'), 49200); enter($('f0'), 49800); enter($('f1'), 50800);
+[['press', 'ch1', 7], ['before', 'ch1', 5], ['first', 'black', 0], ['last', 'black', 0], ['after', 'ch2', 0]].forEach(([nm, kind, ph], i) => {
+  const x = i * 194, c = mk('pw', 320, 180, $('pics'), { left: x + 'px' }); pic(c.getContext('2d'), 320, 180, kind, ph);
+  const l = document.createElement('div'); l.className = 'pl'; l.textContent = nm; l.style.left = x + 'px'; $('pics').appendChild(l);
+  enter(c, 52000 + i * 700, 400); enter(l, 52000 + i * 700 + 150, 400);
+});
+
+// ================= canvases that change with time =================
+const bctx = $('big').getContext('2d'), tmp = document.createElement('canvas'); tmp.width = 320; tmp.height = 180; const tcx = tmp.getContext('2d');
+let lastB = null, lastA = null, lastBw = null;
+function bigState(ms) {
+  if (ms < 10400) return ['ch1', ms < 9000 ? clamp(3 + Math.floor((ms - 5000) / 700), 3, 7) : 7];
+  if (ms < 14400) return ['black', 10];
+  return ['film', -1];
+}
+function tick(ms) {
+  const [kind, idx] = bigState(ms), key = kind + idx;
+  if (key !== lastB) {
+    lastB = key; pic(tcx, 320, 180, kind, idx, true); greyify(tcx, 320, 180);
+    bctx.imageSmoothingEnabled = false; bctx.drawImage(tmp, 0, 0, 832, 464);
+  }
+  $('cur').style.left = (Math.max(idx, 10) * PITCH - 3) + 'px';
+  $('dk').textContent = Math.round(3 + 93 * clamp((ms - 10900) / 2400));
+  const pA = clamp((ms - 41800) / 2000), pB = clamp((ms - 44300) / 2000), gm = ms >= 43800;
+  const kw = Math.round(pA * 115) + ':' + Math.round(pB * 115) + gm;
+  if (kw !== lastBw) { lastBw = kw; wave(wA, true, pA, gm); wave(wB, false, pB, false); }
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
