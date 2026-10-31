@@ -40,7 +40,7 @@
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; flex-shrink: 0; }
   .brand .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--gold); display: grid; place-items: center; }
   .brand b { font-size: 17px; letter-spacing: -0.3px; }
-  .brand small { display: block; font-size: 13px; color: var(--muted); }
+  .brand small { font-size: 15px; color: var(--muted); margin-left: 6px; }   /* "VirtualPyTest Learn" on one line */
   nav.topics { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
   nav.topics::-webkit-scrollbar { display: none; }
   nav.topics button { flex-shrink: 0; padding: 8px 12px; border-radius: 999px; font-size: 14px; color: var(--ink2); white-space: nowrap; border: 1px solid transparent; }
@@ -68,8 +68,7 @@
   aside.panel { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; display: flex; flex-direction: column; min-height: 0; }
   .panel .body { padding: 26px 26px 18px; overflow-y: auto; flex: 1; }
   .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
-  .panel h1 { margin-top: 14px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
-  .panel h1 .sn { color: var(--goldText); margin-right: 4px; }   /* the step number, e.g. 1.1, in front of the title */
+  .panel h1 { margin-top: 12px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
   .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
   .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
   .panel p.note { margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--muted); padding-left: 10px; border-left: 3px solid var(--line); }
@@ -90,9 +89,12 @@
   .chapters li[aria-current="true"] h4 .k { color: var(--goldText); }
   .chapters li[aria-current="true"] p { color: var(--ink2); }
   .panel h3 { margin-top: 24px; font-size: 14px; color: var(--muted); font-weight: 700; }
-  .steps { margin-top: 20px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+  /* the topic's steps, numbered 1..N, at the top of the panel: they also say "step n of N" */
+  .stepsrow { display: flex; align-items: center; gap: 8px; }
+  .steps { display: flex; gap: 6px; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
   .steps::-webkit-scrollbar { display: none; }
-  .steps button { flex-shrink: 0; min-width: 48px; height: 36px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
+  .steps button { flex-shrink: 0; min-width: 36px; height: 34px; padding: 0 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
+  .stepsrow .lbl { flex-shrink: 0; font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
   .steps button.done { color: var(--ok); }
   .steps button[aria-current="true"] { background: var(--chipOn); border-color: var(--chipOn); color: var(--chipOnInk); }
   .pn { margin-top: 10px; display: flex; gap: 10px; font-size: 14px; color: var(--muted); }
@@ -121,15 +123,20 @@
     header { padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
     nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
     main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
-    .stage { min-height: 0; border-radius: 16px; padding: 8px 0 58px; }
-    .controls { left: 12px; bottom: 10px; }
-    .controls button { height: 40px; min-width: 40px; }
+    .stage { min-height: 0; border-radius: 16px; padding: 4px 0 48px; }
+    .controls { left: 10px; bottom: 8px; }
+    .controls button { height: 36px; min-width: 40px; }
     aside.panel { border: 0; background: transparent; border-radius: 0; }
     .panel .body { padding: 0 0 16px; overflow: visible; }
     .panel h1 { font-size: 26px; }
-    .panel .l2 { font-size: 20px; }
+    .panel .l2 { margin-top: 6px; font-size: 19px; }
+    .panel p.text { margin-top: 10px; font-size: 15.5px; line-height: 1.45; }
+    .deepb { margin-top: 12px; padding: 9px 14px; }
+    .steps { gap: 5px; }
+    .steps button { min-width: 32px; height: 32px; padding: 0 6px; }   /* 8 steps fit on a 390 px phone */
+    .foot .back, .foot .done { height: 48px; }
     .keys { display: none; }
-    .foot { position: sticky; bottom: 0; margin: 0 -16px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); }
+    .foot { position: sticky; bottom: 0; margin: 0 -16px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); }
   }
 </style>
 </head>
@@ -153,14 +160,14 @@
   </section>
   <aside class="panel" aria-live="polite">
     <div class="body">
-      <div class="meta"><span id="stepOf"></span></div>
+      <div class="meta" id="meta"><span id="stepOf"></span></div>
+      <div class="stepsrow" id="stepsRow"><span class="lbl" aria-hidden="true">STEP</span><div class="steps" id="steps" role="group" aria-label="Steps of this topic"></div></div>
       <h1 id="title"></h1>
       <div class="l2" id="sub"></div>
       <p class="text" id="text"></p>
       <p class="note" id="note" hidden></p>
       <button class="deepb" id="deepB" hidden><span><small>GO DEEPER · ABOUT 1 MIN</small><b id="deepT"></b></span><span class="arr" aria-hidden="true">→</span></button>
       <ol class="chapters" id="chapters" hidden></ol>
-      <div class="steps" id="steps" role="group" aria-label="Steps of this topic"></div>
       <div class="pn" id="pnRow"><button id="prevB"></button><button id="nextB"></button></div>
       <div class="keys"><span><kbd>←</kbd> <kbd>→</kbd> to move</span><span><kbd>R</kbd> to replay</span><span><kbd>Space</kbd> to pause</span></div>
     </div>
@@ -218,7 +225,8 @@ function go(t, n, d = false) {
   renderTopics();
   const live = !!t.cards, total = steps(t);
   $('fit').hidden = $('controls').hidden = !live; $('soon').hidden = live;
-  $('stepOf').textContent = live ? `Step ${n} of ${total}` : `Topic ${t.id} · ${total} lessons`;
+  $('stepOf').textContent = live ? '' : `Topic ${t.id} · ${total} lessons`;
+  $('meta').hidden = live && !d; $('stepsRow').hidden = !live || d;
   if (!live) {
     frame.src = 'about:blank';
     $('title').textContent = t.name; $('sub').textContent = 'Coming soon';
@@ -227,7 +235,7 @@ function go(t, n, d = false) {
     return setNext();
   }
   const s = t.cards[n - 1];
-  $('text').hidden = $('steps').hidden = d; $('chapters').hidden = !d;
+  $('text').hidden = d; $('chapters').hidden = !d;
   $('note').hidden = d || !s.note; $('note').textContent = s.note || '';
   $('deepB').hidden = d || !s.deep;
   if (s.deep) $('deepT').textContent = s.deep.title;
@@ -236,7 +244,7 @@ function go(t, n, d = false) {
     $('title').innerHTML = '<span class="badge">DEEP DIVE</span>'; $('title').append(s.deep.title); $('sub').textContent = s.deep.sub;
     renderChapters(s.deep);
   } else {
-    $('title').innerHTML = `<span class="sn">${t.id}.${n}</span> `; $('title').append(s.title); $('sub').textContent = s.sub; $('text').textContent = s.text;
+    $('title').textContent = s.title; $('sub').textContent = s.sub; $('text').textContent = s.text;
   }
   setNext();
   load(d ? s.deep.card : s.card, d ? 0 : START);
@@ -280,7 +288,8 @@ function setNext() {
   box.innerHTML = '';
   for (let n = 1; n <= steps(topic); n++) {
     const b = document.createElement('button'), id = `${topic.id}.${n}`, d = topic.cards && done[id];
-    b.textContent = (d && n !== step ? '✓ ' : '') + id;
+    b.textContent = String(n);   // a done step is green
+    b.setAttribute('aria-label', `Step ${n} of ${steps(topic)}${d ? ', done' : ''}`);
     b.setAttribute('aria-current', String(n === step)); b.title = stepTitle(topic, n);
     if (d) b.className = 'done';
     b.onclick = () => go(topic, n);
