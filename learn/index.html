@@ -70,6 +70,7 @@
   .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
   .panel h1 { margin-top: 12px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
   .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
+  .panel p.text .lead { display: none; }   /* phone only: the gold line opens the paragraph */
   .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
   .panel p.note { margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--muted); padding-left: 10px; border-left: 3px solid var(--line); }
   /* "Go deeper": a lesson's optional deep dive (a longer card in chapters, not a step) */
@@ -131,6 +132,9 @@
     .panel h1 { font-size: min(26px, calc((100vw - 32px) / 15.8)); }   /* the longest title (33 chars) stays on one line: 22 px at 390 */
     .panel .l2 { margin-top: 6px; font-size: 19px; }
     .panel p.text { margin-top: 10px; font-size: 15.5px; line-height: 1.45; }
+    /* a lesson's gold line runs into its text, one paragraph, to save height */
+    .panel .l2.inl { display: none; }
+    .panel p.text .lead { display: inline; color: var(--goldText); font-weight: 700; }
     .deepb { margin-top: 12px; padding: 9px 14px; }
     .steps { gap: 5px; }
     .steps button { min-width: 32px; height: 32px; padding: 0 6px; }   /* 8 steps fit on a 390 px phone */
@@ -229,13 +233,13 @@ function go(t, n, d = false) {
   $('meta').hidden = live && !d; $('stepsRow').hidden = !live || d;
   if (!live) {
     frame.src = 'about:blank';
-    $('title').textContent = t.name; $('sub').textContent = 'Coming soon';
+    $('title').textContent = t.name; $('sub').textContent = 'Coming soon'; $('sub').classList.remove('inl');
     $('text').textContent = 'These lessons are being made. Here is what this topic will teach.';
     $('soon').innerHTML = `<h2>${t.name}</h2><p>Coming soon</p><ol>${t.plan.map(p => `<li>${p}</li>`).join('')}</ol>`;
     return setNext();
   }
   const s = t.cards[n - 1];
-  $('text').hidden = d; $('chapters').hidden = !d;
+  $('text').hidden = d; $('chapters').hidden = !d; $('sub').classList.toggle('inl', !d);
   $('note').hidden = d || !s.note; $('note').textContent = s.note || '';
   $('deepB').hidden = d || !s.deep;
   if (s.deep) $('deepT').textContent = s.deep.title;
@@ -244,7 +248,10 @@ function go(t, n, d = false) {
     $('title').innerHTML = '<span class="badge">DEEP DIVE</span>'; $('title').append(s.deep.title); $('sub').textContent = s.deep.sub;
     renderChapters(s.deep);
   } else {
-    $('title').textContent = s.title; $('sub').textContent = s.sub; $('text').textContent = s.text;
+    $('title').textContent = s.title; $('sub').textContent = s.sub;
+    const lead = document.createElement('span'); lead.className = 'lead';
+    lead.textContent = s.sub + (/[.!?…]$/.test(s.sub) ? ' ' : '. ');
+    $('text').replaceChildren(lead, s.text);
   }
   setNext();
   load(d ? s.deep.card : s.card, d ? 0 : START);
