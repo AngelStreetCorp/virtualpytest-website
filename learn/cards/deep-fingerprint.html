@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fingerprint Deep Dive</title>
+<!-- Deep dive of 3.4 (TASK-193, "Go deeper"): how a screen fingerprint is computed, step by step. Embed only
+     (1080x600, the Learn player's stage); chapters in CH = the times of SCRIPTS.md "Deep · fingerprint". Every value
+     on the stage (cells, bits, codes, distances) is computed below from the drawn screens with the real recipe:
+     grey, 17x16 area average, bit = brighter than the left neighbour, Hamming distance (image_hash.py dhash_hex). -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .card.dark { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .card .t { font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--muted); }
+  .card.dark .t { color: #cfcfcf; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; }
+  .chip.gold { background: var(--gold); border-color: var(--gold); }
+  .dot { width: 22px; height: 22px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+  /* left: the drawn screen (336 x 196), its layers drawn from the same models the hashes are computed from */
+  #scr { position: absolute; left: 0; top: 24px; width: 336px; height: 196px; border-radius: 14px; overflow: hidden; background: #1c2028; box-shadow: 0 0 0 10px var(--dark), 0 8px 22px rgba(0,0,0,.14); }
+  #scr .lay { position: absolute; inset: 0; }
+  #scr .it { position: absolute; border-radius: 4px; }
+  #scr .tx { position: absolute; font-weight: 700; line-height: 1; white-space: nowrap; }
+  svg.over { position: absolute; left: 0; top: 24px; width: 336px; height: 196px; overflow: visible; pointer-events: none; }
+  .slbl { position: absolute; left: -40px; width: 416px; top: 252px; display: flex; justify-content: center; }
+  .slbl span { font-size: 28px; font-weight: 700; white-space: nowrap; }
+  /* middle: the mosaic, then the bits (dark card 290 x 272, cells 14 px) */
+  #mos { left: 372px; top: 0; width: 290px; height: 272px; }
+  #cells { position: absolute; left: 26px; top: 24px; width: 238px; height: 224px; }
+  #cells i { position: absolute; width: 14px; height: 14px; }
+  #cells b { position: absolute; width: 12px; height: 12px; margin: 1px; border-radius: 3px; }
+  .mlbl { position: absolute; left: 352px; width: 330px; top: 290px; display: flex; justify-content: center; }
+  .mlbl span { font-size: 28px; font-weight: 700; white-space: nowrap; }
+  /* right: the readout card, one layer per chapter */
+  #ro { left: 698px; top: 0; width: 238px; height: 340px; }
+  .ly { position: absolute; left: 20px; right: 20px; top: 18px; bottom: 18px; display: flex; flex-direction: column; }
+  .ly .big { font-size: 30px; font-weight: 700; }
+  .ly .mono { font-family: var(--mono); font-weight: 700; }
+  .wrow { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 25px; font-weight: 700; margin-top: 14px; }
+  .wrow i { width: 22px; height: 22px; border-radius: 5px; }
+  .pair { display: flex; gap: 14px; margin-top: 16px; }
+  .pair div { flex: 1; text-align: center; }
+  .pair .sq { height: 64px; border-radius: 8px; margin-bottom: 8px; border: 2px solid var(--line); }
+  .pair small { display: block; font-size: 17px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+  .pair b { font-family: var(--mono); font-size: 26px; }
+  #verdict { margin-top: 14px; font-size: 24px; font-weight: 700; text-align: center; }
+  #count { margin-top: auto; font-family: var(--mono); font-size: 22px; font-weight: 700; text-align: center; color: var(--goldText); }
+  #hex { margin-top: 14px; font-family: var(--mono); font-size: 21px; font-weight: 700; line-height: 1.5; letter-spacing: 0; }
+  #hex span { opacity: 0; border-radius: 3px; }
+  .rrow { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; font-size: 24px; font-weight: 700; }
+  .rrow code { font-family: var(--mono); font-size: 20px; color: var(--ink2); }
+  .drow { display: flex; justify-content: space-between; align-items: baseline; margin-top: 9px; font-size: 24px; font-weight: 700; }
+  .drow b { font-family: var(--mono); font-size: 26px; }
+  .frow { margin-top: 14px; font-size: 21px; font-weight: 700; color: var(--ink2); }
+  .frow b { color: var(--ink); }
+  /* the region outlines and their names */
+  .rg { fill: none; stroke: var(--gold); stroke-width: 3; }
+  .rgn { position: absolute; font-size: 16px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--gold); color: var(--ink); }
+  .call { position: absolute; }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 7</span><span class="h">Make it grey</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 7</span><span class="h">Shrink to 17 × 16</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 7</span><span class="h">Brighter than its left neighbour?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 7</span><span class="h">Write it as a code</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 7</span><span class="h">Five regions, five codes</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 7</span><span class="h">Count the bits that differ</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 7</span><span class="h">Plus the focus and the title</span></div>
+<div class="say" id="say0">Colour dropped, brightness kept</div>
+<div class="say" id="say1">Details melt away, the layout stays</div>
+<div class="say" id="say2">Brighter = 1, not brighter = 0</div>
+<div class="say" id="say3">256 bits = 64 characters</div>
+<div class="say" id="say4">One code per region</div>
+<div class="say" id="say5">Regions still at 0: same screen</div>
+<div class="say" id="say6">One fingerprint per screen</div>
+
+<div class="stage" id="stage">
+  <div id="scrwrap">
+    <div id="scr"><div class="lay" id="layHome"></div><div class="lay" id="layPoster"></div><div class="lay" id="layGuide"></div></div>
+    <svg class="over" id="over"></svg>
+  </div>
+  <div class="slbl" id="sl0"><span>The frame</span></div>
+  <div class="slbl" id="sl1"><span>In grey</span></div>
+  <div class="slbl" id="sl2"><span>Guide</span></div>
+  <div class="slbl" id="sl3"><span>In grey</span></div>
+  <div class="chip gold call" id="newtag" style="left:104px;top:0">New poster</div>
+  <div class="call" id="cTitle" style="left:-10px;top:244px"><span class="chip"><span class="dot" style="background:var(--gold)"></span>Title: Home</span></div>
+  <div class="call" id="cLine" style="left:-10px;top:300px"><span class="chip"><span class="dot" style="background:var(--gold)"></span>Underline: place and width</span></div>
+
+  <div class="card dark" id="mos"><div id="cells"></div></div>
+  <div class="mlbl" id="ml0"><span>17 × 16 cells</span></div>
+  <div class="mlbl" id="ml1"><span>256 bits</span></div>
+
+  <div class="card" id="ro">
+    <div class="ly" id="ly0"><div class="t">BRIGHTNESS</div>
+      <div class="wrow"><i style="background:#d9534f"></i>0.30 R +</div>
+      <div class="wrow"><i style="background:#3fa45b"></i>0.59 G +</div>
+      <div class="wrow"><i style="background:#4a78c8"></i>0.11 B</div></div>
+    <div class="ly" id="ly1"><div class="t">ONE CELL</div>
+      <div style="margin-top:12px;font-size:22px;font-weight:700;color:var(--ink2)">average of its pixels</div>
+      <div id="cellSq" style="margin:18px auto 0;width:96px;height:96px;border-radius:10px;border:2px solid var(--line)"></div>
+      <div class="mono" id="cellV" style="margin-top:14px;font-size:34px;text-align:center"></div></div>
+    <div class="ly" id="ly2">
+      <div class="pair"><div><div class="sq" id="sqL"></div><small>LEFT</small><b id="vL"></b></div>
+        <div><div class="sq" id="sqR"></div><small>RIGHT</small><b id="vR"></b></div></div>
+      <div id="verdict"></div><div id="count"></div></div>
+    <div class="ly" id="ly3"><div class="t">dHash · 64 characters</div>
+      <div class="mono" id="nib" style="margin-top:18px;font-size:30px;text-align:center"></div>
+      <div id="hex"></div></div>
+    <div class="ly" id="ly4" style="top:12px"></div>
+    <div class="ly" id="ly5"><div class="t">BITS THAT DIFFER</div><div id="dl"></div>
+      <div style="margin-top:auto;display:flex;justify-content:center">
+        <span class="chip" id="same" style="position:absolute;bottom:0"><span class="dot" style="background:var(--ok)"></span>Same screen</span>
+        <span class="chip" id="other" style="position:absolute;bottom:0"><span class="dot" style="background:var(--bad)"></span>Another screen</span></div></div>
+    <div class="ly" id="ly6"><div class="t">FINGERPRINT</div>
+      <div class="frow" id="f0"><b>dHash</b> · 64 characters</div>
+      <div class="frow" id="f1"><b>Regions</b> · 5 codes</div>
+      <div class="frow" id="f2"><b>Focus</b> · underline</div>
+      <div class="frow" id="f3"><b>Title</b> · Home</div></div>
+  </div>
+</div>
+<script>
+const CH = [600, 7600, 14600, 23600, 30600, 38600, 47600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 58000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]); }
+const fade = (el, keys) => at(el, keys.map(([t, o]) => [t, { opacity: o }]), 'linear');
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag6'), [[CH[6], HIDE], [CH[6] + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say6'), [[CH[6] + 900, HIDE], [CH[6] + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+// ---- the drawn screens: one model per screen, drawn as divs and sampled for the hashes ----
+const W = 336, H = 196, BG = '#1c2028';
+const TABS = [['Home', 150], ['Guide', 202], ['Apps', 256]].map(([s, x]) => ({ x, y: 14, w: 38, h: 12, text: s, size: 13, color: '#c8c8c8', cov: 0.3 }));
+const tiles = ['#5a5f66', '#33373d', '#6b5a4a', '#3d4a57'].map((f, i) => ({ x: 14 + i * 78, y: 140, w: 72, h: 42, fill: f }));
+const HOME = [{ x: 14, y: 10, w: 54, h: 18, text: 'Home', size: 20, color: '#ffffff', cov: 0.38 }, ...TABS,
+  { x: 150, y: 31, w: 36, h: 3, fill: '#d4a574' },
+  { x: 14, y: 46, w: 308, h: 84, grad: [[0, '#4f6b76'], [1, '#8fb0bd']], hero: 1 },
+  { x: 24, y: 92, w: 96, h: 16, text: 'Tonight', size: 17, color: '#ffffff', cov: 0.4, hero: 1 },
+  { x: 24, y: 112, w: 64, h: 8, fill: '#e8eef0', hero: 1 }, ...tiles];
+// the new poster: other colours, its own title, the same place
+const POSTER = [{ x: 14, y: 46, w: 308, h: 84, grad: [[0, '#8a5a3a'], [0.6, '#f2d8a7'], [1, '#d9a56c']] },
+  { x: 150, y: 70, w: 120, h: 16, text: 'The Final', size: 17, color: '#2a1a10', cov: 0.4 }, { x: 150, y: 92, w: 80, h: 8, fill: '#5a3a22' }];
+const HOME2 = [...HOME.filter(it => !it.hero), ...POSTER];
+const GUIDE = [{ x: 14, y: 10, w: 60, h: 18, text: 'Guide', size: 20, color: '#ffffff', cov: 0.38 }, ...TABS,
+  { x: 202, y: 31, w: 40, h: 3, fill: '#d4a574' }];
+[[[72, 110], [186, 136]], [[72, 64], [140, 182]], [[72, 150], [226, 96]], [[72, 92], [168, 154]], [[72, 128], [204, 118]]].forEach((bars, r) => {
+  const y = 48 + r * 28;
+  GUIDE.push({ x: 14, y, w: 52, h: 22, fill: '#3a3f47' }, { x: 22 + (r % 3) * 6, y: y + 5, w: 22, h: 12, fill: ['#e0e0e0', '#9aa4ae', '#c8b48a'][r % 3] });
+  bars.forEach(([x, w], k) => GUIDE.push({ x, y, w: w - 4, h: 22, fill: r === 1 && k === 0 ? '#8f6a45' : (r + k) % 2 ? '#2f343b' : '#4a505a' },
+    { x: x + 8, y: y + 6, w: Math.min(70, w - 20), h: 11, text: ['News', 'Film', 'Sport', 'Kids', 'Music'][(r + k * 2) % 5], size: 11, color: '#e6e6e6', cov: 0.3 }));
+});
+const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const lum = ([r, g, b]) => 0.299 * r + 0.587 * g + 0.114 * b;
+function colAt(it, x) {
+  const f = Math.min(1, Math.max(0, (x - it.x) / it.w)), g = it.grad;
+  let k = 0; while (k < g.length - 2 && f > g[k + 1][0]) k++;
+  const [f0, c0] = g[k], [f1, c1] = g[k + 1], u = (f - f0) / (f1 - f0), a = rgb(c0), b = rgb(c1);
+  return a.map((v, i) => v + (b[i] - v) * u);
+}
+function sample(model, x, y) {
+  let v = lum(rgb(BG));
+  for (const it of model) {
+    if (x < it.x || x >= it.x + it.w || y < it.y || y >= it.y + it.h) continue;
+    v = it.text ? v * (1 - it.cov) + lum(rgb(it.color)) * it.cov : lum(it.grad ? colAt(it, x) : rgb(it.fill));
+  }
+  return v;
+}
+// cv2.resize(gray, (17, 16), INTER_AREA): each cell = the mean of the pixels under it, stored as a byte
+function mosaic(model, [x0, y0, x1, y1] = [0, 0, W, H]) {
+  const out = [], cw = (x1 - x0) / 17, ch = (y1 - y0) / 16, S = 6;
+  for (let r = 0; r < 16; r++) { const row = []; for (let c = 0; c < 17; c++) {
+    let s = 0; for (let i = 0; i < S; i++) for (let j = 0; j < S; j++) s += sample(model, x0 + (c + (j + .5) / S) * cw, y0 + (r + (i + .5) / S) * ch);
+    row.push(Math.round(s / S / S)); } out.push(row); }
+  return out;
+}
+const bitsOf = m => m.map(row => row.slice(1).map((v, c) => (v > row[c] ? 1 : 0)));   // r[:, 1:] > r[:, :-1]
+const hexOf = b => b.flat().reduce((s, _, i, a) => (i % 4 ? s : s + parseInt(a.slice(i, i + 4).join(''), 2).toString(16)), '');
+const dist = (a, b) => a.flat().reduce((n, v, i) => n + (v !== b.flat()[i]), 0);
+const REG = { Full: [0, 1, 0, 1], Top: [0, 0.2, 0, 1], Centre: [0.22, 0.78, 0.2, 0.8], Left: [0, 1, 0, 0.2], Bottom: [0.8, 1, 0, 1] };   // [y0,y1,x0,x1]
+const box = ([y0, y1, x0, x1]) => [x0 * W, y0 * H, x1 * W, y1 * H];
+const regBits = model => Object.fromEntries(Object.entries(REG).map(([k, r]) => [k, bitsOf(mosaic(model, box(r)))]));
+const M = mosaic(HOME), B = bitsOf(M), B2 = bitsOf(mosaic(HOME2)), BG3 = bitsOf(mosaic(GUIDE));
+const R1 = regBits(HOME), R2 = regBits(HOME2), R3 = regBits(GUIDE);
+const D2 = Object.fromEntries(Object.keys(REG).map(k => [k, dist(R1[k], R2[k])]));
+const D3 = Object.fromEntries(Object.keys(REG).map(k => [k, dist(R1[k], R3[k])]));
+window.__fp = { D2, D3, hex: hexOf(B) };   // for checking
+
+function draw(lay, model) {
+  model.forEach(it => {
+    const d = document.createElement('div');
+    Object.assign(d.style, { left: it.x + 'px', top: it.y + 'px' });
+    if (it.text) { d.className = 'tx'; d.textContent = it.text; Object.assign(d.style, { fontSize: it.size + 'px', color: it.color }); }
+    else { d.className = 'it'; Object.assign(d.style, { width: it.w + 'px', height: it.h + 'px', borderRadius: it.h < 6 ? '2px' : '6px',
+      background: it.grad ? `linear-gradient(90deg, ${it.grad.map(([f, c]) => `${c} ${f * 100}%`).join(', ')})` : it.fill }); }
+    lay.appendChild(d);
+  });
+}
+draw($('layHome'), HOME); draw($('layPoster'), POSTER); draw($('layGuide'), [{ x: 0, y: 0, w: W, h: H, fill: BG }, ...GUIDE]);
+
+// ---- chapter 1: the frame, then grey ----
+const C = CH;
+enter($('scrwrap'), C[0]);
+at($('scr'), [[C[0] + 2400, { filter: 'grayscale(0)' }], [C[0] + 3800, { filter: 'grayscale(1)' }], [OUT1, { filter: 'grayscale(1)' }], [T, { filter: 'grayscale(0)' }]], 'ease-in-out');
+during($('sl0'), C[0] + 300, C[0] + 2600);
+during($('sl1'), C[0] + 2900, C[5] + 3900);
+during($('sl2'), C[5] + 4300, end(5));
+enter($('sl3'), C[6] + 200);
+enter($('ro'), C[0] + 1200);
+during($('ly0'), C[0] + 1600, end(0));
+
+// ---- chapter 2: the 17 x 16 grid over the screen, the mosaic fills ----
+const NS = 'http://www.w3.org/2000/svg', over = $('over');
+const svgEl = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); over.appendChild(e); return e; };
+const gl = document.createElementNS(NS, 'g'); over.appendChild(gl);
+for (let c = 1; c < 17; c++) { const l = svgEl('line', { x1: c * W / 17, x2: c * W / 17, y1: 0, y2: H, stroke: '#d4a574', 'stroke-width': 1, opacity: .7 }); gl.appendChild(l); }
+for (let r = 1; r < 16; r++) { const l = svgEl('line', { x1: 0, x2: W, y1: r * H / 16, y2: r * H / 16, stroke: '#d4a574', 'stroke-width': 1, opacity: .7 }); gl.appendChild(l); }
+fade(gl, [[C[1] + 200, 0], [C[1] + 900, 1], [end(1) - 300, 1], [end(1), 0]]);
+enter($('mos'), C[1] + 500);
+const grey = v => `rgb(${v},${v},${v})`, cells = $('cells'), cellEl = [];
+M.forEach((row, r) => row.forEach((v, c) => {
+  const e = document.createElement('i'); e.style.left = c * 14 + 'px'; e.style.top = r * 14 + 'px'; cells.appendChild(e); cellEl.push(e);
+  const t = C[1] + 1000 + r * 110 + c * 12;
+  at(e, [[t, { background: '#1a1a1a' }], [t + 200, { background: grey(v) }],
+         [C[2] + 7700 + (c === 0 ? 300 : 0), { background: grey(v), opacity: 1 }], [C[2] + 8000 + (c === 0 ? 300 : 0), { background: grey(v), opacity: c === 0 ? 0.15 : 1 }],
+         [OUT1, { background: grey(v), opacity: c === 0 ? 0.15 : 1 }], [T, { background: '#1a1a1a', opacity: 1 }]]);
+}));
+during($('ml0'), C[1] + 2600, end(1));
+const PR = 5, PC = 8;                               // the cell picked out: a cell of the poster
+const pick = svgEl('rect', { x: PC * W / 17, y: PR * H / 16, width: W / 17, height: H / 16, fill: 'none', stroke: '#fff', 'stroke-width': 3 });
+fade(pick, [[C[1] + 3600, 0], [C[1] + 3900, 1], [end(1) - 200, 1], [end(1), 0]]);
+const mpick = document.createElement('div'); Object.assign(mpick.style, { position: 'absolute', left: PC * 14 - 2 + 'px', top: PR * 14 - 2 + 'px', width: '18px', height: '18px', border: '3px solid #fff', borderRadius: '3px' });
+cells.appendChild(mpick); fade(mpick, [[C[1] + 3600, 0], [C[1] + 3900, 1], [end(1) - 200, 1], [end(1), 0]]);
+during($('ly1'), C[1] + 3700, end(1));
+$('cellSq').style.background = grey(M[PR][PC]); $('cellV').textContent = M[PR][PC];
+
+// ---- chapter 3: one bit per pair, row WR walked pair by pair, then the other rows ----
+const WR = 13, P0 = C[2] + 600, PSTEP = 360;          // the walk: 16 pairs, 360 ms each
+const bitAt = (r, c) => (r === WR ? P0 + c * PSTEP + 180 : C[2] + 6600 + (r < WR ? r : r - 1) * 80);
+const bitEl = [];
+const gold = '#d4a574', off = '#2e2e2e';
+B.forEach((row, r) => row.forEach((b, c) => {
+  const e = document.createElement('b'); e.style.left = (c + 1) * 14 + 'px'; e.style.top = r * 14 + 'px'; cells.appendChild(e); bitEl.push(e);
+  const t = bitAt(r, c), v1 = b ? gold : off, v2 = B2[r][c] ? gold : off, v3 = BG3[r][c] ? gold : off;
+  const k = [[t, { opacity: 0, background: v1 }], [t + 150, { opacity: 1, background: v1 }]];
+  // chapter 6: the new poster flips some bits (they flash), then the Guide, then back to Home with the new poster
+  const P = C[5] + 1200, G = C[5] + 4300, Hm = C[6] + 100;
+  if (v2 !== v1) k.push([P, { opacity: 1, background: v1 }], [P + 150, { opacity: 1, background: '#ffffff' }], [P + 600, { opacity: 1, background: v2 }]);
+  else k.push([P, { opacity: 1, background: v1 }]);
+  k.push([G, { opacity: 1, background: v2 }], [G + 500, { opacity: 1, background: v3 }], [Hm, { opacity: 1, background: v3 }], [Hm + 500, { opacity: 1, background: v2 }],
+         [OUT0, { opacity: 1, background: v2 }], [OUT1, { opacity: 0, background: v2 }]);
+  at(e, k, 'linear');
+}));
+const walk = document.createElement('div');
+Object.assign(walk.style, { position: 'absolute', top: WR * 14 - 3 + 'px', left: '-3px', width: '34px', height: '20px', border: '3px solid #d4a574', borderRadius: '4px' });
+cells.appendChild(walk);
+at(walk, [[P0 - 300, { opacity: 0, transform: 'translateX(0)' }], [P0, { opacity: 1, transform: 'translateX(0)' }],
+  ...Array.from({ length: 15 }, (_, c) => [[P0 + c * PSTEP + 260, { opacity: 1, transform: `translateX(${c * 14}px)` }], [P0 + (c + 1) * PSTEP, { opacity: 1, transform: `translateX(${(c + 1) * 14}px)` }]]).flat(),
+  [P0 + 16 * PSTEP + 200, { opacity: 1, transform: `translateX(${15 * 14}px)` }], [P0 + 16 * PSTEP + 500, { opacity: 0, transform: `translateX(${15 * 14}px)` }]], 'ease-in-out');
+const swalk = svgEl('rect', { x: 0, y: WR * H / 16, width: 2 * W / 17, height: H / 16, fill: 'none', stroke: '#d4a574', 'stroke-width': 3 });
+at(swalk, [[P0 - 300, { opacity: 0, transform: 'translateX(0)' }], [P0, { opacity: 1, transform: 'translateX(0)' }],
+  ...Array.from({ length: 15 }, (_, c) => [[P0 + c * PSTEP + 260, { opacity: 1, transform: `translateX(${c * W / 17}px)` }], [P0 + (c + 1) * PSTEP, { opacity: 1, transform: `translateX(${(c + 1) * W / 17}px)` }]]).flat(),
+  [P0 + 16 * PSTEP + 200, { opacity: 1, transform: `translateX(${15 * W / 17}px)` }], [P0 + 16 * PSTEP + 500, { opacity: 0, transform: `translateX(${15 * W / 17}px)` }]], 'ease-in-out');
+during($('ly2'), C[2] + 400, end(2));
+enter($('ml1'), C[2] + 8000);
+
+// ---- chapter 4: 4 bits -> 1 character, then the 64 characters ----
+const HX = hexOf(B), nibR = WR, nibC = 0;
+const nibBox = document.createElement('div');
+Object.assign(nibBox.style, { position: 'absolute', top: nibR * 14 - 3 + 'px', left: '11px', width: '62px', height: '20px', border: '3px solid #fff', borderRadius: '4px' });
+cells.appendChild(nibBox); fade(nibBox, [[C[3] + 500, 0], [C[3] + 800, 1], [C[3] + 2900, 1], [C[3] + 3200, 0]]);
+$('nib').textContent = `${B[nibR].slice(0, 4).join('')} → ${HX[nibR * 4]}`;
+during($('ly3'), C[3] + 400, end(3));
+fade($('nib'), [[C[3] + 900, 0], [C[3] + 1200, 1], [C[3] + 2900, 1], [C[3] + 3200, 0]]);
+[...HX].forEach((ch, q) => {
+  if (q && q % 16 === 0) $('hex').appendChild(document.createElement('br'));
+  const sp = document.createElement('span'); sp.textContent = ch; $('hex').appendChild(sp);
+  const t = C[3] + 3300 + q * 45, mine = q >= nibR * 4 && q < nibR * 4 + 4;
+  at(sp, [[t, { opacity: 0, background: 'transparent' }], [t + 60, { opacity: 1, background: mine ? '#d4a574' : 'transparent' }], [OUT0, { opacity: 1, background: mine ? '#d4a574' : 'transparent' }]], 'linear');
+});
+$('hex').style.marginTop = '0';
+at($('hex'), [[C[3] + 3100, { transform: 'translateY(0)' }], [C[3] + 3200, { transform: 'translateY(-36px)' }], [OUT0, { transform: 'translateY(-36px)' }]]);
+
+// ---- chapter 5: five regions on the screen, five codes ----
+const names = Object.keys(REG);
+names.forEach((k, i) => {
+  const [x0, y0, x1, y1] = box(REG[k]), t = C[4] + 600 + i * 1000;
+  const r = svgEl('rect', { x: x0 + 1.5, y: y0 + 1.5, width: x1 - x0 - 3, height: y1 - y0 - 3, rx: 6, class: 'rg' });
+  at(r, [[t, { opacity: 0 }], [t + 300, { opacity: 1, strokeWidth: 5 }], [t + 1000, { opacity: 1, strokeWidth: 3 }], [end(4) - 300, { opacity: 1 }], [end(4), { opacity: 0 }]]);
+  const n = document.createElement('div'); n.className = 'rgn'; n.textContent = k;
+  const pos = { Full: [228, -18], Top: [80, 12], Centre: [x0 + 6, y0 + 6], Left: [6, 120], Bottom: [244, y0 + 6] }[k];
+  Object.assign(n.style, { left: pos[0] + 'px', top: 24 + pos[1] + 'px' }); $('scrwrap').appendChild(n);
+  during(n, t, end(4), 300);
+  const row = document.createElement('div'); row.className = 'rrow';
+  row.innerHTML = `<span>${k}</span><code>${hexOf(R1[k]).slice(0, 8)}…</code>`; $('ly4').appendChild(row);
+  during(row, t + 200, end(4), 400);
+});
+fade($('ly4'), [[C[4], 0], [C[4] + 100, 1], [end(4), 1], [end(4) + 10, 0]]);
+
+// ---- chapter 6: the new poster, the distances; then another screen ----
+const P = C[5] + 1200, G = C[5] + 4300;
+at($('layPoster'), [[P, { opacity: 0 }], [P + 500, { opacity: 1 }], [OUT1, { opacity: 1 }], [T, { opacity: 0 }]], 'linear');
+at($('newtag'), [[P - 200, { opacity: 0, transform: 'scale(.8)' }], [P + 100, { opacity: 1, transform: 'scale(1)' }], [P + 2400, { opacity: 1, transform: 'scale(1)' }], [P + 2700, { opacity: 0, transform: 'scale(1)' }]]);
+at($('layGuide'), [[G, { opacity: 0 }], [G + 600, { opacity: 1 }], [C[6] + 100, { opacity: 1 }], [C[6] + 600, { opacity: 0 }]], 'linear');
+during($('ly5'), C[5] + 300, end(5));
+const dEls = names.map((k, i) => {
+  const row = document.createElement('div'); row.className = 'drow'; row.innerHTML = `<span>${k}</span><b></b>`; $('dl').appendChild(row);
+  at(row, [[P + 700 + i * 180, { opacity: 0 }], [P + 900 + i * 180, { opacity: 1 }], [end(5) - 250, { opacity: 1 }], [end(5), { opacity: 0 }]]);
+  return row.querySelector('b');
+});
+during($('same'), P + 2000, G);
+during($('other'), G + 1700, end(5));
+$('dl').style.marginTop = '6px';
+
+// ---- chapter 7: the focus and the title; the whole fingerprint ----
+const ul = svgEl('rect', { x: 144, y: 26, width: 48, height: 13, rx: 5, fill: 'none', stroke: '#fff', 'stroke-width': 3 });
+const tt = svgEl('rect', { x: 8, y: 5, width: 66, height: 28, rx: 6, fill: 'none', stroke: '#fff', 'stroke-width': 3 });
+fade(tt, [[C[6] + 900, 0], [C[6] + 1200, 1], [OUT0, 1], [OUT1, 0]]);
+fade(ul, [[C[6] + 2400, 0], [C[6] + 2700, 1], [OUT0, 1], [OUT1, 0]]);
+fade($('sl3'), [[C[6] + 200, 0], [C[6] + 500, 1], [C[6] + 700, 1], [C[6] + 900, 0]]);
+enter($('cTitle'), C[6] + 1100); enter($('cLine'), C[6] + 2600);
+during($('ly6'), C[6] + 600, OUT1);
+['f0', 'f1', 'f2', 'f3'].forEach((id, i) => enter($(id), C[6] + 3600 + i * 600));
+
+// changing text: the walked pair, the bit counter, the distances
+function tick(ms) {
+  const c = Math.max(0, Math.min(15, Math.floor((ms - P0) / PSTEP)));
+  const a = M[WR][c], b = M[WR][c + 1];
+  $('vL').textContent = a; $('vR').textContent = b; $('sqL').style.background = grey(a); $('sqR').style.background = grey(b);
+  $('verdict').textContent = b > a ? 'Brighter → 1' : 'Not brighter → 0';
+  $('verdict').style.color = b > a ? '#8f5f2e' : '#4a4a4a';
+  let n = 0; for (let r = 0; r < 16; r++) for (let k = 0; k < 16; k++) if (ms >= bitAt(r, k)) n++;
+  $('count').textContent = `${n} / 256 bits`;
+  const D = ms >= G + 1000 ? D3 : D2;
+  dEls.forEach((e, i) => { e.textContent = D[names[i]]; e.style.color = D[names[i]] > 14 ? '#6e6e6e' : '#141414'; });
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
