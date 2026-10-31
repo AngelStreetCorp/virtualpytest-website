@@ -91,6 +91,10 @@
   body.sq { --sqs: 0.76; }
   .tab { font-size: 24px; font-weight: 700; padding: 5px 18px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); color: var(--ink); white-space: nowrap; }
   .tabs { position: absolute; display: flex; justify-content: center; gap: 14px; }
+  /* the copy of the whole map that a variant avoids */
+  .ghost { position: absolute; background: #ebe7e0; border: 2px dashed #c9c2b8; border-radius: 18px; padding-top: 12px; }
+  .ghost .t { font-size: 17px; letter-spacing: 2px; }
+  .ghost i { position: absolute; width: 58px; height: 28px; border-radius: 7px; background: #b9b2a8; }
   .vtag { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 22px; letter-spacing: 3px; font-weight: 700; color: var(--goldText); }
   .script { padding: 14px 8px 16px; }
   .script .ln { font-size: 22px; font-weight: 700; letter-spacing: -0.6px; text-align: center; white-space: nowrap; }
@@ -109,7 +113,7 @@
     <div class="lbl " id="lA" style="left:0px; top:86px; width:196px"><span>Model A</span></div>
     <div class="stb b" id="boxB" style="left:22px; top:148px; width:152px; height:56px"></div>
     <div class="lbl " id="lB" style="left:0px; top:214px; width:196px"><span>Model B</span></div>
-    <div class="tabs" id="tabs" style="left:226px; top:0; width:400px"><span class="tab" id="tBase">Base map</span><span class="tab" id="tB">Model B</span></div>
+    <div class="tabs" id="tabs" style="left:226px; top:0; width:400px"><span class="tab" id="tBase">Base map</span><span class="tab" id="tB">Variant: Model B</span></div>
     <div class="uimap" id="uimap" style="left:226px; top:48px">
       <div class="uibg" id="uibg"><div class="t">USER INTERFACE</div></div>
       <svg width="400" height="300" viewBox="0 0 400 300">
@@ -128,19 +132,20 @@
       <div class="scr" id="sGuide">Guide</div>
       <div class="scr" id="sSettings">Settings</div>
     </div>
-    <div class="lbl" id="lVar" style="left:186px; top:358px; width:480px"><span style="display:flex; align-items:center; gap:14px; white-space:nowrap"><span class="vtag">NAMED VARIANT</span><span>One move differs</span></span></div>
-    <div class="lbl grey" id="lRest" style="left:186px; top:398px; width:480px"><span>The rest: same as the base map</span></div>
+    <div class="lbl gold" id="lVar" style="left:186px; top:362px; width:480px"><span>Only this move is edited</span></div>
+    <div class="ghost" id="ghost" style="left:676px; top:40px; width:206px; height:150px"><div class="t">COPY FOR MODEL B</div><i style="left:74px; top:52px"></i><i style="left:12px; top:106px"></i><i style="left:136px; top:106px"></i></div>
+    <div class="lbl red" id="lNo" style="left:656px; top:204px; width:246px"><span><span class="xdot"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span> No copy</span></div>
     <div class="script white abs" id="script" style="left:0; top:290px; width:196px"><div class="ln mono">goto("Guide")</div></div>
     <div class="lbl " id="lSame" style="left:0px; top:360px; width:196px"><span>Same test</span></div>
     <div class="tv abs" id="tvA" style="left:680px; top:0px; width:184px; height:104px"><div class="bar"></div><div class="nm" id="tvAHome">Home</div><div class="nm" id="tvAGuide">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tick" id="tvATick"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
-    <div class="lbl " id="rA" style="left:656px; top:112px; width:232px"><span><span>Model A:<br>OK <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></span></div>
+    <div class="lbl " id="rA" style="left:656px; top:112px; width:232px"><span>Model A <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
     <div class="tv abs" id="tvB" style="left:680px; top:214px; width:184px; height:104px"><div class="bar"></div><div class="nm" id="tvBHome">Home</div><div class="nm" id="tvBGuide">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tick" id="tvBTick"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
-    <div class="lbl " id="rB" style="left:656px; top:326px; width:232px"><span><span>Model B:<br>Right, OK <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></span></div>
-    <div class="lbl grey" id="lAny" style="left:0px; top:438px; width:888px"><span>A variant can be a model, a firmware or a language.</span></div>
+    <div class="lbl " id="rB" style="left:656px; top:326px; width:232px"><span>Model B <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
+    <div class="lbl grey" id="lAny" style="left:0px; top:414px; width:888px"><span>A variant can be a model, a firmware or a language.</span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">A named variant keeps only what differs on one model, like a key. Everything else comes from the same map, and the test does not change.</p>
+  <p class="caption" id="caption">A model that differs a little needs no copy of the map. Add a variant to the same map and edit only what changes, like one key; the same test runs on every model.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See named variants <span class="arrow">→</span></div><span class="next">Next: The app changed</span></div>
 </div>
 <script>
@@ -199,25 +204,28 @@ enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h
 enter($('boxA'), 1600); enter($('lA'), 1750); enter($('boxB'), 1900); enter($('lB'), 2050);
 dots(200, 53, 220, 150, 2600, 3000); dots(200, 176, 220, 200, 2700, 3100);
 enter($('uimap'), 3200); enter($('tabs'), 3300);
-at($('tBase'), [[3300, { background: '#1a1a1a', color: '#ffffff', borderColor: '#1a1a1a' }], [4200, { background: '#1a1a1a', color: '#ffffff', borderColor: '#1a1a1a' }],
-                [4500, { background: '#ffffff', color: '#141414', borderColor: '#d9d4cc' }]]);
-at($('tB'), [[4200, { background: '#ffffff', borderColor: '#d9d4cc' }], [4500, { background: '#d4a574', borderColor: '#d4a574' }]]);
-// 4.2: on Model B only Home -> Guide differs: it turns gold, its key becomes "Right, OK"; the rest goes grey
-['aMenu', 'aBackG', 'aBackS', 'wMenu', 'wBackG', 'wBackS', 'sSettings'].forEach(id => at($(id), [[4200, { opacity: 1 }], [4600, { opacity: 0.3 }], [OUT0, { opacity: 0.3 }], [OUT1, { opacity: 0 }]]));
-arrowColor('aOk', [[4200, '#a89f93'], [4500, '#b07a45']]);
-run('aOk', 4300, 4700);
-fade($('wOk'), 0, 4400, 0); fade($('wOk2'), 4500);
-at($('wOk2').firstChild, [[4500, { transform: 'scale(0.7)', background: '#d4a574' }], [4800, { transform: 'scale(1)', background: '#d4a574' }]]);
-enter($('lVar'), 5000); enter($('lRest'), 5300);
-enter($('script'), 6000); enter($('lSame'), 6200); dots(200, 318, 220, 300, 6100, 6300);
-// 6.8: the same test on both models: Home -> Guide, each with its own keys
-dots(632, 150, 674, 52, 6700, 7000); dots(632, 250, 674, 266, 6800, 7100);
-enter($('tvA'), 6800, 400); enter($('tvB'), 6900, 400);
-fade($('tvAHome'), 6800, 7300, 150); fade($('tvAGuide'), 7350, null, 150);
-fade($('tvBHome'), 6900, 7500, 150); fade($('tvBGuide'), 7550, null, 150);
-['tvATick', 'tvBTick'].forEach((id, i) => at($(id), [[7500 + i * 200, { opacity: 0, transform: 'scale(0.6)' }], [7800 + i * 200, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]));
-enter($('rA'), 7400); enter($('rB'), 7600);
-enter($('lAny'), 8000);
+// 3.8-4.9: a copy of the whole map for Model B comes in, gets a red cross and goes: not needed
+at($('ghost'), [[3800, { opacity: 0, transform: 'translateX(-60px)' }], [4300, { opacity: 1, transform: 'translateX(0)' }], [5000, { opacity: 1, transform: 'translateX(0)' }], [5400, { opacity: 0, transform: 'translateX(0)' }]]);
+at($('lNo'), [[4300, HIDE], [4700, SHOW], [5000, SHOW], [5400, { opacity: 0, transform: 'translateY(0)' }]]);
+at($('tBase'), [[3300, { background: '#1a1a1a', color: '#ffffff', borderColor: '#1a1a1a' }], [5000, { background: '#1a1a1a', color: '#ffffff', borderColor: '#1a1a1a' }],
+                [5300, { background: '#ffffff', color: '#141414', borderColor: '#d9d4cc' }]]);
+at($('tB'), [[5000, { background: '#ffffff', borderColor: '#d9d4cc' }], [5300, { background: '#d4a574', borderColor: '#d4a574' }]]);
+// 5.0: the variant for Model B edits only Home -> Guide: it turns gold, its key becomes "Right, OK"; the rest goes grey
+['aMenu', 'aBackG', 'aBackS', 'wMenu', 'wBackG', 'wBackS', 'sSettings'].forEach(id => at($(id), [[5000, { opacity: 1 }], [5400, { opacity: 0.3 }], [OUT0, { opacity: 0.3 }], [OUT1, { opacity: 0 }]]));
+arrowColor('aOk', [[5000, '#a89f93'], [5300, '#b07a45']]);
+run('aOk', 5100, 5500);
+fade($('wOk'), 0, 5200, 0); fade($('wOk2'), 5300);
+at($('wOk2').firstChild, [[5300, { transform: 'scale(0.7)', background: '#d4a574' }], [5600, { transform: 'scale(1)', background: '#d4a574' }]]);
+enter($('lVar'), 5800);
+enter($('script'), 6600); enter($('lSame'), 6800); dots(200, 318, 220, 300, 6700, 6900);
+// 7.2: the same test on both models: Home -> Guide
+dots(632, 150, 674, 52, 7100, 7400); dots(632, 250, 674, 266, 7200, 7500);
+enter($('tvA'), 7200, 400); enter($('tvB'), 7300, 400);
+fade($('tvAHome'), 7200, 7700, 150); fade($('tvAGuide'), 7750, null, 150);
+fade($('tvBHome'), 7300, 7900, 150); fade($('tvBGuide'), 7950, null, 150);
+['tvATick', 'tvBTick'].forEach((id, i) => at($(id), [[7900 + i * 200, { opacity: 0, transform: 'scale(0.6)' }], [8200 + i * 200, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]));
+enter($('rA'), 7800); enter($('rB'), 8000);
+enter($('lAny'), 8400);
 enter($('caption'), 9200); enter($('ctarow'), 10000);
 
 // master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
