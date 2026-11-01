@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -136,7 +136,7 @@
 
   </div></div>
 
-  <p class="caption" id="caption">A profile is a set of services. A host comes full, lite or as a runner, and each device's profile starts only the services it needs.</p>
+  <p class="caption" id="caption">A host comes full, lite or as a runner. On it, each device has a profile: the set of services that device needs, and nothing else runs.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See host profiles <span class="arrow">→</span></div><span class="next">Next: Services are background jobs</span></div>
 </div>
 <script>

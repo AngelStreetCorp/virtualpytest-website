@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -114,7 +114,7 @@
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">FINGERPRINT · WHY · 1/5</div>
+  <div class="eyebrow" id="eyebrow">FINGERPRINT · WHY · 3/7</div>
   <h1><span id="h1a">Your app updated, nothing broke</span><span class="l2" id="h1b">Screenshots fail anyway; a fingerprint keeps up</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
@@ -122,7 +122,7 @@
     <div class="tvp" id="tv" style="left:0px; top:110px; width:250px; height:170px"><div class="pbar" id="tvBar"></div><div class="hero pA"></div><div class="hero pB" id="tvB"></div><div class="tl"><i></i><i></i><i></i><i></i></div></div>
     <div class="drop" style="left:0; top:56px; width:250px"><span id="upd">App update</span></div>
     <div class="white abs pad" id="lPic" style="left:286px; top:0; width:306px; height:184px">
-      <div class="t">SAVED SCREENSHOT</div>
+      <div class="t">SAVED PICTURE</div>
       <div class="row" style="margin-top:12px; gap:16px"><span class="thumb"><b class="pA"></b><s></s></span><span class="neq">≠</span><span class="thumb"><b class="pB"></b><s style="width:60%"></s></span></div>
       <div class="track"><div class="fill" id="fill"></div><div class="mark"></div></div>
       <div class="row" id="noMatch" style="margin-top:10px; font-size:26px; color:var(--bad)">Not a match</div>
@@ -140,7 +140,7 @@
   </div></div>
 
   <p class="caption" id="caption">A new poster or language makes a screenshot fail. The layout stays the same, so the fingerprint still knows it.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See Fingerprint <span class="arrow">→</span></div><span class="next">Next: How a fingerprint works</span></div>
+  <div class="ctarow" id="ctarow"><div class="cta">See Fingerprint <span class="arrow">→</span></div><span class="next">Next: Every screen gets a fingerprint</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms

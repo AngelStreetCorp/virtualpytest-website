@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -133,13 +133,13 @@
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
-    <div class="white bub" id="b1" style="left:0; top:20px; width:232px"><div class="t" style="text-align:left">YOU</div><div class="q">A page: my STBs, go to a node, Localize</div></div>
+    <div class="white bub" id="b1" style="left:0; top:20px; width:232px"><div class="t" style="text-align:left">YOU</div><div class="q">A page: my TV boxes, go to a node, Localize</div></div>
     <div class="white bub" id="b2" style="left:0; top:270px; width:232px"><div class="q" style="margin-top:0">Add the recent runs</div></div>
     <div class="dk abs pad" id="atlas" style="left:258px; top:20px; width:296px; height:330px"><div class="t">ATLAS</div>
       <div class="ans" id="ans">Page built from 3 blocks</div></div>
     <div class="bchips" style="left:258px; top:150px; width:296px"><span id="c0">Device picker</span><span id="c1">Go to node</span><span id="c2">Localize result</span><span id="c3" class="new">Recent runs</span></div>
-    <div class="white abs pg" id="page" style="left:580px; top:20px; width:308px; height:276px"><h4>My STB page</h4><div class="grid"></div>
-      <div class="blk" id="k0" style="left:16px; top:56px; width:276px; height:60px"><div class="k">DEVICE</div><div class="v">STB 1 <span style="color:var(--muted)">▾</span></div></div>
+    <div class="white abs pg" id="page" style="left:580px; top:20px; width:308px; height:276px"><h4>My TV box page</h4><div class="grid"></div>
+      <div class="blk" id="k0" style="left:16px; top:56px; width:276px; height:60px"><div class="k">DEVICE</div><div class="v">TV box 1 <span style="color:var(--muted)">▾</span></div></div>
       <div class="blk" id="k1" style="left:16px; top:126px; width:133px; height:60px"><div class="k">GO TO</div><div class="v">Guide <span style="color:var(--muted)">▾</span></div></div>
       <div class="blk" id="k2" style="left:159px; top:126px; width:133px; height:60px"><div class="k">NOW</div><div class="v">Home <span class="okdot"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
       <div class="blk" id="k3" style="left:16px; top:196px; width:276px; height:60px; border-color:var(--gold)"><div class="k">RECENT RUNS</div><div class="v"><span class="okdot"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="okdot"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="xdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span></div></div>

@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -111,12 +111,12 @@
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">FINGERPRINT · SET ONCE · 4/5</div>
-  <h1><span id="h1a">No pictures to take or retake</span><span class="l2" id="h1b">The fingerprint is made from the screen itself</span></h1>
+  <div class="eyebrow" id="eyebrow">FINGERPRINT · SET ONCE · 6/7</div>
+  <h1><span id="h1a">No pictures to take or retake</span><span class="l2" id="h1b">Made from the screen itself: nothing to capture</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
-    <div class="script white abs pad" id="script" style="left:0; top:70px; width:200px; height:96px"><div class="t">YOUR SCRIPT</div><div class="ln mono">goto("guide")</div></div>
+    <div class="script white abs pad" id="script" style="left:0; top:70px; width:200px; height:96px"><div class="t">YOUR SCRIPT</div><div class="ln mono">goto("Guide")</div></div>
     <div class="lbl " id="lWhere" style="left:0px; top:180px; width:200px"><span>Says where to go</span></div>
     <div class="abs" id="cam" style="left:68px; top:272px"><svg width="64" height="52" viewBox="0 0 32 26"><path d="M3 7h6l2.5-3.5h9L23 7h6v16H3z" fill="none" stroke="#8a8378" stroke-width="2.4" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" fill="none" stroke="#8a8378" stroke-width="2.4"/></svg></div>
     <div class="strike" id="strike" style="left:58px; top:296px; width:86px; transform:rotate(-30deg)"></div>
@@ -148,8 +148,8 @@
 
   </div></div>
 
-  <p class="caption" id="caption">The fingerprint is made from the screen itself: nothing to capture, nothing to retake. Every run checks arrival and times it.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See the user interface <span class="arrow">→</span></div><span class="next">Next: Use case, Localize</span></div>
+  <p class="caption" id="caption">Nothing to retake after an app update either, and every run checks arrival and times it.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See the user interface <span class="arrow">→</span></div><span class="next">Next: Which screen is this?</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms

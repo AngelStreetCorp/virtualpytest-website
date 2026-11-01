@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -163,7 +163,7 @@
   </div></div>
 
   <p class="caption" id="caption">Once a minute, the heatmap takes one frame of every device. A device with a problem is outlined in red, and the last 24 hours are kept.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See the heatmap <span class="arrow">→</span></div><span class="next">Next: Timeline</span></div>
+  <div class="ctarow" id="ctarow"><div class="cta">See the heatmap <span class="arrow">→</span></div><span class="next">Next: It broke at 3 a.m.?</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms
