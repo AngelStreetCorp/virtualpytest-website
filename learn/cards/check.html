@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -108,7 +108,7 @@
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">UI VERIFICATION · A CHECK · 1/3</div>
+  <div class="eyebrow" id="eyebrow">UI VERIFICATION · A CHECK · 1/7</div>
   <h1><span id="h1a">Be sure you reached the screen</span><span class="l2" id="h1b">After each key, the real screen is checked</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
@@ -137,7 +137,7 @@
   </div></div>
 
   <p class="caption" id="caption">Sending a key is not arriving. After every move, VirtualPyTest looks at the screen and proves it is the one expected.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See verification <span class="arrow">→</span></div><span class="next">Next: Saved pictures and text</span></div>
+  <div class="ctarow" id="ctarow"><div class="cta">See verification <span class="arrow">→</span></div><span class="next">Next: Save a picture or a word once</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms

@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -129,7 +129,7 @@
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
     <div class="site white" id="m0" style="left:0; top:0px; width:250px; height:92px"><div><b>Raspberry Pi 5</b><s>Runs everything</s></div></div>
-    <div class="site white" id="m1" style="left:0; top:106px; width:250px; height:92px"><div><b>Linux · macOS</b><s>Windows: WSL2</s></div></div>
+    <div class="site white" id="m1" style="left:0; top:106px; width:250px; height:92px"><div><b>Linux · macOS</b><s>In Docker</s></div></div>
     <div class="site white" id="m2" style="left:0; top:212px; width:250px; height:92px"><div><b>Small PC</b><s>Joins as a host</s></div></div>
     <div class="dk abs pad" id="ins" style="left:296px; top:10px; width:270px; height:294px"><div class="t">INSTALL</div>
       <div class="dopt" id="r0" style="top:58px">Docker · 3 min</div><div class="dopt" id="r1" style="top:128px">Linux installers</div><div class="dopt" id="r2" style="top:198px">Host at a site</div></div>
@@ -140,7 +140,7 @@
     <div class="lbl " id="lEdit" style="left:584px; top:330px; width:324px"><span>Nothing to edit first</span></div>
   </div></div>
 
-  <p class="caption" id="caption">Install with Docker in about 3 minutes on Linux or macOS (Windows: in WSL2), or with the native Linux installers.</p>
+  <p class="caption" id="caption">Docker installs it in about 3 minutes on a Pi 5, Linux or macOS (Windows: in WSL2), or use the native Linux installers.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See the install guide <span class="arrow">→</span></div><span class="next">Next: See your devices live</span></div>
 </div>
 <script>
@@ -197,7 +197,7 @@ function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
 
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
 ['m0', 'm1', 'm2'].forEach((id, i) => enter($(id), 1600 + i * 150));
-enter($('lSmall'), 1700); enter($('lWays'), 1850); enter($('lEdit'), 2000);
+enter($('lSmall'), 1700); enter($('lWays'), 1850); enter($('lEdit'), 5200);
 // machines -> install ways: Pi and Linux/macOS -> Docker, Linux -> installers, small PC -> host at a site
 dots(254, 46, 292, 93, 2800, 3000); dots(254, 146, 292, 100, 2900, 3100); dots(254, 158, 292, 163, 3000, 3200); dots(254, 258, 292, 233, 3100, 3300);
 enter($('ins'), 3000); ['r0', 'r1', 'r2'].forEach((id, i) => enter($(id), 3300 + i * 150));

@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -115,7 +115,7 @@
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">FINGERPRINT · FAST · 3/5</div>
+  <div class="eyebrow" id="eyebrow">FINGERPRINT · FAST · 5/7</div>
   <h1><span id="h1a">Know the screen in 11 ms</span><span class="l2" id="h1b">One fingerprint against all 27 screens in 11 ms</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
@@ -124,20 +124,20 @@
     <div class="lbl " id="lThis" style="left:0px; top:188px; width:230px"><span>This screen</span></div>
     <div class="lbl" style="left:0; top:232px; width:230px"><span class="code mono" id="code">74ae76de</span></div>
     <div class="white abs pad" id="ui" style="left:264px; top:0; width:624px; height:248px">
-      <div class="t">USER INTERFACE</div><div class="sub" style="margin-top:4px">27 screens, 27 fingerprints</div>
+      <div class="t">USER INTERFACE</div><div class="sub" style="margin-top:4px">A real app map: 27 screens, 27 fingerprints</div>
       <div class="g27" id="g27"></div>
     </div>
     <div class="abs" id="slide" style="left:0; top:232px; width:230px; display:flex; justify-content:center"><span class="code mono" style="border-color:var(--gold); box-shadow:0 6px 14px rgba(0,0,0,.15)">74ae76de</span></div>
     <div class="lbl gold" id="lCmp" style="left:264px; top:258px; width:624px"><span>Compare = count the squares that differ</span></div>
     <div class="lbl" id="lGuide" style="left:264px; top:298px; width:624px; gap:14px"><span>Guide</span><span style="color:var(--muted); font-weight:700">Closest match</span></div>
     <div class="lane" id="ln1" style="top:348px"><span class="nm">Fingerprint, all 27 screens</span><span class="tr"><i id="f1" style="background:var(--gold)"></i></span><span class="ms mono" id="ms1">0 ms</span></div>
-    <div class="lane" id="ln2" style="top:394px"><span class="nm">Saved screenshots, 27 searches</span><span class="tr"><i id="f2" style="background:#a8a29a"></i></span><span class="ms mono" id="ms2">0 ms</span></div>
+    <div class="lane" id="ln2" style="top:394px"><span class="nm">Saved pictures, 27 searches</span><span class="tr"><i id="f2" style="background:#a8a29a"></i></span><span class="ms mono" id="ms2">0 ms</span></div>
     <div class="lbl grey" id="lNote" style="left:0px; top:436px; width:888px"><span>Measured on one full-HD frame.</span></div>
 
   </div></div>
 
   <p class="caption" id="caption">The fingerprint of the frame is made once. Comparing it with all 27 screens then costs almost nothing; a screenshot is searched again for each one.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See Fingerprint <span class="arrow">→</span></div><span class="next">Next: Save it once</span></div>
+  <div class="ctarow" id="ctarow"><div class="cta">See Fingerprint <span class="arrow">→</span></div><span class="next">Next: No pictures to take or retake</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms

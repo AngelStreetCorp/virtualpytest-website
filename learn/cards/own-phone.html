@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -107,7 +107,7 @@
   .cam { position: absolute; border: 4px solid var(--gold); border-radius: 12px; }
   .scan { position: absolute; height: 4px; border-radius: 2px; background: var(--gold); box-shadow: 0 0 10px #d4a574; }
   .slot { position: absolute; display: flex; justify-content: center; font-size: 26px; font-weight: 700; white-space: nowrap; }
-  .badge { position: absolute; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; letter-spacing: 1px; color: var(--bad); white-space: nowrap; }
+  .badge { position: absolute; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; letter-spacing: 1px; color: #fff; background: #29b6f6; border-radius: 999px; padding: 4px 0; white-space: nowrap; }  /* the app's own overlay colour (ActionOverlay.kt ACCENT) */
   .badge b { font-size: 26px; }
   .chips .chip { font-size: 24px; }
 </style>
@@ -141,7 +141,7 @@
   </div></div>
 
   <p class="caption" id="caption">Install the VirtualPyTest app on your Android phone and scan the code. Over Wi-Fi, with no cable, it becomes a device like the others.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See the mobile app <span class="arrow">→</span></div><span class="next">Next: Cloud phones</span></div>
+  <div class="ctarow" id="ctarow"><div class="cta">See the mobile app <span class="arrow">→</span></div><span class="next">Next: Add phones from the cloud</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms

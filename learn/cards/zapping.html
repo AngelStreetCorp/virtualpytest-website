@@ -73,7 +73,7 @@
   .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
   body.sq .cta { font-size: 28px; padding: 18px 30px; }
   .cta .arrow { color: var(--gold); }
-  .next { font-size: 26px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
   .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
   body.sq .ctarow { margin-top: 24px; }
 
@@ -154,7 +154,7 @@
   </div></div>
 
   <p class="caption" id="caption">Press channel up: the screen goes black or freezes, then the new channel plays. Every zap is timed, with the black time, the average, the fastest and the slowest.</p>
-  <div class="ctarow" id="ctarow"><div class="cta">See zapping reports <span class="arrow">→</span></div><span class="next">Next: The report</span></div>
+  <div class="ctarow" id="ctarow"><div class="cta">See zapping reports <span class="arrow">→</span></div><span class="next">Next: Every run, proof you can check</span></div>
 </div>
 <script>
 const T = 15000;                         // loop length, ms
