@@ -157,7 +157,7 @@
     <span><b>VirtualPyTest</b><small data-t>Learn</small></span>
   </a>
   <nav class="topics" id="topics" aria-label="Topics" data-ta></nav>
-  <select class="lang" id="lang" aria-label="Language" data-ta><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option></select>
+  <select class="lang" id="lang" aria-label="Language" data-ta><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option></select>
 </header>
 <main>
   <section class="stage" id="stage" aria-label="Animation" data-ta>
@@ -208,7 +208,7 @@ const START = 1200;            // the diagram starts at 1.6 s: skip the social l
 const $ = id => document.getElementById(id);
 // languages (learn/i18n/<lang>.json, made in the product repo by learn_i18n.py): English is the source, a missing
 // string stays English. T = player text, C = a card's text (title, gold line, caption, deep dive, card drawing).
-const LANGS = ['en', 'de', 'fr'];
+const LANGS = ['en', 'de', 'fr', 'it'];
 let lang = 'en', CAT = {};
 const T = (s, v = {}) => ((CAT._player || {})[s] || s).replace(/\{(\w+)\}/g, (m, k) => (k in v ? v[k] : m));
 const C = (card, s) => (CAT[card] || {})[s] || (CAT._player || {})[s] || s;

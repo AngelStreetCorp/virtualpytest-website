@@ -70,9 +70,10 @@
       var out = tr(node.nodeValue);
       if (out !== null && out !== node.nodeValue) {
         var b = box(p);
-        if (b.__vptOver === undefined) { var k0 = room(b); b.__vptOver = k0 < 1; boxes.push(b); }   // the English text's state
+        if (b.closest('h1,.caption')) b = null;   // headline and caption: kept to their English height below
+        if (b && b.__vptOver === undefined) { var k0 = room(b); b.__vptOver = k0 < 1; boxes.push(b); }   // the English text's state
         node.nodeValue = out;
-        b.__vptDone = false;
+        if (b) b.__vptDone = false;
       }
       mine.set(node, node.nodeValue);
     }
@@ -82,9 +83,10 @@
       boxes.forEach(function (b) {
         if (b.__vptOver || b.__vptDone) return;
         if (b.__vptSize === undefined) b.__vptSize = parseFloat(view.getComputedStyle(b).fontSize);
-        b.style.fontSize = b.__vptSize + 'px';
+        var base = b.__vptSize + 'px';
+        if (b.style.fontSize !== base) b.style.fontSize = base;
         var k = room(b);
-        if (isNaN(k)) { later = true; return; }
+        if (isNaN(k)) { later = true; return; }   // not laid out yet: keep the English size until it is
         if (k < 1) b.style.fontSize = (b.__vptSize * Math.max(0.7, k * 0.98)) + 'px';
         b.__vptDone = true;
       });
