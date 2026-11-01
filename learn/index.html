@@ -115,11 +115,19 @@
   .foot .done .arr { margin-left: auto; }
   .foot button:disabled { opacity: .35; cursor: default; }
 
-  /* desktop: the page is the window; a long panel (a deep dive's chapters) scrolls inside itself */
+  /* desktop: header, stage and panel are one centred 1240 px block, so the eye stays in one place;
+     a long panel (a deep dive's chapters) scrolls inside itself */
   @media (min-width: 901px) {
-    body { height: 100vh; height: 100dvh; }
+    body { height: 100vh; height: 100dvh; justify-content: center; }
+    header { width: 100%; max-width: 1240px; margin: 0 auto; border-bottom: 0; padding: 18px 24px 4px; }
+    main { flex: 0 1 auto; width: 100%; max-width: 1240px; margin: 0 auto; grid-template-columns: minmax(0, 1fr) 460px; padding: 16px 24px 32px; }
     main, aside.panel { min-height: 0; }
-    aside.panel { overflow: hidden; }
+    .stage { padding: 20px 0 72px; }
+    aside.panel { overflow: hidden; max-height: calc(100dvh - 120px); }
+    .panel .body { padding: 28px 30px 18px; }
+    .panel h1 { font-size: 26px; letter-spacing: -0.6px; }
+    .panel .l2 { font-size: 19px; }
+    .panel p.text { font-size: 15.5px; line-height: 1.55; }
   }
   /* phone: stage on top, the text under it, the step buttons pinned at the bottom */
   @media (max-width: 900px) {
