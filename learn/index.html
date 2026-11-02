@@ -6,168 +6,199 @@
 <title>Learn VirtualPyTest</title>
 <meta name="description" content="Learn VirtualPyTest step by step: short animated lessons on controlling devices, mapping your app, checking screens, testing and monitoring.">
 <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+<meta name="darkreader-lock">
+<script>try{var s=localStorage.getItem('virtualpytest:theme');if(s==='light'||s==='dark')document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+<style>/* the site navbar and device strip: the same rules as the home page (index.html) */
+.topbar.navwrap{display:block;padding:0;pointer-events:auto;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.bar{display:flex;align-items:center;gap:32px;min-height:72px;}
+.bar .brand{font-size:18px;line-height:28px;}
+.bar .brand img{width:32px;height:32px;}
+.bar .links{gap:4px;}
+.bar .links a,.linkbtn{font:500 15px/20px Geist,system-ui,sans-serif;color:var(--text-2);text-decoration:none;padding:8px 12px;border-radius:8px;background:none;border:0;cursor:pointer;white-space:nowrap;}
+.bar .links a:hover,.linkbtn:hover{color:var(--text);background:var(--hover);}
+.bar .utils{margin-left:auto;gap:8px;}
+.ctl{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;min-width:40px;padding:0 12px;border-radius:8px;border:1px solid var(--border-strong);background:transparent;color:var(--text);font:600 14px/20px Geist,system-ui,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .4s var(--fluid);}
+.ctl:hover{background:var(--hover);}
+.ctl.theme-btn{padding:0;width:40px;}
+.ctl .ico-s{color:var(--text-2);}
+.ctl.star .ico-s{color:var(--accent-text);}
+.bar .nav-cta{height:40px;border-radius:8px;}
+.devstrip{border-bottom:1px solid var(--border);background:var(--surface);}
+.devstrip .wrap{display:flex;align-items:center;gap:24px;min-height:48px;overflow-x:auto;scrollbar-width:none;}
+.devstrip .dl{font:500 12px/16px "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);white-space:nowrap;}
+.devstrip ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;}
+.devstrip li{display:inline-flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:var(--text);white-space:nowrap;}
+.devstrip li .ico-s{color:var(--accent-text);}
+@media (max-width:1100px){.ctl.star{display:none;}}
+@media (max-width:960px){.bar .links{display:none;}.bar{gap:16px;}}
+@media (max-width:480px){.bar{gap:8px;}.bar .brand{font-size:16px;line-height:24px;gap:8px;}.bar .nav-cta{display:none;}}
+@media (max-width:340px){.bar .brand span{display:none;}}
+@media (max-width:720px){.devstrip .dl{display:none;}.devstrip ul{gap:16px;}}
+</style>
+<!-- site.js loads its nav catalog from 'locales.json', relative to the page: here it is one folder up -->
+<script>{ const f = window.fetch; window.fetch = (u, o) => f(u === 'locales.json' ? '../locales.json' : u, o); }</script>
 <!-- The Learn player. Each step is a concept card (cards/<name>.html, made in the product repo under
      scripts/promo/concepts/, copied here by publish_learn.sh) shown in its ?f=embed view: the diagram only.
      Cards are same-origin, so the player drives their Web Animations directly: play, pause, slow, replay, and it
      holds the last frame instead of looping. Topics and steps are the TOPICS data below. -->
 <style>
-  @font-face { font-family: Inter; font-weight: 400; src: url('fonts/Inter-Regular.ttf'); font-display: swap; }
-  @font-face { font-family: Inter; font-weight: 700; src: url('fonts/Inter-Bold.ttf'); font-display: swap; }
-  :root {
-    --bg: #f2f0ec; --panel: #ffffff; --stage: #e9e5de; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a;
-    --muted: #6e6e6e; --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --onDark: #ffffff; --ok: #16a34a;
+  /* the player's own tokens; the page, panel, lines and text follow the site's (light / dark toggle included) */
+  .lx {
+    --panel: var(--surface); --line: var(--border); --ink: var(--text); --ink2: var(--text-2); --muted: var(--text-3);
+    --stage: #e9e5de; --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --onDark: #ffffff; --ok: #16a34a;
     --chipOn: #1a1a1a; --chipOnInk: #ffffff;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #141312; --panel: #1d1c1a; --stage: #262421; --line: #34312c; --ink: #f1ede6; --ink2: #cfc9bf;
-      --muted: #9a948a; --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312;
-    }
+    :root:not([data-theme="light"]) .lx { --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312; }
   }
-  :root[data-theme="dark"] {
-    --bg: #141312; --panel: #1d1c1a; --stage: #262421; --line: #34312c; --ink: #f1ede6; --ink2: #cfc9bf;
-    --muted: #9a948a; --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); color: var(--ink); }
-  body { font-family: Inter, system-ui, -apple-system, sans-serif; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
-  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-  [hidden] { display: none !important; }
-  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 8px; }
+  :root[data-theme="dark"] .lx { --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312; }
+  .lx { color: var(--ink); line-height: normal; }
+  .lx * { margin: 0; padding: 0; }
+  .lx button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .lx [hidden] { display: none !important; }
+  .lx :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 8px; }
 
-  /* top bar: brand + the topics */
-  header { display: flex; align-items: center; gap: 20px; padding: 14px 24px; border-bottom: 1px solid var(--line); }
-  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; flex-shrink: 0; }
-  .brand .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--gold); display: grid; place-items: center; }
-  .brand b { font-size: 17px; letter-spacing: -0.3px; }
-  .brand small { font-size: 15px; color: var(--muted); margin-left: 6px; }   /* "VirtualPyTest Learn" on one line */
-  nav.topics { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
-  nav.topics::-webkit-scrollbar { display: none; }
-  nav.topics button { flex-shrink: 0; padding: 8px 12px; border-radius: 999px; font-size: 14px; color: var(--ink2); white-space: nowrap; border: 1px solid transparent; }
-  nav.topics button:hover { border-color: var(--line); }
-  nav.topics button[aria-current="true"] { background: var(--chipOn); color: var(--chipOnInk); font-weight: 700; }
-  nav.topics button .n { opacity: .6; margin-right: 6px; }
-  nav.topics button .soon { font-size: 11px; opacity: .75; margin-left: 6px; }
-  /* language: EN / DE / FR / IT, shared with the site (localStorage virtualpytest:language), ?lang= wins */
-  .lang { flex-shrink: 0; height: 36px; padding: 0 30px 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center; color: var(--ink); font: inherit; font-size: 14px; font-weight: 700; appearance: none; -webkit-appearance: none; cursor: pointer; }
+  /* Learn bar: the title + the topics */
+  .lx .lhead { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px; padding: 28px 24px 0; }
+  .lx .ltitle { flex-shrink: 0; font-size: 28px; line-height: 1.1; font-weight: 600; letter-spacing: -0.5px; }
+  .lx nav.topics { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+  .lx nav.topics::-webkit-scrollbar { display: none; }
+  .lx nav.topics button { flex-shrink: 0; padding: 8px 12px; border-radius: 999px; font-size: 14px; color: var(--ink2); white-space: nowrap; border: 1px solid transparent; }
+  .lx nav.topics button:hover { border-color: var(--line); }
+  .lx nav.topics button[aria-current="true"] { background: var(--chipOn); color: var(--chipOnInk); font-weight: 700; }
+  .lx nav.topics button .n { opacity: .6; margin-right: 6px; }
+  .lx nav.topics button .soon { font-size: 11px; opacity: .75; margin-left: 6px; }
 
   /* body: stage + side panel */
-  main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 20px 24px 24px; min-height: 0; }
+  .lx .lmain { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 20px 24px 24px; min-height: 0; }
   /* the stage is always the cards' own light background, also in dark mode: the cards are light */
-  .stage { position: relative; background: #f2f0ec; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 24px 0 76px; }
-  .stage .fit { position: relative; width: 100%; }
-  .stage iframe { position: absolute; left: 0; top: 0; width: 1080px; height: 600px; border: 0; transform-origin: 0 0; }
-  .controls { position: absolute; left: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 2; }
-  .controls button { height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #d9d4cc; background: #fff; color: #141414; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
-  .controls button[aria-pressed="true"] { background: var(--chipOn); color: var(--chipOnInk); border-color: var(--chipOn); }
-  .controls button.pulse { animation: pulse 1.6s ease-in-out infinite; }
+  .lx .stage { position: relative; background: #f2f0ec; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 24px 0 76px; }
+  .lx .stage .fit { position: relative; width: 100%; }
+  .lx .stage iframe { position: absolute; left: 0; top: 0; width: 1080px; height: 600px; border: 0; transform-origin: 0 0; }
+  .lx .controls { position: absolute; left: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 2; }
+  .lx .controls button { height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #d9d4cc; background: #fff; color: #141414; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
+  .lx .controls button[aria-pressed="true"] { background: var(--chipOn); color: var(--chipOnInk); border-color: var(--chipOn); }
+  .lx .controls button.pulse { animation: pulse 1.6s ease-in-out infinite; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(212,165,116,.4); } }
-  .soonbox { padding: 24px 32px; color: #4a4a4a; max-width: 520px; }
-  .soonbox h2 { font-size: 26px; color: #141414; }
-  .soonbox p { margin-top: 6px; color: var(--muted); }
-  .soonbox ol { margin: 18px 0 0 22px; line-height: 1.9; font-size: 16px; }
+  .lx .soonbox { padding: 24px 32px; color: #4a4a4a; max-width: 520px; }
+  .lx .soonbox h2 { font-size: 26px; color: #141414; }
+  .lx .soonbox p { margin-top: 6px; color: var(--muted); }
+  .lx .soonbox ol { margin: 18px 0 0 22px; line-height: 1.9; font-size: 16px; }
 
-  aside.panel { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; display: flex; flex-direction: column; min-height: 0; }
-  .panel .body { padding: 26px 26px 18px; overflow-y: auto; flex: 1; }
-  .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
-  .panel h1 { margin-top: 12px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
-  .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
-  .panel p.text .lead { display: none; }   /* phone only: the gold line opens the paragraph */
-  .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
-  .panel p.note { margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--muted); padding-left: 10px; border-left: 3px solid var(--line); }
+  .lx aside.panel { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; display: flex; flex-direction: column; min-height: 0; }
+  .lx .panel .body { padding: 26px 26px 18px; overflow-y: auto; flex: 1; }
+  .lx .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
+  .lx .panel h1 { margin-top: 12px; font-size: 30px; line-height: 1.12; letter-spacing: -0.8px; }
+  .lx .panel .l2 { margin-top: 8px; font-family: Georgia, 'DejaVu Serif', serif; color: var(--goldText); font-size: 22px; line-height: 1.25; }
+  .lx .panel p.text .lead { display: none; }   /* phone only: the gold line opens the paragraph */
+  .lx .panel p.text { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--ink2); }
+  .lx .panel p.note { margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--muted); padding-left: 10px; border-left: 3px solid var(--line); }
   /* "Go deeper": a lesson's optional deep dive (a longer card in chapters, not a step) */
-  .deepb { margin-top: 18px; width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; text-align: left; }
-  .deepb:hover { border-color: var(--gold); }
-  .deepb small { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--goldText); }
-  .deepb b { display: block; margin-top: 2px; font-size: 16px; }
-  .deepb .arr { margin-left: auto; font-size: 20px; color: var(--goldText); }
-  .badge { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 3px 9px; border-radius: 999px; background: var(--gold); color: #141414; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
-  .chapters { margin-top: 16px; list-style: none; display: flex; flex-direction: column; gap: 2px; }
-  .chapters button { width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border-left: 3px solid transparent; display: block; }
-  .chapters button:hover { background: var(--bg); }
-  .chapters h4 { font-size: 15px; display: flex; gap: 10px; }
-  .chapters h4 .k { color: var(--muted); font-variant-numeric: tabular-nums; }
-  .chapters p { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
-  .chapters li[aria-current="true"] button { background: var(--bg); border-left-color: var(--gold); }
-  .chapters li[aria-current="true"] h4 .k { color: var(--goldText); }
-  .chapters li[aria-current="true"] p { color: var(--ink2); }
-  .panel h3 { margin-top: 24px; font-size: 14px; color: var(--muted); font-weight: 700; }
+  .lx .deepb { margin-top: 18px; width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; text-align: left; }
+  .lx .deepb:hover { border-color: var(--gold); }
+  .lx .deepb small { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--goldText); }
+  .lx .deepb b { display: block; margin-top: 2px; font-size: 16px; }
+  .lx .deepb .arr { margin-left: auto; font-size: 20px; color: var(--goldText); }
+  .lx .badge { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 3px 9px; border-radius: 999px; background: var(--gold); color: #141414; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
+  .lx .chapters { margin-top: 16px; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .lx .chapters button { width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border-left: 3px solid transparent; display: block; }
+  .lx .chapters button:hover { background: var(--bg); }
+  .lx .chapters h4 { font-size: 15px; display: flex; gap: 10px; }
+  .lx .chapters h4 .k { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .lx .chapters p { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .lx .chapters li[aria-current="true"] button { background: var(--bg); border-left-color: var(--gold); }
+  .lx .chapters li[aria-current="true"] h4 .k { color: var(--goldText); }
+  .lx .chapters li[aria-current="true"] p { color: var(--ink2); }
+  .lx .panel h3 { margin-top: 24px; font-size: 14px; color: var(--muted); font-weight: 700; }
   /* the topic's steps, numbered 1..N, at the top of the panel: they also say "step n of N" */
-  .stepsrow { display: flex; align-items: center; gap: 8px; }
-  .steps { display: flex; gap: 6px; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
-  .steps::-webkit-scrollbar { display: none; }
-  .steps button { flex-shrink: 0; min-width: 36px; height: 34px; padding: 0 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
-  .stepsrow .lbl { flex-shrink: 0; font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
-  .steps button.done { color: var(--ok); }
-  .steps button[aria-current="true"] { background: var(--chipOn); border-color: var(--chipOn); color: var(--chipOnInk); }
-  .pn { margin-top: 10px; display: flex; gap: 10px; font-size: 14px; color: var(--muted); }
-  .pn button { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; padding: 6px 0; color: var(--muted); }
-  .pn button:last-child { text-align: right; }
-  .pn button b { color: var(--ink2); }
-  .pn button:disabled { opacity: .35; cursor: default; }
-  .keys { margin-top: 18px; font-size: 13px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
-  .keys kbd { font: inherit; font-weight: 700; color: var(--ink2); }
-  .keys i { font-style: normal; }
-  .foot { display: flex; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
-  .foot .back { height: 52px; padding: 0 20px; gap: 8px; border-radius: 999px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; flex-shrink: 0; }
-  .foot .done { flex: 1; height: 52px; border-radius: 999px; background: var(--dark); color: var(--onDark); display: flex; align-items: center; gap: 12px; padding: 0 18px; font-size: 17px; font-weight: 700; }
-  .foot .done .tick { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; }
-  .foot .done .arr { margin-left: auto; }
-  .foot button:disabled { opacity: .35; cursor: default; }
+  .lx .stepsrow { display: flex; align-items: center; gap: 8px; }
+  .lx .steps { display: flex; gap: 6px; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+  .lx .steps::-webkit-scrollbar { display: none; }
+  .lx .steps button { flex-shrink: 0; min-width: 36px; height: 34px; padding: 0 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
+  .lx .stepsrow .lbl { flex-shrink: 0; font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
+  .lx .steps button.done { color: var(--ok); }
+  .lx .steps button[aria-current="true"] { background: var(--chipOn); border-color: var(--chipOn); color: var(--chipOnInk); }
+  .lx .pn { margin-top: 10px; display: flex; gap: 10px; font-size: 14px; color: var(--muted); }
+  .lx .pn button { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; padding: 6px 0; color: var(--muted); }
+  .lx .pn button:last-child { text-align: right; }
+  .lx .pn button b { color: var(--ink2); }
+  .lx .pn button:disabled { opacity: .35; cursor: default; }
+  .lx .keys { margin-top: 18px; font-size: 13px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  .lx .keys kbd { font: inherit; font-weight: 700; color: var(--ink2); }
+  .lx .keys i { font-style: normal; }
+  .lx .pfoot { display: flex; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
+  .lx .pfoot .back { height: 52px; padding: 0 20px; gap: 8px; border-radius: 999px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; flex-shrink: 0; }
+  .lx .pfoot .done { flex: 1; height: 52px; border-radius: 999px; background: var(--dark); color: var(--onDark); display: flex; align-items: center; gap: 12px; padding: 0 18px; font-size: 17px; font-weight: 700; }
+  .lx .pfoot .done .tick { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; }
+  .lx .pfoot .done .arr { margin-left: auto; }
+  .lx .pfoot button:disabled { opacity: .35; cursor: default; }
 
-  /* desktop: header, stage and panel are one centred 1240 px block, so the eye stays in one place;
-     a long panel (a deep dive's chapters) scrolls inside itself */
+  /* desktop: one block as wide as the site's content, with a fixed height so it never jumps between steps;
+     the card is at most 640 px wide (its text about the panel's size), a long panel scrolls inside itself */
   @media (min-width: 901px) {
-    body { height: 100vh; height: 100dvh; justify-content: center; }
-    header { width: 100%; max-width: 1240px; margin: 0 auto; border-bottom: 0; padding: 18px 24px 4px; }
-    main { flex: 0 1 auto; width: 100%; max-width: 1240px; margin: 0 auto; grid-template-columns: minmax(0, 1fr) 460px; padding: 16px 24px 32px; }
-    main, aside.panel { min-height: 0; }
-    .stage { padding: 20px 0 72px; }
-    aside.panel { overflow: hidden; max-height: calc(100dvh - 120px); }
-    .panel .body { padding: 28px 30px 18px; }
-    .panel h1 { font-size: 26px; letter-spacing: -0.6px; }
-    .panel .l2 { font-size: 19px; }
-    .panel p.text { font-size: 15.5px; line-height: 1.55; }
+    .lx .lmain { max-width: 1200px; margin: 0 auto; height: 540px; grid-template-columns: minmax(0, 1fr) 440px; padding: 16px 24px 0; box-sizing: content-box; }
+    .lx .stage { padding: 0 0 64px; }
+    .lx .stage .fit { max-width: 640px; }
+    .lx aside.panel { overflow: hidden; }
+    .lx .panel .body { padding: 24px 26px 16px; }
+    .lx .panel h1 { font-size: 26px; letter-spacing: -0.6px; }
+    .lx .panel .l2 { font-size: 19px; }
+    .lx .panel p.text { font-size: 15.5px; line-height: 1.55; }
   }
   /* phone: stage on top, the text under it, the step buttons pinned at the bottom */
   @media (max-width: 900px) {
-    .pn { display: none; }   /* phone: the Prev / Next buttons below already say it */
-    header { padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
-    nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
-    .lang { margin-left: auto; height: 32px; }
-    main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
-    .stage { min-height: 0; border-radius: 16px; padding: 4px 0 48px; }
-    .controls { left: 10px; bottom: 8px; }
-    .controls button { height: 36px; min-width: 40px; }
-    aside.panel { border: 0; background: transparent; border-radius: 0; }
-    .panel .body { padding: 0 0 16px; overflow: visible; }
-    .panel h1 { font-size: min(26px, calc((100vw - 32px) / 15.8)); }   /* the longest title (33 chars) stays on one line: 22 px at 390 */
-    .panel .l2 { margin-top: 6px; font-size: 19px; }
-    .panel p.text { margin-top: 10px; font-size: 15.5px; line-height: 1.45; }
+    .lx .pn { display: none; }   /* phone: the Prev / Next buttons below already say it */
+    .lx .lhead { padding: 20px 16px 0; gap: 10px; flex-wrap: wrap; }
+    .lx .ltitle { font-size: 24px; }
+    .lx nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
+    .lx .lmain { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
+    .lx .stage { min-height: 0; border-radius: 16px; padding: 4px 0 48px; }
+    .lx .controls { left: 10px; bottom: 8px; }
+    .lx .controls button { height: 36px; min-width: 40px; }
+    .lx aside.panel { border: 0; background: transparent; border-radius: 0; }
+    .lx .panel .body { padding: 0 0 16px; overflow: visible; }
+    .lx .panel h1 { font-size: min(26px, calc((100vw - 32px) / 15.8)); }   /* the longest title (33 chars) stays on one line: 22 px at 390 */
+    .lx .panel .l2 { margin-top: 6px; font-size: 19px; }
+    .lx .panel p.text { margin-top: 10px; font-size: 15.5px; line-height: 1.45; }
     /* a lesson's gold line runs into its text, one paragraph, to save height */
-    .panel .l2.inl { display: none; }
-    .panel p.text .lead { display: inline; color: var(--goldText); font-weight: 700; }
-    .deepb { margin-top: 12px; padding: 9px 14px; }
-    .steps { gap: 5px; }
-    .steps button { min-width: 32px; height: 32px; padding: 0 6px; }   /* 8 steps fit on a 390 px phone */
-    .stepsrow { gap: 6px; }
-    .stepsrow .lbl { font-size: 11.5px; letter-spacing: .3px; }   /* "SCHRITT" + 8 steps still fit at 390 px */
-    .foot .back, .foot .done { height: 48px; }
-    .keys { display: none; }
-    .foot { position: sticky; bottom: 0; margin: 0 -16px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); }
+    .lx .panel .l2.inl { display: none; }
+    .lx .panel p.text .lead { display: inline; color: var(--goldText); font-weight: 700; }
+    .lx .deepb { margin-top: 12px; padding: 9px 14px; }
+    .lx .steps { gap: 5px; }
+    .lx .steps button { min-width: 32px; height: 32px; padding: 0 6px; }   /* 8 steps fit on a 390 px phone */
+    .lx .stepsrow { gap: 6px; }
+    .lx .stepsrow .lbl { font-size: 11.5px; letter-spacing: .3px; }   /* "SCHRITT" + 8 steps still fit at 390 px */
+    .lx .pfoot .back, .lx .pfoot .done { height: 48px; }
+    .lx .keys { display: none; }
+    .ask-fab { display: none !important; }   /* it would cover Next; Ask AI stays in the menu */
+    .lx .pfoot { position: sticky; bottom: 0; margin: 0 -16px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); }
   }
 </style>
 </head>
 <body>
-<header>
-  <a class="brand" href="../">
-    <span class="mark"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>
-    <span><b>VirtualPyTest</b><small data-t>Learn</small></span>
-  </a>
+<a class="skip" href="#main">Skip to content</a>
+<header class="navwrap topbar"><nav class="bar wrap" aria-label="Main">
+<a class="brand" href="../#top"><img src="../images/logo.png" alt="" width="32" height="32"><span class="no-i18n">VirtualPyTest</span></a>
+<div class="links"><a href="../#features">Features</a><a href="../#how">How it works</a><a href="./" class="cur">Learn</a><a href="../#pricing">Pricing</a><a href="../#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a><button type="button" class="linkbtn" data-ask-open>Ask AI</button></div>
+<div class="utils">
+<button class="ctl theme-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg class="ico sun" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="128" cy="128" r="48"/><path d="M128 24v20M128 212v20M24 128h20M212 128h20M54 54l14 14M188 188l14 14M54 202l14-14M188 68l14-14"/></svg><svg class="ico moon" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M216 152A88 88 0 0 1 104 40a88 88 0 1 0 112 112z"/></svg></button>
+<div class="lang"><button class="ctl lang-btn" id="language-select" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu" aria-label="Language"><span data-language-code class="no-i18n">EN</span><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M72 104l56 56 56-56"/></svg></button>
+<ul class="lang-menu" id="language-menu" role="listbox" hidden><li><button type="button" role="option" data-locale="en" aria-selected="false" class="no-i18n"><span>English</span><small>EN</small></button></li><li><button type="button" role="option" data-locale="de" aria-selected="false" class="no-i18n"><span>Deutsch</span><small>DE</small></button></li><li><button type="button" role="option" data-locale="fr" aria-selected="false" class="no-i18n"><span>Français</span><small>FR</small></button></li><li><button type="button" role="option" data-locale="it" aria-selected="false" class="no-i18n"><span>Italiano</span><small>IT</small></button></li></ul></div>
+<a class="ctl star" href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 24l31 64 70 10-51 49 12 70-62-33-62 33 12-70-51-49 70-10z"/></svg><span>Star on GitHub</span></a>
+<a class="btn btn-p btn-sm nav-cta" href="https://virtualpytest.angelstreet.io/">Try it live</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="sheet"><i></i><i></i></button>
+</div></nav></header>
+<div class="sheet" id="sheet" aria-hidden="true"><a href="../#features">Features</a><a href="../#how">How it works</a><a href="./" class="cur">Learn</a><a href="../#pricing">Pricing</a><a href="../#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a><a href="#" data-ask-open>Ask AI</a><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live</a></div>
+<div class="devstrip"><div class="wrap"><span class="dl">Tests &amp; monitors</span><ul><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="32" y="48" width="192" height="128" rx="16"/><path d="M96 216h64M128 176v40"/></svg><span>Web</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="72" y="24" width="112" height="208" rx="16"/><path d="M112 200h32"/></svg><span>Mobile</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="48" y="32" width="160" height="192" rx="16"/><path d="M112 196h32"/></svg><span>Tablet</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="24" y="48" width="208" height="136" rx="12"/><path d="M96 216h64"/></svg><span>Android TV</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="24" y="96" width="208" height="72" rx="10"/><circle cx="64" cy="132" r="8"/><path d="M120 132h72"/></svg><span>Set top box</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="32" y="48" width="192" height="128" rx="16"/><path d="M96 216h64M128 176v40"/></svg><span>PC</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M72 80h112a48 48 0 0 1 46 62l-14 48a24 24 0 0 1-40 8l-26-26h-44l-26 26a24 24 0 0 1-40-8l-14-48a48 48 0 0 1 46-62z"/><path d="M80 128h40M100 108v40"/><circle cx="164" cy="116" r="6"/><circle cx="184" cy="140" r="6"/></svg><span>Console</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="64" cy="64" r="28"/><circle cx="192" cy="64" r="28"/><circle cx="64" cy="192" r="28"/><circle cx="192" cy="192" r="28"/><rect x="104" y="104" width="48" height="48" rx="8"/><path d="M84 84l20 20M172 84l-20 20M84 172l20-20M172 172l-20-20"/></svg><span>Drone</span></li><li><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="128" cy="128" r="16"/><path d="M88 88a56 56 0 0 0 0 80M168 88a56 56 0 0 1 0 80M56 56a102 102 0 0 0 0 144M200 56a102 102 0 0 1 0 144"/></svg><span>Stream</span></li></ul></div></div>
+<main id="main" class="lx no-i18n">
+<div class="lhead">
+  <h2 class="ltitle" data-t>Learn</h2>
   <nav class="topics" id="topics" aria-label="Topics" data-ta></nav>
-  <select class="lang" id="lang" aria-label="Language" data-ta><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option></select>
-</header>
-<main>
+</div>
+<div class="lmain">
   <section class="stage" id="stage" aria-label="Animation" data-ta>
     <div class="fit" id="fit"><iframe id="card" title="Animated lesson" scrolling="no"></iframe></div>
     <div class="soonbox" id="soon" hidden></div>
@@ -190,12 +221,30 @@
       <div class="pn" id="pnRow"><button id="prevB"></button><button id="nextB"></button></div>
       <div class="keys"><span><kbd>←</kbd> <kbd>→</kbd> <i data-t>to move</i></span><span><kbd>R</kbd> <i data-t>to replay</i></span><span><kbd data-t>Space</kbd> <i data-t>to pause</i></span></div>
     </div>
-    <div class="foot">
+    <div class="pfoot">
       <button class="back" id="bBack" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Prev</span></button>
       <button class="done" id="bNext"><span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#141414" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="nextLbl">Next</span><span class="arr" aria-hidden="true">→</span></button>
     </div>
   </aside>
+</div>
 </main>
+<footer class="foot"><div class="wrap"><div class="cols">
+<div><a class="brand" href="../#top"><img src="../images/logo.png" alt="" width="28" height="28"><span class="no-i18n">VirtualPyTest</span></a></div>
+<div><h4>Product</h4><ul><li><a href="../#features">Features</a></li><li><a href="../#pricing">Pricing</a></li><li><a href="../#faq">FAQ</a></li><li><a href="./" class="cur">Learn</a></li><li><a href="https://virtualpytest.angelstreet.io/">Try it live</a></li></ul></div>
+<div><h4>Project</h4><ul><li><a href="https://github.com/AngelStreetCorp/virtualpytest">GitHub</a></li><li><a href="https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs">Documentation</a></li><li><a href="mailto:contact@virtualpytest.com">Contact</a></li></ul></div>
+<div><h4>Resources</h4><ul><li><a href="https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf">Overview (PDF)</a></li><li><a href="https://virtualpytest.com/docs/VirtualPyTest-Features.pdf">Features (PDF)</a></li><li><a href="https://www.youtube.com/playlist?list=PLT2zmwBUsZgk" target="_blank" rel="noopener">Videos (YouTube)</a></li></ul></div>
+</div><div class="legal"><span>© 2026 VirtualPyTest — AGPLv3</span><nav aria-label="Legal"><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></nav></div></div></footer>
+<button class="ask-fab" type="button" data-ask-open aria-haspopup="dialog" aria-controls="ask-panel"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32l18 58 58 18-58 18-18 58-18-58-58-18 58-18z"/><path d="M204 168l7 21 21 7-21 7-7 21-7-21-21-7 21-7z"/></svg><span>Ask AI</span></button>
+<div class="ask-panel" id="ask-panel" data-api="https://api.virtualpytest.com" role="dialog" aria-label="Ask about VirtualPyTest">
+<div class="ask-head"><span><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32l18 58 58 18-58 18-18 58-18-58-58-18 58-18z"/><path d="M204 168l7 21 21 7-21 7-7 21-7-21-21-7 21-7z"/></svg><span>Ask about VirtualPyTest</span></span><div class="ask-head-actions">
+<button class="iconbtn ask-clear" type="button" data-ask-clear aria-label="Clear conversation" title="Clear conversation" hidden><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 64h176M104 112v64M152 112v64M56 64l12 144a16 16 0 0 0 16 16h88a16 16 0 0 0 16-16l12-144M96 64V40h64v24"/></svg></button>
+<button class="iconbtn ask-expand" type="button" data-ask-expand aria-label="Expand" title="Expand"><svg class="ico-s ico-grow" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M152 40h64v64M104 216H40v-64M216 40l-72 72M40 216l72-72"/></svg><svg class="ico-s ico-shrink" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 152h56v56M208 104h-56V48M152 104l64-64M40 216l64-64"/></svg></button>
+<button class="iconbtn" type="button" data-ask-close aria-label="Close" title="Close"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"/></svg></button></div></div>
+<div class="ask-history" id="ask-history" hidden><button class="ask-history-toggle" type="button" id="ask-history-toggle" aria-expanded="false" aria-controls="ask-history-body"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M96 48l80 80-80 80"/></svg><span id="ask-history-label" class="no-i18n">Previous questions</span></button><div class="ask-history-body" id="ask-history-body"></div></div>
+<div class="ask-log" id="ask-log" aria-live="polite"></div>
+<div class="ask-chips"><button class="ask-chip" type="button" data-ask-chip>Does it work with IR remotes?</button><button class="ask-chip" type="button" data-ask-chip>How is it priced?</button><button class="ask-chip" type="button" data-ask-chip>Which devices are supported?</button></div>
+<form class="ask-form" id="ask-form"><input type="text" id="ask-input" maxlength="500" placeholder="Ask a question about the platform" autocomplete="off" aria-label="Ask a question about the platform"><button type="submit" id="ask-send" aria-label="Send"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 208V48M64 112l64-64 64 64"/></svg></button></form>
+</div>
 <script src="learn_i18n.js"></script>
 <script>
 // Topics of the course (scripts/promo/concepts/LEARN_TREE.md in the product repo). `cards` = published steps;
@@ -234,7 +283,7 @@ async function setLang(l, save) {
     const u = new URL(location.href); if (lang === 'en') u.searchParams.delete('lang'); else u.searchParams.set('lang', lang);
     history.replaceState(null, '', u);
   }
-  document.documentElement.lang = lang; $('lang').value = lang;
+  document.documentElement.lang = lang; showCode();
   document.title = T('Learn VirtualPyTest');
   document.querySelector('meta[name=description]').content = T(DESC);
   document.querySelectorAll('[data-t]').forEach(e => { e.dataset.t ||= e.textContent; e.textContent = T(e.dataset.t); });
@@ -416,7 +465,7 @@ $('bBack').onclick = () => {
   const pv = prevOf(); if (pv) go(...pv);
 };
 document.addEventListener('keydown', e => {
-  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input, textarea, select, .ask-panel')) return;
   if (e.key === 'ArrowRight') $('bNext').click();
   else if (e.key === 'ArrowLeft') $('bBack').click();
   else if (e.key === 'r' || e.key === 'R') replay();
@@ -430,8 +479,23 @@ function fromHash() {
   if (t0 !== topic || n !== step || d !== deep || !frame.src) go(t0 || TOPICS[0], n, d);
 }
 window.addEventListener('hashchange', fromHash);
-$('lang').onchange = e => setLang(e.target.value, true).then(() => go(topic, step, deep));
+// the language: the site navbar's menu (EN DE FR IT here). The site's own script translates the navbar for EN, DE, FR;
+// IT is the player's only, so that click stops here and the navbar stays in English
+const SITE_LANGS = ['en', 'de', 'fr'];
+function showCode() {
+  const c = document.querySelector('#language-select [data-language-code]'); if (c) c.textContent = lang.toUpperCase();
+  document.querySelectorAll('#language-menu [data-locale]').forEach(o => o.setAttribute('aria-selected', o.dataset.locale === lang));
+}
+(window.vptLocaleHooks = window.vptLocaleHooks || []).push(showCode);
+document.getElementById('language-menu')?.addEventListener('click', e => {
+  const o = e.target.closest('[data-locale]'); if (!o) return;
+  setLang(o.dataset.locale, true).then(() => go(topic, step, deep));
+  if (!SITE_LANGS.includes(o.dataset.locale)) {
+    e.stopPropagation(); $('language-menu').hidden = true; $('language-select').setAttribute('aria-expanded', 'false');
+  }
+}, true);
 setLang(pickLang(), false).then(fromHash);
 </script>
+<script src="../site.js"></script>
 </body>
 </html>
