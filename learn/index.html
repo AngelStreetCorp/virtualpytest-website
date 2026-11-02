@@ -49,12 +49,12 @@
   .lx {
     --panel: var(--surface); --line: var(--border); --ink: var(--text); --ink2: var(--text-2); --muted: var(--text-3);
     --stage: #e9e5de; --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --onDark: #ffffff; --ok: #16a34a;
-    --chipOn: #1a1a1a; --chipOnInk: #ffffff;
+    --chipOn: #1a1a1a; --chipOnInk: #ffffff; --stageBg: #f2f0ec; --ctl: #ffffff; --ctlInk: #141414; --ctlLine: #d9d4cc;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .lx { --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312; }
+    :root:not([data-theme="light"]) .lx { --stageBg: var(--surface); --ctl: var(--surface-2); --ctlInk: var(--text); --ctlLine: var(--border-strong); --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312; }
   }
-  :root[data-theme="dark"] .lx { --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312; }
+  :root[data-theme="dark"] .lx { --stageBg: var(--surface); --ctl: var(--surface-2); --ctlInk: var(--text); --ctlLine: var(--border-strong); --goldText: #e0b183; --dark: #f1ede6; --onDark: #141312; --chipOn: #d4a574; --chipOnInk: #141312; }
   .lx { color: var(--ink); line-height: normal; }
   .lx * { margin: 0; padding: 0; }
   .lx button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
@@ -74,12 +74,12 @@
 
   /* body: stage + side panel */
   .lx .lmain { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; padding: 20px 24px 24px; min-height: 0; }
-  /* the stage is always the cards' own light background, also in dark mode: the cards are light */
-  .lx .stage { position: relative; background: #f2f0ec; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 24px 0 76px; }
+  /* the stage is the card's own background: light, or the site's surface in dark mode (the player gives the card dark colours) */
+  .lx .stage { position: relative; background: var(--stageBg); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 24px 0 76px; }
   .lx .stage .fit { position: relative; width: 100%; }
   .lx .stage iframe { position: absolute; left: 0; top: 0; width: 1080px; height: 600px; border: 0; transform-origin: 0 0; }
   .lx .controls { position: absolute; left: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 2; }
-  .lx .controls button { height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #d9d4cc; background: #fff; color: #141414; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
+  .lx .controls button { height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ctlLine); background: var(--ctl); color: var(--ctlInk); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
   .lx .controls button[aria-pressed="true"] { background: var(--chipOn); color: var(--chipOnInk); border-color: var(--chipOn); }
   .lx .controls button.pulse { animation: pulse 1.6s ease-in-out infinite; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(212,165,116,.4); } }
@@ -419,6 +419,40 @@ function setNext() {
 
 // the card: a same-origin iframe in its embed view (1080 x 600), scaled to the stage width
 const frame = $('card');
+// the cards are drawn light; in the site's dark theme the player darkens the card (same origin): its colour tokens,
+// then every light fill (background, border, outline) in its styles, inline styles and animation keyframes. Text keeps its colour.
+const DARK_CARD = ':root{--bg:#242424;--card:#2f2f2f;--line:#444;--ink:#f0f0f0;--ink2:#c4c4c4;--muted:#9a9a9a;--goldText:#e0b183;--dark:#111}';
+const DARK_FILL = { ffffff: '2f2f2f', faf8f5: '2a2a2a', f7f5f1: '2a2a2a', f4f1ec: '2a2a2a', f2f0ec: '242424',
+  ebe7e0: '3a3a3a', e9e5de: '3a3a3a', e4dfd6: '3a3a3a', e3ded6: '3a3a3a', d9d4cc: '4a4a4a', c9c2b8: '4a4a4a' };
+const FILL = /^(background|border|outline)/i;
+const hex2 = n => (+n).toString(16).padStart(2, '0');
+const darkFill = v => typeof v !== 'string' ? v : v.replace(/#([0-9a-f]{6}|[0-9a-f]{3})\b|rgb\((\d+),\s*(\d+),\s*(\d+)\)/gi, (m, h, r, g, b) => {
+  h = h ? (h.length === 3 ? [...h].map(c => c + c).join('') : h).toLowerCase() : hex2(r) + hex2(g) + hex2(b);
+  return DARK_FILL[h] ? '#' + DARK_FILL[h] : m;
+});
+function darkStyle(st) {
+  for (let i = 0; i < st.length; i++) {
+    const k = st[i], v = st.getPropertyValue(k), n = FILL.test(k) && darkFill(v);
+    if (n && n !== v) st.setProperty(k, n, st.getPropertyPriority(k));
+  }
+}
+function darkRules(rules) { for (const r of rules) { if (r.style) darkStyle(r.style); if (r.cssRules) darkRules(r.cssRules); } }
+const darkMq = matchMedia('(prefers-color-scheme: dark)');
+const isDark = () => { const t = document.documentElement.getAttribute('data-theme'); return t ? t === 'dark' : darkMq.matches; };
+function cardTheme() {
+  const d = frame.contentDocument; if (!d || !d.head || !frame.src.includes('cards/')) return;
+  const m = d.createElement('meta'); m.name = 'darkreader-lock'; d.head.append(m);   // a dark-mode extension must not darken it again
+  d.__dark = isDark(); if (!d.__dark) return;
+  const st = d.createElement('style'); st.textContent = DARK_CARD; d.head.append(st);
+  for (const sh of d.styleSheets) { try { darkRules(sh.cssRules); } catch {} }
+  d.querySelectorAll('[style]').forEach(e => darkStyle(e.style));
+  d.getAnimations().forEach(a => { const ef = a.effect; if (!ef?.setKeyframes) return;
+    ef.setKeyframes(ef.getKeyframes().map(k => { const o = { ...k }; for (const p in o) if (FILL.test(p)) o[p] = darkFill(o[p]); return o; })); });
+}
+// the theme changed: reload the card where it is, so it is drawn again in the new colours
+function retheme() { if (frame.contentDocument?.__dark !== isDark() && frame.src.includes('cards/')) { const t = anims()[0]?.currentTime ?? START; load(frame.src.match(/cards\/(.+?)\.html/)[1], t); } }
+new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+darkMq.addEventListener('change', retheme);
 function fit() { const k = $('fit').clientWidth / 1080; frame.style.transform = `scale(${k})`; $('fit').style.height = 600 * k + 'px'; }
 new ResizeObserver(fit).observe($('fit'));
 const win = () => { try { return frame.contentWindow.__T ? frame.contentWindow : null; } catch { return null; } };
@@ -428,8 +462,10 @@ function load(name, from = START) {
   ended = false; paused = false; setPause(); start = from;
   frame.onload = () => {
     if (lang !== 'en') { try { vptLearnTranslate(frame.contentDocument, CAT[name] || {}); } catch {} }
+    cardTheme(); frame.style.visibility = '';
     seek(start); play();
   };
+  frame.style.visibility = 'hidden';   // shown once it has its theme: no light flash in dark mode
   frame.src = `cards/${name}.html?f=embed`;
 }
 function seek(ms) { win()?.__seek(ms); }
