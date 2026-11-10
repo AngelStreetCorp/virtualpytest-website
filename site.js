@@ -359,7 +359,8 @@
       fetch(api + '/followups', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:q, answer:answer})})
         .then(function(r){ return r.json(); })
         .then(function(b){
-          if(!b || !b.success || !b.questions || !b.questions.length || busy) return;
+          if(busy) return;
+          if(!b || !b.success || !b.questions || !b.questions.length){ resetChips(); return; }
           chipsBox.innerHTML = '';
           b.questions.forEach(function(text){
             var c = document.createElement('button');
@@ -367,7 +368,7 @@
             chipsBox.appendChild(c);
           });
         })
-        .catch(function(){});
+        .catch(function(){ if(!busy) resetChips(); });
     }
     function ask(q){
       q = (q || '').trim(); if(!q || busy) return;
