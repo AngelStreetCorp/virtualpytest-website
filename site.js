@@ -350,9 +350,37 @@
       });
       hBox.hidden = false; setHistoryLabel();
     }
+    /* After an answer the chips become two likely next questions; the server answers them in the
+       background, so a click is served from its cache. Any failure keeps the default chips. */
+    var chipsBox = document.querySelector('.ask-chips'), chipSeq = 0;
+    /* English keys of the default chips; rebuilt through t() so they follow the visitor's language. */
+    var defaultChips = chipsBox ? Array.prototype.map.call(chipsBox.querySelectorAll('[data-ask-chip]'), function(c){ return c.textContent; }) : [];
+    function setChips(list){
+      if(!chipsBox) return;
+      chipsBox.innerHTML = '';
+      list.forEach(function(text){
+        var c = document.createElement('button');
+        c.className = 'ask-chip'; c.type = 'button'; c.setAttribute('data-ask-chip', ''); c.textContent = text;
+        chipsBox.appendChild(c);
+      });
+    }
+    function resetChips(){ setChips(defaultChips.map(t)); }
+    function loadFollowups(q, answer, seq){
+      if(!chipsBox) return;
+      fetch(api + '/followups', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:q, answer:answer})})
+        .then(function(r){ return r.json(); })
+        .then(function(b){
+          if(busy || seq !== chipSeq) return;
+          if(!b || !b.success || !b.questions || !b.questions.length){ resetChips(); return; }
+          setChips(b.questions);
+        })
+        .catch(function(){ if(!busy && seq === chipSeq) resetChips(); });
+    }
     function ask(q){
       q = (q || '').trim(); if(!q || busy) return;
       busy = true; send.disabled = true; input.value = '';
+      chipSeq++;
+      if(chipsBox) chipsBox.innerHTML = '';
       addMsg('user', q);
       var typing = addMsg('bot ask-typing', t('Checking the docs') + '…', false);
       fetch(api, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:q, language: current})})
@@ -361,14 +389,14 @@
           typing.remove();
           if(res.ok && res.body && res.body.success){
             addMsg('bot', res.body.answer);
-            if(res.body.sources && res.body.sources.length){ log.appendChild(makeSources(res.body.sources)); history[history.length - 1].sources = res.body.sources; writeHistory(); }
-          } else addMsg('error', t((res.body && res.body.error) || 'Something went wrong. Try again in a moment.'));
+            if(res.body.sources && res.body.sources.length){ log.appendChild(makeSources(res.body.sources)); history[history.length - 1].sources = res.body.sources; writeHistory(); loadFollowups(q, res.body.answer, chipSeq); } else resetChips();
+          } else { resetChips(); addMsg('error', t((res.body && res.body.error) || 'Something went wrong. Try again in a moment.')); }
         })
-        .catch(function(){ typing.remove(); addMsg('error', t('Could not reach the assistant. Try again in a moment.')); })
+        .catch(function(){ typing.remove(); resetChips(); addMsg('error', t('Could not reach the assistant. Try again in a moment.')); })
         .then(function(){ busy = false; send.disabled = false; input.focus(); log.scrollTop = log.scrollHeight; });
     }
     form.addEventListener('submit', function(e){ e.preventDefault(); ask(input.value); });
-    document.querySelectorAll('[data-ask-chip]').forEach(function(c){ c.addEventListener('click', function(){ ask(c.textContent); }); });
+    if(chipsBox) chipsBox.addEventListener('click', function(e){ var c = e.target.closest('[data-ask-chip]'); if(c) ask(c.textContent); });
   }
 
   syncPictures();
