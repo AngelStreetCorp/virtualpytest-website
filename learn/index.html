@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- every path in this page is relative (cards/, i18n/, learn_i18n.js): opened as /learn they resolve to the site root and 404.
+     vercel.json redirects /learn to /learn/; this is the same guard for any other host. -->
+<script>if (!location.pathname.endsWith('/') && !location.pathname.endsWith('.html')) location.replace(location.pathname + '/' + location.search + location.hash);</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Learn VirtualPyTest</title>
 <meta name="description" content="Learn VirtualPyTest step by step: short animated lessons on controlling devices, mapping your app, checking screens, testing and monitoring.">

@@ -26,6 +26,15 @@ python3 -m http.server 8000
 
 Backend endpoints used by the site (e.g. the Ask AI widget) live in the `virtualpytest` repo and must be deployed before the site change that calls them.
 
+## Folder pages need their trailing slash
+
+`learn/` loads its cards, translations and script by relative path (`cards/<name>.html`, `i18n/`, `learn_i18n.js`). Opened as `/learn` without the slash, they resolve to the site root and the player shows Vercel's 404 ("This page doesn't exist"). The cards are not missing. Two guards stop this; keep both:
+
+- `vercel.json` has `"trailingSlash": true`, so `/learn` answers with a 308 to `/learn/`.
+- `learn/index.html` redirects to the slash form in its `<head>`, for any other host.
+
+A new folder page (`<name>/index.html`) with relative paths needs the same `<head>` guard. After a deploy, check: `curl -sI https://virtualpytest.com/learn` returns 308 with `location: /learn/`.
+
 ## Editing the pages
 
 `index.html`, `site.css`, `site.js` and `locales.json` are the source: edit them directly, in a PR as above. Do not regenerate them from any script.
