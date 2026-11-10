@@ -25,3 +25,9 @@ python3 -m http.server 8000
 4. Wait for the Vercel deploy, then verify the live page or file (for example `curl -s https://virtualpytest.com/site.js | grep <marker>`).
 
 Backend endpoints used by the site (e.g. the Ask AI widget) live in the `virtualpytest` repo and must be deployed before the site change that calls them.
+
+## Editing the pages
+
+`index.html`, `site.css`, `site.js` and `locales.json` are the source: edit them directly, in a PR as above. Do not regenerate them from any script.
+
+A local-only `mockups/` folder (design mockups and a `port_site.py` generator) may exist on some machines. It is gitignored on purpose, is not part of this repository, and must never be committed or pushed. It has fallen behind `master`, so running its generator would overwrite current pages.
