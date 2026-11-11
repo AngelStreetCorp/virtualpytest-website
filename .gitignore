@@ -4,3 +4,5 @@ INTERNAL.md
 
 # Design mockups and their tooling: local only, never deployed
 mockups/
+__pycache__/
+.pytest_cache/
