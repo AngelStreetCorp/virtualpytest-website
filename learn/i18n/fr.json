@@ -49,7 +49,6 @@
   "open": "ouvrir",
   "details": "détails",
   "close": "fermer",
-  "{d} / {n} done": "{d} / {n} vues",
   "{n} found": "{n} trouvées",
   "No lesson matches “{q}”.": "Aucune leçon ne correspond à « {q} ».",
   "done": "vue",
