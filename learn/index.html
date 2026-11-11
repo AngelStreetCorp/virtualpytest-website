@@ -77,7 +77,6 @@
   .lx .pick .crumb b { font-weight: 600; }
   .lx kbd { font: 500 12px/16px "Geist Mono", monospace; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
   .lx .pick kbd { margin-left: auto; flex: none; }
-  .lx .pprog { flex-shrink: 0; font: 500 12px/16px "Geist Mono", monospace; color: var(--muted); white-space: nowrap; }
   .lx .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .lx .pdim { position: fixed; inset: 0; z-index: 64; }
   .lx .pmenu { position: absolute; top: calc(100% + 8px); left: 0; width: min(640px, calc(100vw - 32px)); max-height: min(620px, calc(100vh - 160px)); z-index: 65; display: flex; flex-direction: column; overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 48px rgba(0,0,0,.28); }
@@ -260,7 +259,6 @@
       <div class="pkeys" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd><i data-t>move</i></span><span><kbd>Enter</kbd><i data-t>open</i></span><span><kbd>→</kbd><i data-t>details</i></span><span><kbd>Esc</kbd><i data-t>close</i></span></div>
     </div>
   </div>
-  <span class="pprog" id="pprog"></span>
 </div>
 <div class="lmain">
   <section class="stage" id="stage" aria-label="Animation" data-ta>
@@ -375,9 +373,7 @@ const hl = (s, q) => {
 const CHEV = '<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
 const pk = { filter: null, open: new Set(), desc: new Set(), act: -1 };
 function renderTopics() {   // the bar
-  const done = store.get(), n = TOPICS.reduce((k, t) => k + (t.cards ? t.cards.filter((_, i) => done[`${t.id}.${i + 1}`]).length : 0), 0);
   $('crumb').innerHTML = `<i>${topic.id} · ${esc(T(topic.name))} ›</i> <b>${step}. ${esc(stepTitle(topic, step))}</b>`;
-  $('pprog').textContent = T('{d} / {n} done', { d: n, n: TOTAL });
   $('pick').setAttribute('aria-label', T('Choose a lesson') + ': ' + $('crumb').textContent);
 }
 function renderChips() {
@@ -635,7 +631,7 @@ function setPause() {
   const w = win(), a = anims()[0];
   if (w && a && !paused && a.currentTime % w.__T >= w.__T - 1100) {
     pause(); seek(w.__T - 1100); ended = true; setPause();
-    if (!deep) { store.mark(`${topic.id}.${step}`); renderTopics(); }
+    if (!deep) store.mark(`${topic.id}.${step}`);
   }
   if (deep && a && w) markChapter(a.currentTime % w.__T);
   requestAnimationFrame(watch);
