@@ -124,14 +124,6 @@
   .lx .stepsrow .lbl { flex-shrink: 0; font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
   .lx .steps button.done { color: var(--ok); }
   .lx .steps button[aria-current="true"] { background: var(--chipOn); border-color: var(--chipOn); color: var(--chipOnInk); }
-  .lx .pn { margin-top: 10px; display: flex; gap: 10px; font-size: 14px; color: var(--muted); }
-  .lx .pn button { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; padding: 6px 0; color: var(--muted); }
-  .lx .pn button:last-child { text-align: right; }
-  .lx .pn button b { color: var(--ink2); }
-  .lx .pn button:disabled { opacity: .35; cursor: default; }
-  .lx .keys { margin-top: 18px; font-size: 13px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
-  .lx .keys kbd { font: inherit; font-weight: 700; color: var(--ink2); }
-  .lx .keys i { font-style: normal; }
   .lx .pfoot { display: flex; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
   .lx .pfoot .back { height: 52px; padding: 0 20px; gap: 8px; border-radius: 999px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; flex-shrink: 0; }
   .lx .pfoot .done { flex: 1; height: 52px; border-radius: 999px; background: var(--dark); color: var(--onDark); display: flex; align-items: center; gap: 12px; padding: 0 18px; font-size: 17px; font-weight: 700; }
@@ -153,8 +145,7 @@
   }
   /* phone: stage on top, the text under it, the step buttons pinned at the bottom */
   @media (max-width: 900px) {
-    .lx .pn { display: none; }   /* phone: the Prev / Next buttons below already say it */
-    .lx .lhead { padding: 20px 16px 0; gap: 10px; flex-wrap: wrap; }
+      .lx .lhead { padding: 20px 16px 0; gap: 10px; flex-wrap: wrap; }
     .lx .ltitle { font-size: 24px; }
     .lx nav.topics { order: 3; flex-basis: 100%; margin: 0 -16px; padding: 0 16px; }
     .lx .lmain { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0; gap: 14px; }
@@ -175,8 +166,7 @@
     .lx .stepsrow { gap: 6px; }
     .lx .stepsrow .lbl { font-size: 11.5px; letter-spacing: .3px; }   /* "SCHRITT" + 8 steps still fit at 390 px */
     .lx .pfoot .back, .lx .pfoot .done { height: 48px; }
-    .lx .keys { display: none; }
-    .ask-fab { display: none !important; }   /* it would cover Next; Ask AI stays in the menu */
+      .ask-fab { display: none !important; }   /* it would cover Next; Ask AI stays in the menu */
     .lx .pfoot { position: sticky; bottom: 0; margin: 0 -16px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); }
   }
 </style>
@@ -221,8 +211,6 @@
       <p class="note" id="note" hidden></p>
       <button class="deepb" id="deepB" hidden><span><small data-t>GO DEEPER · ABOUT 1 MIN</small><b id="deepT"></b></span><span class="arr" aria-hidden="true">→</span></button>
       <ol class="chapters" id="chapters" hidden></ol>
-      <div class="pn" id="pnRow"><button id="prevB"></button><button id="nextB"></button></div>
-      <div class="keys"><span><kbd>←</kbd> <kbd>→</kbd> <i data-t>to move</i></span><span><kbd>R</kbd> <i data-t>to replay</i></span><span><kbd data-t>Space</kbd> <i data-t>to pause</i></span></div>
     </div>
     <div class="pfoot">
       <button class="back" id="bBack" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Prev</span></button>
@@ -405,19 +393,16 @@ function setNext() {
     box.appendChild(b);
   }
   centre(box, box.querySelector('[aria-current="true"]'));
-  const pb = $('prevB'), nb = $('nextB');
-  pb.disabled = !pv; nb.disabled = !nx;
-  pb.innerHTML = pv ? `${T('← Prev:')} <b></b>` : '';
-  nb.innerHTML = nx ? `${T('Next:')} <b></b> →` : '';
-  if (pv) { pb.querySelector('b').textContent = stepTitle(pv[0], pv[1]); pb.onclick = () => go(...pv); }
-  if (nx) { nb.querySelector('b').textContent = stepTitle(nx[0], nx[1]); nb.onclick = () => go(...nx); }
-  $('pnRow').hidden = deep;
   $('bNext').disabled = !nx;
   const last = nx && nx[0] === TOPICS[0] && topic !== TOPICS[0];
   $('nextLbl').textContent = T(last ? 'Start again' : 'Next');
   $('bBack').disabled = !pv && !deep;
   $('bBack').querySelector('span').textContent = T(deep ? 'Lesson' : 'Prev');
   $('bBack').setAttribute('aria-label', T(deep ? 'Back to the lesson' : 'Previous step'));
+  $('bBack').title = `${T(deep ? 'Back to the lesson' : 'Previous step')} (←)`;
+  $('bNext').title = `${T('Next')} (→)`;
+  $('bReplay').title = `${T('Replay')} (R)`;
+  $('bSlow').title = `${T('Slow')} (S)`;
 }
 
 // the card: a same-origin iframe in its embed view (1080 x 600), scaled to the stage width
@@ -478,6 +463,7 @@ function replay() { seek(start); play(); }
 function setPause() {
   const b = $('bPause');
   b.setAttribute('aria-label', T(paused ? 'Play' : 'Pause'));
+  b.title = `${T(paused ? 'Play' : 'Pause')} (${T('Space')})`;
   b.innerHTML = paused
     ? '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z" fill="currentColor"/></svg>'
     : '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>';
@@ -508,6 +494,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') $('bNext').click();
   else if (e.key === 'ArrowLeft') $('bBack').click();
   else if (e.key === 'r' || e.key === 'R') replay();
+  else if (e.key === 's' || e.key === 'S') $('bSlow').click();
   else if (e.key === ' ') { e.preventDefault(); $('bPause').click(); }
 });
 
