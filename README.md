@@ -39,10 +39,12 @@ A new folder page (`<name>/index.html`) with relative paths needs the same `<hea
 
 ## Learn 3D cards
 
-12 lessons play a 3D card (`cards/<slug>-3d.html`). Its stage is a frame sequence in `learn/out/blender/<scene>/`
-(`f_NNNN.webp` + `anchors.js`, 450 frames, ~6-14 MB a scene), copied with the card by the product repo's
-`publish_learn.sh`; never edit them here. A 3D card has its flat card's words, so the player translates it with the flat
-card's catalog (`catOf` in `learn/index.html`). To bring a flat card back, set its `card` in `learn/index.html`.
+12 lessons play a 3D card (`cards/<slug>-3d.html`). Its stage is a video in `learn/out/blender/<scene>/`: `stage-light`
+and `stage-dark` (the player's dark theme), each as WebM and MP4 (Safari), ~0.4-1 MB each, plus `anchors.js` (where
+the labels sit, frame by frame). They are copied with the card by the product repo's `publish_learn.sh`; never edit them
+here. The frames they replaced (450 WebP per card) stuttered on the live site, 2026-11-15. A 3D card has its flat card's
+words, so the player translates it with the flat card's catalog (`catOf` in `learn/index.html`). To bring a flat card
+back, set its `card` in `learn/index.html`. New video files need `--approved-by manager` in the lane.
 
 ## Learn phone-fit check
 

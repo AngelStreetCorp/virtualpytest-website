@@ -30,7 +30,7 @@
   body.sq h1 { font-size: 50px; margin-top: 18px; }
   body.sq .eyebrow { margin-top: 16px; }
   .stage { position: absolute; left: 0; top: var(--stageTop); width: 1080px; height: var(--stageH); overflow: hidden; }
-  .stage img { position: absolute; left: 50%; top: 50%; width: var(--imgW); height: calc(var(--imgW) * 760 / 1080);
+  .stage #stage { position: absolute; left: 50%; top: 50%; width: var(--imgW); height: calc(var(--imgW) * 760 / 1080);
     margin-left: calc(var(--imgW) / -2); margin-top: calc(var(--imgW) * -380 / 1080);
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
     -webkit-mask-composite: source-in; mask-composite: intersect; }
@@ -76,7 +76,7 @@
 </div>
 
 <div class="stage" id="stageBox">
-  <img id="stage" alt="">
+  <video id="stage" muted playsinline preload="auto" loop disableremoteplayback></video>
 </div>
 
 <p class="caption" id="caption">Select up to six devices of the same model and drive them with one remote. Each press goes to all of them, and each shows whether it got it.</p>
@@ -133,10 +133,6 @@ function place(f) {
   }
 }
 function frameOf(ms) { return Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000)); }
-function setFrame(f) {
-  const src = `../out/blender/group/f_${String(f + 1).padStart(4, '0')}.webp`;
-  if (img.getAttribute('src') !== src) img.setAttribute('src', src);
-}
 
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
 enter($('caption'), 9200); enter($('ctarow'), 10000);
@@ -162,12 +158,55 @@ for (let i = 0; i < 4; i++) {
 at(pin('st3', '<div class="w"><span class="pill">✗ Not sent</span></div>', 0, 0, 'm'), [[0, { opacity: 0 }], [B.NOTSENT - 300, { opacity: 0 }], [B.NOTSENT, { opacity: 1 }], [B.LEFTOUT, { opacity: 1 }], [B.LEFTOUT + 250, { opacity: 0 }]]);
 keep(pin('st3', '<div class="w"><span class="pill grey">Left out</span></div>', 0, 0, 'm'), B.LEFTOUT);
 enter(pin('gm_front2', '<div class="w lbl gold">Up to 6 at once</div>'), B.UP6);
-function tick(ms) { const f = frameOf(ms); setFrame(f); place(f); }
+// The stage is one video (build.sh <scene> video), not 450 images fetched one by one: the browser buffers it and plays it
+// natively. It is opaque on the page colour, so the card takes the light or the dark-theme video from its own background
+// (the Learn player darkens the card in its dark theme). While the card plays, the video keeps its own clock and the
+// callouts follow the frame it shows; it is pulled back only when it drifts from the card's timeline. Paused or seeked
+// (render.py, card_check.py, the player's pause / slow buttons) it sits on the exact frame.
+const VID = '../out/blender/group/stage-';
+let theme = '', rest = 0;
+function pickTheme() {
+  const c = (getComputedStyle(document.body).backgroundColor.match(/\d+/g) || [255, 255, 255]).map(Number);
+  const t = (c[0] + c[1] + c[2]) / 3 < 128 ? 'dark' : 'light';
+  if (t === theme) return;
+  const was = img.currentTime || 0; theme = t;
+  img.innerHTML = `<source src="${VID}${t}.webm" type="video/webm"><source src="${VID}${t}.mp4" type="video/mp4">`;
+  img.load(); if (was) img.currentTime = was;
+}
+function syncStage(ms) {
+  pickTheme();
+  const running = master.playState === 'running';
+  if (!running) {
+    if (!img.paused) img.pause();
+    const want = (Math.floor(ms * FPS / 1000) + 0.5) / FPS;
+    if (!img.seeking && Math.abs(img.currentTime - want) > 0.4 / FPS) img.currentTime = want;
+    return Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000));
+  }
+  if (img.playbackRate !== master.playbackRate) img.playbackRate = master.playbackRate;
+  if (img.paused) img.play().catch(() => {});
+  let d = img.currentTime * 1000 - ms; if (d > T / 2) d -= T; if (d < -T / 2) d += T;
+  if (rest > 0) rest--;   // a seek takes a moment: no second pull-back while the first one lands
+  else if (!img.seeking && Math.abs(d) > 250) { img.currentTime = ((ms + 60) % T) / 1000; rest = 30; }
+  return Math.min(FRAMES - 1, Math.floor((img.readyState >= 2 ? img.currentTime * 1000 : ms) * FPS / 1000));
+}
+function tick(ms) { const f = syncStage(ms); place(f); }
 
 const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
 (function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
-window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
-window.__settle = () => img.decode().catch(() => {});
+// the first time, the card waits for its video, so the 3D and the text start together (a seek by render.py cancels the wait)
+let seeked = false;
+if (img.readyState < 3) {
+  const held = document.getAnimations().filter((a) => a.playState === 'running');
+  held.forEach((a) => a.pause());
+  const go = () => { if (!seeked) held.forEach((a) => { if (a.playState === 'paused') a.play(); }); };
+  img.addEventListener('canplay', go, { once: true }); img.addEventListener('error', go, { once: true, capture: true });
+}
+window.__seek = ms => { seeked = true; document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__settle = async () => {   // the seeked frame is decoded and on screen
+  const raf = () => new Promise((r) => requestAnimationFrame(r));
+  for (let n = 0; (img.readyState < 2 || img.seeking) && n < 480; n++) await raf();   // at most ~8 s
+  await raf(); await raf();
+};
 window.__T = T;
 </script>
 </body>
