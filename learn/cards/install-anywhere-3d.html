@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install 3D</title>
+<!-- Lesson 0.5 "Install" on a 3D stage: same words and beat times as install-anywhere.html (SCRIPTS.md 0.5 "Install"), the diagram replaced by a
+     Blender scene (scripts/promo/blender/install.py, built by `build.sh install frames` into ../out/blender/install/).
+     BEATS is the single source of the timing: install.py reads it. 1080x1350, ?f=sq 1080x1080, ?f=embed 1080x600. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a;
+    --W: 1080px; --H: 1350px; --pad: 96px; --stageTop: 372px; --stageH: 698px; --imgW: 1080px; --labBot: 8px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --stageTop: 250px; --stageH: 670px; --imgW: 960px; }
+  body.embed { --H: 600px; --stageTop: 0px; --stageH: 600px; --imgW: 1080px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; position: relative; }
+  .head { position: absolute; left: var(--pad); right: var(--pad); top: var(--pad); z-index: 2; }
+  body.sq .head { top: 64px; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 22px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: 26px; font-size: 61px; line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 8px; font-size: 0.72em; }
+  body.sq h1 { font-size: 50px; margin-top: 18px; }
+  body.sq .eyebrow { margin-top: 16px; }
+  .stage { position: absolute; left: 0; top: var(--stageTop); width: 1080px; height: var(--stageH); overflow: hidden; }
+  .stage img { position: absolute; left: 50%; top: 50%; width: var(--imgW); height: calc(var(--imgW) * 760 / 1080);
+    margin-left: calc(var(--imgW) / -2); margin-top: calc(var(--imgW) * -380 / 1080 - 36px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  /* callouts pinned to the 3D (positions from anchors.js); opacity on the outer box, content entered inside */
+  .pin { position: absolute; left: 0; top: 0; opacity: 0; }
+  .callout { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 12px 18px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .callout.dk { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .callout .t { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 21px; font-weight: 700; letter-spacing: 2px; color: var(--ink); }
+  .callout.dk .t { color: #d6d6d6; }
+  .callout .s { font-size: 25px; font-weight: 700; margin-top: 2px; white-space: nowrap; }
+  .callout .g { font-size: 22px; font-weight: 700; color: var(--goldText); margin-top: 4px; white-space: nowrap; }
+  .callout.dk .g { color: var(--gold); }
+  .callout .row { display: flex; align-items: center; justify-content: space-between; gap: 22px; font-size: 24px; font-weight: 700; margin-top: 6px; white-space: nowrap; opacity: 0; }
+  .callout .row b { font-weight: 700; color: var(--goldText); }
+  .callout.dk .row b { color: var(--gold); }
+  .callout .big { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 46px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .gd { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex: none; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; padding: 7px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .chip.goldc { background: var(--gold); border-color: var(--gold); }
+  .chip.vid { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .okdot { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; }
+  .callout .row .okdot { margin-left: auto; }
+  .lbl { position: absolute; bottom: var(--labBot); display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; opacity: 0; }
+  .lbl > span { text-wrap: balance; }
+  body.embed .lbl { font-size: 30px; }
+  .caption { position: absolute; left: var(--pad); right: var(--pad); top: 1086px; font-size: 32px; line-height: 1.3; color: var(--ink); }
+  .ctarow { position: absolute; left: var(--pad); right: var(--pad); top: 1232px; display: flex; align-items: center; gap: 30px; }
+  body.sq .ctarow { top: 950px; }
+  .cta { white-space: nowrap; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 30px; font-weight: 700; padding: 20px 34px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: #5c5c5c; font-weight: 700; }
+  body.sq .caption { display: none; }
+  body.embed .head, body.embed .caption, body.embed .ctarow { display: none; }
+  .callout.mach .s { font-size: 24px; } .callout.mach .g { font-size: 21px; margin-top: 0; }
+  .callout.ring { box-shadow: 0 0 0 0 rgba(212,165,116,0), 0 6px 18px rgba(0,0,0,.08); }
+  .opt { margin-top: 8px; border: 2px solid #3a3a3a; border-radius: 12px; padding: 7px 16px; font-size: 24px; font-weight: 700; white-space: nowrap; text-align: center; color: #fff; opacity: 0; }
+  .callout .ln { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; margin-top: 8px; white-space: nowrap; opacity: 0; }
+  .callout .ln.pc { color: var(--goldText); }
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">ARCHITECTURE · INSTALL · 5/5</div>
+  <h1><span id="h1a">Install it your way</span><span class="l2" id="h1b">One Pi 5 runs it all; small PCs join as hosts</span></h1>
+</div>
+
+<div class="stage" id="stageBox">
+  <img id="stage" alt="">
+  <div class="pin" id="pin_m1" data-a="lap" data-dx="-75" data-dy="250"><div class="callout mach" id="m1"><div class="s">Linux · macOS</div><div class="g">In Docker</div></div></div>
+  <div class="pin" id="pin_m0" data-a="pi" data-dx="-107" data-dy="120"><div class="callout mach" id="m0"><div class="s">Raspberry Pi 5</div><div class="g">Runs everything</div></div></div>
+  <div class="pin" id="pin_m2" data-a="pc" data-dx="-95" data-dy="145"><div class="callout mach" id="m2"><div class="s">Small PC</div><div class="g">Joins as a host</div></div></div>
+  <div class="pin" id="pin_ins" data-a="hub" data-dx="-155" data-dy="-343"><div class="callout dk"><div class="t">INSTALL</div>
+    <div class="opt" id="r0">Docker · 3 min</div><div class="opt" id="r1">Linux installers</div><div class="opt" id="r2">Host at a site</div></div></div>
+  <div class="pin" id="pin_run" data-a="blocks" data-dx="80" data-dy="-300"><div class="callout"><div class="t">RUNNING</div>
+    <div class="ln" id="k0">Frontend <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="ln" id="k1">Server <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="ln" id="k2">Host <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="ln pc" id="k3">+ Small PC host <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div></div>
+  <div class="lbl" id="lSmall" style="left:60px; width:300px"><span>Small hardware</span></div>
+  <div class="lbl" id="lWays" style="left:390px; width:300px"><span>Three ways</span></div>
+  <div class="lbl" id="lEdit" style="left:630px; width:320px"><span>Nothing to edit first</span></div>
+</div>
+
+<p class="caption" id="caption">Docker installs it in about 3 minutes on a Pi 5, Linux or macOS (Windows: in WSL2), or use the native Linux installers.</p>
+<div class="ctarow" id="ctarow"><div class="cta">See the install guide <span class="arrow">→</span></div><span class="next">Next: See your devices live</span></div>
+
+<script src="../out/blender/install/anchors.js"></script>
+<script>
+const T = 15000;
+const BEATS = {"M0": 1600, "M1": 1750, "M2": 1900, "INS": 2800, "HUB": 3300, "DOCKER": 4400, "RUN": 4800, "K0": 5400, "K1": 5700, "K2": 6000, "PC": 6800, "JOIN": 7100, "K3": 7500, "RESET": 14000};
+const FPS = 30, FRAMES = T * FPS / 1000, B = BEATS;
+const q = new URLSearchParams(location.search).get('f');
+if (q === 'sq') document.body.classList.add('sq');
+if (q === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function spans(el, list) {                       // opacity on during each [t0, t1] span
+  const k = [[0, { opacity: 0 }]];
+  for (const [t0, t1] of list) k.push([t0, { opacity: 0 }], [t0 + 250, { opacity: 1 }], [t1, { opacity: 1 }], [t1 + 300, { opacity: 0 }]);
+  at(el, k);
+}
+function rowIn(id, t) { at($(id), [[t, { opacity: 0 }], [t + 250, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]); }
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+enter($('lSmall'), 1700); enter($('lWays'), 1850); enter($('lEdit'), 5200);
+[['pin_m0', B.M0], ['pin_m1', B.M1], ['pin_m2', B.M2], ['pin_ins', B.INS + 200], ['pin_run', B.DOCKER + 600]].forEach(([id, t]) => enter($(id), t));
+['r0', 'r1', 'r2'].forEach((id, i) => rowIn(id, B.HUB + i * 150));
+['k0', 'k1', 'k2'].forEach((id, i) => rowIn(id, B['K' + i]));
+rowIn('k3', B.K3);
+const GOLD = (el, t) => at(el, [[t, { background: 'rgba(212,165,116,0)', color: '#ffffff', borderColor: '#3a3a3a' }], [t + 300, { background: '#d4a574', color: '#141414', borderColor: '#d4a574' }], [OUT1, { background: '#d4a574', color: '#141414', borderColor: '#d4a574' }], [T, { background: 'rgba(212,165,116,0)', color: '#ffffff', borderColor: '#3a3a3a' }]]);
+const RING = (el, t) => at(el, [[t, { boxShadow: '0 0 0 0 rgba(212,165,116,0)' }], [t + 300, { boxShadow: '0 0 0 4px #d4a574' }], [OUT1, { boxShadow: '0 0 0 4px #d4a574' }], [T, { boxShadow: '0 0 0 0 rgba(212,165,116,0)' }]]);
+RING($('m0'), B.DOCKER); GOLD($('r0'), B.DOCKER); RING($('m2'), B.PC); GOLD($('r2'), B.PC);
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pins = [...document.querySelectorAll('.pin')];
+const img = $('stage');
+function tick(ms) {
+
+  const f = Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000));
+  const src = `../out/blender/install/f_${String(f + 1).padStart(4, '0')}.webp`;
+  if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+  // each callout sits at its anchor plus its own offset (data-dx / dy), kept inside the stage and the card's side margins
+  const A = window.BENCH_ANCHORS, box = $('stageBox'), cs = getComputedStyle(document.body);
+  const pad = parseInt(cs.getPropertyValue('--pad')), bot = parseInt(cs.getPropertyValue('--labBot')) + 64;
+  if (A) for (const el of pins) {
+    const [x, y] = A.pts[el.dataset.a][f];
+    const ax = img.offsetLeft + x * img.offsetWidth + +el.dataset.dx, ay = img.offsetTop + y * img.offsetHeight + +el.dataset.dy;
+    el.style.left = clamp(ax, pad, box.offsetWidth - el.offsetWidth - pad) + 'px';
+    el.style.top = clamp(ay, 44, box.offsetHeight - el.offsetHeight - bot) + 'px';
+  }
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__settle = () => img.decode().catch(() => {});
+window.__T = T;
+</script>
+</body>
+</html>
