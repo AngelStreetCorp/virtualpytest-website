@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play A Game Console Remotely 3D</title>
+<!-- Lesson 9.2 on a 3D stage: same words as game-console.html (SCRIPTS.md 9.2), the diagram replaced by a
+     Blender scene (scripts/promo/blender/console.py, built by `build.sh console frames` into ../out/blender/console/).
+     BEATS is the single source of the timing: console.py reads it. 1080x1350, ?f=sq 1080x1080, ?f=embed 1080x600. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a;
+    --W: 1080px; --H: 1350px; --pad: 96px; --stageTop: 330px; --stageH: 740px; --imgW: 1080px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --stageTop: 260px; --stageH: 650px; --imgW: 960px; }
+  body.embed { --H: 600px; --stageTop: 0px; --stageH: 600px; --imgW: 1080px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; position: relative; }
+  .head { position: absolute; left: var(--pad); right: var(--pad); top: var(--pad); z-index: 2; }
+  body.sq .head { top: 64px; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 22px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: 26px; font-size: 61px; line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 8px; font-size: 0.72em; }
+  body.sq h1 { font-size: 50px; margin-top: 18px; }
+  body.sq .eyebrow { margin-top: 16px; }
+  .stage { position: absolute; left: 0; top: var(--stageTop); width: 1080px; height: var(--stageH); overflow: hidden; }
+  .stage img { position: absolute; left: 50%; top: 50%; width: var(--imgW); height: calc(var(--imgW) * 760 / 1080);
+    margin-left: calc(var(--imgW) / -2); margin-top: calc(var(--imgW) * -380 / 1080);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  /* callouts pinned to the 3D (positions from anchors.js); opacity on the outer box, content entered inside */
+  .pin { position: absolute; left: 0; top: 0; opacity: 0; }
+  .callout { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 12px 18px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .callout .t { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 21px; font-weight: 700; letter-spacing: 2px; color: var(--ink); }
+  .callout .s { font-size: 25px; font-weight: 700; color: var(--ink); margin-top: 2px; white-space: nowrap; }
+  .callout .g { font-size: 22px; font-weight: 700; color: var(--goldText); margin-top: 4px; white-space: nowrap; }
+  .callout .row { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; margin-top: 6px; white-space: nowrap; opacity: 0; }
+  .gd { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex: none; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; padding: 7px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .chip.goldc { background: var(--gold); border-color: var(--gold); }
+  .chip.vid { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .chip.vid .gd { box-shadow: 0 0 0 4px rgba(212,165,116,.35); }
+  .okdot { width: 22px; height: 22px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; }
+  .caption { position: absolute; left: var(--pad); right: var(--pad); top: 1086px; font-size: 32px; line-height: 1.3; color: var(--ink); }
+  .ctarow { position: absolute; left: var(--pad); right: var(--pad); top: 1232px; display: flex; align-items: center; gap: 30px; }
+  body.sq .ctarow { top: 950px; }
+  .cta { white-space: nowrap; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 30px; font-weight: 700; padding: 20px 34px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: #5c5c5c; font-weight: 700; }
+  body.sq .caption { display: none; }
+  body.embed .head, body.embed .caption, body.embed .ctarow { display: none; }
+  .lab { font-size: 25px; font-weight: 700; color: var(--ink); white-space: nowrap; background: var(--card); border: 2px solid var(--line); border-radius: 999px; padding: 6px 18px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .lab.grey { color: var(--muted); font-size: 23px; }
+  .stk { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .web { width: 262px; text-align: center; }
+  .stat { position: relative; height: 50px; margin-top: 8px; }
+  .stat .chip { position: absolute; left: 50%; top: 0; margin-left: -80px; width: 160px; justify-content: center; box-shadow: none; opacity: 0; }
+  .dkb { background: var(--dark) !important; color: #fff !important; border-color: var(--dark) !important; }
+  .res { width: max-content; padding-right: 22px; }
+  .res .rw { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; white-space: nowrap; margin-top: 8px; opacity: 0; overflow: hidden; }
+  .okdot { width: 22px; height: 22px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -4px; flex: none; }
+  .bl { width: 28px; height: 28px; display: grid; place-items: center; font-size: 19px; font-weight: 700; color: #fff; background: #2b2f36; border-radius: 50%; }
+  h1 { font-size: 54px; }
+  body.sq h1 { font-size: 46px; }
+  .btc { display: inline-flex; align-items: center; gap: 8px; font-size: 23px; font-weight: 700; padding: 4px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .hist { font-size: 24px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  body.sq .web, body.sq .res { zoom: 0.9; }
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">MORE FEATURES · GAME CONSOLE · 2/5</div>
+  <h1><span id="h1a">Play a Nintendo Switch remotely</span><span class="l2" id="h1b">Its controller over Bluetooth, its picture live</span></h1>
+</div>
+
+<div class="stage" id="stageBox">
+  <img id="stage" alt="">
+  <div class="pin" id="pin_con" data-dx="0" data-dy="22"><div class="stk"><span class="lab">Game console</span><span class="lab grey" id="hdmi">HDMI from the dock</span></div></div>
+  <div class="pin" id="pin_web" data-dx="-50" data-dy="0" data-up="8"><div class="callout web"><div class="t">IN YOUR BROWSER</div>
+    <div class="stat"><span class="chip dkb" id="pPair">Pair</span><span class="chip" id="pIng" style="color:var(--goldText)">Pairing</span><span class="chip" id="pOk">Connected <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div></div></div>
+  <div class="pin" id="pin_bt" data-dx="-55" data-dy="40"><span class="btc"><svg width="18" height="22" viewBox="0 0 24 28"><path d="M6 8l12 12-6 5V3l6 5L6 20" fill="none" stroke="#141414" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Bluetooth</span></div>
+  <div class="pin" id="pin_bA" data-dx="0" data-dy="0"><span class="bl" id="lA">A</span></div>
+  <div class="pin" id="pin_bB" data-dx="0" data-dy="0"><span class="bl">B</span></div>
+  <div class="pin" id="pin_bX" data-dx="0" data-dy="0"><span class="bl">X</span></div>
+  <div class="pin" id="pin_bY" data-dx="0" data-dy="0"><span class="bl">Y</span></div>
+  <div class="pin" id="pin_res" data-dx="30" data-dy="0" data-up="10"><div class="callout res"><div class="rw" id="r1">Pair once <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="rw" id="r2">Reconnects by itself <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="rw" id="r3">Tests use the same buttons <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div></div>
+  <div class="pin" id="pin_nomod" data-dx="28" data-dy="52"><span class="hist">No mod, no app on the console.</span></div>
+</div>
+
+<p class="caption" id="caption">The host acts as a wireless controller over Bluetooth while the dock's picture plays live. Pair once, then click the buttons or let a test press them.</p>
+<div class="ctarow" id="ctarow"><div class="cta">See the console guide <span class="arrow">→</span></div><span class="next">Next: A bot that plays Tetris</span></div>
+
+<script src="../out/blender/console/anchors.js"></script>
+<script>
+const T = 15000;
+const BEATS = {"LINK1": 2600, "WEB": 3200, "PAIR": 3600, "PAIRING": 4000, "BT": 4000, "CONNECTED": 4800, "RT0": 5400, "SEL0": 5500, "SEL1": 5800, "RT1": 6000, "A0": 6000, "A1": 6700, "GAME": 6250, "LINK2": 6400, "RES": 6600, "R1": 6800, "R2": 7100, "R3": 7400, "NOMOD": 8000, "RESET": 14000};
+const FPS = 30, FRAMES = T * FPS / 1000, B = BEATS;
+const q = new URLSearchParams(location.search).get('f');
+if (q === 'sq') document.body.classList.add('sq');
+if (q === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function spans(el, list) {                       // opacity on during each [t0, t1] span
+  const k = [[0, { opacity: 0 }]];
+  for (const [t0, t1] of list) k.push([t0, { opacity: 0 }], [t0 + 250, { opacity: 1 }], [t1, { opacity: 1 }], [t1 + 300, { opacity: 0 }]);
+  at(el, k);
+}
+function fade(el, t0, dur = 300) { at(el, [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]); }
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+// 1.6 s the console and its labels; 3.2 s the browser card, Pair then Pairing (4.0) then Connected (4.8); 5.4 right, 6.0 A; 6.6 the result card
+fade($('pin_con'), 1800); fade($('hdmi'), 2000);
+fade($('pin_web'), B.WEB);
+for (const k of ['A', 'B', 'X', 'Y']) fade($('pin_b' + k), B.WEB + 100);
+at($('pPair'), [[B.PAIR, { opacity: 0, transform: 'scale(1)' }], [B.PAIR + 200, { opacity: 1, transform: 'scale(1)' }], [B.PAIRING - 50, { opacity: 1, transform: 'scale(1)' }], [B.PAIRING + 50, { opacity: 0, transform: 'scale(0.92)' }], [OUT1, { opacity: 0, transform: 'scale(0.92)' }], [T, { opacity: 0, transform: 'scale(1)' }]]);
+at($('pIng'), [[B.PAIRING + 50, { opacity: 0 }], [B.PAIRING + 250, { opacity: 1 }], [B.CONNECTED, { opacity: 1 }], [B.CONNECTED + 200, { opacity: 0 }]]);
+fade($('pOk'), B.CONNECTED + 50, 200);
+fade($('pin_bt'), B.BT + 100);
+at($('lA'), [[B.A0, { color: '#ffffff', background: '#2b2f36' }], [B.A0 + 100, { color: '#141414', background: '#d4a574' }], [B.A1, { color: '#141414', background: '#d4a574' }], [B.A1 + 100, { color: '#ffffff', background: '#2b2f36' }]]);
+fade($('pin_res'), B.RES);
+// each row also takes its height only when it enters, so the panel grows row by row instead of showing empty space
+const ROW0 = { opacity: 0, maxHeight: '0px', marginTop: '0px' }, ROW1 = { opacity: 1, maxHeight: '40px', marginTop: '8px' };
+['r1', 'r2', 'r3'].forEach(id => at($(id), [[B[id.toUpperCase()], ROW0], [B[id.toUpperCase()] + 400, ROW1], [OUT0, ROW1], [OUT1, { ...ROW1, opacity: 0 }]]));
+fade($('pin_nomod'), B.NOMOD);
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pins = ['con', 'web', 'bt', 'bA', 'bB', 'bX', 'bY', 'res', 'nomod'].map(k => [k, $('pin_' + k)]);
+const img = $('stage');
+function tick(ms) {
+
+  const f = Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000));
+  const src = `../out/blender/console/f_${String(f + 1).padStart(4, '0')}.webp`;
+  if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+  // each callout is centred on its anchor (data-up: sits above it), moved by data-dx / dy, kept inside the card's margins
+  const A = window.BENCH_ANCHORS, box = $('stageBox'), pad = parseInt(getComputedStyle(document.body).getPropertyValue('--pad'));
+  if (A) for (const [k, el] of pins) {
+    const [x, y] = A.pts[k][f];
+    const up = el.dataset.up ? el.offsetHeight / 2 + +el.dataset.up : 0;
+    const ax = img.offsetLeft + x * img.offsetWidth + +el.dataset.dx - el.offsetWidth / 2, ay = img.offsetTop + y * img.offsetHeight + +el.dataset.dy - el.offsetHeight / 2 - up;
+    el.style.left = clamp(ax, pad, box.offsetWidth - el.offsetWidth - pad) + 'px';
+    el.style.top = clamp(ay, 8, box.offsetHeight - el.offsetHeight - 8) + 'px';
+  }
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__settle = () => img.decode().catch(() => {});
+window.__T = T;
+</script>
+</body>
+</html>

@@ -37,6 +37,13 @@ Backend endpoints used by the site (e.g. the Ask AI widget) live in the `virtual
 
 A new folder page (`<name>/index.html`) with relative paths needs the same `<head>` guard. After a deploy, check: `curl -sI https://virtualpytest.com/learn` returns 308 with `location: /learn/`.
 
+## Learn 3D cards
+
+12 lessons play a 3D card (`cards/<slug>-3d.html`). Its stage is a frame sequence in `learn/out/blender/<scene>/`
+(`f_NNNN.webp` + `anchors.js`, 450 frames, ~6-14 MB a scene), copied with the card by the product repo's
+`publish_learn.sh`; never edit them here. A 3D card has its flat card's words, so the player translates it with the flat
+card's catalog (`catOf` in `learn/index.html`). To bring a flat card back, set its `card` in `learn/index.html`.
+
 ## Learn phone-fit check
 
 `python3 tools/learn_fit.py [site-dir] [height, default 740] [--lang de]` opens every Learn lesson at 390 px wide and requires that the lesson block (`main.lx`: picker, animation, text, sticky Prev/Next) is no taller than the viewport, that every title stays on one line and that no card throws a page error. The site navbar, device strip and footer scroll away and are not counted. It exits 1 on any failure and is part of `python3 -m pytest tests -q`, which the lane runs. (Before 2026-11-11 the check counted the whole page, so all 50 lessons "failed" by a constant 400 px. The lessons themselves were fine.)

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Many At Once 3D</title>
+<!-- Lesson 1.6 "Many at once" on a 3D stage: same words as many-screens.html (SCRIPTS.md 1.6), the diagram replaced by a
+     Blender scene (scripts/promo/blender/screens.py, built by `build.sh screens frames` into ../out/blender/screens/).
+     BEATS is the single source of the timing: screens.py reads it. 1080x1350, ?f=sq 1080x1080, ?f=embed 1080x600. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a;
+    --W: 1080px; --H: 1350px; --pad: 96px; --h1: 64px; --stageTop: 330px; --stageH: 740px; --imgW: 1080px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --stageTop: 260px; --stageH: 650px; --imgW: 960px; }
+  body.embed { --H: 600px; --stageTop: 0px; --stageH: 600px; --imgW: 960px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; position: relative; }
+  .head { position: absolute; left: var(--pad); right: var(--pad); top: var(--pad); z-index: 2; }
+  body.sq .head { top: 64px; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 22px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: 26px; font-size: var(--h1, 56px); line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 8px; font-size: 0.72em; }
+  body.sq h1 { font-size: 50px; margin-top: 18px; }
+  body.sq .eyebrow { margin-top: 16px; }
+  .stage { position: absolute; left: 0; top: var(--stageTop); width: 1080px; height: var(--stageH); overflow: hidden; }
+  .stage img { position: absolute; left: 50%; top: 50%; width: var(--imgW); height: calc(var(--imgW) * 760 / 1080);
+    margin-left: calc(var(--imgW) / -2); margin-top: calc(var(--imgW) * -380 / 1080);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  /* callouts pinned to the 3D (positions from anchors.js); opacity on the outer box, content entered inside */
+  .pin { position: absolute; left: 0; top: 0; }
+  .callout { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 12px 18px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .callout .t { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 21px; font-weight: 700; letter-spacing: 2px; color: var(--ink); }
+  .callout .s { font-size: 25px; font-weight: 700; color: var(--ink); margin-top: 2px; white-space: nowrap; }
+  .callout .g { font-size: 22px; font-weight: 700; color: var(--goldText); margin-top: 4px; white-space: nowrap; }
+  .callout .row { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; margin-top: 6px; white-space: nowrap; opacity: 0; }
+  .gd { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex: none; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; padding: 7px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .chip.goldc { background: var(--gold); border-color: var(--gold); }
+  .chip.vid { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .chip.vid .gd { box-shadow: 0 0 0 4px rgba(212,165,116,.35); }
+  .okdot { width: 22px; height: 22px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; }
+  .caption { position: absolute; left: var(--pad); right: var(--pad); top: 1086px; font-size: 32px; line-height: 1.3; color: var(--ink); }
+  .ctarow { position: absolute; left: var(--pad); right: var(--pad); top: 1232px; display: flex; align-items: center; gap: 30px; }
+  body.sq .ctarow { top: 950px; }
+  .cta { white-space: nowrap; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 30px; font-weight: 700; padding: 20px 34px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: #5c5c5c; font-weight: 700; }
+  body.sq .caption { display: none; }
+  body.embed .head, body.embed .caption, body.embed .ctarow { display: none; }
+  .chip.sm { font-size: 24px; padding: 5px 12px; }
+  .chip.key { border-bottom-width: 5px; border-color: #c9c2b8; }
+
+  .lbl { font-size: 28px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .lbl.gold { color: var(--goldText); }
+  .tag { display: inline-block; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; padding: 4px 12px; border-radius: 8px; background: var(--dark); color: #fff; white-space: nowrap; }
+  .rowt { font-size: 19px; line-height: 1.15; font-weight: 700; color: #fff; background: #2b2f36; padding: 0 8px; border-radius: 8px; white-space: nowrap; }
+  .nm { font-size: 24px; font-weight: 700; color: #fff; background: rgba(21,23,28,.88); padding: 1px 12px; border-radius: 8px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">CONTROL ANY DEVICE · MANY AT ONCE · 6/8</div>
+  <h1><span id="h1a">Watch many devices at once</span><span class="l2" id="h1b">Side by side, a 2×2, or 24 to a page</span></h1>
+</div>
+
+<div class="stage" id="stageBox">
+  <img id="stage" alt="">
+</div>
+
+<p class="caption" id="caption">Choose how the Devices page shows your devices: two side by side, stacked, three in a row, a 2×2 or 3×2 grid, or 12 or 24 to a page.</p>
+<div class="ctarow" id="ctarow"><div class="cta">See device control <span class="arrow">→</span></div><span class="next">Next: One remote, many devices</span></div>
+
+<script src="../out/blender/screens/anchors.js"></script>
+<script>
+const T = 15000;
+const BEATS = {"DEV": 1600, "LINK1": 2600, "MENU": 2900, "LINK2": 3300, "WALL": 3500, "L1": 3600, "L2": 5200, "L3": 6800, "LIVE": 7600, "RESET": 14700};
+
+const FPS = 30, FRAMES = T * FPS / 1000, B = BEATS;
+const q = new URLSearchParams(location.search).get('f');
+if (q === 'sq') document.body.classList.add('sq');
+if (q === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function spans(el, list) {                       // opacity on during each [t0, t1] span
+  const k = [[0, { opacity: 0 }]];
+  for (const [t0, t1] of list) k.push([t0, { opacity: 0 }], [t0 + 250, { opacity: 1 }], [t1, { opacity: 1 }], [t1 + 300, { opacity: 0 }]);
+  at(el, k);
+}
+// a key chip is pressed: it dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+const stageBox = $('stageBox');
+const PINS = [];                                  // [anchor key, element, dx, dy, mode]: placed from anchors.js on every frame
+// mode 't': the chip's top is at the anchor, 'b': its bottom, 'm': its middle (always centred on the anchor sideways)
+function pin(key, html, dx = 0, dy = 0, mode = 't') {
+  const d = document.createElement('div'); d.className = 'pin'; d.innerHTML = html.trim();
+  stageBox.appendChild(d); PINS.push([key, d, dx, dy, mode]); return d.firstChild;
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const img = $('stage');
+function place(f) {
+  const A = window.BENCH_ANCHORS, pad = parseInt(getComputedStyle(document.body).getPropertyValue('--pad'));
+  if (!A) return;
+  for (const [k, el, dx, dy, mode] of PINS) {
+    const [x, y, vis] = A.pts[k][f];
+    el.style.visibility = vis ? 'visible' : 'hidden';                       // outside the camera's frame: hidden, never clamped to an edge
+    const ax = img.offsetLeft + x * img.offsetWidth + dx - el.offsetWidth / 2, ay = img.offsetTop + y * img.offsetHeight + dy - (mode === 'b' ? el.offsetHeight : mode === 'm' ? el.offsetHeight / 2 : 0);
+    el.style.left = clamp(ax, pad, stageBox.offsetWidth - el.offsetWidth - pad) + 'px';     // inside the card's side margins
+    el.style.top = clamp(ay, 8, stageBox.offsetHeight - el.offsetHeight - 8) + 'px';
+  }
+}
+function frameOf(ms) { return Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000)); }
+function setFrame(f) {
+  const src = `../out/blender/screens/f_${String(f + 1).padStart(4, '0')}.webp`;
+  if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+}
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+const vis = (e, t0, t1 = null) => at(e, [[0, { opacity: 0 }], [t0, { opacity: 0 }], [t0 + 250, { opacity: 1 }]].concat(t1 === null ? [[OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]] : [[t1, { opacity: 1 }], [t1 + 250, { opacity: 0 }]]));
+
+// labels under the three parts (same words and times as many-screens.html)
+enter(pin('dev', '<div class="w lbl">One device</div>'), B.DEV);
+enter(pin('menu_lbl', '<div class="w lbl">Pick a layout</div>'), B.DEV + 150);
+enter(pin('wall_lbl', '<div class="w lbl">All live</div>'), B.DEV + 300);
+// the LAYOUT board: its title and six rows; the chosen row turns gold, so its text turns dark
+enter(pin('menu_t', '<div class="w"><span class="tag">LAYOUT</span></div>', 0, -6, 'b'), B.MENU, 500);
+const ROWS = ['Side by side', 'Stacked', '3 in a row', 'Grid 2×2', 'Grid 3×2', '24 per page'];
+const PICK = { 0: [B.L1, B.L2], 3: [B.L2, B.L3], 5: [B.L3, null] };
+ROWS.forEach((name, i) => {
+  const w = pin('lo' + i, '<div class="w rowt">' + name + '</div>', 0, 0, 'm');
+  vis(w, B.MENU + 300);
+  const p = PICK[i];
+  if (p) { const on = { color: '#141414', background: '#d4a574' }, off = { color: '#ffffff', background: '#2b2f36' };
+    at(w, [[0, off], [p[0], off], [p[0] + 250, on]].concat(p[1] === null ? [[OUT0, on], [OUT1, off]] : [[p[1], on], [p[1] + 250, off]])); }
+});
+// the wall: the names of its screens while two or four are shown, a gold line at the end
+[['a', ['Home', 'Guide'], B.L1, B.L2], ['b', ['Home', 'Guide', 'Settings', 'Live TV'], B.L2, B.L3]].forEach(([k, list, t0, t1]) => {
+  list.forEach((n, i) => vis(pin('nm_' + k + i, '<div class="w nm">' + n + '</div>', 0, 0, 'm'), t0 + 150, t1));
+});
+enter(pin('wall_lbl2', '<div class="w lbl gold">Every tile live</div>'), B.LIVE);
+function tick(ms) { const f = frameOf(ms); setFrame(f); place(f); }
+
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__settle = () => img.decode().catch(() => {});
+window.__T = T;
+</script>
+</body>
+</html>

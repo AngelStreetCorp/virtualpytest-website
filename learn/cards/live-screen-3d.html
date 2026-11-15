@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>See Devices Live 3D</title>
+<!-- Lesson 1.1 "Live screen" on a 3D stage: same words as live-screen.html (SCRIPTS.md 1.1), the diagram replaced by a
+     Blender scene (scripts/promo/blender/live.py, built by `build.sh live frames` into ../out/blender/live/).
+     BEATS is the single source of the timing: live.py reads it. 1080x1350, ?f=sq 1080x1080, ?f=embed 1080x600. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a;
+    --W: 1080px; --H: 1350px; --pad: 96px; --stageTop: 330px; --stageH: 740px; --imgW: 1080px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --stageTop: 260px; --stageH: 650px; --imgW: 960px; }
+  body.embed { --H: 600px; --stageTop: 0px; --stageH: 600px; --imgW: 1080px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; position: relative; }
+  .head { position: absolute; left: var(--pad); right: var(--pad); top: var(--pad); z-index: 2; }
+  body.sq .head { top: 64px; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 22px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: 26px; font-size: 61px; line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 8px; font-size: 0.72em; }
+  body.sq h1 { font-size: 50px; margin-top: 18px; }
+  body.sq .eyebrow { margin-top: 16px; }
+  .stage { position: absolute; left: 0; top: var(--stageTop); width: 1080px; height: var(--stageH); overflow: hidden; }
+  .stage img { position: absolute; left: 50%; top: 50%; width: var(--imgW); height: calc(var(--imgW) * 760 / 1080);
+    margin-left: calc(var(--imgW) / -2); margin-top: calc(var(--imgW) * -380 / 1080);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  /* callouts pinned to the 3D (positions from anchors.js); opacity on the outer box, content entered inside */
+  .pin { position: absolute; left: 0; top: 0; opacity: 0; }
+  .callout { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 12px 18px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .callout .t { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 21px; font-weight: 700; letter-spacing: 2px; color: var(--ink); }
+  .callout .s { font-size: 25px; font-weight: 700; color: var(--ink); margin-top: 2px; white-space: nowrap; }
+  .callout .g { font-size: 22px; font-weight: 700; color: var(--goldText); margin-top: 4px; white-space: nowrap; }
+  .callout .row { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; margin-top: 6px; white-space: nowrap; opacity: 0; }
+  .gd { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex: none; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; padding: 7px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .chip.goldc { background: var(--gold); border-color: var(--gold); }
+  .chip.vid { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .chip.vid .gd { box-shadow: 0 0 0 4px rgba(212,165,116,.35); }
+  .okdot { width: 22px; height: 22px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; }
+  .chips3 { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; justify-content: center; gap: 14px; }
+  body.sq .chips3 { bottom: 0; gap: 10px; } body.sq .chips3 .chip { font-size: 23px; padding: 5px 12px; }
+  .livec { font-size: 20px; font-weight: 700; letter-spacing: 2px; padding: 1px 9px; border-radius: 6px; background: var(--gold); color: var(--ink); white-space: nowrap; }
+  .nm { font-size: 26px; font-weight: 700; white-space: nowrap; color: var(--ink); background: rgba(255,255,255,.86); padding: 1px 10px; border-radius: 10px; }
+  .caption { position: absolute; left: var(--pad); right: var(--pad); top: 1086px; font-size: 32px; line-height: 1.3; color: var(--ink); }
+  .ctarow { position: absolute; left: var(--pad); right: var(--pad); top: 1232px; display: flex; align-items: center; gap: 30px; }
+  body.sq .ctarow { top: 950px; }
+  .cta { white-space: nowrap; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 30px; font-weight: 700; padding: 20px 34px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: #5c5c5c; font-weight: 700; }
+  body.sq .caption { display: none; }
+  body.embed .head, body.embed .caption, body.embed .ctarow { display: none; }
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">CONTROL ANY DEVICE · LIVE SCREEN · 1/8</div>
+  <h1><span id="h1a">See your devices live</span><span class="l2" id="h1b">Any device kind, in any browser, nothing to install</span></h1>
+</div>
+
+<div class="stage" id="stageBox">
+  <img id="stage" alt="">
+  <div class="pin" id="pin_n0" data-c="1" data-dx="0" data-dy="0"><span class="nm">Web app</span></div>
+  <div class="pin" id="pin_n1" data-c="1" data-dx="0" data-dy="0"><span class="nm">Linux PC</span></div>
+  <div class="pin" id="pin_n2" data-c="1" data-dx="0" data-dy="0"><span class="nm">Windows PC</span></div>
+  <div class="pin" id="pin_n3" data-c="1" data-dx="0" data-dy="0"><span class="nm">Phone</span></div>
+  <div class="pin" id="pin_n4" data-c="1" data-dx="0" data-dy="0"><span class="nm">Tablet</span></div>
+  <div class="pin" id="pin_n5" data-c="1" data-dx="0" data-dy="0"><span class="nm">Fire TV</span></div>
+  <div class="pin" id="pin_n6" data-c="1" data-dx="0" data-dy="0"><span class="nm">Apple TV</span></div>
+  <div class="pin" id="pin_n7" data-c="1" data-dx="0" data-dy="0"><span class="nm">TV box</span></div>
+  <div class="pin" id="pin_l0" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l1" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l2" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l3" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l4" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l5" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l6" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="pin" id="pin_l7" data-dx="0" data-dy="-4"><span class="livec">LIVE</span></div>
+  <div class="chips3"><span class="chip" id="c1" style="opacity:0">Live <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="c2" style="opacity:0">Desktop or mobile <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="c3" style="opacity:0">Nothing to install <span class="okdot"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
+</div>
+
+<p class="caption" id="caption">Web apps, desktops, phones, tablets and TV boxes: VirtualPyTest streams the real screen of every device to any browser, desktop or mobile. Nothing to install.</p>
+<div class="ctarow" id="ctarow"><div class="cta">See the live screen <span class="arrow">→</span></div><span class="next">Next: The right remote for each device</span></div>
+
+<script src="../out/blender/live/anchors.js"></script>
+<script>
+const T = 15000;
+const BEATS = {"D0": 1600, "DSTEP": 330, "LIVE0": 2200, "MOVE": 5400, "CHIPS": 6600, "RESET": 14000};
+const FPS = 30, FRAMES = T * FPS / 1000, B = BEATS;
+const q = new URLSearchParams(location.search).get('f');
+if (q === 'sq') document.body.classList.add('sq');
+if (q === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function spans(el, list) {                       // opacity on during each [t0, t1] span
+  const k = [[0, { opacity: 0 }]];
+  for (const [t0, t1] of list) k.push([t0, { opacity: 0 }], [t0 + 250, { opacity: 1 }], [t1, { opacity: 1 }], [t1 + 300, { opacity: 0 }]);
+  at(el, k);
+}
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+function show(el, t) { at(el, [[t, { opacity: 0 }], [t + 300, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]); }
+for (let i = 0; i < 8; i++) { show($('pin_n' + i), B.D0 + i * B.DSTEP + 150); show($('pin_l' + i), B.LIVE0 + i * B.DSTEP); }
+[1, 2, 3].forEach(k => at($('c' + k), [[B.CHIPS + (k - 1) * 300, { opacity: 0, transform: 'translateY(24px)' }], [B.CHIPS + (k - 1) * 300 + 400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]));
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pins = [...Array(8).keys()].flatMap(i => ['n' + i, 'l' + i]).map(k => [k, $('pin_' + k)]);
+const img = $('stage');
+function tick(ms) {
+  const f = Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000));
+  const src = `../out/blender/live/f_${String(f + 1).padStart(4, '0')}.webp`;
+  if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+  // each callout sits at its anchor plus its own offset (data-dx / dy), kept inside the stage box
+  const A = window.BENCH_ANCHORS, box = $('stageBox'), pad = parseInt(getComputedStyle(document.body).getPropertyValue('--pad'));
+  if (A) for (const [k, el] of pins) {
+    const [x, y] = A.pts[k][f];
+    const ax = img.offsetLeft + x * img.offsetWidth + +el.dataset.dx - (el.dataset.c ? el.offsetWidth / 2 : 0), ay = img.offsetTop + y * img.offsetHeight + +el.dataset.dy;
+    el.style.left = clamp(ax, pad, box.offsetWidth - el.offsetWidth - pad) + 'px';     // inside the card's side margins
+    el.style.top = clamp(ay, 8, box.offsetHeight - el.offsetHeight - 8) + 'px';
+  }
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__settle = () => img.decode().catch(() => {});
+window.__T = T;
+</script>
+</body>
+</html>
