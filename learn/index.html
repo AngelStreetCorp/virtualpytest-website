@@ -65,9 +65,17 @@
   .lx :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 8px; }
 
   /* Learn bar: the title + the topics */
-  .lx .lhead { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px; padding: 28px 24px 0; }
+  .lx .lhead { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 28px 24px 0; }
   .lx .ltitle { flex-shrink: 0; font-size: 28px; line-height: 1.1; font-weight: 600; letter-spacing: -0.5px; }
 
+  /* the topic badges under the search bar: one tap jumps to a topic's first lesson */
+  .lx nav.ltopics { order: 4; flex-basis: 100%; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .lx nav.ltopics { mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .lx nav.ltopics::-webkit-scrollbar { display: none; }
+  .lx nav.ltopics button { flex-shrink: 0; padding: 6px 12px; border-radius: 999px; font-size: 14px; color: var(--ink2); white-space: nowrap; border: 1px solid var(--line); }
+  .lx nav.ltopics button:hover { border-color: var(--gold); }
+  .lx nav.ltopics button[aria-current="true"] { background: var(--chipOn); border-color: var(--chipOn); color: var(--chipOnInk); font-weight: 700; }
+  .lx nav.ltopics .n { opacity: .6; margin-right: 6px; }
   .lx .pickw { position: relative; flex: 1; min-width: 0; max-width: 600px; }
   .lx .pick { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; text-align: left; }
   .lx .pick:hover, .lx .pick[aria-expanded="true"] { border-color: var(--gold); }
@@ -195,6 +203,8 @@
       .lx .lhead { padding: 20px 16px 0; gap: 10px; flex-wrap: wrap; }
     .lx .ltitle { font-size: 24px; }
     .lx .pickw { order: 3; flex-basis: 100%; max-width: none; }
+    .lx nav.ltopics { order: 2; flex: 1 1 0; margin-right: -16px; padding-right: 16px; }   /* on a phone the badges share the title row: no extra height */
+    .lx nav.ltopics button { padding: 5px 11px; font-size: 13px; }
     .lx .pick kbd { display: none; }
     .lx .pdim { background: rgba(0,0,0,.45); }
     .lx .pmenu { position: fixed; top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-height: 86vh; border-radius: 18px 18px 0 0; padding-bottom: env(safe-area-inset-bottom); }
@@ -259,6 +269,7 @@
       <div class="pkeys" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd><i data-t>move</i></span><span><kbd>Enter</kbd><i data-t>open</i></span><span><kbd>→</kbd><i data-t>details</i></span><span><kbd>Esc</kbd><i data-t>close</i></span></div>
     </div>
   </div>
+  <nav class="ltopics" id="topics" aria-label="Topics" data-ta></nav>
 </div>
 <div class="lmain">
   <section class="stage" id="stage" aria-label="Animation" data-ta>
@@ -375,6 +386,10 @@ const pk = { filter: null, open: new Set(), desc: new Set(), act: -1 };
 function renderTopics() {   // the bar
   $('crumb').innerHTML = `<i>${topic.id} · ${esc(T(topic.name))} ›</i> <b>${step}. ${esc(stepTitle(topic, step))}</b>`;
   $('pick').setAttribute('aria-label', T('Choose a lesson') + ': ' + $('crumb').textContent);
+  const nav = $('topics');
+  nav.innerHTML = TOPICS.map(t => `<button aria-current="${t === topic}" data-t="${t.id}"><span class="n">${t.id}</span>${esc(T(t.name))}</button>`).join('');
+  nav.querySelectorAll('button').forEach(b => b.onclick = () => { const t = TOPICS.find(x => x.id === +b.dataset.t); if (t !== topic) go(t, 1); });
+  centre(nav, nav.querySelector('[aria-current="true"]'));
 }
 function renderChips() {
   $('pchips').innerHTML = `<button aria-pressed="${pk.filter === null}" data-f="">${esc(T('All'))}</button>` +
