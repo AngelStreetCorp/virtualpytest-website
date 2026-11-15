@@ -150,7 +150,9 @@ function pickTheme() {
   if (t === theme) return;
   const was = img.currentTime || 0; theme = t;
   img.innerHTML = `<source src="${VID}${t}.webm" type="video/webm"><source src="${VID}${t}.mp4" type="video/mp4">`;
-  img.load(); if (was) img.currentTime = was;
+  img.load(); rest = 0;
+  // the new video starts where the card is now, not where the old one was (the player darkens the card after it started)
+  img.addEventListener('loadedmetadata', () => { img.currentTime = master.playState === 'running' ? ((master.currentTime % T) + 60) % T / 1000 : was; }, { once: true });
 }
 function syncStage(ms) {
   pickTheme();
@@ -161,11 +163,14 @@ function syncStage(ms) {
     if (!img.seeking && Math.abs(img.currentTime - want) > 0.4 / FPS) img.currentTime = want;
     return Math.min(FRAMES - 1, Math.floor(ms * FPS / 1000));
   }
-  if (img.playbackRate !== master.playbackRate) img.playbackRate = master.playbackRate;
   if (img.paused) img.play().catch(() => {});
   let d = img.currentTime * 1000 - ms; if (d > T / 2) d -= T; if (d < -T / 2) d += T;
-  if (rest > 0) rest--;   // a seek takes a moment: no second pull-back while the first one lands
-  else if (!img.seeking && Math.abs(d) > 250) { img.currentTime = ((ms + 60) % T) / 1000; rest = 30; }
+  // a small drift is closed by playing up to 10 % faster or slower (a seek would stall the video on the network); only a
+  // drift past 1 s seeks, then waits for the seek to land
+  if (rest > 0) rest--;
+  else if (!img.seeking && Math.abs(d) > 1000) { img.currentTime = ((ms + 150) % T) / 1000; rest = 60; }
+  const rate = master.playbackRate * Math.max(0.9, Math.min(1.1, 1 - d / 500));
+  if (Math.abs(img.playbackRate - rate) > 0.005) img.playbackRate = rate;
   return Math.min(FRAMES - 1, Math.floor((img.readyState >= 2 ? img.currentTime * 1000 : ms) * FPS / 1000));
 }
 function tick(ms) {
