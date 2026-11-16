@@ -297,6 +297,8 @@
     var api = panel.getAttribute('data-api').replace(/\/$/, '') + '/server/public/ask';
     var docsBase = 'https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/';
     var KEY = 'askai:history', MAX = 40, history = [], busy = false;
+    /* This visit's answered turns, sent with each question so a follow-up ("what parameters does it need?") keeps its context. */
+    var turns = [], TURNS = 3;
     function readHistory(){ try { var p = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(p) ? p : []; } catch(e){ return []; } }
     function writeHistory(){ try { localStorage.setItem(KEY, JSON.stringify(history.slice(-MAX))); } catch(e){} }
     function openPanel(){ panel.classList.add('is-open'); fab.style.display = 'none'; input.focus(); }
@@ -336,7 +338,7 @@
     function syncClear(){ clearBtn.hidden = history.length === 0; }
     hToggle.addEventListener('click', function(){ var o = hBox.classList.toggle('is-open'); hToggle.setAttribute('aria-expanded', o ? 'true' : 'false'); });
     clearBtn.addEventListener('click', function(){
-      history = []; try { localStorage.removeItem(KEY); } catch(e) {}
+      history = []; turns = []; try { localStorage.removeItem(KEY); } catch(e) {}
       log.innerHTML = ''; hBody.innerHTML = ''; hBox.hidden = true; restored = 0; input.value = ''; input.focus(); syncClear();
     });
     window.vptLocaleHooks.push(setHistoryLabel);
@@ -383,13 +385,18 @@
       if(chipsBox) chipsBox.innerHTML = '';
       addMsg('user', q);
       var typing = addMsg('bot ask-typing', t('Checking the docs') + '…', false);
-      fetch(api, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:q, language: current})})
+      fetch(api, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:q, language: current, history: turns.slice(-TURNS)})})
         .then(function(r){ return r.json().then(function(b){ return {ok:r.ok, body:b}; }); })
         .then(function(res){
           typing.remove();
           if(res.ok && res.body && res.body.success){
             addMsg('bot', res.body.answer);
-            if(res.body.sources && res.body.sources.length){ log.appendChild(makeSources(res.body.sources)); history[history.length - 1].sources = res.body.sources; writeHistory(); loadFollowups(q, res.body.answer, chipSeq); } else resetChips();
+            /* The server rewrites a follow-up into a self-contained question (res.body.question): keep that one. */
+            var full = res.body.question || q;
+            if(res.body.sources && res.body.sources.length){
+              turns.push({question: full, answer: res.body.answer}); if(turns.length > TURNS) turns.shift();
+              log.appendChild(makeSources(res.body.sources)); history[history.length - 1].sources = res.body.sources; writeHistory(); loadFollowups(full, res.body.answer, chipSeq);
+            } else resetChips();
           } else { resetChips(); addMsg('error', t((res.body && res.body.error) || 'Something went wrong. Try again in a moment.')); }
         })
         .catch(function(){ typing.remove(); resetChips(); addMsg('error', t('Could not reach the assistant. Try again in a moment.')); })
