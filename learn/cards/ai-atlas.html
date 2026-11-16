@@ -65,45 +65,60 @@
   .tr { position: absolute; left: 24px; right: 24px; height: 60px; display: flex; align-items: center; font-size: 24px; font-weight: 700; white-space: nowrap; }
   .tr .m { position: absolute; left: 290px; }
   .tr .s { position: absolute; left: 560px; }
+  .grow { display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; min-height: 52px; border-top: 1px solid #ebe7e0; }
+  .grow .gn { width: 128px; font-size: 17px; font-weight: 700; color: var(--muted); }
+  .tn { font-family: var(--mono); font-size: 16px; font-weight: 700; padding: 4px 9px; border-radius: 8px; background: #f2f0ec; white-space: nowrap; }
 
 </style>
 </head>
 <body>
-<div class="tag" id="tag0"><span class="n">Chapter 1 of 5</span><span class="h">Ask in plain words</span></div>
-<div class="tag" id="tag1"><span class="n">Chapter 2 of 5</span><span class="h">Skills: the know-how</span></div>
-<div class="tag" id="tag2"><span class="n">Chapter 3 of 5</span><span class="h">The tools do the work</span></div>
+<div class="tag" id="tag0"><span class="n">Chapter 1 of 5</span><span class="h">Ask Atlas</span></div>
+<div class="tag" id="tag1"><span class="n">Chapter 2 of 5</span><span class="h">Skills</span></div>
+<div class="tag" id="tag2"><span class="n">Chapter 3 of 5</span><span class="h">Tools</span></div>
 <div class="tag" id="tag3"><span class="n">Chapter 4 of 5</span><span class="h">Connect any model</span></div>
 <div class="tag" id="tag4"><span class="n">Chapter 5 of 5</span><span class="h">One model per job</span></div>
-<div class="say" id="say1">3 of 70+ tools loaded</div>
-<div class="say" id="say2">Every step shown in the chat</div>
+<div class="say" id="say1">17 skills ready; each loads only its tools</div>
+<div class="say" id="say2">Every call shown in the chat</div>
 <div class="say" id="say3">Stays on your network</div>
 <div class="say" id="say4">Next: an AI tool you already use, on the same lab tools</div>
 <div class="stage" id="stage"><svg class="links" id="links"></svg>
 
 <div class="ch" id="ch0">
-  <div class="card" style="left:0; top:0; width:936px; height:340px"></div>
-  <div class="tv" id="tvA" style="left:36px; top:70px; width:320px; height:180px"><div class="bar"></div><div class="nm" id="tvAH">Home</div><div class="nm" id="tvAG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvAF"></div><span class="tk" id="tvAK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-  <div class="abs" style="left:392px; top:24px; width:2px; height:292px; background:#ebe7e0"></div>
-  <div class="bub q" id="q0" style="left:470px; top:28px; width:440px">Run the goto test to Guide on the TV box</div>
-  <div class="typing" id="typ" style="left:420px; top:150px"><i></i><i></i><i></i></div>
-  <div class="bub a" id="a0" style="left:420px; top:150px; width:420px"><div class="row" style="gap:10px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t" style="color:#cfcfcf">ATLAS</span></div><div style="margin-top:8px">Done ✓ Guide reached in 4.2 s</div></div>
-  <div class="chip gold abs" id="rep0" style="left:420px; top:268px"><svg width="20" height="22" viewBox="0 0 20 24"><path d="M3 2h10l5 5v15H3z" fill="#fff" stroke="#141414" stroke-width="2"/><path d="M6 12h8M6 16h8" stroke="#141414" stroke-width="2"/></svg>Report</div>
+  <div class="lblc" id="crumb0" style="left:0; width:936px; top:-6px; justify-content:flex-start; font-size:22px; color:var(--goldText)">AI → Chat Agent</div>
+  <div class="card dark" id="app0" style="left:0; top:34px; width:936px; height:356px; background:#121212; border-color:#2a2a2a; overflow:hidden">
+    <div class="abs" style="left:0; right:0; top:0; height:58px; background:#1c1c1c; border-bottom:1px solid #2a2a2a"></div>
+    <span class="chip abs" style="left:16px; top:9px; background:#232323; border-color:#3a3a3a; color:#fff; font-size:21px"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg>Atlas<svg width="14" height="14" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#cfcfcf" stroke-width="3" fill="none"/></svg></span>
+    <span class="chip abs" style="left:190px; top:9px; background:#232323; border-color:#3a3a3a; color:#cfcfcf; font-size:21px">Model<svg width="14" height="14" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#cfcfcf" stroke-width="3" fill="none"/></svg></span>
+    <div id="home0">
+      <div class="abs row" style="left:0; right:0; top:96px; justify-content:center; color:#fff; font-size:26px; font-weight:400"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg>AI Agent</div>
+      <div class="abs" id="inp0" style="left:168px; top:152px; width:600px; height:56px; border-radius:14px; border:2px solid #d4a574; background:#1a1a1a; display:flex; align-items:center; padding:0 18px; font-size:22px; color:#8a8a8a">
+        <span id="ph0" class="abs" style="left:18px">How can I help you?</span><span id="ty0" class="abs" style="left:18px; color:#fff; white-space:nowrap">Run the goto test to Guide on the TV box</span></div>
+      <div class="abs" style="left:0; right:0; top:232px; display:flex; justify-content:center; gap:10px">
+        <span class="chip" style="background:#232323; border-color:#3a3a3a; color:#e8e8e8; font-size:19px">Show device status</span><span class="chip" style="background:#232323; border-color:#3a3a3a; color:#e8e8e8; font-size:19px">List all testcases</span><span class="chip" style="background:#232323; border-color:#3a3a3a; color:#e8e8e8; font-size:19px">Navigate to home</span></div>
+    </div>
+    <div id="conv0">
+      <div class="bub q" style="left:420px; top:84px; width:480px">Run the goto test to Guide on the TV box</div>
+      <div class="bub a" id="a0" style="left:36px; top:186px; width:440px; background:#232323"><div class="row" style="gap:10px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t" style="color:#cfcfcf">ATLAS</span></div><div style="margin-top:8px">Done ✓ Guide reached in 4.2 s</div></div>
+      <div class="chip gold abs" id="rep0" style="left:36px; top:300px"><svg width="20" height="22" viewBox="0 0 20 24"><path d="M3 2h10l5 5v15H3z" fill="#fff" stroke="#141414" stroke-width="2"/><path d="M6 12h8M6 16h8" stroke="#141414" stroke-width="2"/></svg>Report</div>
+    </div>
+  </div>
 </div>
 <div class="ch" id="ch1">
-  <div class="sk" id="sk0" style="left:0px; top:0px">Control devices</div><div class="sk" id="sk1" style="left:270px; top:0px">Run scripts</div><div class="sk" id="sk2" style="left:0px; top:86px">Run test cases</div><div class="sk" id="sk3" style="left:270px; top:86px">System health</div><div class="sk" id="sk4" style="left:0px; top:172px">Search the docs</div><div class="sk" id="sk5" style="left:270px; top:172px">Test from a prompt</div>
-  <div class="card" id="open1" style="left:590px; top:0; width:346px; height:320px; padding:20px 24px">
-    <div class="t">RUN SCRIPTS</div>
-    <div style="margin-top:12px"><div class="trow" id="tr0"><span class="d" id="td0"></span>Find the script</div><div class="trow" id="tr1"><span class="d" id="td1"></span>Start the run</div><div class="trow" id="tr2"><span class="d" id="td2"></span>Read the report</div></div>
-    <div class="grid" id="grid1" style="margin-top:18px"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="bub q abs" id="ask1" style="left:0; top:0; width:auto; white-space:nowrap">Create a test case: open Guide and check it</div>
+  <div class="sk" id="sk0" style="left:0px; top:76px; width:270px">Build a user interface</div><div class="sk" id="sk1" style="left:290px; top:76px; width:270px">Create test cases</div><div class="sk" id="sk2" style="left:0px; top:160px; width:270px">Grafana dashboard</div><div class="sk" id="sk3" style="left:290px; top:160px; width:270px">Control devices</div><div class="sk" id="sk4" style="left:0px; top:244px; width:270px">Run scripts</div><div class="sk" id="sk5" style="left:290px; top:244px; width:270px">Search the docs</div>
+  <span class="chip abs" id="more1" style="left:0; top:330px; background:#ebe7e0; border-color:#ebe7e0; color:var(--muted)">+11 more</span>
+  <div class="card" id="open1" style="left:586px; top:76px; width:350px; height:300px; padding:20px 24px">
+    <div class="t mono" style="font-size:16px; letter-spacing:1px">SKILL · testcase-management</div>
+    <div style="margin-top:14px"><div class="trow mono" id="tr0" style="font-size:21px"><span class="d" id="td0"></span>save_testcase</div><div class="trow mono" id="tr1" style="font-size:21px"><span class="d" id="td1"></span>execute_testcase</div><div class="trow mono" id="tr2" style="font-size:21px"><span class="d" id="td2"></span>list_testcases</div><div class="trow mono" id="tr3" style="font-size:21px"><span class="d" id="td3"></span>capture_screenshot</div></div>
   </div>
 </div>
 <div class="ch" id="ch2">
-  <div class="card dark" style="left:0; top:0; width:470px; height:320px; padding:22px 28px">
-    <div class="row" style="gap:10px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t">ATLAS</span></div>
-    <div style="margin-top:14px"><div class="step" id="st0"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Take the device ✓</div><div class="step" id="st1"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Go to Guide ✓</div><div class="step" id="st2"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Check the screen ✓</div><div class="step" id="st3"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Read the report ✓</div></div>
+  <div class="card dark" id="at2" style="left:0; top:150px; width:140px; height:90px; display:flex; align-items:center; justify-content:center; gap:8px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t">ATLAS</span></div>
+  <div class="card" id="mcp2" style="left:170px; top:0; width:524px; height:396px; padding:16px 22px">
+    <div class="t mono" style="font-size:16px; letter-spacing:1px">MCP SERVER · 77 tools</div>
+    <div style="margin-top:8px"><div class="grow"><span class="gn">Control</span><span class="tn" id="tn_take_control">take_control</span><span class="tn" id="tn_release_control">release_control</span></div><div class="grow"><span class="gn">Navigation</span><span class="tn" id="tn_navigate_to_node">navigate_to_node</span></div><div class="grow"><span class="gn">Verification</span><span class="tn" id="tn_verify_node">verify_node</span></div><div class="grow"><span class="gn">Screenshot</span><span class="tn" id="tn_capture_screenshot">capture_screenshot</span></div><div class="grow"><span class="gn">Test cases</span><span class="tn" id="tn_execute_testcase">execute_testcase</span><span class="tn" id="tn_save_testcase">save_testcase</span></div><div class="grow"><span class="gn">User interface</span><span class="tn" id="tn_create_userinterface">create_userinterface</span></div></div>
   </div>
-  <div class="tv" id="tvC" style="left:600px; top:30px; width:336px; height:190px"><div class="bar"></div><div class="nm" id="tvCH">Home</div><div class="nm" id="tvCG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvCF"></div><span class="tk" id="tvCK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-  <div class="chip gold abs" id="rep2" style="left:600px; top:250px"><svg width="20" height="22" viewBox="0 0 20 24"><path d="M3 2h10l5 5v15H3z" fill="#fff" stroke="#141414" stroke-width="2"/><path d="M6 12h8M6 16h8" stroke="#141414" stroke-width="2"/></svg></div>
+  <div class="tv" id="tvC" style="left:724px; top:110px; width:212px; height:140px"><div class="bar"></div><div class="nm" id="tvCH">Home</div><div class="nm" id="tvCG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvCF"></div><span class="tk" id="tvCK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
 </div>
 <div class="ch" id="ch3">
   <div class="chip gold abs" id="model3" style="left:0; top:0">Model = the AI engine</div>
@@ -118,7 +133,7 @@
 </div>
 <div class="ch" id="ch4">
   <div class="card" style="left:40px; top:0; width:856px; height:300px">
-    <div class="tr" id="r0" style="top:20px">Atlas chat<span class="chip m" id="m0"><svg width="26" height="22" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#8f5f2e"/></svg>Cloud · large</span><span class="chip bad s" id="down">Down</span><span class="chip ok s" id="backup">Backup ✓</span></div>
+    <div class="tr" id="r0" style="top:20px">Atlas chat<span class="chip m" id="m0"><svg width="26" height="22" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#8f5f2e"/></svg>Cloud · large</span><span class="chip bad s" id="down">Down</span><span class="chip ok s" id="backup">Fallback ✓</span></div>
     <div class="tr" id="r1" style="top:88px">Channel banner<span class="chip m"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>Local · small</span></div>
     <div class="tr" id="r2" style="top:156px">Describe a screen<span class="chip m"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>Local · small</span></div>
     <div class="tr" id="r3" style="top:224px">Test plan<span class="chip m"><svg width="26" height="22" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#8f5f2e"/></svg>Cloud · large</span></div>
@@ -180,24 +195,29 @@ function say(id, t) {
 }
 
 let c = CH[0];
-fadeIn($('tvAH'), c, 200); fadeOut($('tvAH'), c + 4100, 200); fadeIn($('tvAG'), c + 4200, 200);
-typeIn($('q0'), c + 900, c + 2700);
-fadeBetween($('typ'), c + 3000, c + 4500);
-show($('a0'), c + 4800); flash($('tvAF'), c + 4200); pop($('tvAK'), c + 4700); show($('rep0'), c + 5600);
+show($('crumb0'), c + 300); show($('app0'), c + 500);
+fadeOut($('ph0'), c + 2200, 150); typeIn($('ty0'), c + 2300, c + 4300);
+at($('home0'), [[c + 5000, { opacity: 1 }], [c + 5300, { opacity: 0 }]]);
+fadeIn($('conv0'), c + 5300); show($('a0'), c + 6400); show($('rep0'), c + 7400);
 c = CH[1];
-for (let i = 0; i < 6; i++) show($('sk' + i), c + 600 + i * 250, 350);
-at($('sk1'), [[c + 3000, { background: '#ffffff', borderColor: '#d9d4cc' }], [c + 3300, { background: '#d4a574', borderColor: '#d4a574' }]]);
-dots(524, 32, 584, 60, c + 3300, c + 3700);
-show($('open1'), c + 3700);
-[0, 1, 2].forEach(i => { show($('tr' + i), c + 4300 + i * 800, 350); at($('td' + i), [[c + 4600 + i * 800, { background: '#d9d4cc' }], [c + 4800 + i * 800, { background: '#d4a574' }]]); });
-show($('grid1'), c + 6600);
-say('say1', c + 7200);
+show($('ask1'), c + 500);
+for (let i = 0; i < 6; i++) show($('sk' + i), c + 1500 + i * 250, 350);
+show($('more1'), c + 3100, 350);
+at($('sk1'), [[c + 4000, { background: '#ffffff', borderColor: '#d9d4cc' }], [c + 4300, { background: '#d4a574', borderColor: '#d4a574' }]]);
+dots(564, 108, 582, 120, c + 4300, c + 4800);
+show($('open1'), c + 4800);
+[0, 1, 2, 3].forEach(i => { show($('tr' + i), c + 5400 + i * 700, 350); at($('td' + i), [[c + 5700 + i * 700, { background: '#d9d4cc' }], [c + 5900 + i * 700, { background: '#d4a574' }]]); });
+say('say1', c + 8600);
 c = CH[2];
-dots(474, 140, 596, 120, c + 1000, c + 1400);
-[0, 1, 2, 3].forEach(i => show($('st' + i), c + 1400 + i * 1600, 400));
-fadeIn($('tvCH'), c, 200); fadeOut($('tvCH'), c + 3100, 200); fadeIn($('tvCG'), c + 3200, 200); flash($('tvCF'), c + 3200); pop($('tvCK'), c + 4700);
-show($('rep2'), c + 6400);
-say('say2', c + 7400);
+show($('at2'), c + 300); show($('mcp2'), c + 800);
+dots(144, 195, 166, 195, c + 1800, c + 2000);
+['take_control', 'navigate_to_node', 'verify_node', 'capture_screenshot'].forEach((n, i) => at($('tn_' + n), [[c + 2600 + i * 1400, { background: '#f2f0ec' }], [c + 2900 + i * 1400, { background: '#d4a574' }]]));
+dots(698, 185, 720, 185, c + 2800, c + 3000);
+show($('tvC'), c + 2800, 400);
+fadeIn($('tvCH'), c, 200); fadeOut($('tvCH'), c + 4100, 200); fadeIn($('tvCG'), c + 4200, 200);
+at($('tvCF'), [[c + 4200, { opacity: 0 }], [c + 4280, { opacity: 0.85 }], [c + 4650, { opacity: 0 }], [c + 6800, { opacity: 0 }], [c + 6880, { opacity: 0.85 }], [c + 7250, { opacity: 0 }]]);
+pop($('tvCK'), c + 5700);
+say('say2', c + 8400);
 c = CH[3];
 show($('model3'), c + 800); show($('set3'), c + 1500);
 for (let i = 0; i < 5; i++) show($('p' + i), c + 2300 + i * 350, 300);
