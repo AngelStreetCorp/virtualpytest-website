@@ -89,10 +89,10 @@
   svg.links { position: absolute; left: 0; top: 0; width: 936px; height: 400px; overflow: visible; pointer-events: none; }
 
   /* chapter 7: the comparison card */
-  #c7 { left: 0; top: -8px; width: 936px; height: 408px; }
+  #c7 { left: 0; top: 10px; width: 936px; height: 372px; }
   #tbl { position: absolute; left: 26px; right: 26px; top: 20px; }
   .tr { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; align-items: center; height: 50px; border-bottom: 2px solid #eee9e1; }
-  .tr.h { height: 72px; }
+  .tr.h { height: 72px; align-items: start; padding-top: 14px; box-sizing: border-box; }
   .tr.h div { line-height: 1.25; }
   .tr.h div { font-size: 15px; font-weight: 700; letter-spacing: 1.2px; color: var(--muted); text-align: center; text-transform: uppercase; padding: 0 4px; }
   .tr.h div.fp { color: var(--goldText); }
@@ -100,7 +100,6 @@
   .tr .cl { display: flex; justify-content: center; }
   .tr .cl.fp { background: #faf4ec; height: 100%; align-items: center; }
   .ok, .no { width: 30px; height: 30px; }
-  #night { position: absolute; top: 352px; left: 0; width: 100%; }
 </style>
 </head>
 <body>
@@ -190,11 +189,6 @@
 
   <!-- chapter 7 -->
   <div class="card" id="c7"><div id="tbl"></div>
-    <div id="night" style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:0 26px">
-      <div></div><div></div><div></div>
-      <div style="display:flex;justify-content:center"><span class="chip" id="moon" style="font-size:20px;padding:6px 14px">
-        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M20 15A8 8 0 1 1 9 4a7 7 0 0 0 11 11z" fill="#8f5f2e"/></svg>Refreshed each night</span></div>
-    </div>
   </div>
 </div>
 <script>
@@ -420,7 +414,6 @@ ROWS.forEach(([name, ...v], i) => {
   $('tbl').appendChild(r);
   enter(r, C[6] + K * 900 + i * 900, 400);
 });
-enter($('moon'), C[6] + K * 6000);
 
 function tick(ms) {
   const D = ms >= S3 + K * 700 ? D3 : D2;
