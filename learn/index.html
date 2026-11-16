@@ -163,12 +163,12 @@
   .lx .deepb ol { margin-top: 4px; padding-left: 18px; font-size: 15px; font-weight: 700; line-height: 1.4; }
   .lx .badge { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 3px 9px; border-radius: 999px; background: var(--gold); color: #141414; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
   .lx .chapters { margin-top: 16px; list-style: none; display: flex; flex-direction: column; gap: 2px; }
-  .lx .chapters button { width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border-left: 3px solid transparent; display: block; }
-  .lx .chapters button:hover { background: var(--bg); }
+  .lx .chapters .chap { width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border-left: 3px solid transparent; display: block; cursor: pointer; user-select: text; -webkit-user-select: text; }
+  .lx .chapters .chap:hover { background: var(--bg); }
   .lx .chapters h4 { font-size: 15px; display: flex; gap: 10px; }
   .lx .chapters h4 .k { color: var(--muted); font-variant-numeric: tabular-nums; }
   .lx .chapters p { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
-  .lx .chapters li[aria-current="true"] button { background: var(--bg); border-left-color: var(--gold); }
+  .lx .chapters li[aria-current="true"] .chap { background: var(--bg); border-left-color: var(--gold); }
   .lx .chapters li[aria-current="true"] h4 .k { color: var(--goldText); }
   .lx .chapters li[aria-current="true"] p { color: var(--ink2); }
   .lx .chnow { display: none; }   /* phone only: the chapter playing, under the chapter chips */
@@ -228,10 +228,10 @@
     .lx .deepb ol { display: none; }   /* "GO DEEPER · 3 DEEP DIVES" is enough on a phone */
     /* chapters (a chaptered lesson, a deep dive): a row of numbered chips, and only the chapter playing in full */
     .lx .chapters { flex-direction: row; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .lx .chapters button { padding: 6px 12px; border: 1px solid var(--line); border-left-width: 1px; border-radius: 999px; }
+    .lx .chapters .chap { padding: 6px 12px; border: 1px solid var(--line); border-left-width: 1px; border-radius: 999px; }
     .lx .chapters h4 { font-size: 14px; }
     .lx .chapters h4 span:last-child, .lx .chapters p { display: none; }
-    .lx .chapters li[aria-current="true"] button { border-color: var(--gold); }
+    .lx .chapters li[aria-current="true"] .chap { border-color: var(--gold); }
     /* the stage already shows the chapter's title: here its text only, 4 lines that scroll */
     .lx .chnow { display: block; margin-top: 8px; font-size: 15px; line-height: 1.45; color: var(--ink2); max-height: calc(4 * 1.45em); overflow-y: auto; }
     .lx .chnow[hidden] { display: none; }
@@ -549,10 +549,12 @@ let chapter = -1;
 function renderChapters(dp) {
   const ol = $('chapters'); ol.innerHTML = ''; chapter = -1;
   dp.chapters.forEach((c, i) => {
-    const li = document.createElement('li'), b = document.createElement('button');
+    const li = document.createElement('li'), b = document.createElement('div');
+    b.className = 'chap'; b.tabIndex = 0; b.setAttribute('role', 'button');
     b.innerHTML = `<h4><span class="k">${i + 1}</span><span></span></h4><p></p>`;
     b.querySelector('h4 span:last-child').textContent = C(dp.card, c.h); b.querySelector('p').textContent = C(dp.card, c.text);
-    b.onclick = () => { seek(c.t); play(); };
+    b.onclick = () => { if (String(getSelection()).trim()) return; seek(c.t); play(); };  // a text selection is a copy, not a jump
+    b.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); seek(c.t); play(); } };
     li.appendChild(b); ol.appendChild(li);
   });
   markChapter(0);
