@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="vpt-card" content="chaptered">
+<title>Any AI Tool over MCP</title>
+<!-- Lesson 7.2 (owner, 2026-11-16): any AI tool that speaks MCP connects with a personal token and works the lab, on its own model.
+     Chaptered player format (deep-scaffold.html, embed 1080x600); CH = the chapter times of SCRIPTS.md "7.2 · Any AI tool, over MCP". -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 1px; color: #666666; }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 30px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .ch { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .card.dark { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .t { font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--muted); white-space: nowrap; }
+  .card.dark .t { color: #cfcfcf; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 23px; font-weight: 700; padding: 7px 15px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: #141414; white-space: nowrap; }
+  .chip.gold { background: var(--gold); border-color: var(--gold); color: #141414; }
+  .chip.ok { background: #e8f6ec; border-color: var(--ok); color: #0f6b32; }
+  .chip.bad { background: #fdecec; border-color: var(--bad); color: var(--bad); }
+  .chip svg { flex: none; }
+  .row { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .mono { font-family: var(--mono); }
+  .lblc { position: absolute; display: flex; justify-content: center; font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .tv { position: absolute; border-radius: 16px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 22px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 34%; text-align: center; color: #fff; font-size: 28px; font-weight: 700; }
+  .tv .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+  .tv .tk { position: absolute; right: 10px; top: 8px; }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+
+  .lap .hd { display: flex; gap: 7px; padding: 12px 14px; } .lap .hd i { width: 11px; height: 11px; border-radius: 50%; background: #4a4a4a; }
+  .term { font-family: var(--mono); font-size: 22px; font-weight: 700; color: #e8e8e8; white-space: nowrap; }
+  .term .p { color: var(--gold); }
+  .tl { height: 44px; display: flex; align-items: center; }
+  .bar2 { height: 14px; border-radius: 6px; background: #e3ded6; margin: 14px 0; }
+  .socket { position: absolute; width: 22px; height: 46px; border-radius: 8px; background: var(--dark); }
+  .pillm { position: absolute; padding: 6px 16px; border-radius: 10px; background: var(--gold); color: #141414; font-size: 24px; font-weight: 700; box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  .seg { display: flex; gap: 10px; }
+  .seg .chip { font-size: 21px; padding: 6px 14px; }
+  .tab { font-size: 22px; font-weight: 700; padding: 6px 4px; border-bottom: 4px solid transparent; white-space: nowrap; color: var(--ink2); }
+  .code { position: absolute; border-radius: 12px; background: var(--dark); padding: 6px 18px; }
+  .code b { display: block; height: 12px; border-radius: 6px; background: #3a3a3a; margin: 14px 0; }
+  .line { display: flex; align-items: center; gap: 12px; font-size: 21px; font-weight: 700; height: 44px; white-space: nowrap; }
+  .tvs .tv { padding: 8px; } .tvs .tv .tiles i { height: 12px; }
+
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">Chapter 1 of 5</span><span class="h">What MCP is</span></div>
+<div class="tag" id="tag1"><span class="n">Chapter 2 of 5</span><span class="h">Connect in a minute</span></div>
+<div class="tag" id="tag2"><span class="n">Chapter 3 of 5</span><span class="h">Work the lab from the tool</span></div>
+<div class="tag" id="tag3"><span class="n">Chapter 4 of 5</span><span class="h">Its own model</span></div>
+<div class="tag" id="tag4"><span class="n">Chapter 5 of 5</span><span class="h">Safe on a shared lab</span></div>
+<div class="say" id="say0">Same lab tools as Atlas</div>
+<div class="say" id="say3">3 boxes checked ✓</div>
+<div class="say" id="say4">Same reports</div>
+<div class="stage" id="stage"><svg class="links" id="links"></svg>
+
+<div class="ch" id="ch0">
+  <div class="card dark lap" id="lap0" style="left:0; top:30px; width:330px; height:200px"><div class="hd"><i></i><i></i><i></i></div><div class="term" style="padding:20px 22px"><span class="p">&gt;</span> _</div></div>
+  <div class="abs" style="left:0; top:250px; width:420px; display:flex; flex-wrap:wrap; gap:10px"><span class="chip" id="cl0" style="font-size:21px; padding:6px 13px">Claude Code</span><span class="chip" id="cl1" style="font-size:21px; padding:6px 13px">Claude Desktop</span><span class="chip" id="cl2" style="font-size:21px; padding:6px 13px">Cursor</span><span class="chip" id="cl3" style="font-size:21px; padding:6px 13px">Codex</span><span class="chip" id="cl4" style="font-size:21px; padding:6px 13px">Copilot</span></div>
+  <div class="abs" style="left:334px; top:148px; width:254px; border-top:3px dashed #c9c2b8"></div>
+  <div class="pillm" id="plug0" style="left:340px; top:126px">MCP</div>
+  <div class="card" id="vpt0" style="left:600px; top:30px; width:336px; height:270px; padding:18px 24px">
+    <div class="row" style="font-size:26px"><span style="width:34px; height:34px; border-radius:9px; background:var(--gold); display:grid; place-items:center"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+    <div class="bar2" style="width:90%; margin-top:22px"></div><div class="bar2" style="width:75%"></div><div class="bar2" style="width:85%"></div><div class="bar2" style="width:60%"></div>
+    <div class="abs" style="right:18px; bottom:14px; opacity:.35"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#8a8a8a"/></svg></div>
+  </div>
+  <div class="socket" style="left:589px; top:125px"></div>
+  <div class="lblc" id="srv0" style="left:600px; width:336px; top:322px">MCP server, built in</div>
+</div>
+<div class="ch" id="ch1">
+  <div class="card" style="left:118px; top:0; width:700px; height:390px; padding:18px 24px">
+    <div class="t">AI agents</div>
+    <div style="font-size:30px; font-weight:700; margin-top:6px">New token</div>
+    <div class="seg abs" style="left:24px; top:100px"><span class="chip" id="acc0">Read only</span><span class="chip" id="acc1">Same as me</span></div>
+    <div class="seg abs" style="left:24px; top:160px"><span class="chip" id="ex0">30 days</span><span class="chip" id="ex1">90 days</span><span class="chip" id="ex2">1 year</span></div>
+    <div class="abs" style="left:24px; top:218px; display:flex; gap:26px"><span class="tab" id="tab0">Claude Code</span><span class="tab">Cursor</span></div>
+    <div class="code" style="left:24px; top:270px; width:648px; height:100px"><b style="width:56%"></b><b style="width:72%"></b><b style="width:40%"></b></div>
+    <span class="chip abs" id="copy1" style="left:540px; top:296px">Copy</span>
+    <span class="chip ok abs" id="copied1" style="left:516px; top:296px">Copied ✓</span>
+  </div>
+</div>
+<div class="ch" id="ch2">
+  <div class="card dark lap" style="left:0; top:0; width:600px; height:380px"><div class="hd"><i></i><i></i><i></i></div>
+    <div class="term" style="padding:6px 24px"><div class="tl" id="pr2"><span class="p">&gt;</span>&nbsp;Open the Guide on the TV box</div><div style="color:#d4a574"><div class="tl" id="tl0">take_control ✓</div><div class="tl" id="tl1">navigate_to_node · Guide ✓</div><div class="tl" id="tl2">verify_node ✓</div><div class="tl" id="tl3">capture_screenshot ✓</div><div class="tl" id="tl4">release_control ✓</div></div></div></div>
+  <div class="tv" id="tvM" style="left:640px; top:40px; width:296px; height:170px"><div class="bar"></div><div class="nm" id="tvMH">Home</div><div class="nm" id="tvMG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvMF"></div><span class="tk" id="tvMK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  <span class="chip ok abs" id="ans2" style="left:668px; top:240px">On the Guide ✓</span>
+</div>
+<div class="ch" id="ch3">
+  <div class="card dark lap" style="left:0; top:20px; width:320px; height:220px"><div class="hd"><i></i><i></i><i></i></div>
+    <div style="display:flex; justify-content:center; margin-top:44px"><span class="chip gold" id="mod3" style="font-size:20px">Model: set in the tool</span></div></div>
+  <div class="card" id="file3" style="left:360px; top:0; width:390px; height:250px; padding:18px 20px">
+    <div class="t mono" style="font-size:16px; letter-spacing:1px">SAVED JOB · morning-check</div>
+    <div style="margin-top:12px"><div class="line" id="sl0"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>1. Each TV box: go to Home</div><div class="line" id="sl1"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>2. Check that Live TV plays</div><div class="line" id="sl2"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>3. Sum up in one table</div></div>
+  </div>
+  <div class="tvs"><div class="tv" id="mt0" style="left:790px; top:0px; width:146px; height:80px"><div class="bar"></div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tk" id="mt0K"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="tv" id="mt1" style="left:790px; top:100px; width:146px; height:80px"><div class="bar"></div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tk" id="mt1K"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="tv" id="mt2" style="left:790px; top:200px; width:146px; height:80px"><div class="bar"></div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tk" id="mt2K"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+</div>
+<div class="ch" id="ch4">
+  <div class="lblc" id="ppl4" style="left:0; width:300px; top:0">One token per person</div>
+  <div class="abs" id="pp0" style="left:60px; top:50px; display:flex; align-items:center; gap:14px"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#ebe7e0"/><circle cx="12" cy="9.5" r="4" fill="#8a8a8a"/><path d="M4.5 20a8 7 0 0 1 15 0" fill="#8a8a8a"/></svg><span class="chip gold" style="padding:6px 12px"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#141414" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#141414" stroke-width="2.6" stroke-linecap="round"/></svg></span></div>
+  <div class="abs" id="pp1" style="left:60px; top:115px; display:flex; align-items:center; gap:14px"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#ebe7e0"/><circle cx="12" cy="9.5" r="4" fill="#8a8a8a"/><path d="M4.5 20a8 7 0 0 1 15 0" fill="#8a8a8a"/></svg><span class="chip gold" style="padding:6px 12px"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#141414" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#141414" stroke-width="2.6" stroke-linecap="round"/></svg></span></div>
+  <div class="abs" id="pp2" style="left:60px; top:180px; display:flex; align-items:center; gap:14px"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#ebe7e0"/><circle cx="12" cy="9.5" r="4" fill="#8a8a8a"/><path d="M4.5 20a8 7 0 0 1 15 0" fill="#8a8a8a"/></svg><span class="chip gold" style="padding:6px 12px"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#141414" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#141414" stroke-width="2.6" stroke-linecap="round"/></svg></span></div>
+  <div class="lblc" id="team4" style="left:0; width:300px; top:250px; color:var(--muted)">Team and rights</div>
+  <div class="card dark lap" style="left:350px; top:20px; width:230px; height:110px"><div class="hd"><i></i><i></i><i></i></div><div class="term" style="padding:6px 18px"><span class="p">&gt;</span> _</div></div>
+  <div class="tv" id="tvL" style="left:350px; top:170px; width:250px; height:140px"><div class="bar"></div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvLF"></div><span class="tk" id="tvLK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  <span class="chip abs" id="lock4" style="left:370px; top:330px; background:var(--dark); border-color:var(--dark); color:#fff">In use<svg width="20" height="22" viewBox="0 0 20 24"><rect x="2" y="10" width="16" height="12" rx="3" fill="#d4a574"/><path d="M6 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#d4a574" stroke-width="2.6"/></svg></span>
+  <span class="chip ok abs" id="back4" style="left:360px; top:330px">Given back ✓</span>
+  <div class="card" style="left:660px; top:20px; width:276px; height:290px; padding:16px 18px">
+    <div class="line" id="nr4" style="background:#f6efe6; border-radius:10px; padding:0 10px"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b class="bar2" style="flex:1; margin:0; background:var(--gold)"></b></div>
+    <div class="line" style="padding:0 10px"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b class="bar2" style="flex:1; margin:0"></b></div>
+    <div class="line" style="padding:0 10px"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b class="bar2" style="flex:1; margin:0"></b></div>
+    <div class="line" style="padding:0 10px"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b class="bar2" style="flex:1; margin:0"></b></div>
+  </div>
+</div>
+</div>
+<script>
+const CH = [600, 15600, 30600, 45600, 60600];                       // chapter starts (ms), as in SCRIPTS.md
+const T = 76000;                         // loop length (ms): the last chapter ends at T - 1000
+const OUT0 = T - 1000, OUT1 = T - 300;   // everything fades together at the end (the player holds before it)
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);   // a chapter's own layers leave just before the next
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function during(el, t, t1, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// inside a chapter layer: appear at t and stay (the layer itself leaves at the chapter's end)
+function show(el, t, dur = 450) { at(el, [[t, HIDE], [t + dur, SHOW]]); }
+function fadeIn(el, t, dur = 300) { at(el, [[t, { opacity: 0 }], [t + dur, { opacity: 1 }]]); }
+function fadeOut(el, t, dur = 300) { at(el, [[t, { opacity: 1 }], [t + dur, { opacity: 0 }]]); }
+function fadeBetween(el, t0, t1, dur = 250) { at(el, [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }], [t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]]); }
+function typeIn(el, t0, t1) { at(el, [[t0, { clipPath: 'inset(0 100% 0 0)' }], [t1, { clipPath: 'inset(0 0% 0 0)' }]], 'linear'); }
+function flash(el, t) { at(el, [[t, { opacity: 0 }], [t + 80, { opacity: 0.85 }], [t + 450, { opacity: 0 }]]); }
+function pop(el, t) { at(el, [[t, { opacity: 0, transform: 'scale(0.4)' }], [t + 250, { opacity: 1, transform: 'scale(1)' }]]); }
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n, ch = CH.filter(c0 => c0 <= t0).length - 1;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [end(ch), { opacity: 1 }], [end(ch) + 300, { opacity: 0 }]]);
+  }
+}
+// chapter layers, tags and lines
+CH.forEach((t, i) => {
+  const last = i === CH.length - 1;
+  if (last) {
+    at($('tag' + i), [[t, HIDE], [t + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+    at($('ch' + i), [[t, { opacity: 0 }], [t + 400, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  } else {
+    during($('tag' + i), t, end(i) + 300);
+    at($('ch' + i), [[t, { opacity: 0 }], [t + 400, { opacity: 1 }], [end(i), { opacity: 1 }], [end(i) + 300, { opacity: 0 }]]);
+  }
+});
+// a chapter's bottom line: appears at t, leaves with its chapter
+function say(id, t) {
+  const i = CH.filter(c => c <= t).length - 1;
+  if (i === CH.length - 1) at($(id), [[t, HIDE], [t + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+  else during($(id), t, end(i) + 300);
+}
+
+let c = CH[0];
+show($('lap0'), c + 300);
+for (let i = 0; i < 5; i++) show($('cl' + i), c + 1100 + i * 280, 300);
+show($('vpt0'), c + 2300);
+at($('plug0'), [[c + 3200, { opacity: 0, transform: 'translateX(0)' }], [c + 3500, { opacity: 1, transform: 'translateX(0)' }], [c + 5100, { opacity: 1, transform: 'translateX(176px)' }]], 'ease-in-out');
+show($('srv0'), c + 5500);
+say('say0', c + 6900);
+c = CH[1];
+const pick = (id, t) => at($(id), [[t, { background: '#ffffff', borderColor: '#d9d4cc' }], [t + 250, { background: '#d4a574', borderColor: '#d4a574' }]]);
+pick('acc1', c + 2000); pick('ex1', c + 3400);
+at($('tab0'), [[c + 4800, { borderBottomColor: 'rgba(212,165,116,0)', color: '#4a4a4a' }], [c + 5100, { borderBottomColor: 'rgba(212,165,116,1)', color: '#141414' }]]);
+at($('copy1'), [[c + 6200, { opacity: 1, background: '#ffffff' }], [c + 6350, { opacity: 1, background: '#d4a574' }], [c + 6600, { opacity: 1, background: '#d4a574' }], [c + 6800, { opacity: 0, background: '#d4a574' }]]);
+show($('copied1'), c + 6800);
+c = CH[2];
+typeIn($('pr2'), c + 1000, c + 2600);
+for (let i = 0; i < 5; i++) show($('tl' + i), c + 3200 + i * 1200, 350);
+fadeIn($('tvMH'), c, 200); fadeOut($('tvMH'), c + 4500, 200); fadeIn($('tvMG'), c + 4600, 200);
+at($('tvMF'), [[c + 4600, { opacity: 0 }], [c + 4680, { opacity: 0.85 }], [c + 5050, { opacity: 0 }], [c + 7000, { opacity: 0 }], [c + 7080, { opacity: 0.85 }], [c + 7450, { opacity: 0 }]]); pop($('tvMK'), c + 5800);
+show($('ans2'), c + 8800);
+c = CH[3];
+show($('mod3'), c + 1000);
+dots(322, 130, 356, 130, c + 2000, c + 2300);
+show($('file3'), c + 2300);
+[0, 1, 2].forEach(i => show($('sl' + i), c + 3000 + i * 1000, 350));
+dots(752, 50, 786, 40, c + 6000, c + 6200); dots(752, 130, 786, 140, c + 6200, c + 6400); dots(752, 210, 786, 240, c + 6400, c + 6600);
+[0, 1, 2].forEach(i => { show($('mt' + i), c + 2300, 400); pop($('mt' + i + 'K'), c + 6800 + i * 400); });
+say('say3', c + 8400);
+c = CH[4];
+show($('ppl4'), c + 600);
+[0, 1, 2].forEach(i => show($('pp' + i), c + 1000 + i * 400, 350));
+show($('team4'), c + 2400);
+dots(465, 134, 470, 166, c + 3000, c + 3200);
+fadeBetween($('lock4'), c + 3400, c + 6400);
+show($('back4'), c + 6700);
+pop($('tvLK'), c + 6700);
+at($('nr4'), [[c + 8000, { opacity: 0, transform: 'translateX(30px)' }], [c + 8400, { opacity: 1, transform: 'translateX(0)' }]]);
+say('say4', c + 9000);
+
+function tick(ms) { }
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
