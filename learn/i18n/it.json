@@ -43,7 +43,19 @@
   "Monitor 24/7": "Monitora 24/7",
   "AI in the lab": "IA nel lab",
   "Run the lab": "Gestisci il lab",
-  "More features": "Altre funzioni"
+  "More features": "Altre funzioni",
+  "Deep dive {k} of {m} · {id} · {n} chapters": "Approfondimento {k} di {m} · {id} · {n} capitoli",
+  "GO DEEPER · {n} DEEP DIVES": "APPROFONDISCI · {n} APPROFONDIMENTI",
+  "+ deep dive": "+ approfondimento",
+  "+ {n} deep dives": "+ {n} approfondimenti",
+  "{n} chapters": "{n} capitoli",
+  "All": "Tutti",
+  "Choose a lesson": "Scegli una lezione",
+  "Details": "Dettagli",
+  "done": "fatto",
+  "Search {n} lessons…": "Cerca tra {n} lezioni…",
+  "{n} found": "{n} trovate",
+  "No lesson matches “{q}”.": "Nessuna lezione corrisponde a «{q}»."
  },
  "analytics": {
   "Every result, kept and charted": "Risultati salvati e in grafico",
@@ -93,7 +105,8 @@
   "TV box": "Decoder",
   "Tests and reports": "Test e report",
   "VirtualPyTest": "VirtualPyTest",
-  "YOUR DEVICES": "TUOI DISPOSITIVI"
+  "YOUR DEVICES": "TUOI DISPOSITIVI",
+  "Any Device 3D": "Qualsiasi dispositivo 3D"
  },
  "av-quality": {
   "Is the picture any good?": "L'immagine è buona?",
@@ -132,16 +145,16 @@
   "Home": "Home",
   "KEY SENT": "INVIATO",
   "Looks at the screen": "Guarda la schermata",
-  "Next: Save a picture or a word once": "Prossimo: Salva immagine o parola una volta",
   "OK": "OK",
   "Press a key": "Premi un tasto",
   "Proved, not assumed": "Provato, non presunto",
   "See verification": "Vedi la verifica",
   "Sent": "Inviato",
   "Still Home?": "Ancora Home?",
-  "UI VERIFICATION · A CHECK · 1/8": "VERIFICA DELLA UI · UNA VERIFICA · 1/8",
   "VirtualPyTest": "VirtualPyTest",
-  "Where am I?": "Dove sono?"
+  "Where am I?": "Dove sono?",
+  "Next: Image and text verification": "Prossimo: Verifica immagine e testo",
+  "UI VERIFICATION · A CHECK · 1/4": "VERIFICA DELLA UI · UNA VERIFICA · 1/4"
  },
  "cloud-phones": {
   "Add phones from the cloud": "Aggiungi telefoni dal cloud",
@@ -834,24 +847,88 @@
   "Take off": "Decolla",
   "Taking off…": "Decollo…",
   "Up": "Su",
-  "VirtualPyTest": "VirtualPyTest"
+  "VirtualPyTest": "VirtualPyTest",
+  "Fly A Drone 3D": "Pilota un drone 3D"
  },
- "fingerprint": {
-  "Every screen gets a fingerprint": "Ogni schermata ha un'impronta",
-  "Made from its pixels; same screen, same code": "Nasce dai pixel; stessa schermata, stesso codice",
-  "We shrink the screen to a tiny grid and note where it gets lighter or darker. New content barely moves the code.": "Riduciamo la schermata a una mini griglia e annotiamo dove diventa più chiara o più scura. Un nuovo contenuto sposta appena il codice.",
-  "A screen": "Schermata",
+ "fingerprint-lesson": {
+  "Home": "Home",
+  "Guide": "Guide",
+  "Settings": "Settings",
+  "Accueil": "Accueil",
+  "Apps": "Apps",
+  "Kids": "Kids",
+  "Film": "Film",
+  "Sport": "Sport",
+  "News": "News",
+  "Know every screen by its layout": "Riconosci le schermate dal layout",
+  "No picture to take; any screen named in 11 ms": "Niente da salvare; schermata riconosciuta in 11 ms",
+  "Image and text verification break when the app updates. A fingerprint names any screen from its layout, and nobody takes a picture.": "Le verifiche immagine e testo si rompono quando l'app si aggiorna. Un'impronta riconosce ogni schermata dal suo layout, e nessuno deve salvare un'immagine.",
+  "Why: image and OCR verifications break": "Perché: le verifiche immagine e OCR si rompono",
+  "In 3.2 every screen got an image verification or a text verification (OCR). Then the app updates: a new poster, the title in another language. Nothing is broken, but the reference image no longer matches and OCR reads another word, so the test fails and someone retakes the references, for every screen and every box model.": "In 3.2 ogni schermata ha avuto una verifica immagine o una verifica testo (OCR). Poi l'app si aggiorna: un nuovo poster, il titolo in un'altra lingua. Niente è rotto, ma l'immagine di riferimento non corrisponde più e l'OCR legge un'altra parola: il test fallisce e qualcuno rifà i riferimenti, per ogni schermata e ogni modello di decoder.",
+  "What a fingerprint is": "Che cos'è un'impronta",
+  "A fingerprint is a short code made from the whole screen. The screen is shrunk to a tiny grid, and each cell notes whether it is lighter or darker than its neighbour. Small details melt away; the layout stays. It is made from the screen itself: there is no crop to choose and nothing to type.": "Un'impronta è un codice breve ricavato da tutta la schermata. La schermata viene ridotta a una griglia minuscola, e ogni cella annota se è più chiara o più scura della vicina. I piccoli dettagli spariscono, il layout resta. Nasce dalla schermata stessa: nessun ritaglio da scegliere, niente da scrivere.",
+  "Same screen, small change": "Stessa schermata, piccola modifica",
+  "The code is made on five parts of the screen: the whole frame, the top, the centre, the left and the bottom. A new poster moves the code of the part it covers; the others do not move. Another screen moves its parts far more, even where it shares the menu bar. Two codes are compared by counting the squares that differ.": "Il codice si calcola su cinque parti della schermata: l'immagine intera, l'alto, il centro, la sinistra e il basso. Un nuovo poster cambia il codice della parte che copre; le altre non si muovono. Un'altra schermata cambia le sue parti molto di più, anche dove condivide la barra del menu. Due codici si confrontano contando i quadrati diversi.",
+  "Which screen is this?": "Che schermata è?",
+  "An image verification answers one question: is this the screen I expected? A fingerprint answers another: which screen is this? The live code is compared with the fingerprint of every screen of the map. One screen is close on two regions: that is its name. None is: Localize says it is not sure, it never guesses.": "Una verifica immagine risponde a una domanda: è la schermata che mi aspettavo? Un'impronta risponde a un'altra: che schermata è? Il codice dal vivo viene confrontato con l'impronta di ogni schermata della mappa. Una schermata è vicina in due regioni: è il suo nome. Nessuna lo è: Localize dice che non è sicuro, non tira mai a indovinare.",
+  "In 11 ms, every screen": "In 11 ms, ogni schermata",
+  "The fingerprint of the live frame is made once, in about 11 ms. Comparing it with all 27 screens of a real map then costs less than a tenth of a millisecond. Image verification searches each reference image again: 27 searches take about 97 ms.": "L'impronta dell'immagine dal vivo si calcola una volta, in circa 11 ms. Confrontarla con tutte le 27 schermate di una mappa reale costa poi meno di un decimo di millisecondo. La verifica immagine cerca di nuovo ogni immagine di riferimento: 27 ricerche richiedono circa 97 ms.",
+  "Set once, used everywhere": "Impostata una volta, usata ovunque",
+  "The fingerprint is saved with the screen's screenshot, on the screen of the map. The same check then runs everywhere: a goto proves it arrived, a measure knows when the screen is shown, the Localize button names the screen, and the monitoring names it on every device, all day.": "L'impronta viene salvata con lo screenshot della schermata, sulla schermata della mappa. La stessa verifica gira poi ovunque: un goto prova l'arrivo, una misura sa quando la schermata è mostrata, il pulsante Localize nomina la schermata e il monitoraggio la nomina su ogni dispositivo, tutto il giorno.",
+  "Image, text or fingerprint?": "Immagine, testo o impronta?",
+  "Each has its job. The fingerprint names the screen and checks arrival: it is the first check. Text verification (OCR) still reads a value, like a version number. The focused tab or tile is checked by its own focus check. And on pages whose content changes every day, the fingerprint is taken again each night by a script.": "Ognuna ha il suo compito. L'impronta nomina la schermata e verifica l'arrivo: è la prima verifica. La verifica testo (OCR) legge ancora un valore, come un numero di versione. La scheda o il riquadro attivo ha la sua verifica del focus. E sulle pagine il cui contenuto cambia ogni giorno, uno script rifà l'impronta ogni notte.",
+  "A name, or an honest not sure": "Un nome, o un onesto «non sono sicuro»",
+  "About": "Info",
+  "Another screen": "Altra schermata",
+  "App update": "App aggiornata",
+  "BITS THAT DIFFER": "BIT DIVERSI",
+  "Bottom": "Basso",
+  "Centre": "Centro",
+  "Count what differs": "Conta le differenze",
+  "Display": "Schermo",
   "FINGERPRINT": "IMPRONTA",
-  "FINGERPRINT · HOW · 5/8": "IMPRONTA · COME · 5/8",
-  "Its code": "Il codice",
-  "Lighter or darker?": "Più chiara o scura?",
+  "Fingerprint Lesson": "Lezione Impronta",
+  "Fingerprint first; image and text for the rest": "Prima l'impronta; immagine e testo per il resto",
+  "Fingerprint, all 27 screens · 11 ms": "Impronta, tutte le 27 schermate · 11 ms",
+  "Goto: arrived ✓": "Goto: arrivato ✓",
+  "Guide ✓ · You are here": "Guide ✓ · Sei qui",
+  "Image verification": "Verifica immagine",
+  "Image verification, 27 searches · 97 ms": "Verifica immagine, 27 ricerche · 97 ms",
+  "Is it Guide? → yes / no": "È Guide? → sì / no",
+  "Language": "Lingua",
+  "Lighter or darker?": "Più chiaro o più scuro?",
+  "Live TV": "TV in diretta",
+  "Localize: Guide": "Localize: Guide",
+  "Made from the layout, not the details": "Dal layout, non dai dettagli",
+  "Measure: shown at 1.6 s": "Misura: mostrata a 1,6 s",
+  "Measured on one full-HD frame": "Misurato su un frame full HD",
+  "Monitoring: every device": "Monitoraggio: ogni dispositivo",
+  "Movies": "Film",
+  "Music": "Musica",
+  "Names the screen": "Nomina la schermata",
+  "Network": "Rete",
   "New poster": "Nuovo poster",
-  "Next: Know the screen in 11 ms": "Prossimo: Riconosci la schermata in 11 ms",
-  "Same screen": "Stessa schermata",
-  "Screen Fingerprint": "Impronta schermata",
-  "See Fingerprint": "Vedi impronta",
-  "TINY GRID": "MINI GRIGLIA",
-  "VirtualPyTest": "VirtualPyTest"
+  "No picture to take": "Niente da salvare",
+  "One check, the same answer everywhere": "Una verifica, la stessa risposta ovunque",
+  "Reads a value": "Legge un valore",
+  "Refreshed each night": "Rifatta ogni notte",
+  "Retake by hand, screen by screen": "Da rifare a mano, schermata per schermata",
+  "STEP {n} / {n}": "PASSO {n} / {n}",
+  "Same screen ✓": "Stessa schermata ✓",
+  "Saved with the screenshot": "Salvata con lo screenshot",
+  "Sound": "Audio",
+  "Survives an update": "Supera un aggiornamento",
+  "TINY GRID": "GRIGLIA MINUSCOLA",
+  "Test fails": "Test fallito",
+  "Text verification (OCR)": "Verifica testo (OCR)",
+  "The Final": "La finale",
+  "The app updates": "L'app si aggiorna",
+  "Tonight": "Stasera",
+  "Top": "Alto",
+  "Which screen? → Guide": "Che schermata? → Guide",
+  "Which tile has focus": "Riquadro con il focus",
+  "passes at 80 %": "passa all'80 %",
+  "reads “Accueil”, expects “Home”": "legge «Accueil», si aspetta «Home»"
  },
  "game-bot": {
   "A bot that plays Tetris": "Un bot che gioca a Tetris",
@@ -894,7 +971,8 @@
   "Reconnects by itself": "Si riconnette da solo",
   "See the console guide": "Vedi la guida console",
   "Tests use the same buttons": "I test usano gli stessi tasti",
-  "VirtualPyTest": "VirtualPyTest"
+  "VirtualPyTest": "VirtualPyTest",
+  "Play A Game Console Remotely 3D": "Console da remoto 3D"
  },
  "go-anywhere": {
   "Write goto, we find the way": "Scrivi goto, troviamo noi la via",
@@ -946,7 +1024,9 @@
   "See group control": "Vedi controllo di gruppo",
   "Up to 6 at once": "Fino a 6 insieme",
   "VirtualPyTest": "VirtualPyTest",
-  "✗ Not sent": "✗ Non inviato"
+  "✗ Not sent": "✗ Non inviato",
+  "One Remote Many Devices 3D": "Un telecomando, tanti dispositivi 3D",
+  "One remote": "Un telecomando"
  },
  "heatmap": {
   "Your whole fleet at a glance": "Tutta la flotta a colpo d'occhio",
@@ -1057,32 +1137,8 @@
   "Server 1": "Server 1",
   "Server 2": "Server 2",
   "Servers anywhere": "Server ovunque",
-  "VirtualPyTest": "VirtualPyTest"
- },
- "in-the-tree": {
-  "No pictures to take or retake": "Niente immagini da fare o rifare",
-  "Made from the screen itself: nothing to capture": "Nasce dalla schermata stessa: niente da catturare",
-  "Nothing to retake after an app update either, and every run checks arrival and times it.": "Niente da rifare nemmeno dopo un aggiornamento dell'app, e ogni esecuzione verifica l'arrivo e lo cronometra.",
-  "Back": "Back",
-  "Checked and timed": "Verificato e misurato",
-  "EVERY RUN": "OGNI VOLTA",
-  "FINGERPRINT · SET ONCE · 7/8": "IMPRONTA · UNA VOLTA · 7/8",
-  "Fingerprint on the screen": "Impronta sulla schermata",
-  "Guide": "Guida TV",
-  "Home": "Home",
-  "Menu": "Menu",
-  "Next: Which screen is this?": "Prossimo: Che schermata è questa?",
-  "No picture to take": "Niente immagini da fare",
-  "OK": "OK",
-  "Run {n}": "Giro {n}",
-  "Says where to go": "Dice dove andare",
-  "See the user interface": "Guarda l'interfaccia utente",
-  "Set It Once": "Una Volta Sola",
-  "Settings": "Opzioni",
-  "USER INTERFACE": "INTERFACCIA UTENTE",
   "VirtualPyTest": "VirtualPyTest",
-  "YOUR SCRIPT": "IL TUO SCRIPT",
-  "goto(\"Guide\")": "goto(\"Guide\")"
+  "Hosts Anywhere 3D": "Host ovunque 3D"
  },
  "incidents": {
   "Your devices, watched 24/7": "Dispositivi sorvegliati 24/7",
@@ -1105,7 +1161,8 @@
   "See Monitoring": "Vedi Monitoraggio",
   "The incident": "L'incidente",
   "VirtualPyTest": "VirtualPyTest",
-  "Watched non-stop": "Sempre sorvegliati"
+  "Watched non-stop": "Sempre sorvegliati",
+  "Incidents Caught Live 3D": "Incidenti rilevati dal vivo 3D"
  },
  "install-anywhere": {
   "Install it your way": "Installalo come vuoi",
@@ -1133,7 +1190,8 @@
   "Small PC": "Piccolo PC",
   "Small hardware": "Hardware minimo",
   "Three ways": "Tre modi",
-  "VirtualPyTest": "VirtualPyTest"
+  "VirtualPyTest": "VirtualPyTest",
+  "Install 3D": "Installa 3D"
  },
  "live-screen": {
   "See your devices live": "Guarda i tuoi dispositivi live",
@@ -1155,7 +1213,8 @@
   "Tablet": "Tablet",
   "VirtualPyTest": "VirtualPyTest",
   "Web app": "Web app",
-  "Windows PC": "PC Windows"
+  "Windows PC": "PC Windows",
+  "See Devices Live 3D": "Dispositivi dal vivo 3D"
  },
  "loaded": {
   "Shown is not loaded": "Mostrato non è caricato",
@@ -1177,22 +1236,6 @@
   "The KPI": "Il KPI",
   "VirtualPyTest": "VirtualPyTest",
   "{n} grey boxes left": "Restano {n} box grigi"
- },
- "localize": {
-  "Which screen is this?": "Che schermata è questa?",
-  "Its fingerprint is matched to your map and named": "L'impronta è abbinata alla tua mappa e nominata",
-  "Localize compares the screen's fingerprint with every screen of the user interface. From the picture alone: no access to the app's code.": "Localize confronta l'impronta della schermata con ogni schermata dell'interfaccia utente. Solo dall'immagine: nessun accesso al codice dell'app.",
-  "Any screen": "Una schermata",
-  "FINGERPRINT": "IMPRONTA",
-  "FINGERPRINT · LOCALIZE · 8/8": "IMPRONTA · LOCALIZE · 8/8",
-  "Guide": "Guida TV",
-  "Home": "Home",
-  "Localize a Screen": "Localizza una schermata",
-  "Next: Build a test without code": "Prossimo: Crea un test senza codice",
-  "See Localize": "Vedi Localize",
-  "Settings": "Opzioni",
-  "VirtualPyTest": "VirtualPyTest",
-  "You are here": "Sei qui"
  },
  "many-screens": {
   "Watch many devices at once": "Guarda tanti dispositivi insieme",
@@ -1218,7 +1261,8 @@
   "Settings": "Opzioni",
   "Side by side": "Affiancati",
   "Stacked": "Impilati",
-  "VirtualPyTest": "VirtualPyTest"
+  "VirtualPyTest": "VirtualPyTest",
+  "Many At Once 3D": "Tanti insieme 3D"
  },
  "nav-tab": {
   "Which tab has the focus?": "Quale scheda ha il focus?",
@@ -1232,7 +1276,6 @@
   "Français": "Français",
   "Guide": "Guide",
   "Home": "Home",
-  "Next: Your app updated, nothing broke": "Prossimo: App aggiornata, nulla si è rotto",
   "Programme": "Programme",
   "Réglages": "Réglages",
   "Same order, same count, in every language": "Stesso ordine, stesso numero, in ogni lingua",
@@ -1241,9 +1284,10 @@
   "Settings": "Settings",
   "Shows": "Shows",
   "Tab 2 of 5": "Scheda 2 di 5",
-  "UI VERIFICATION · FOCUSED TAB · 3/8": "VERIFICA DELLA UI · SCHEDA ATTIVA · 3/8",
   "VirtualPyTest": "VirtualPyTest",
-  "Émissions": "Émissions"
+  "Émissions": "Émissions",
+  "Next: Know every screen by its layout": "Prossimo: Riconosci le schermate dal layout",
+  "UI VERIFICATION · FOCUSED TAB · 3/4": "VERIFICA DELLA UI · SCHEDA ATTIVA · 3/4"
  },
  "own-phone": {
   "Add your own phone": "Aggiungi il tuo telefono",
@@ -1296,7 +1340,8 @@
   "VirtualPyTest": "VirtualPyTest",
   "Web app": "Web app",
   "bash": "bash",
-  "iPhone": "iPhone"
+  "iPhone": "iPhone",
+  "Its Own Remote 3D": "Il suo telecomando 3D"
  },
  "permissions": {
   "One lab, many teams": "Un laboratorio, molti team",
@@ -1379,28 +1424,28 @@
   "YOUR STEPS": "I TUOI PASSI"
  },
  "references": {
-  "Save a picture or a word once": "Salva immagine o parola una volta",
   "Found again in the same spot on every run": "Ritrovata nello stesso punto a ogni esecuzione",
-  "Save a piece of the screen or a word once. Each run compares it in the same spot. When the app changes, someone retakes it.": "Salva un pezzo di schermata o una parola una volta. Ogni esecuzione la confronta nello stesso punto. Quando l'app cambia, qualcuno la rifà.",
   "App changes? Retake by hand.": "L'app cambia? Rifai a mano.",
   "Guide": "Guida",
   "LIVE SCREEN": "SCHERMO LIVE",
-  "Picture": "Immagine",
-  "Picture 92 %": "Immagine 92 %",
-  "SAVED PICTURE": "IMMAGINE SALVATA",
-  "SAVED TEXT": "TESTO SALVATO",
   "Same spot": "Stesso punto",
   "Saved References": "Riferimenti salvati",
   "See references": "Vedi riferimenti",
   "TV Guide": "Guida TV",
   "Text": "Testo",
   "Text found": "Testo trovato",
-  "UI VERIFICATION · REFERENCES · 2/8": "VERIFICA DELLA UI · RIFERIMENTI · 2/8",
   "VirtualPyTest": "VirtualPyTest",
-  "a piece of the screen": "un pezzo di schermata",
   "passes at 80 %": "passa all'80 %",
-  "reads the text": "legge il testo",
-  "Next: Which tab has the focus?": "Prossimo: Quale scheda ha il focus?"
+  "Next: Which tab has the focus?": "Prossimo: Quale scheda ha il focus?",
+  "Image and text verification": "Verifica immagine e testo",
+  "Save a reference image or text once. Each run compares it in the same spot. When the app changes, someone retakes it.": "Salva una volta un'immagine o un testo di riferimento. Ogni esecuzione lo confronta nello stesso punto. Quando l'app cambia, qualcuno lo rifà.",
+  "IMAGE VERIFICATION": "VERIFICA IMMAGINE",
+  "Image": "Immagine",
+  "Image 92 %": "Immagine 92 %",
+  "TEXT VERIFICATION": "VERIFICA TESTO",
+  "UI VERIFICATION · REFERENCES · 2/4": "VERIFICA DELLA UI · RIFERIMENTI · 2/4",
+  "a reference image": "un'immagine di riferimento",
+  "read by OCR": "letto con OCR"
  },
  "repair-map": {
   "Your app changed?": "La tua app è cambiata?",
@@ -1536,27 +1581,6 @@
   "Wed 02:00": "Mer 02:00",
   "Group them, pick a device, set the time: done": "Raggruppali, un dispositivo, fissa l'ora: fatto"
  },
- "speed": {
-  "Know the screen in 11 ms": "Riconosci la schermata in 11 ms",
-  "One fingerprint against all 27 screens in 11 ms": "Un'impronta contro tutte le 27 schermate in 11 ms",
-  "The fingerprint of the frame is made once. Comparing it with all 27 screens then costs almost nothing; a saved picture is searched again for each one.": "L'impronta del fotogramma si calcola una volta sola. Confrontarla con tutte le 27 schermate costa quasi nulla; un'immagine salvata invece va cercata di nuovo per ognuna.",
-  "74ae76de": "74ae76de",
-  "A real app map: 27 screens, 27 fingerprints": "La mappa di un'app reale: 27 schermate, 27 impronte",
-  "Closest match": "Più simile",
-  "Compare = count the squares that differ": "Confronto = conta i quadratini diversi",
-  "FINGERPRINT · FAST · 6/8": "IMPRONTA · VELOCE · 6/8",
-  "Fingerprint, all 27 screens": "Impronta, tutte le 27 schermate",
-  "Fingerprints Are Fast": "Le impronte sono veloci",
-  "Guide": "Guida TV",
-  "Measured on one full-HD frame.": "Misurato su un fotogramma full HD.",
-  "Next: No pictures to take or retake": "Prossimo: Niente immagini da fare o rifare",
-  "Saved pictures, 27 searches": "Immagini salvate, 27 ricerche",
-  "See Fingerprint": "Vedi impronta",
-  "This screen": "Fotogramma",
-  "USER INTERFACE": "INTERFACCIA UTENTE",
-  "VirtualPyTest": "VirtualPyTest",
-  "{n} ms": "{n} ms"
- },
  "talk-to-lab": {
   "Talk to your lab": "Parla con il tuo laboratorio",
   "Ask in plain words; the AI moves the real device": "Parla semplice: l'IA muove il dispositivo vero",
@@ -1645,7 +1669,8 @@
   "See the architecture": "Guarda l'architettura",
   "Three Parts": "Tre Parti",
   "VirtualPyTest": "VirtualPyTest",
-  "You click": "Tu clicchi"
+  "You click": "Tu clicchi",
+  "Three Parts 3D": "Tre parti 3D"
  },
  "timeline": {
   "It broke at 3 a.m.?": "Si è rotto alle 3 di notte?",
@@ -1742,29 +1767,6 @@
   "press(\"CH+\")": "press(\"CH+\")",
   "range(1, 21):": "range(1, 21):"
  },
- "why-fingerprint": {
-  "Your app updated, nothing broke": "App aggiornata, nulla si è rotto",
-  "Saved pictures fail; a fingerprint keeps up": "Le immagini salvate falliscono; l'impronta regge",
-  "A new poster or language makes a saved picture fail. The layout stays the same, so the fingerprint still knows it.": "Una nuova locandina o lingua fa fallire un'immagine salvata. Il layout resta uguale, così l'impronta la riconosce ancora.",
-  "App update": "Aggiornamento",
-  "Barely moved": "Appena mosso",
-  "FINGERPRINT": "IMPRONTA",
-  "FINGERPRINT · WHY · 4/8": "IMPRONTA · PERCHÉ · 4/8",
-  "Next: Every screen gets a fingerprint": "Prossimo: Ogni schermata ha un'impronta",
-  "Not a match": "Non coincide",
-  "Nothing to redo": "Niente da rifare",
-  "Retake the picture": "Rifai l'immagine",
-  "SAVED PICTURE": "IMMAGINE SALVATA",
-  "Same screen": "Riconosciuta",
-  "See Fingerprint": "Vedi Impronta",
-  "Test fails": "Test fallito",
-  "The app updates": "L'app si aggiorna",
-  "Two ways to check": "Due modi di verificare",
-  "VirtualPyTest": "VirtualPyTest",
-  "What happens": "Cosa succede",
-  "Why a Fingerprint": "Perché un'impronta",
-  "layout, not detail": "layout, non dettagli"
- },
  "zapping": {
   "How long does a zap take?": "Quanto dura uno zap?",
   "Key to new picture, black time too, every zap": "Dal tasto all'immagine, nero compreso, ogni zap",
@@ -1789,6 +1791,8 @@
   "This zap": "Questo zap",
   "VirtualPyTest": "VirtualPyTest",
   "Zap": "Zap",
-  "Zapping Time": "Tempo zapping"
+  "Zapping Time": "Tempo zapping",
+  "Live TV · Channel 1": "TV in diretta · Canale 1",
+  "Zapping 3D": "Zapping 3D"
  }
 }

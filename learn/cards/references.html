@@ -120,8 +120,8 @@
 <body>
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
-  <div class="eyebrow" id="eyebrow">UI VERIFICATION · REFERENCES · 2/8</div>
-  <h1><span id="h1a">Save a picture or a word once</span><span class="l2" id="h1b">Found again in the same spot on every run</span></h1>
+  <div class="eyebrow" id="eyebrow">UI VERIFICATION · REFERENCES · 2/4</div>
+  <h1><span id="h1a">Image and text verification</span><span class="l2" id="h1b">Found again in the same spot on every run</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
@@ -132,13 +132,13 @@
     </div>
     <div class="lbl " id="lGuide" style="left:0px; top:236px; width:230px"><span>Guide</span></div>
     <div class="white abs pad" id="sPic" style="left:262px; top:0; width:278px; height:144px">
-      <div class="t">SAVED PICTURE</div>
-      <div style="display:flex; align-items:center; gap:16px; margin:12px 0 0 18px"><div class="crop"><div class="logo"><i></i></div></div><div class="sub" style="text-align:left; width:160px">a piece of the screen</div></div>
+      <div class="t" style="letter-spacing:1px">IMAGE VERIFICATION</div>
+      <div style="display:flex; align-items:center; gap:16px; margin:12px 0 0 18px"><div class="crop"><div class="logo"><i></i></div></div><div class="sub" style="text-align:left; width:160px">a reference image</div></div>
     </div>
     <div class="white abs pad" id="sTxt" style="left:262px; top:162px; width:278px; height:144px">
-      <div class="t">SAVED TEXT</div>
+      <div class="t" style="letter-spacing:1px">TEXT VERIFICATION</div>
       <div class="word mono" id="word" style="margin-top:12px"></div>
-      <div class="sub" style="margin-top:6px">reads the text</div>
+      <div class="sub" style="margin-top:6px">read by OCR</div>
     </div>
     <div class="dk abs pad" id="live" style="left:572px; top:0; width:316px; height:206px">
       <div class="t">LIVE SCREEN</div>
@@ -149,16 +149,16 @@
       <div class="box bL" id="minibL"></div><div class="box bT" id="minibT"></div>
     </div>
     <div class="lbl gold" id="lSpot" style="left:572px; top:214px; width:316px"><span>Same spot</span></div>
-    <div class="lbl " id="lPic" style="left:572px; top:260px; width:316px"><span>Picture 92 %</span></div>
+    <div class="lbl " id="lPic" style="left:572px; top:260px; width:316px"><span>Image 92 %</span></div>
     <div class="track" id="track" style="left:572px; top:304px; width:316px"><div class="fill" id="fill"></div><div class="mark"></div></div>
     <div class="lbl grey" id="lPass" style="left:572px; top:334px; width:316px"><span>passes at 80 %</span></div>
     <div class="lbl " id="lFound" style="left:572px; top:378px; width:316px"><span>Text found</span></div>
-    <div class="lbl" id="lRes" style="left:0; top:334px; width:540px; gap:18px"><span class="chip" id="cPic">Picture <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="cTxt">Text <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
+    <div class="lbl" id="lRes" style="left:0; top:334px; width:540px; gap:18px"><span class="chip" id="cPic">Image <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="chip" id="cTxt">Text <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
     <div class="lbl grey" id="lRetake" style="left:0px; top:390px; width:540px"><span>App changes? Retake by hand.</span></div>
 
   </div></div>
 
-  <p class="caption" id="caption">Save a piece of the screen or a word once. Each run compares it in the same spot. When the app changes, someone retakes it.</p>
+  <p class="caption" id="caption">Save a reference image or text once. Each run compares it in the same spot. When the app changes, someone retakes it.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See references <span class="arrow">→</span></div><span class="next">Next: Which tab has the focus?</span></div>
 </div>
 <script>
