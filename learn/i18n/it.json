@@ -55,7 +55,8 @@
   "done": "fatto",
   "Search {n} lessons…": "Cerca tra {n} lezioni…",
   "{n} found": "{n} trovate",
-  "No lesson matches “{q}”.": "Nessuna lezione corrisponde a «{q}»."
+  "No lesson matches “{q}”.": "Nessuna lezione corrisponde a «{q}».",
+  "Download": "Scarica"
  },
  "ai-atlas": {
   "Atlas, the AI built in": "Atlas, l'IA integrata",
