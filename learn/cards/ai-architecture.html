@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI, Two Ways</title>
+<!-- Concept card 7.1 of the Learn course, topic 7 "AI in the lab": two ways to bring AI in, Atlas with any model or any AI tool over MCP.
+     1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
+     One timeline (T ms, loops); render.py seeks it. Built on talk-to-lab: same TV, same dark AI cards. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 380px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: var(--h1, 72px); line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  body.sq h1 { font-size: 58px; }
+  .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
+  body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
+  .stage { position: absolute; left: 0; top: 0; width: 888px; height: var(--dh); }
+  body.sq .stage { left: 50%; margin-left: -444px; transform: scale(var(--sqs, 0.8)); transform-origin: center top; }
+  .mono { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; }
+  .white { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 3px; text-align: center; color: var(--muted); }
+  .abs { position: absolute; }
+  /* a label centred on a column: left/width set inline, never a translateX(-50%) */
+  .lbl { position: absolute; display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; }
+  .lbl > span { text-wrap: balance; }
+  .lbl.grey { color: var(--muted); font-size: 26px; }
+  .lbl.red { color: var(--bad); }
+  .lbl.gold { color: var(--goldText); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .chip.greyc { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .okdot, .xdot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* the TV look of fingerprint.html, smaller; .nm layers carry the screen name */
+  .tv { position: absolute; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 26px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .tv .tick { position: absolute; right: 10px; top: 8px; }
+
+
+  :root { --dh: 410px; }
+  .lane { position: absolute; padding: 14px 20px; }
+  .lane .hd { font-size: 27px; font-weight: 700; white-space: nowrap; }
+  .lane .hd .n { color: var(--gold); }
+  .lane .ln { margin-top: 10px; display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; white-space: nowrap; color: #e8e8e8; }
+  .lane .ln.sm { font-size: 21px; color: #bdbdbd; }
+  .ico { position: relative; width: 34px; height: 30px; flex: none; }
+  .ico svg { position: absolute; left: 0; top: 0; }
+  .pills { display: flex; gap: 8px; }
+  .gp { font-size: 21px; font-weight: 700; padding: 3px 12px; border-radius: 999px; background: var(--gold); color: #141414; white-space: nowrap; }
+  .dash { position: relative; display: inline-block; font-size: 22px; font-weight: 700; padding: 4px 14px; border-radius: 999px; border: 2px dashed #8a8a8a; color: #bdbdbd; white-space: nowrap; }
+  .tools { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 18px; background: var(--gold); color: #141414; font-size: 27px; font-weight: 700; box-shadow: 0 6px 18px rgba(0,0,0,.10); text-align: center; line-height: 1.15; }
+  .term { width: 46px; height: 32px; border-radius: 6px; background: #2e2e2e; border: 2px solid #5a5a5a; position: relative; flex: none; }
+  .term::after { content: '>_'; position: absolute; left: 5px; top: 1px; font: 700 16px ui-monospace, monospace; color: var(--gold); }
+
+
+  .caption { margin-top: auto; font-size: 34px; line-height: 1.3; color: var(--ink); max-width: 888px; }
+  body.sq .caption { font-size: 29px; }
+  .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
+  .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
+  body.sq .ctarow { margin-top: 24px; }
+
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 30px; }
+  .tvp { position: absolute; border-radius: 18px; background: var(--dark); box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tvp .pbar { position: absolute; left: 12px; top: 12px; width: 90px; height: 12px; border-radius: 4px; background: #4a4a4a; }
+  .tvp .hero { position: absolute; left: 12px; right: 12px; top: 34px; bottom: 66px; border-radius: 6px; }
+  .tvp .tl { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tvp .tl i { height: 42px; border-radius: 5px; background: #555; } .tvp .tl i:nth-child(2n) { background: #2e2e2e; }
+  .pA { background: linear-gradient(90deg, #8fb0bd, #4f6b76); } .pB { background: linear-gradient(90deg, #d9a56c, #8a5a3a); }
+  .drop { position: absolute; display: flex; justify-content: center; }
+  .drop span { font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 999px; background: var(--gold); color: var(--ink); white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  .dk { background: var(--dark); color: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .dk .t { color: #cfcfcf; }
+  .pad { padding-top: 14px; }
+  .row { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .sub { font-size: 26px; color: var(--muted); text-align: center; line-height: 1.2; }
+  .dk .sub { color: #bdbdbd; }
+  .blk { position: absolute; display: flex; align-items: center; justify-content: center; height: 58px; border-radius: 12px; background: var(--card); border: 2px solid #c9c2b8; border-bottom-width: 5px; font-size: 26px; font-weight: 700; white-space: nowrap; }
+  .blk.sm { height: 48px; font-size: 24px; border-bottom-width: 4px; }
+  .arr { position: absolute; width: 0; display: flex; justify-content: center; }
+  .arr svg { flex: none; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; padding: 4px 14px; border-radius: 999px; background: var(--gold); color: #141414; white-space: nowrap; }
+  .pill.dark { background: var(--dark); color: #fff; padding-left: 8px; }
+  .pill.grey { background: #ebe7e0; color: var(--muted); }
+  .pill.red { background: var(--card); border: 2px solid var(--bad); color: var(--bad); padding: 2px 12px; }
+  .pill .xdot, .pill .okdot { width: 24px; height: 24px; }
+  .rr { padding: 14px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .r2 { display: flex; flex-direction: column; gap: 2px; }
+  .r2 .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 27px; font-weight: 700; white-space: nowrap; }
+  .r2 .why { font-size: 22px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .mini { flex: none; position: relative; border-radius: 8px; background: var(--dark); color: #fff; font-size: 19px; font-weight: 700; display: grid; place-items: center; }
+  .mini::before { content: ''; position: absolute; left: 7px; top: 6px; width: 22px; height: 3px; border-radius: 2px; background: #4a4a4a; }
+  .ttl { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  :root { --h1: 72px; }
+  .bub { padding: 14px 18px; border-radius: 22px 22px 22px 6px; }
+  .bub .say { margin-top: 8px; font-size: 27px; font-weight: 700; line-height: 1.25; }
+  .steps .row { justify-content: flex-start; gap: 12px; font-size: 24px; margin: 16px 0 0 20px; }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+  .ans { padding: 14px 16px; border-radius: 22px 22px 6px 22px; }
+  .ans .s { margin-top: 6px; font-size: 23px; line-height: 1.25; color: var(--ink2); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">AI IN THE LAB · AI, TWO WAYS · 1/4</div>
+  <h1><span id="h1a">Two ways to bring AI in</span><span class="l2" id="h1b">Atlas with any model, or any AI tool over MCP</span></h1>
+
+  <div class="diagram"><div class="stage" id="stage">
+    <svg class="links" id="links"></svg>
+    <div class="lbl grey" id="lInfra" style="left:0; top:0; width:888px"><span>Open source, on your own infrastructure</span></div>
+
+    <div class="dk lane" id="lane1" style="left:0; top:48px; width:392px; height:172px">
+      <div class="hd"><span class="n">1 ·</span> Atlas, built in</div>
+      <div class="ln"><span class="ico"><svg id="icCloud" width="34" height="30" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#d4a574"/></svg><svg id="icPc" width="34" height="30" viewBox="0 0 34 30"><rect x="3" y="3" width="28" height="18" rx="3" fill="none" stroke="#d4a574" stroke-width="3"/><path d="M12 27h10M17 21v6" stroke="#d4a574" stroke-width="3" stroke-linecap="round"/></svg></span>Any model: cloud or local</div>
+      <div class="ln sm" id="skills">Ready-made skills</div>
+      <div class="pills" style="margin-top:8px"><span class="gp" id="p1">Devices</span><span class="gp" id="p2">Tests</span><span class="gp" id="p3">Docs</span></div>
+    </div>
+
+    <div class="dk lane" id="lane2" style="left:0; top:250px; width:392px; height:150px">
+      <div class="hd"><span class="n">2 ·</span> Any AI tool, over MCP</div>
+      <div class="ln"><span class="term"></span>Claude Code, Cursor…</div>
+      <div style="margin-top:12px"><span class="dash" id="own">Builds its own skills</span></div>
+    </div>
+
+    <div class="tools" id="tools" style="left:440px; top:170px; width:170px; height:112px">Lab tools</div>
+
+    <div class="tv abs" id="tv" style="left:654px; top:156px; width:234px; height:140px"><div class="bar"></div><div class="nm" id="tvHome">Home</div><div class="nm" id="tvGuide">Guide</div><div class="nm" id="tvHome2">Home</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="flash"></div>
+      <span class="tick okdot" id="tick"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  </div></div>
+
+  <p class="caption" id="caption">Set up Atlas, the built-in assistant, with any model, cloud or local, and use its ready-made skills. Or connect any AI tool through the MCP server and build its own skills. Both drive the same devices.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See AI setup <span class="arrow">→</span></div><span class="next">Next: Talk to your lab</span></div>
+</div>
+<script>
+const T = 15000;                         // loop length, ms
+const F = new URLSearchParams(location.search).get('f');
+if (F === 'sq') document.body.classList.add('sq');
+if (F === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
+function fade(el, t0, t1 = null, dur = 300) {
+  const k = [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(el, k);
+}
+// a key press: the key dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+// dotted connectors, dot by dot
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+// map helpers: an arrow's colour, and a thick line that runs along an arrow (drawn from its start)
+function arrowColor(id, keys) { at($(id), keys.map(([t, c]) => [t, { color: c }])); }
+function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
+  const src = $(id).querySelector('path'), p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', src.getAttribute('d')); p.setAttribute('pathLength', '1');
+  p.setAttribute('style', `fill:none;stroke:${color};stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1`);
+  $('uiRun').appendChild(p);
+  at(p, [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }], [tOff, { strokeDashoffset: 0, opacity: 1 }],
+         [tOff + 400, { strokeDashoffset: 0, opacity: 0 }], [T, { strokeDashoffset: 1, opacity: 0 }]], 'linear');
+}
+
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+enter($('lInfra'), 1200);
+// lane 1: Atlas with any model; the model icon flips cloud <-> local machine
+enter($('lane1'), 1600);
+const flips = [2200, 3200, 4200, 5200, 6200, 7200, 8200, 9200, 10200, 11200, 12200, 13200];
+const cloud = [[0, { opacity: 1 }]], pc = [[0, { opacity: 0 }]];
+flips.forEach((t, i) => { const a = i % 2 === 0; cloud.push([t, { opacity: a ? 1 : 0 }], [t + 250, { opacity: a ? 0 : 1 }]); pc.push([t, { opacity: a ? 0 : 1 }], [t + 250, { opacity: a ? 1 : 0 }]); });
+at($('icCloud'), cloud); at($('icPc'), pc);
+fade($('skills'), 2600, null, 300);
+['p1', 'p2', 'p3'].forEach((id, i) => enter($(id), 2700 + i * 200, 350));
+// lane 1 -> lab tools -> TV: Home -> Guide
+dots(396, 150, 436, 206, 3400, 3700);
+enter($('tools'), 3500, 400);
+dots(614, 226, 650, 226, 3800, 4000);
+enter($('tv'), 3800, 400);
+fade($('tvHome'), 3800, 4300, 200); fade($('tvGuide'), 4400, 7800, 200); fade($('tvHome2'), 8000, null, 200);
+at($('flash'), [[4400, { opacity: 0 }], [4480, { opacity: 0.85 }], [4850, { opacity: 0 }], [8000, { opacity: 0 }], [8080, { opacity: 0.85 }], [8450, { opacity: 0 }]]);
+at($('tick'), [[4700, { opacity: 0, transform: 'scale(0.4)' }], [4950, { opacity: 1, transform: 'scale(1)' }], [7800, { opacity: 1, transform: 'scale(1)' }], [7900, { opacity: 0, transform: 'scale(0.4)' }],
+               [8300, { opacity: 0, transform: 'scale(0.4)' }], [8550, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]);
+// lane 2: any AI tool over MCP, builds its own skills
+enter($('lane2'), 5600);
+at($('own'), [[6400, { background: 'rgba(212,165,116,0)', color: '#bdbdbd', borderColor: '#8a8a8a' }], [6800, { background: 'rgba(212,165,116,1)', color: '#141414', borderColor: '#d4a574' }], [T, { background: 'rgba(212,165,116,1)', color: '#141414', borderColor: '#d4a574' }]]);
+dots(396, 320, 436, 252, 7200, 7500);
+at($('tools'), [[7500, { transform: 'scale(1)' }], [7650, { transform: 'scale(1.06)' }], [7850, { transform: 'scale(1)' }]]);
+enter($('caption'), 9200); enter($('ctarow'), 10000);
+
+// master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
+function tick(ms) {}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>

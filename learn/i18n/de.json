@@ -57,6 +57,29 @@
   "{n} found": "{n} gefunden",
   "No lesson matches “{q}”.": "Keine Lektion passt zu „{q}“."
  },
+ "ai-architecture": {
+  "AI IN THE LAB · AI, TWO WAYS · 1/4": "KI IM LABOR · KI, ZWEI WEGE · 1/4",
+  "AI, Two Ways": "KI, zwei Wege",
+  "Any AI tool, over MCP": "Jedes KI-Tool, über MCP",
+  "Any model: cloud or local": "Jedes Modell: Cloud oder lokal",
+  "Atlas with any model, or any AI tool over MCP": "Atlas mit jedem Modell oder jedes KI-Tool über MCP",
+  "Atlas, built in": "Atlas, eingebaut",
+  "Builds its own skills": "Baut eigene Skills",
+  "Claude Code, Cursor…": "Claude Code, Cursor…",
+  "Devices": "Geräte",
+  "Docs": "Doku",
+  "Tests": "Tests",
+  "Guide": "TV-Guide",
+  "Home": "Start",
+  "Lab tools": "Lab-Tools",
+  "Next: Talk to your lab": "Weiter: Sprich mit deinem Labor",
+  "Open source, on your own infrastructure": "Open Source, auf deiner eigenen Infrastruktur",
+  "Ready-made skills": "Fertige Skills",
+  "See AI setup": "KI einrichten",
+  "Set up Atlas, the built-in assistant, with any model, cloud or local, and use its ready-made skills. Or connect any AI tool through the MCP server and build its own skills. Both drive the same devices.": "Richte Atlas, den eingebauten Assistenten, mit jedem Modell ein, in der Cloud oder lokal, und nutze seine fertigen Skills. Oder verbinde ein beliebiges KI-Tool über den MCP-Server und baue eigene Skills. Beide steuern dieselben Geräte.",
+  "Two ways to bring AI in": "Zwei Wege, KI einzubinden",
+  "VirtualPyTest": "VirtualPyTest"
+ },
  "analytics": {
   "Every result, kept and charted": "Alles gespeichert, alles im Chart",
   "Basics at a glance, dashboards to dig deeper": "Basics auf einen Blick, Dashboards zum Vertiefen",
@@ -783,7 +806,6 @@
   "Many alarms are harmless, like a menu left open. The AI sets them aside and remembers the screen, so next time no AI is needed.": "Viele Alarme sind harmlos, etwa ein offen gelassenes Menü. Die KI sortiert sie aus und merkt sich den Bildschirm, sodass nächstes Mal keine KI nötig ist.",
   "Screen memory is turned on per install.": "Das Bildschirm-Gedächtnis wird pro Installation eingeschaltet.",
   "AI CHECK": "KI-PRÜFUNG",
-  "AI IN THE LAB · DISCARD INCIDENTS · 2/3": "KI IM LABOR · VORFÄLLE AUSSORTIEREN · 2/3",
   "Discard Incidents": "Vorfälle aussortieren",
   "Freeze": "Freeze",
   "INCIDENTS": "VORFÄLLE",
@@ -799,14 +821,14 @@
   "Set aside": "Aussortiert",
   "Settings": "Optionen",
   "VirtualPyTest": "VirtualPyTest",
-  "Your Discard or Keep teaches it too.": "Aus deinem Aussortieren oder Behalten lernt sie auch."
+  "Your Discard or Keep teaches it too.": "Aus deinem Aussortieren oder Behalten lernt sie auch.",
+  "AI IN THE LAB · DISCARD INCIDENTS · 3/4": "KI IM LABOR · VORFÄLLE AUSSORTIEREN · 3/4"
  },
  "discard-scripts": {
   "A test failed. Real bug?": "Test fehlgeschlagen. Echter Bug?",
   "Lab problems are set aside; real failures stay": "Laborprobleme aussortiert, echte Fehler bleiben",
   "When a run fails, the AI reads its report. A lab problem, like no signal, is set aside, so the pass rate counts only real results.": "Schlägt ein Lauf fehl, liest die KI seinen Bericht. Ein Laborproblem, etwa kein Signal, wird aussortiert, damit die Erfolgsquote nur echte Ergebnisse zählt.",
   "AI CHECK": "KI-PRÜFUNG",
-  "AI IN THE LAB · DISCARD SCRIPTS · 3/3": "KI IM LABOR · SKRIPTE AUSSORTIEREN · 3/3",
   "Discard Scripts": "Skripte aussortieren",
   "Failed runs": "Fehlgeschlagen",
   "Guide": "TV-Guide",
@@ -822,7 +844,8 @@
   "See test reports": "Testberichte ansehen",
   "Set aside": "Aussortiert",
   "VirtualPyTest": "VirtualPyTest",
-  "You can always change its call.": "Du kannst die Entscheidung jederzeit ändern."
+  "You can always change its call.": "Du kannst die Entscheidung jederzeit ändern.",
+  "AI IN THE LAB · DISCARD SCRIPTS · 4/4": "KI IM LABOR · SKRIPTE AUSSORTIEREN · 4/4"
  },
  "drone": {
   "Fly a drone from your browser": "Drohne aus dem Browser fliegen",
@@ -1585,7 +1608,6 @@
   "Ask in plain words; the AI moves the real device": "Frag ganz einfach; die KI steuert das echte Gerät",
   "Atlas, the lab's AI, presses the keys, looks at the screen and answers you. Other AI tools can connect the same way.": "Atlas, die KI des Labors, drückt die Tasten, schaut auf den Bildschirm und antwortet dir. Andere KI-Tools können sich genauso verbinden.",
   "8 shows listed, the first is the news.": "8 Sendungen gelistet, die erste sind die Nachrichten.",
-  "AI IN THE LAB · TALK TO YOUR LAB · 1/3": "KI IM LABOR · SPRICH MIT DEINEM LABOR · 1/3",
   "ATLAS": "ATLAS",
   "Go to Guide": "Zum TV-Guide",
   "Guide": "TV-Guide",
@@ -1599,7 +1621,8 @@
   "See Atlas": "Atlas sehen",
   "Talk to Your Lab": "Sprich mit deinem Labor",
   "VirtualPyTest": "VirtualPyTest",
-  "YOU": "DU"
+  "YOU": "DU",
+  "AI IN THE LAB · TALK TO YOUR LAB · 2/4": "KI IM LABOR · SPRICH MIT DEINEM LABOR · 2/4"
  },
  "test-builder": {
   "Build a test without code": "Einen Test ohne Code bauen",
@@ -1679,7 +1702,6 @@
   "Device Timeline": "Geräte-Zeitleiste",
   "Freeze": "Hänger",
   "MONITOR 24/7 · TIMELINE · 4/4": "24/7 ÜBERWACHEN · ZEITLEISTE · 4/4",
-  "Next: Talk to your lab": "Weiter: Sprich mit deinem Labor",
   "One device": "Ein Gerät",
   "PLAYER": "PLAYER",
   "See the timeline": "Zur Zeitleiste",
@@ -1688,7 +1710,8 @@
   "The last 24 hours": "Die letzten 24 Stunden",
   "Turned on per device": "Pro Gerät aktiviert",
   "VirtualPyTest": "VirtualPyTest",
-  "Watch it": "Ansehen"
+  "Watch it": "Ansehen",
+  "Next: Two ways to bring AI in": "Weiter: Zwei Wege, KI einzubinden"
  },
  "user-interface": {
   "Map your app once": "Erfasse deine App einmal",

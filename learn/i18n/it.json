@@ -57,6 +57,29 @@
   "{n} found": "{n} trovate",
   "No lesson matches “{q}”.": "Nessuna lezione corrisponde a «{q}»."
  },
+ "ai-architecture": {
+  "AI IN THE LAB · AI, TWO WAYS · 1/4": "IA NEL LAB · IA, DUE MODI · 1/4",
+  "AI, Two Ways": "IA, due modi",
+  "Any AI tool, over MCP": "Ogni strumento IA, via MCP",
+  "Any model: cloud or local": "Ogni modello: cloud o locale",
+  "Atlas with any model, or any AI tool over MCP": "Atlas con qualsiasi modello, o uno strumento IA via MCP",
+  "Atlas, built in": "Atlas, integrato",
+  "Builds its own skills": "Crea le sue skill",
+  "Claude Code, Cursor…": "Claude Code, Cursor…",
+  "Devices": "Dispositivi",
+  "Docs": "Documenti",
+  "Tests": "Test",
+  "Guide": "Guida TV",
+  "Home": "Home",
+  "Lab tools": "Strumenti del lab",
+  "Next: Talk to your lab": "Prossimo: Parla con il tuo laboratorio",
+  "Open source, on your own infrastructure": "Open source, sulla tua infrastruttura",
+  "Ready-made skills": "Skill pronte",
+  "See AI setup": "Configura l'IA",
+  "Set up Atlas, the built-in assistant, with any model, cloud or local, and use its ready-made skills. Or connect any AI tool through the MCP server and build its own skills. Both drive the same devices.": "Configura Atlas, l'assistente integrato, con qualsiasi modello, cloud o locale, e usa le sue skill pronte. Oppure collega qualsiasi strumento IA tramite il server MCP e crea le sue skill. Entrambi comandano gli stessi dispositivi.",
+  "Two ways to bring AI in": "Due modi per portare l'IA",
+  "VirtualPyTest": "VirtualPyTest"
+ },
  "analytics": {
   "Every result, kept and charted": "Risultati salvati e in grafico",
   "Basics at a glance, dashboards to dig deeper": "Le basi a prima vista, dashboard per approfondire",
@@ -783,7 +806,6 @@
   "Many alarms are harmless, like a menu left open. The AI sets them aside and remembers the screen, so next time no AI is needed.": "Molti allarmi sono innocui, come un menu rimasto aperto. L'IA li scarta e ricorda la schermata, così la prossima volta non serve più l'IA.",
   "Screen memory is turned on per install.": "La memoria delle schermate si attiva per ogni installazione.",
   "AI CHECK": "VERIFICA IA",
-  "AI IN THE LAB · DISCARD INCIDENTS · 2/3": "IA NEL LAB · SCARTA INCIDENTI · 2/3",
   "Discard Incidents": "Scarta incidenti",
   "Freeze": "Blocco",
   "INCIDENTS": "INCIDENTI",
@@ -799,14 +821,14 @@
   "Set aside": "Scartato",
   "Settings": "Opzioni",
   "VirtualPyTest": "VirtualPyTest",
-  "Your Discard or Keep teaches it too.": "Anche quando scegli Scarta o Tieni, l'IA impara."
+  "Your Discard or Keep teaches it too.": "Anche quando scegli Scarta o Tieni, l'IA impara.",
+  "AI IN THE LAB · DISCARD INCIDENTS · 3/4": "IA NEL LAB · SCARTA INCIDENTI · 3/4"
  },
  "discard-scripts": {
   "A test failed. Real bug?": "Un test è fallito. Bug reale?",
   "Lab problems are set aside; real failures stay": "Problemi di lab da parte; i bug veri restano",
   "When a run fails, the AI reads its report. A lab problem, like no signal, is set aside, so the pass rate counts only real results.": "Quando un'esecuzione fallisce, l'IA legge il suo report. Un problema di lab, come la mancanza di segnale, viene messo da parte: così il tasso di successo conta solo i risultati reali.",
   "AI CHECK": "VERIFICA IA",
-  "AI IN THE LAB · DISCARD SCRIPTS · 3/3": "IA NEL LAB · SCARTA SCRIPT · 3/3",
   "Discard Scripts": "Scarta Script",
   "Failed runs": "Test falliti",
   "Guide": "Guida TV",
@@ -822,7 +844,8 @@
   "See test reports": "Vedi report dei test",
   "Set aside": "Da parte",
   "VirtualPyTest": "VirtualPyTest",
-  "You can always change its call.": "Puoi sempre cambiare il suo esito."
+  "You can always change its call.": "Puoi sempre cambiare il suo esito.",
+  "AI IN THE LAB · DISCARD SCRIPTS · 4/4": "IA NEL LAB · SCARTA SCRIPT · 4/4"
  },
  "drone": {
   "Fly a drone from your browser": "Pilota un drone dal browser",
@@ -1585,7 +1608,6 @@
   "Ask in plain words; the AI moves the real device": "Parla semplice: l'IA muove il dispositivo vero",
   "Atlas, the lab's AI, presses the keys, looks at the screen and answers you. Other AI tools can connect the same way.": "Atlas, l'IA del laboratorio, preme i tasti, guarda lo schermo e ti risponde. Altri strumenti IA possono collegarsi allo stesso modo.",
   "8 shows listed, the first is the news.": "8 programmi in elenco, il primo è il telegiornale.",
-  "AI IN THE LAB · TALK TO YOUR LAB · 1/3": "IA NEL LAB · PARLA CON IL TUO LABORATORIO · 1/3",
   "ATLAS": "ATLAS",
   "Go to Guide": "Vai a Guida TV",
   "Guide": "Guida TV",
@@ -1599,7 +1621,8 @@
   "See Atlas": "Vedi Atlas",
   "Talk to Your Lab": "Parla con il tuo laboratorio",
   "VirtualPyTest": "VirtualPyTest",
-  "YOU": "TU"
+  "YOU": "TU",
+  "AI IN THE LAB · TALK TO YOUR LAB · 2/4": "IA NEL LAB · PARLA CON IL TUO LABORATORIO · 2/4"
  },
  "test-builder": {
   "Build a test without code": "Crea un test senza codice",
@@ -1679,7 +1702,6 @@
   "Device Timeline": "Timeline dispositivo",
   "Freeze": "Blocco",
   "MONITOR 24/7 · TIMELINE · 4/4": "MONITORA 24/7 · TIMELINE · 4/4",
-  "Next: Talk to your lab": "Prossimo: Parla con il tuo laboratorio",
   "One device": "Un dispositivo",
   "PLAYER": "PLAYER",
   "See the timeline": "Vedi la timeline",
@@ -1688,7 +1710,8 @@
   "The last 24 hours": "Le ultime 24 ore",
   "Turned on per device": "Attivata per dispositivo",
   "VirtualPyTest": "VirtualPyTest",
-  "Watch it": "Guardalo"
+  "Watch it": "Guardalo",
+  "Next: Two ways to bring AI in": "Prossimo: Due modi per portare l'IA"
  },
  "user-interface": {
   "Map your app once": "Mappa la tua app una volta",
