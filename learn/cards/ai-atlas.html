@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="vpt-card" content="chaptered">
+<title>Atlas, the AI Built In</title>
+<!-- Lesson 7.1 (owner, 2026-11-16: two lessons, about a minute each, replace the 15 s card ai-architecture): Atlas, skills, tools, models, one model per job.
+     Chaptered player format (deep-scaffold.html, embed 1080x600); CH = the chapter times of SCRIPTS.md "7.1 · Atlas, the AI built in". -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 1px; color: #666666; }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 30px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .ch { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .card.dark { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .t { font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--muted); white-space: nowrap; }
+  .card.dark .t { color: #cfcfcf; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 23px; font-weight: 700; padding: 7px 15px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: #141414; white-space: nowrap; }
+  .chip.gold { background: var(--gold); border-color: var(--gold); color: #141414; }
+  .chip.ok { background: #e8f6ec; border-color: var(--ok); color: #0f6b32; }
+  .chip.bad { background: #fdecec; border-color: var(--bad); color: var(--bad); }
+  .chip svg { flex: none; }
+  .row { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .mono { font-family: var(--mono); }
+  .lblc { position: absolute; display: flex; justify-content: center; font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .tv { position: absolute; border-radius: 16px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 22px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 34%; text-align: center; color: #fff; font-size: 28px; font-weight: 700; }
+  .tv .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+  .tv .tk { position: absolute; right: 10px; top: 8px; }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+
+  .bub { position: absolute; padding: 14px 18px; font-size: 24px; font-weight: 700; line-height: 1.3; }
+  .q { background: var(--gold); color: #141414; border-radius: 20px 20px 6px 20px; }
+  .a { background: var(--dark); color: #fff; border-radius: 20px 20px 20px 6px; }
+  .typing { position: absolute; display: flex; gap: 8px; padding: 16px 20px; border-radius: 20px; background: #ebe7e0; }
+  .typing i { width: 12px; height: 12px; border-radius: 50%; background: #8a8a8a; }
+  .sk { position: absolute; width: 250px; height: 64px; border-radius: 14px; background: var(--card); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+  .trow { display: flex; align-items: center; gap: 12px; font-size: 23px; font-weight: 700; height: 40px; white-space: nowrap; }
+  .trow .d { width: 14px; height: 14px; border-radius: 50%; background: #d9d4cc; flex: none; }
+  .grid { display: grid; grid-template-columns: repeat(10, 10px); gap: 5px; }
+  .grid i { width: 10px; height: 10px; border-radius: 3px; background: #e3ded6; }
+  .grid i.g { background: var(--gold); }
+  .step { display: flex; align-items: center; gap: 14px; font-size: 25px; font-weight: 700; white-space: nowrap; height: 52px; }
+  .col { position: absolute; top: 58px; }
+  .colh { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); white-space: nowrap; height: 26px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .chips .chip { font-size: 21px; padding: 6px 13px; gap: 8px; }
+  .tr { position: absolute; left: 24px; right: 24px; height: 60px; display: flex; align-items: center; font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .tr .m { position: absolute; left: 290px; }
+  .tr .s { position: absolute; left: 560px; }
+
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">Chapter 1 of 5</span><span class="h">Ask in plain words</span></div>
+<div class="tag" id="tag1"><span class="n">Chapter 2 of 5</span><span class="h">Skills: the know-how</span></div>
+<div class="tag" id="tag2"><span class="n">Chapter 3 of 5</span><span class="h">The tools do the work</span></div>
+<div class="tag" id="tag3"><span class="n">Chapter 4 of 5</span><span class="h">Connect any model</span></div>
+<div class="tag" id="tag4"><span class="n">Chapter 5 of 5</span><span class="h">One model per job</span></div>
+<div class="say" id="say1">3 of 70+ tools loaded</div>
+<div class="say" id="say2">Every step shown in the chat</div>
+<div class="say" id="say3">Stays on your network</div>
+<div class="say" id="say4">Next: an AI tool you already use, on the same lab tools</div>
+<div class="stage" id="stage"><svg class="links" id="links"></svg>
+
+<div class="ch" id="ch0">
+  <div class="card" style="left:0; top:0; width:936px; height:340px"></div>
+  <div class="tv" id="tvA" style="left:36px; top:70px; width:320px; height:180px"><div class="bar"></div><div class="nm" id="tvAH">Home</div><div class="nm" id="tvAG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvAF"></div><span class="tk" id="tvAK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  <div class="abs" style="left:392px; top:24px; width:2px; height:292px; background:#ebe7e0"></div>
+  <div class="bub q" id="q0" style="left:470px; top:28px; width:440px">Run the goto test to Guide on the TV box</div>
+  <div class="typing" id="typ" style="left:420px; top:150px"><i></i><i></i><i></i></div>
+  <div class="bub a" id="a0" style="left:420px; top:150px; width:420px"><div class="row" style="gap:10px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t" style="color:#cfcfcf">ATLAS</span></div><div style="margin-top:8px">Done ✓ Guide reached in 4.2 s</div></div>
+  <div class="chip gold abs" id="rep0" style="left:420px; top:268px"><svg width="20" height="22" viewBox="0 0 20 24"><path d="M3 2h10l5 5v15H3z" fill="#fff" stroke="#141414" stroke-width="2"/><path d="M6 12h8M6 16h8" stroke="#141414" stroke-width="2"/></svg>Report</div>
+</div>
+<div class="ch" id="ch1">
+  <div class="sk" id="sk0" style="left:0px; top:0px">Control devices</div><div class="sk" id="sk1" style="left:270px; top:0px">Run scripts</div><div class="sk" id="sk2" style="left:0px; top:86px">Run test cases</div><div class="sk" id="sk3" style="left:270px; top:86px">System health</div><div class="sk" id="sk4" style="left:0px; top:172px">Search the docs</div><div class="sk" id="sk5" style="left:270px; top:172px">Test from a prompt</div>
+  <div class="card" id="open1" style="left:590px; top:0; width:346px; height:320px; padding:20px 24px">
+    <div class="t">RUN SCRIPTS</div>
+    <div style="margin-top:12px"><div class="trow" id="tr0"><span class="d" id="td0"></span>Find the script</div><div class="trow" id="tr1"><span class="d" id="td1"></span>Start the run</div><div class="trow" id="tr2"><span class="d" id="td2"></span>Read the report</div></div>
+    <div class="grid" id="grid1" style="margin-top:18px"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</div>
+<div class="ch" id="ch2">
+  <div class="card dark" style="left:0; top:0; width:470px; height:320px; padding:22px 28px">
+    <div class="row" style="gap:10px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t">ATLAS</span></div>
+    <div style="margin-top:14px"><div class="step" id="st0"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Take the device ✓</div><div class="step" id="st1"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Go to Guide ✓</div><div class="step" id="st2"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Check the screen ✓</div><div class="step" id="st3"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d4a574"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#141414" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Read the report ✓</div></div>
+  </div>
+  <div class="tv" id="tvC" style="left:600px; top:30px; width:336px; height:190px"><div class="bar"></div><div class="nm" id="tvCH">Home</div><div class="nm" id="tvCG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvCF"></div><span class="tk" id="tvCK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  <div class="chip gold abs" id="rep2" style="left:600px; top:250px"><svg width="20" height="22" viewBox="0 0 20 24"><path d="M3 2h10l5 5v15H3z" fill="#fff" stroke="#141414" stroke-width="2"/><path d="M6 12h8M6 16h8" stroke="#141414" stroke-width="2"/></svg></div>
+</div>
+<div class="ch" id="ch3">
+  <div class="chip gold abs" id="model3" style="left:0; top:0">Model = the AI engine</div>
+  <div class="card" id="set3" style="left:0; top:60px; width:640px; height:330px; padding:18px 24px">
+    <div style="font-size:26px; font-weight:700">Settings → AI</div>
+    <div class="col" style="left:24px; width:300px"><div class="colh"><svg width="26" height="22" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#8f5f2e"/></svg>CLOUD</div>
+      <div class="chips"><span class="chip" id="p0">Anthropic<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#8f5f2e" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#8f5f2e" stroke-width="2.6" stroke-linecap="round"/></svg></span><span class="chip" id="p1">OpenAI<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#8f5f2e" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#8f5f2e" stroke-width="2.6" stroke-linecap="round"/></svg></span><span class="chip" id="p2">Google<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#8f5f2e" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#8f5f2e" stroke-width="2.6" stroke-linecap="round"/></svg></span><span class="chip" id="p3">MiniMax<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#8f5f2e" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#8f5f2e" stroke-width="2.6" stroke-linecap="round"/></svg></span><span class="chip" id="p4">OpenRouter<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#8f5f2e" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3.5M21 12v3" stroke="#8f5f2e" stroke-width="2.6" stroke-linecap="round"/></svg></span></div></div>
+    <div class="col" id="loc3" style="left:340px; width:280px; top:50px; padding:8px 10px 14px; border-radius:14px; border:3px solid rgba(212,165,116,0)"><div class="colh"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>ON YOUR OWN NETWORK</div>
+      <div class="chips" style="flex-direction:column; align-items:flex-start"><span class="chip" id="l0"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>LM Studio</span><span class="chip" id="l1"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>Ollama</span><span class="chip" id="l2"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>vLLM</span></div></div>
+  </div>
+  <div class="card dark" id="at3" style="left:756px; top:160px; width:180px; height:110px; display:flex; align-items:center; justify-content:center; gap:10px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t">ATLAS</span></div>
+</div>
+<div class="ch" id="ch4">
+  <div class="card" style="left:40px; top:0; width:856px; height:300px">
+    <div class="tr" id="r0" style="top:20px">Atlas chat<span class="chip m" id="m0"><svg width="26" height="22" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#8f5f2e"/></svg>Cloud · large</span><span class="chip bad s" id="down">Down</span><span class="chip ok s" id="backup">Backup ✓</span></div>
+    <div class="tr" id="r1" style="top:88px">Channel banner<span class="chip m"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>Local · small</span></div>
+    <div class="tr" id="r2" style="top:156px">Describe a screen<span class="chip m"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="#8f5f2e"/></svg>Local · small</span></div>
+    <div class="tr" id="r3" style="top:224px">Test plan<span class="chip m"><svg width="26" height="22" viewBox="0 0 34 30"><path d="M10 25h16a6.5 6.5 0 0 0 .8-12.9A9 9 0 0 0 9.6 10.6 7.2 7.2 0 0 0 10 25z" fill="#8f5f2e"/></svg>Cloud · large</span></div>
+  </div>
+  <div class="lblc" id="cost4" style="left:0; width:936px; top:322px; color:var(--muted)">Cost per job: Monitoring → AI usage</div>
+</div>
+</div>
+<script>
+const CH = [600, 15600, 30600, 45600, 60600];                       // chapter starts (ms), as in SCRIPTS.md
+const T = 76000;                         // loop length (ms): the last chapter ends at T - 1000
+const OUT0 = T - 1000, OUT1 = T - 300;   // everything fades together at the end (the player holds before it)
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);   // a chapter's own layers leave just before the next
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function during(el, t, t1, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// inside a chapter layer: appear at t and stay (the layer itself leaves at the chapter's end)
+function show(el, t, dur = 450) { at(el, [[t, HIDE], [t + dur, SHOW]]); }
+function fadeIn(el, t, dur = 300) { at(el, [[t, { opacity: 0 }], [t + dur, { opacity: 1 }]]); }
+function fadeOut(el, t, dur = 300) { at(el, [[t, { opacity: 1 }], [t + dur, { opacity: 0 }]]); }
+function fadeBetween(el, t0, t1, dur = 250) { at(el, [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }], [t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]]); }
+function typeIn(el, t0, t1) { at(el, [[t0, { clipPath: 'inset(0 100% 0 0)' }], [t1, { clipPath: 'inset(0 0% 0 0)' }]], 'linear'); }
+function flash(el, t) { at(el, [[t, { opacity: 0 }], [t + 80, { opacity: 0.85 }], [t + 450, { opacity: 0 }]]); }
+function pop(el, t) { at(el, [[t, { opacity: 0, transform: 'scale(0.4)' }], [t + 250, { opacity: 1, transform: 'scale(1)' }]]); }
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n, ch = CH.filter(c0 => c0 <= t0).length - 1;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [end(ch), { opacity: 1 }], [end(ch) + 300, { opacity: 0 }]]);
+  }
+}
+// chapter layers, tags and lines
+CH.forEach((t, i) => {
+  const last = i === CH.length - 1;
+  if (last) {
+    at($('tag' + i), [[t, HIDE], [t + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+    at($('ch' + i), [[t, { opacity: 0 }], [t + 400, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  } else {
+    during($('tag' + i), t, end(i) + 300);
+    at($('ch' + i), [[t, { opacity: 0 }], [t + 400, { opacity: 1 }], [end(i), { opacity: 1 }], [end(i) + 300, { opacity: 0 }]]);
+  }
+});
+// a chapter's bottom line: appears at t, leaves with its chapter
+function say(id, t) {
+  const i = CH.filter(c => c <= t).length - 1;
+  if (i === CH.length - 1) at($(id), [[t, HIDE], [t + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+  else during($(id), t, end(i) + 300);
+}
+
+let c = CH[0];
+fadeIn($('tvAH'), c, 200); fadeOut($('tvAH'), c + 4100, 200); fadeIn($('tvAG'), c + 4200, 200);
+typeIn($('q0'), c + 900, c + 2700);
+fadeBetween($('typ'), c + 3000, c + 4500);
+show($('a0'), c + 4800); flash($('tvAF'), c + 4200); pop($('tvAK'), c + 4700); show($('rep0'), c + 5600);
+c = CH[1];
+for (let i = 0; i < 6; i++) show($('sk' + i), c + 600 + i * 250, 350);
+at($('sk1'), [[c + 3000, { background: '#ffffff', borderColor: '#d9d4cc' }], [c + 3300, { background: '#d4a574', borderColor: '#d4a574' }]]);
+dots(524, 32, 584, 60, c + 3300, c + 3700);
+show($('open1'), c + 3700);
+[0, 1, 2].forEach(i => { show($('tr' + i), c + 4300 + i * 800, 350); at($('td' + i), [[c + 4600 + i * 800, { background: '#d9d4cc' }], [c + 4800 + i * 800, { background: '#d4a574' }]]); });
+show($('grid1'), c + 6600);
+say('say1', c + 7200);
+c = CH[2];
+dots(474, 140, 596, 120, c + 1000, c + 1400);
+[0, 1, 2, 3].forEach(i => show($('st' + i), c + 1400 + i * 1600, 400));
+fadeIn($('tvCH'), c, 200); fadeOut($('tvCH'), c + 3100, 200); fadeIn($('tvCG'), c + 3200, 200); flash($('tvCF'), c + 3200); pop($('tvCK'), c + 4700);
+show($('rep2'), c + 6400);
+say('say2', c + 7400);
+c = CH[3];
+show($('model3'), c + 800); show($('set3'), c + 1500);
+for (let i = 0; i < 5; i++) show($('p' + i), c + 2300 + i * 350, 300);
+for (let i = 0; i < 3; i++) show($('l' + i), c + 4200 + i * 350, 300);
+show($('at3'), c + 1500);
+dots(644, 220, 752, 215, c + 5600, c + 6000);
+at($('loc3'), [[c + 6600, { borderColor: 'rgba(212,165,116,0)' }], [c + 7000, { borderColor: 'rgba(212,165,116,1)' }]]);
+say('say3', c + 6800);
+c = CH[4];
+[0, 1, 2, 3].forEach(i => show($('r' + i), c + 800 + i * 600, 400));
+fadeBetween($('down'), c + 5400, c + 7000);
+at($('m0'), [[c + 5400, { borderColor: '#d9d4cc' }], [c + 5700, { borderColor: '#dc2626' }], [c + 7000, { borderColor: '#dc2626' }], [c + 7300, { borderColor: '#d9d4cc' }]]);
+show($('backup'), c + 7300);
+show($('cost4'), c + 8600);
+say('say4', c + 10000);
+
+function tick(ms) { }
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
