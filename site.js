@@ -297,8 +297,8 @@
     var api = panel.getAttribute('data-api').replace(/\/$/, '') + '/server/public/ask';
     var docsBase = 'https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/';
     var KEY = 'askai:history', MAX = 40, history = [], busy = false;
-    /* This visit's answered turns, sent with each question so a follow-up ("what parameters does it need?") keeps its context. */
-    var turns = [], TURNS = 3;
+    /* This visit's last 2 answered turns, sent with each question so a follow-up ("what parameters does it need?") keeps its context. */
+    var turns = [], TURNS = 2;
     function readHistory(){ try { var p = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(p) ? p : []; } catch(e){ return []; } }
     function writeHistory(){ try { localStorage.setItem(KEY, JSON.stringify(history.slice(-MAX))); } catch(e){} }
     function openPanel(){ panel.classList.add('is-open'); fab.style.display = 'none'; input.focus(); }
