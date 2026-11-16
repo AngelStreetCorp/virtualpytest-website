@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How a Title Is Read</title>
+<!-- Deep dive "deep-title" (Learn, Go deeper, from lesson 3.4.1 why-fingerprint): how the fingerprint's page title is
+     read in any language (owner 2026-11-16). Embed only (1080x600). CH = chapter starts (ms) as in SCRIPTS.md
+     "# Deep dives". One timeline. Every word on the stage is the script's. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .ly { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .cap { position: absolute; font-size: 24px; font-weight: 700; letter-spacing: 3px; color: var(--muted); white-space: nowrap; }
+  .chip { position: absolute; display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 10px 18px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; box-shadow: 0 3px 10px rgba(0,0,0,.05); }
+  .chip.dark { background: var(--dark); color: #fff; border-color: var(--dark); }
+  .chip.gold { background: var(--gold); border-color: var(--gold); }
+  .chip.mut { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .chip.bad { color: var(--bad); border-color: var(--bad); }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .card.dk { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .line { position: absolute; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .mono { font-family: var(--mono); }
+  .mu { color: var(--muted); }
+  .gt { color: var(--goldText); }
+  .arrow { position: absolute; height: 4px; border-radius: 2px; background: var(--gold); }
+  .arrow::after { content: ''; position: absolute; right: -4px; top: -7px; border-left: 14px solid var(--gold); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+  .okdot, .xdot { flex: none; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; }
+  .xdot { background: var(--bad); }
+  /* a drawn TV screen: a title top-left, a tab row, a poster, tiles */
+  .tv { position: absolute; border-radius: 16px; background: var(--dark); overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .tv i { position: absolute; display: block; }
+  .tv .tt { position: absolute; left: 16px; top: 10px; font-size: 22px; font-weight: 700; color: #f2f2f2; white-space: nowrap; }
+  .neq { position: absolute; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 40px; font-weight: 700; color: #fff; }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 7</span><span class="h">One page, two languages</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 7</span><span class="h">Compare in English</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 7</span><span class="h">Which language?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 7</span><span class="h">Known words first</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 7</span><span class="h">A small model on the host</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 7</span><span class="h">Same text, same English</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 7</span><span class="h">Noise stays, then compare</span></div>
+<div class="say" id="say0">Same page, no match</div>
+<div class="say" id="say1">One language to compare in</div>
+<div class="say" id="say2">Its words, then the screen, then the map</div>
+<div class="say" id="say3">Fixed words: instant, always the same</div>
+<div class="say" id="say4">Runs on the device's host, no internet</div>
+<div class="say" id="say5">The same on both sides</div>
+<div class="say" id="say6">Any language, the same answer</div>
+
+<div class="stage" id="stage">
+  <!-- chapter 1: one page, two languages -->
+  <div class="ly" id="ly0">
+    <div class="cap" id="a0" style="left:40px; top:20px">STORED</div>
+    <div class="cap" id="a1" style="left:576px; top:20px">LIVE</div>
+    <div id="a2" class="abs" style="left:40px; top:64px"></div>
+    <div id="a3" class="abs" style="left:576px; top:64px"></div>
+    <div class="neq" id="a4" style="left:436px; top:125px; background:var(--bad)">≠</div>
+  </div>
+
+  <!-- chapter 2: compare in English -->
+  <div class="ly" id="ly1">
+    <div class="chip" id="b0" style="left:0; top:96px">Recordings</div>
+    <div class="chip" id="b1" style="left:0; top:236px">Aufnahmen</div>
+    <div class="arrow" id="b2" style="left:206px; top:120px; width:110px"></div>
+    <div class="arrow" id="b3" style="left:206px; top:260px; width:110px"></div>
+    <div class="card" id="b4" style="left:340px; top:40px; width:560px; height:300px">
+      <div class="cap" style="left:0; right:0; top:26px; text-align:center">ENGLISH</div>
+      <div class="line" id="b5" style="left:40px; top:84px">recordings <span class="chip gold" style="position:relative; font-size:22px; padding:6px 14px; margin-left:10px">saved once</span></div>
+      <div class="line" id="b6" style="left:40px; top:206px">Aufnahmen → <span class="gt">?</span></div>
+    </div>
+  </div>
+
+  <!-- chapter 3: which language? -->
+  <div class="ly" id="ly2">
+    <div class="line" id="c0" style="left:120px; top:20px"><span class="chip" style="position:relative">Aufnahmen</span> → <span class="gt">German</span></div>
+    <div class="line" id="c1" style="left:120px; top:110px"><span class="chip" style="position:relative">Paramètres</span> → <span class="gt">French</span></div>
+    <div class="line" id="c2" style="left:120px; top:200px"><span class="chip" style="position:relative">Impostazioni</span> → <span class="gt">Italian</span></div>
+    <div class="line" id="c3" style="left:120px; top:290px"><span class="chip" style="position:relative">Settings</span> → <span class="chip mut" style="position:relative">English, kept</span></div>
+  </div>
+
+  <!-- chapter 4: known words first -->
+  <div class="ly" id="ly3">
+    <div class="card dk" id="d0" style="left:110px; top:0; width:716px; height:250px">
+      <div class="cap" style="left:0; right:0; top:22px; text-align:center; color:#a8a8a8">WORD LIST</div>
+      <div class="line mono" id="d1" style="left:44px; top:74px; font-size:26px">aufnahmen → recordings</div>
+      <div class="line mono" id="d2" style="left:44px; top:124px; font-size:26px">paramètres → settings</div>
+      <div class="line mono" id="d3" style="left:44px; top:174px; font-size:26px">contrôle parental → parental control</div>
+    </div>
+    <div class="chip" id="d4" style="left:250px; top:290px"><span id="dok"></span>Auinahmen<span class="mu" style="font-size:22px">one letter off</span></div>
+  </div>
+
+  <!-- chapter 5: a small model on the host -->
+  <div class="ly" id="ly4">
+    <div class="line" id="e0" style="left:0; top:150px"><span class="mu" id="e1">Menü: </span>Mediathek</div>
+    <div class="arrow" id="e2" style="left:252px; top:174px; width:56px"></div>
+    <div class="card" id="e3" style="left:326px; top:40px; width:290px; height:280px">
+      <div class="cap" style="left:0; right:0; top:24px; text-align:center">ON THE HOST</div>
+      <div class="chip dark" id="e4" style="left:28px; top:96px">DE</div>
+      <div class="chip dark" style="left:113px; top:96px">FR</div>
+      <div class="chip dark" style="left:196px; top:96px">IT</div>
+      <div class="line mu" style="left:0; right:0; top:196px; text-align:center; font-size:24px">DE · FR · IT → EN</div>
+    </div>
+    <div class="arrow" id="e5" style="left:636px; top:174px; width:56px"></div>
+    <div class="line" id="e6" style="left:706px; top:130px">Menu: Media library</div>
+    <div class="line gt" id="e7" style="left:706px; top:130px">media library</div>
+    <div class="line mu" id="e8" style="left:706px; top:186px; font-size:24px">under half a second</div>
+  </div>
+
+  <!-- chapter 6: same text, same English -->
+  <div class="ly" id="ly5">
+    <div class="line" id="f0" style="left:0; top:10px"><span class="mu" style="font-size:22px; letter-spacing:2px">STORED</span> Zuletzt gesehen</div>
+    <div class="line" id="f1" style="left:0; top:84px"><span class="mu" style="font-size:22px; letter-spacing:2px">LIVE</span> Zuletzt gesehen</div>
+    <div class="chip dark" id="f2" style="left:520px; top:30px">same model</div>
+    <div class="line" id="f3" style="left:520px; top:110px">last seen = last seen <span id="fok"></span></div>
+    <div class="line mu" id="f4" style="left:520px; top:156px; font-size:24px">not perfect, still a match</div>
+    <div class="chip mut" id="f5" style="left:0; top:226px; font-size:22px"><span id="fx"></span>Online: 1 in 4 unanswered in a bad week</div>
+    <div class="chip" id="f6" style="left:0; top:292px; font-size:22px"><span id="fok2"></span>On the host: always answers</div>
+  </div>
+
+  <!-- chapter 7: noise stays, then compare -->
+  <div class="ly" id="ly6">
+    <div class="line" id="g0" style="left:0; top:0"><span class="chip" style="position:relative">q home t</span> → <span class="chip mut" style="position:relative">kept as it is</span></div>
+    <div id="g1" class="abs" style="left:0; top:96px"></div>
+    <div id="g2" class="abs" style="left:300px; top:96px"></div>
+    <div class="line" id="g3" style="left:84px; top:262px">recordings = recordings</div>
+    <div class="card" id="g4" style="left:640px; top:96px; width:296px; height:200px">
+      <div class="cap" style="left:0; right:0; top:34px; text-align:center">ON SCREEN</div>
+      <div class="line" id="g5" style="left:0; right:0; top:104px; display:flex; justify-content:center; align-items:center; gap:10px; font-size:34px">Recordings <span id="gok"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 58000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+// opacity-only window (t1 = null: to the end)
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+// a glow on, then off (t0 < t1)
+function glow(el, t0, t1, color = 'rgba(212,165,116,.95)') {
+  at(el, [[t0, { boxShadow: '0 0 0 0 rgba(0,0,0,0)' }], [t0 + 400, { boxShadow: `0 0 14px 6px ${color}` }],
+          [t1, { boxShadow: `0 0 14px 6px ${color}` }], [t1 + 400, { boxShadow: '0 0 0 0 rgba(0,0,0,0)' }]]);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag6'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say6'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+// one layer per chapter
+CH.forEach((t, i) => win($('ly' + i), t, i === 6 ? null : end(i) + 300, 300));
+
+const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
+$('dok').innerHTML = OK(26); $('fok').innerHTML = OK(28); $('fok2').innerHTML = OK(24); $('fx').innerHTML = XX(24); $('gok').innerHTML = OK(32);
+
+// the drawn screen, same layout on both sides; only the title differs
+function tv(w, h, title) {
+  const s = w / 320;
+  const px = v => Math.round(v * s) + 'px';
+  return `<div class="tv" style="position:relative; width:${w}px; height:${h}px">` +
+    `<div class="tt" style="font-size:${px(22)}; left:${px(16)}; top:${px(10)}">${title}</div>` +
+    [0, 1, 2, 3, 4].map(k => `<i style="left:${px(16 + k * 58)}; top:${px(48)}; width:${px(44)}; height:${px(9)}; border-radius:3px; background:${k === 3 ? '#bdbdbd' : '#6b6b6b'}"></i>`).join('') +
+    `<i style="left:${px(190)}; top:${px(61)}; width:${px(44)}; height:${px(4)}; border-radius:2px; background:#d4a574"></i>` +
+    `<i style="left:${px(16)}; right:${px(16)}; top:${px(78)}; height:${px(52)}; border-radius:6px; background:linear-gradient(90deg,#d9a56c,#8a5a3a)"></i>` +
+    [0, 1, 2, 3].map(k => `<i style="left:${px(16 + k * 74)}; top:${px(140)}; width:${px(64)}; height:${px(26)}; border-radius:5px; background:${k % 2 ? '#2e2e2e' : '#555'}"></i>`).join('') +
+    `</div>`;
+}
+$('a2').innerHTML = tv(320, 180, 'Recordings');
+$('a3').innerHTML = tv(320, 180, 'Aufnahmen');
+$('g1').innerHTML = tv(256, 144, 'Recordings');
+$('g2').innerHTML = tv(256, 144, 'Aufnahmen');
+
+// ---- chapter 1 (0.6-8.3)
+enter($('a0'), 1000); enter($('a2'), 1000); enter($('a1'), 2200); enter($('a3'), 2200);
+at($('a4'), [[4400, { opacity: 0, transform: 'scale(0.4)' }], [4900, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 1, transform: 'scale(1)' }]]);
+
+// ---- chapter 2 (8.6-16.3)
+enter($('b0'), 9200); enter($('b1'), 9600);
+win($('b2'), 10400, end(1) + 300); win($('b3'), 12800, end(1) + 300);
+enter($('b4'), 10000); enter($('b5'), 11000); enter($('b6'), 13400);
+
+// ---- chapter 3 (16.6-24.3)
+enter($('c0'), 17400); enter($('c1'), 18600); enter($('c2'), 19800); enter($('c3'), 21000);
+
+// ---- chapter 4 (24.6-32.3)
+enter($('d0'), 25200);
+[['d2', 27000], ['d3', 27800]].forEach(([id, t]) => at($(id), [[t, { color: '#ffffff' }], [t + 400, { color: '#d4a574' }], [t + 1200, { color: '#d4a574' }], [t + 1700, { color: '#ffffff' }]]));
+// line 1 lights up, then again when the misread word snaps to it (one animation: two would override each other)
+at($('d1'), [[26200, { color: '#ffffff' }], [26600, { color: '#d4a574' }], [27400, { color: '#d4a574' }], [27900, { color: '#ffffff' }],
+             [30100, { color: '#ffffff' }], [30500, { color: '#d4a574' }], [OUT1, { color: '#d4a574' }]]);
+at($('d4'), [[29200, { opacity: 0, transform: 'translateX(300px)' }], [30000, { opacity: 1, transform: 'translateX(0px)' }], [OUT1, { opacity: 1, transform: 'translateX(0px)' }]]);
+
+// ---- chapter 5 (32.6-40.3)
+enter($('e3'), 33000);
+at($('e0'), [[33400, HIDE], [33900, SHOW], [OUT1, SHOW]]);
+win($('e1'), 34400, null, 500);
+win($('e2'), 35000, end(4) + 300);
+glow($('e4'), 35400, 36600);
+win($('e5'), 36400, end(4) + 300);
+win($('e6'), 36800, 38200, 400);
+win($('e7'), 38200, end(4) + 300, 400);
+enter($('e8'), 38800);
+
+// ---- chapter 6 (40.6-48.3)
+enter($('f0'), 41200); enter($('f1'), 41600);
+enter($('f2'), 42400); glow($('f2'), 42800, 43800);
+enter($('f3'), 43800); enter($('f4'), 44600);
+enter($('f5'), 45600); enter($('f6'), 46400);
+
+// ---- chapter 7 (48.6-end)
+enter($('g0'), 49200);
+enter($('g1'), 51000); enter($('g2'), 51300);
+enter($('g3'), 52400);
+enter($('g4'), 53600); enter($('g5'), 54200);
+
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); };
+window.__T = T;
+</script>
+</body>
+</html>
