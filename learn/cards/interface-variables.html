@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Map, Every Build</title>
+<!-- Concept card 2.5 of the Learn course, topic 2 "User interface": interface variables ({var:name}) keep one map for every build of an app.
+     1080x1350 by default, ?f=sq for 1080x1080, ?f=embed for the Learn player (1080x600, diagram only).
+     One timeline (T ms, loops); render.py seeks it. The user-interface map block is the same in all four topic-2 cards. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6e6e6e;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --W: 1080px; --H: 1350px; --pad: 96px; --gapTop: 46px; --dh: 470px;
+  }
+  body.sq { --H: 1080px; --pad: 80px; --gapTop: 30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: var(--W); height: var(--H); overflow: hidden; }
+  .frame { position: relative; width: var(--W); height: var(--H); padding: var(--pad); display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 34px; letter-spacing: -0.5px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow { margin-top: 26px; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; letter-spacing: 4px; color: var(--muted); }
+  h1 { margin-top: var(--gapTop); font-size: 72px; line-height: 1.05; letter-spacing: -2px; font-weight: 700; }
+  h1 .l2 { display: block; color: var(--goldText); font-family: Georgia, 'DejaVu Serif', serif; font-weight: 400; letter-spacing: -1px; margin-top: 10px; font-size: 0.86em; line-height: 1.12; text-wrap: balance; }
+  body.sq h1 { font-size: 58px; }
+  .diagram { position: relative; height: var(--dh); margin-top: var(--gapTop); flex: none; }
+  body.sq .diagram { height: calc(var(--dh) * var(--sqs, 0.8)); margin-top: 26px; }
+  .stage { position: absolute; left: 0; top: 0; width: 888px; height: var(--dh); }
+  body.sq .stage { left: 50%; margin-left: -444px; transform: scale(var(--sqs, 0.8)); transform-origin: center top; }
+  .mono { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; }
+  .white { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 3px; text-align: center; color: var(--muted); }
+  .abs { position: absolute; }
+  /* a label centred on a column: left/width set inline, never a translateX(-50%) */
+  .lbl { position: absolute; display: flex; justify-content: center; text-align: center; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.22; }
+  .lbl > span { text-wrap: balance; }
+  .lbl.grey { color: var(--muted); font-size: 26px; }
+  .lbl.red { color: var(--bad); }
+  .lbl.gold { color: var(--goldText); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); color: var(--ink); white-space: nowrap; }
+  .chip.greyc { color: var(--muted); background: #ebe7e0; border-color: #ebe7e0; }
+  .okdot, .xdot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; vertical-align: -5px; }
+  .xdot { background: var(--bad); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* the TV look of fingerprint.html, smaller; .nm layers carry the screen name */
+  .tv { position: absolute; border-radius: 18px; background: var(--dark); padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); overflow: hidden; }
+  .tv .bar { height: 10px; width: 50%; border-radius: 4px; background: #4a4a4a; }
+  .tv .tiles { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .tv .tiles i { height: 26px; border-radius: 5px; background: #555; } .tv .tiles i:nth-child(2n) { background: #2e2e2e; }
+  .tv .nm { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .tv .tick { position: absolute; right: 10px; top: 8px; }
+
+  /* ---- the user-interface map: same block in user-interface, go-anywhere, variants, repair-map ---- */
+  .uimap { position: absolute; width: 400px; height: 300px; }
+  .uibg { position: absolute; inset: 0; background: var(--card); border: 2px solid var(--line); border-radius: 22px; box-shadow: 0 6px 18px rgba(0,0,0,.06); padding-top: 13px; }
+  .uimap svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .uimap .arw { color: #a89f93; }
+  .uimap .arw path { stroke: currentColor; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .uimap .arw path.hd { fill: currentColor; stroke-width: 1.5; }
+  .scr { position: absolute; width: 128px; height: 58px; border-radius: 12px; background: var(--dark); color: #fff; font-size: 26px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .scr::before { content: ''; position: absolute; left: 10px; top: 7px; width: 28px; height: 4px; border-radius: 2px; background: #4a4a4a; }
+  #sHome { left: 136px; top: 50px; } #sGuide { left: 14px; top: 222px; } #sSettings { left: 258px; top: 222px; }
+  .kw { position: absolute; width: 0; display: flex; justify-content: center; }      /* centres its key on left: */
+  .key { position: relative; white-space: nowrap; font-size: 26px; font-weight: 700; line-height: 1.2; padding: 1px 12px 2px; border-radius: 10px; background: var(--card); border: 2px solid #c9c2b8; border-bottom-width: 5px; color: var(--ink); }
+  .key .mk { position: absolute; right: -16px; top: -18px; }
+  /* ---- end of the map block ---- */
+
+  .caption { margin-top: auto; font-size: 34px; line-height: 1.3; color: var(--ink); max-width: 888px; }
+  body.sq .caption { font-size: 29px; }
+  .cta { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 22px; background: var(--dark); color: #fff; font-size: 32px; font-weight: 700; padding: 22px 36px; border-radius: 14px; }
+  body.sq .cta { font-size: 28px; padding: 18px 30px; }
+  .cta .arrow { color: var(--gold); }
+  .next { font-size: 26px; color: var(--muted); font-weight: 700; line-height: 1.2; }  /* wraps when long */
+  .ctarow { margin-top: 36px; display: flex; align-items: center; gap: 26px; }
+  body.sq .ctarow { margin-top: 24px; }
+
+  /* embed: the Learn player shows the diagram only; its side panel carries the headline and the caption */
+  body.embed { --H: 600px; }
+  body.embed .frame { padding: 60px 96px 0; }
+  body.embed #brand, body.embed #eyebrow, body.embed h1, body.embed #caption, body.embed #ctarow { display: none; }
+  body.embed .diagram { margin-top: 0; }
+  body.embed .lbl { font-size: 30px; }
+  .stb { position: absolute; border-radius: 10px; background: var(--dark); box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  .stb::before { content: ''; position: absolute; left: 16px; top: 50%; width: 40%; height: 4px; margin-top: -2px; border-radius: 2px; background: #3a3a3a; }
+  .stb::after { content: ''; position: absolute; right: 16px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--ok); }
+  .stb.b { background: #3b3833; border-radius: 16px; } .stb.b::after { background: var(--gold); }
+  .stb.b::before { background: #57534c; width: 28%; }
+  body.sq { --sqs: 0.76; }
+  .tab { font-size: 24px; font-weight: 700; padding: 5px 18px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); color: var(--ink); white-space: nowrap; }
+  .tabs { position: absolute; display: flex; justify-content: center; gap: 14px; }
+  /* the copy of the whole map that a variant avoids */
+  .ghost { position: absolute; background: #ebe7e0; border: 2px dashed #c9c2b8; border-radius: 18px; padding-top: 12px; }
+  .ghost .t { font-size: 17px; letter-spacing: 2px; }
+  .ghost i { position: absolute; width: 58px; height: 28px; border-radius: 7px; background: #b9b2a8; }
+  .vtag { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 22px; letter-spacing: 3px; font-weight: 700; color: var(--goldText); }
+  .script { padding: 14px 8px 16px; }
+  .script .ln { font-size: 22px; font-weight: 700; letter-spacing: -0.6px; text-align: center; white-space: nowrap; }
+  .res2 .lbl { line-height: 1.2; }
+
+  /* 2.5: one launch move, a values table, the run's pick and a phone */
+  .ghost { position: absolute; background: #ebe7e0; border: 2px dashed #c9c2b8; border-radius: 18px; padding-top: 12px; }
+  .ghost .t { font-size: 17px; letter-spacing: 2px; }
+  .appic { position: absolute; width: 52px; height: 52px; border-radius: 14px; background: var(--dark); display: grid; place-items: center; box-shadow: 0 4px 10px rgba(0,0,0,.12); }
+  .apptag { position: absolute; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 52px; }
+  .entry { position: absolute; width: 112px; height: 58px; border-radius: 12px; border: 2px dashed #c9c2b8; background: #f7f5f1; color: var(--muted); font-size: 22px; font-weight: 700; letter-spacing: 2px; display: grid; place-items: center; }
+  .varln { position: absolute; left: 0; right: 0; display: flex; justify-content: center; }
+  .var { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 24px; font-weight: 700; color: var(--goldText); background: #f6ece0; border-radius: 8px; padding: 3px 12px; }
+  .vtab { position: absolute; padding-top: 12px; }
+  .vrow { position: absolute; left: 10px; right: 10px; height: 38px; border-radius: 9px; display: flex; align-items: center; }
+  .vrow .k { width: 156px; padding-left: 10px; font-size: 19px; font-weight: 700; white-space: nowrap; }
+  .vrow .v { font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 18px; white-space: nowrap; }
+  .script { padding: 14px 8px 16px; }
+  .script .ln { font-size: 22px; font-weight: 700; letter-spacing: -0.6px; text-align: center; white-space: nowrap; }
+  .pick { position: absolute; left: 0; width: 190px; display: flex; justify-content: center; }
+  .pick .chip { font-size: 21px; padding: 5px 14px; }
+  .chip.goldc { background: #d4a574; border-color: #d4a574; color: #141414; }
+  .pkg { position: absolute; display: flex; justify-content: center; font-family: ui-monospace, 'DejaVu Sans Mono', monospace; font-size: 16px; font-weight: 700; color: var(--goldText); white-space: nowrap; }
+  .phone { position: absolute; border-radius: 22px; background: var(--dark); padding: 16px 12px; box-shadow: 0 6px 18px rgba(0,0,0,.1); overflow: hidden; }
+  .phone .bar { height: 8px; width: 46%; border-radius: 4px; background: #4a4a4a; }
+  .phone .nm { position: absolute; left: 0; right: 0; top: 38%; text-align: center; color: #fff; font-size: 30px; font-weight: 700; }
+  .phone .tiles { position: absolute; left: 12px; right: 12px; bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .phone .tiles i { height: 24px; border-radius: 5px; background: #555; } .phone .tiles i:nth-child(3n) { background: #2e2e2e; }
+  .phone .tick { position: absolute; right: 10px; top: 10px; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
+  <div class="eyebrow" id="eyebrow">USER INTERFACE · VARIABLES · 5/5</div>
+  <h1><span id="h1a">One map, every build of your app</span><span class="l2" id="h1b">Pick prod, preprod or dev when you run</span></h1>
+
+  <div class="diagram"><div class="stage" id="stage">
+    <svg class="links" id="links"></svg>
+    <div class="appic" id="ic1" style="left:10px; top:0"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#d4a574"/></svg></div><div class="apptag" id="tg1" style="left:76px; top:0">prod</div>
+    <div class="appic" id="ic2" style="left:10px; top:70px"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#d4a574"/></svg></div><div class="apptag" id="tg2" style="left:76px; top:70px">preprod</div>
+    <div class="appic" id="ic3" style="left:10px; top:140px"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#d4a574"/></svg></div><div class="apptag" id="tg3" style="left:76px; top:140px">dev</div>
+
+    <div class="ghost" id="g1" style="left:246px; top:0px; width:360px; height:150px"><div class="t">COPY · PROD</div></div>
+    <div class="ghost" id="g2" style="left:266px; top:36px; width:360px; height:150px"><div class="t">COPY · PREPROD</div></div>
+    <div class="ghost" id="g3" style="left:286px; top:72px; width:360px; height:150px"><div class="t">COPY · DEV</div></div>
+    <div class="lbl red" id="lThree" style="left:206px; top:250px; width:440px"><span>Three maps to fix</span></div>
+    <div class="lbl red" id="lNo" style="left:206px; top:300px; width:440px"><span><span class="xdot"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span> No copy</span></div>
+
+    <div class="uimap" id="uimap" style="left:206px; top:0; width:440px; height:224px">
+      <div class="uibg"><div class="t">USER INTERFACE</div></div>
+      <div class="entry" style="left:22px; top:62px">ENTRY</div>
+      <svg width="440" height="224" viewBox="0 0 440 224">
+        <g class="arw" id="aLaunch"><path pathLength="1" d="M138 91H290"/><path class="hd" d="M283 83L298 91L283 99Z"/></g>
+        <g id="uiRun"></g>
+      </svg>
+      <div class="scr" id="sHome" style="left:300px; top:62px">Home</div>
+      <div class="kw" style="left:218px; top:130px"><span class="key" id="kLaunch">Launch app</span></div>
+      <div class="varln" style="top:178px"><span class="var" id="vName">{var:app_package}</span></div>
+    </div>
+
+    <div class="white vtab" id="vtab" style="left:206px; top:240px; width:440px; height:174px">
+      <div class="t">VALUES</div>
+      <div class="vrow" id="r1" style="top:42px"><span class="k">prod</span><span class="v">com.example.app</span></div>
+      <div class="vrow" id="r2" style="top:84px"><span class="k">preprod</span><span class="v">com.example.app.preprod</span></div>
+      <div class="vrow" id="r3" style="top:126px"><span class="k">dev</span><span class="v">com.example.app.dev</span></div>
+    </div>
+
+    <div class="script white abs" id="script" style="left:0; top:262px; width:190px"><div class="ln mono">goto("Home")</div></div>
+    <div class="pick" id="p1" style="top:336px"><span class="chip goldc">preprod</span></div>
+    <div class="pick" id="p2" style="top:336px"><span class="chip goldc">dev</span></div>
+    <div class="lbl gold" id="lLast" style="left:0; top:392px; width:190px; font-size:26px"><span>Pick the build</span></div>
+
+    <div class="lbl" id="lLaunch" style="left:662px; top:0; width:226px"><span>Launches</span></div>
+    <div class="pkg" id="pkPre" style="left:662px; top:40px; width:226px">com.example.app.preprod</div>
+    <div class="pkg" id="pkDev" style="left:662px; top:40px; width:226px">com.example.app.dev</div>
+    <div class="phone" id="phone" style="left:715px; top:72px; width:120px; height:200px"><div class="bar"></div><div class="nm" id="phHome">Home</div><div class="tiles"><i></i><i></i><i></i><i></i></div><span class="tick" id="phTick"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
+    <div class="lbl" id="lHome" style="left:662px; top:284px; width:226px"><span>Home <span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>
+    <div class="lbl grey" id="lOwn" style="left:662px; top:340px; width:226px"><span>Its own speed results</span></div>
+  </div></div>
+
+  <p class="caption" id="caption">Builds of one app differ in a name, not in their screens. Put the name in a variable: the map stays one, each build is a value, and you pick it when you run.</p>
+  <div class="ctarow" id="ctarow"><div class="cta">See variables <span class="arrow">→</span></div><span class="next">Next: Be sure you reached the screen</span></div>
+</div>
+<script>
+const T = 15000;                         // timeline units (the beats are written on a 15 s grid)
+const SLOW = 1.6;                        // owner 2026-11-17 "too fast": the card plays 1.6x slower, a 24 s loop
+const F = new URLSearchParams(location.search).get('f');
+if (F === 'sq') document.body.classList.add('sq');
+if (F === 'embed') document.body.classList.add('embed');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T * SLOW, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+// opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
+function fade(el, t0, t1 = null, dur = 300) {
+  const k = [[t0, { opacity: 0 }], [t0 + dur, { opacity: 1 }]];
+  if (t1 !== null) k.push([t1, { opacity: 1 }], [t1 + dur, { opacity: 0 }]); else k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]);
+  return at(el, k);
+}
+// a key press: the key dips and turns gold for a moment
+function press(el, t) {
+  at(el, [[t, { transform: 'translateY(0) scale(1)', background: '#ffffff' }], [t + 120, { transform: 'translateY(3px) scale(1.12)', background: '#d4a574' }],
+          [t + 420, { transform: 'translateY(0) scale(1)', background: '#d4a574' }], [t + 700, { transform: 'translateY(0) scale(1)', background: '#ffffff' }]]);
+}
+// dotted connectors, dot by dot
+const svg = $('links');
+function dots(x0, y0, x1, y1, t0, t1) {
+  const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 16));
+  for (let k = 0; k <= n; k++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x0 + (x1 - x0) * k / n); c.setAttribute('cy', y0 + (y1 - y0) * k / n);
+    c.setAttribute('r', 3.6); c.setAttribute('fill', '#b07a45'); svg.appendChild(c);
+    const t = t0 + (t1 - t0) * k / n;
+    at(c, [[t, { opacity: 0 }], [t + 120, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+  }
+}
+// map helpers: an arrow's colour, and a thick line that runs along an arrow (drawn from its start)
+function arrowColor(id, keys) { at($(id), keys.map(([t, c]) => [t, { color: c }])); }
+function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
+  const src = $(id).querySelector('path'), p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', src.getAttribute('d')); p.setAttribute('pathLength', '1');
+  p.setAttribute('style', `fill:none;stroke:${color};stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1`);
+  $('uiRun').appendChild(p);
+  at(p, [[t0, { strokeDashoffset: 1, opacity: 1 }], [t1, { strokeDashoffset: 0, opacity: 1 }], [tOff, { strokeDashoffset: 0, opacity: 1 }],
+         [tOff + 400, { strokeDashoffset: 0, opacity: 0 }], [T, { strokeDashoffset: 1, opacity: 0 }]], 'linear');
+}
+
+enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
+// 1.6: three builds of one app
+[1, 2, 3].forEach(i => { enter($('ic' + i), 1500 + i * 100); enter($('tg' + i), 1600 + i * 100); });
+// 2.4-3.1: a copy of the map per build, crossed out
+const gIn = (el, t) => at(el, [[t, { opacity: 0, transform: 'translateX(-50px)' }], [t + 400, { opacity: 1, transform: 'translateX(0)' }], [3000, { opacity: 1, transform: 'translateX(0)' }], [3300, { opacity: 0, transform: 'translateX(0)' }]]);
+gIn($('g1'), 2400); gIn($('g2'), 2500); gIn($('g3'), 2600);
+at($('lThree'), [[2600, HIDE], [2900, SHOW], [3000, SHOW], [3300, { opacity: 0, transform: 'translateY(0)' }]]);
+at($('lNo'), [[2800, HIDE], [3000, SHOW], [3100, SHOW], [3300, { opacity: 0, transform: 'translateY(0)' }]]);
+// 3.2: one map; its launch move names the variable
+dots(196, 26, 222, 96, 3200, 3500); dots(196, 96, 222, 104, 3250, 3550); dots(196, 166, 222, 112, 3300, 3600);
+enter($('uimap'), 3300);
+arrowColor('aLaunch', [[3700, '#a89f93'], [4000, '#b07a45']]);
+run('aLaunch', 3800, 4200);
+at($('vName'), [[3900, { opacity: 0, transform: 'scale(0.7)' }], [4200, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]);
+// 4.4: the values
+enter($('vtab'), 4400); fade($('r1'), 4600); fade($('r2'), 4800); fade($('r3'), 5000);
+// 5.8: the run picks a build (8.4: it switches to dev)
+enter($('script'), 5800);
+at($('p1'), [[6000, HIDE], [6600, SHOW], [8300, SHOW], [8500, { opacity: 0, transform: 'translateY(0)' }]]);
+at($('p2'), [[8300, { opacity: 0, transform: 'scale(0.8)' }], [8600, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]);
+enter($('lLast'), 6600);
+// 7.2: the preprod row is used; the phone opens that build on Home
+at($('r2'), [[7200, { background: 'rgba(212,165,116,0)' }], [7500, { background: 'rgba(212,165,116,.45)' }], [8400, { background: 'rgba(212,165,116,.45)' }], [8700, { background: 'rgba(212,165,116,0)' }]]);
+dots(650, 330, 704, 200, 7300, 7600);
+enter($('lLaunch'), 7400); fade($('pkPre'), 7500, 8400); enter($('phone'), 7600, 400);
+at($('phHome'), [[7900, { opacity: 0 }], [8050, { opacity: 1 }], [8500, { opacity: 1 }], [8600, { opacity: 0 }], [8900, { opacity: 0 }], [9050, { opacity: 1 }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
+at($('phTick'), [[8000, { opacity: 0, transform: 'scale(0.6)' }], [8200, { opacity: 1, transform: 'scale(1)' }], [8500, { opacity: 1, transform: 'scale(1)' }], [8600, { opacity: 0, transform: 'scale(0.6)' }],
+                 [9000, { opacity: 0, transform: 'scale(0.6)' }], [9200, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]);
+enter($('lHome'), 8100);
+// 8.4: the run picks dev; the phone relaunches with that build
+at($('r3'), [[8400, { background: 'rgba(212,165,116,0)' }], [8700, { background: 'rgba(212,165,116,.45)' }], [OUT0, { background: 'rgba(212,165,116,.45)' }], [OUT1, { background: 'rgba(212,165,116,0)' }]]);
+fade($('pkDev'), 8700);
+enter($('lOwn'), 9200);
+enter($('caption'), 9800); enter($('ctarow'), 10600);
+
+// master animation, target in the DOM so document.getAnimations() reaches it (no text is swapped in these cards)
+function tick(ms) {}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % (T * SLOW)); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T * SLOW;
+</script>
+</body>
+</html>
