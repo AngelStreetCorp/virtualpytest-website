@@ -55,7 +55,8 @@
   "done": "terminée",
   "Search {n} lessons…": "Chercher parmi {n} leçons…",
   "{n} found": "{n} trouvées",
-  "No lesson matches “{q}”.": "Aucune leçon ne correspond à « {q} »."
+  "No lesson matches “{q}”.": "Aucune leçon ne correspond à « {q} ».",
+  "Download": "Télécharger"
  },
  "ai-atlas": {
   "Atlas, the AI built in": "Atlas, l'IA intégrée",

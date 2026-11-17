@@ -140,6 +140,7 @@
   .lx .controls button { height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ctlLine); background: var(--ctl); color: var(--ctlInk); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
   .lx .controls button[aria-pressed="true"] { background: var(--chipOn); color: var(--chipOnInk); border-color: var(--chipOn); }
   .lx .controls button.pulse { animation: pulse 1.6s ease-in-out infinite; }
+  .lx .controls button:disabled { opacity: .35; cursor: default; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(212,165,116,.4); } }
   .lx .soonbox { padding: 24px 32px; color: #4a4a4a; max-width: 520px; }
   .lx .soonbox h2 { font-size: 26px; color: #141414; }
@@ -292,6 +293,7 @@
       <button id="bReplay" aria-label="Replay" data-ta><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
       <button id="bPause" aria-label="Pause"></button>
       <button id="bSlow" aria-pressed="false" data-t>Slow</button>
+      <button id="bDl" aria-label="Download" data-ta><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg></button>
     </div>
   </section>
   <aside class="panel" aria-live="polite">
@@ -605,6 +607,7 @@ function setNext() {
   $('bNext').title = `${T('Next')} (→)`;
   $('bReplay').title = `${T('Replay')} (R)`;
   $('bSlow').title = `${T('Slow')} (S)`;
+  $('bDl').title = `${T('Download')} (D)`; $('bDl').setAttribute('aria-label', T('Download'));
 }
 
 // the card: a same-origin iframe in its embed view (1080 x 600), scaled to the stage width
@@ -647,9 +650,9 @@ function fit() { const k = $('fit').clientWidth / 1080; frame.style.transform = 
 new ResizeObserver(fit).observe($('fit'));
 const win = () => { try { return frame.contentWindow.__T ? frame.contentWindow : null; } catch { return null; } };
 const anims = () => win()?.document.getAnimations() || [];
-let start = START;
+let start = START, curCard = '';
 function load(name, from = START) {
-  ended = false; paused = false; setPause(); start = from;
+  curCard = name; $('bDl').disabled = false; ended = false; paused = false; setPause(); start = from;
   frame.onload = () => {
     if (lang !== 'en') { try { vptLearnTranslate(frame.contentDocument, catOf(name)); } catch {} }
     cardTheme(); frame.style.visibility = '';
@@ -684,6 +687,18 @@ function setPause() {
 
 $('bReplay').onclick = replay;
 $('bPause').onclick = () => (ended ? replay() : paused ? play() : pause());
+// Download: the lesson as an MP4 (learn/video/<lang>/<card>.mp4, rendered by learn_videos.py in the product repo),
+// in the language on screen, else English
+$('bDl').onclick = async () => {
+  if (!curCard) return;
+  const has = async l => { try { return (await fetch(`video/${l}/${curCard}.mp4`, { method: 'HEAD' })).ok; } catch { return false; } };
+  const l = (lang !== 'en' && await has(lang)) ? lang : (await has('en')) ? 'en' : '';
+  if (!l) { $('bDl').disabled = true; return; }
+  const a = document.createElement('a');
+  const name = ($('title').textContent || curCard).replace(/[\\/:*?"<>|]+/g, ' ').trim();
+  a.href = `video/${l}/${curCard}.mp4`; a.download = `VirtualPyTest - ${name}.mp4`;
+  document.body.appendChild(a); a.click(); a.remove();
+};
 $('bSlow').onclick = () => { rate = rate === 1 ? 0.5 : 1; $('bSlow').setAttribute('aria-pressed', String(rate !== 1)); if (!paused) play(); };
 $('bNext').onclick = () => {
   if (deep && deep < (topic.cards[step - 1].deeps?.length || 0)) return go(topic, step, deep + 1);   // the lesson's next deep dive
@@ -702,6 +717,7 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowLeft') $('bBack').click();
   else if (e.key === 'r' || e.key === 'R') replay();
   else if (e.key === 's' || e.key === 'S') $('bSlow').click();
+  else if (e.key === 'd' || e.key === 'D') $('bDl').click();
   else if (e.key === ' ') { e.preventDefault(); $('bPause').click(); }
 });
 
