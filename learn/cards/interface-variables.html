@@ -102,7 +102,7 @@
 
   /* 2.5: one launch move, a values table, the run's pick and a phone */
   .ghost { position: absolute; background: #ebe7e0; border: 2px dashed #c9c2b8; border-radius: 18px; padding-top: 12px; }
-  .ghost .t { font-size: 17px; letter-spacing: 2px; }
+  .ghost .t { font-size: 17px; letter-spacing: 2px; color: #5c574f; }   /* 4.5:1 on the grey copy */
   .appic { position: absolute; width: 52px; height: 52px; border-radius: 14px; background: var(--dark); display: grid; place-items: center; box-shadow: 0 4px 10px rgba(0,0,0,.12); }
   .apptag { position: absolute; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 52px; }
   .entry { position: absolute; width: 112px; height: 58px; border-radius: 12px; border: 2px dashed #c9c2b8; background: #f7f5f1; color: var(--muted); font-size: 22px; font-weight: 700; letter-spacing: 2px; display: grid; place-items: center; }
@@ -180,7 +180,8 @@
   <div class="ctarow" id="ctarow"><div class="cta">See variables <span class="arrow">→</span></div><span class="next">Next: Be sure you reached the screen</span></div>
 </div>
 <script>
-const T = 15000;                         // timeline units (the beats are written on a 15 s grid)
+const D = 2900;                          // owner 2026-11-17 "the beginning is too fast": the opening (builds, copies) gets 2900 more units
+const T = 15000 + D;                     // timeline units; the beats after the opening are written on the old 15 s grid and shifted by D
 const SLOW = 1.6;                        // owner 2026-11-17 "too fast": the card plays 1.6x slower, a 24 s loop
 const F = new URLSearchParams(location.search).get('f');
 if (F === 'sq') document.body.classList.add('sq');
@@ -190,13 +191,14 @@ const NS = 'http://www.w3.org/2000/svg';
 
 // keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
 function at(el, keys, easing = 'ease-out') {
-  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  const frames = keys.map(([t, css]) => ({ offset: (t < OUT0 ? t + SHIFT : t) / T, easing, ...css }));
   if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
   if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
   return el.animate(frames, { duration: T * SLOW, iterations: Infinity, fill: 'both' });
 }
 const HIDE = { opacity: 0, transform: 'translateY(24px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
-const OUT0 = 14000, OUT1 = 14700;         // everything fades together before the loop restarts
+const OUT0 = 14000 + D, OUT1 = 14700 + D; // everything fades together before the loop restarts
+let SHIFT = 0;                            // added to every beat time below OUT0: 0 for the opening, D after it
 function enter(el, t, dur = 600) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
 // opacity only (for elements whose transform is used by something else): in at t0, out at t1 (or with the loop)
 function fade(el, t0, t1 = null, dur = 300) {
@@ -234,12 +236,13 @@ function run(id, t0, t1, color = '#d4a574', tOff = OUT0) {
 
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
 // 1.6: three builds of one app
-[1, 2, 3].forEach(i => { enter($('ic' + i), 1500 + i * 100); enter($('tg' + i), 1600 + i * 100); });
-// 2.4-3.1: a copy of the map per build, crossed out
-const gIn = (el, t) => at(el, [[t, { opacity: 0, transform: 'translateX(-50px)' }], [t + 400, { opacity: 1, transform: 'translateX(0)' }], [3000, { opacity: 1, transform: 'translateX(0)' }], [3300, { opacity: 0, transform: 'translateX(0)' }]]);
-gIn($('g1'), 2400); gIn($('g2'), 2500); gIn($('g3'), 2600);
-at($('lThree'), [[2600, HIDE], [2900, SHOW], [3000, SHOW], [3300, { opacity: 0, transform: 'translateY(0)' }]]);
-at($('lNo'), [[2800, HIDE], [3000, SHOW], [3100, SHOW], [3300, { opacity: 0, transform: 'translateY(0)' }]]);
+[1, 2, 3].forEach(i => { enter($('ic' + i), 1300 + i * 300); enter($('tg' + i), 1400 + i * 300); });
+// 2.9-6.1: a copy of the map per build, crossed out; held long enough to read
+const gIn = (el, t) => at(el, [[t, { opacity: 0, transform: 'translateX(-50px)' }], [t + 400, { opacity: 1, transform: 'translateX(0)' }], [5800, { opacity: 1, transform: 'translateX(0)' }], [6100, { opacity: 0, transform: 'translateX(0)' }]]);
+gIn($('g1'), 2900); gIn($('g2'), 3100); gIn($('g3'), 3300);
+at($('lThree'), [[3600, HIDE], [3900, SHOW], [5800, SHOW], [6100, { opacity: 0, transform: 'translateY(0)' }]]);
+at($('lNo'), [[4300, HIDE], [4600, SHOW], [5800, SHOW], [6100, { opacity: 0, transform: 'translateY(0)' }]]);
+SHIFT = D;   // from here on, beats on the old grid
 // 3.2: one map; its launch move names the variable
 dots(196, 26, 222, 96, 3200, 3500); dots(196, 96, 222, 104, 3250, 3550); dots(196, 166, 222, 112, 3300, 3600);
 enter($('uimap'), 3300);
