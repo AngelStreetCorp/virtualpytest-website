@@ -1732,7 +1732,7 @@
   "Guide shows today": "Guide TV montre le jour",
   "Linked tests": "Tests liés",
   "Live TV plays": "TV en direct joue",
-  "Next: How fast does your app answer?": "Ensuite : Votre app répond-elle vite ?",
+  "Next: KPI measurement": "Ensuite : Mesure des KPI",
   "No test yet": "Aucun test",
   "Pass rates from the latest runs": "Taux de réussite des dernières exécutions",
   "QuickTest": "QuickTest",
@@ -1745,7 +1745,7 @@
   "What the app must do": "Ce que l'app doit faire"
  },
  "response-time": {
-  "How fast does your app answer?": "Votre app répond-elle vite ?",
+  "KPI measurement": "Mesure des KPI",
   "From key press to the right screen, on every run": "De la touche au bon écran, à chaque exécution",
   "A KPI is the time you wait: from the key press to the right screen. A service reads the recorded frames in the background, so the test never waits.": "Un KPI, c'est le temps que vous attendez : de l'appui sur la touche au bon écran. Un service lit la vidéo enregistrée en arrière-plan, donc le test n'attend jamais.",
   "Guide": "Guide TV",
