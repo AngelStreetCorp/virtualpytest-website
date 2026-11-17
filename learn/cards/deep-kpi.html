@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Dive: How a KPI Is Measured</title>
+<!-- Deep dive "deep-kpi" (Learn, Go deeper, from lesson 5.1 KPI measurement): what the KPI service does with one key
+     press after the test has moved on. Embed only (1080x600). CH = chapter starts (ms) as in SCRIPTS.md "# Deep dives".
+     One drawn move, Home -> Guide by OK; the frames are drawn on canvases (t = seconds after the key press); the 8 x 8
+     mosaics are computed from the drawn frames; the bit counts and times are illustrative (SCRIPTS.md Facts). -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #6a6a6a;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .sc { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .card { position: absolute; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .card.dark { background: var(--dark); border-color: var(--dark); color: #fff; }
+  .t { font-size: 20px; font-weight: 700; letter-spacing: 2px; color: var(--muted); white-space: nowrap; }
+  .card.dark .t { color: #cfcfcf; }
+  .row { position: absolute; left: 24px; right: 24px; display: flex; align-items: center; gap: 12px; font-size: 26px; font-weight: 700; white-space: nowrap; }
+  .row.sm { font-size: 22px; }
+  .mu { color: var(--muted); }
+  .gold { color: var(--goldText); }
+  .big { font-size: 56px; font-weight: 700; letter-spacing: -1px; white-space: nowrap; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; }
+  .chip.gold { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .chip.grey { background: #ece8e1; border-color: #ece8e1; color: var(--ink2); }
+  .lbl { position: absolute; font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .okdot, .xdot { flex: none; border-radius: 50%; background: var(--ok); display: inline-grid; place-items: center; }
+  .xdot { background: var(--bad); }
+  .fr { position: absolute; width: 64px; height: 36px; border-radius: 3px; }
+  .mos { position: absolute; width: 64px; height: 36px; image-rendering: pixelated; border-radius: 3px; }
+  .ol { position: absolute; width: 72px; height: 44px; border: 3px solid var(--gold); border-radius: 7px; }
+  .num { position: absolute; width: 64px; text-align: center; font-size: 22px; font-weight: 700; }
+  .ck { position: absolute; width: 64px; display: flex; justify-content: center; }
+  .note { position: absolute; border-radius: 6px; background: var(--card); border: 2px solid var(--line); }
+  .pin { position: absolute; width: 3px; background: var(--gold); }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 8</span><span class="h">The test leaves a note</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 8</span><span class="h">One worker, in the background</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 8</span><span class="h">Anything to time?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 8</span><span class="h">Copy the frames</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 8</span><span class="h">Where does the screen change?</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 8</span><span class="h">Run the checks from there</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 8</span><span class="h">When there is no clear change</span></div>
+<div class="tag" id="tag7"><span class="n">STEP 8 / 8</span><span class="h">The number and its proof</span></div>
+<div class="say" id="say0">The test never waits</div>
+<div class="say" id="say1">Off the test's path</div>
+<div class="say" id="say2">Skipped, with its reason, never a guess</div>
+<div class="say" id="say3">From the press to the live check</div>
+<div class="say" id="say4">18 or more, three frames in a row</div>
+<div class="say" id="say5">The first frame that passes</div>
+<div class="say" id="say6">A few checks, even on 2 minutes</div>
+<div class="say" id="say7">A number you can check</div>
+
+<div class="stage" id="stage">
+  <!-- 1 · the test leaves a note -->
+  <div class="sc" id="sc0">
+    <div class="card" id="test0" style="left:0;top:30px;width:400px;height:250px">
+      <div class="t abs" style="left:24px;top:22px">YOUR TEST</div>
+      <div class="row" id="t0r1" style="top:72px">Home → Guide <span id="t0k1"></span></div>
+      <div class="row" id="t0r2" style="top:130px">Guide → Settings</div>
+      <div class="row sm mu" id="t0r3" style="top:190px">Settings → Home</div>
+    </div>
+    <div class="card" id="req" style="left:440px;top:10px;width:330px;height:300px">
+      <div class="t abs" style="left:22px;top:20px">REQUEST</div>
+      <div class="row sm" id="rq1" style="top:66px;left:22px"><span class="pin" style="position:static;width:12px;height:12px;border-radius:50%"></span>Press · 10:42:07.000</div>
+      <div class="row sm" id="rq2" style="top:120px;left:22px">Look for · Guide</div>
+      <div class="row sm" id="rq3" style="top:174px;left:22px">Checks · title Guide</div>
+      <div class="row sm" id="rq4" style="top:228px;left:22px">Live check · passed</div>
+    </div>
+    <div class="card dark" id="q0" style="left:806px;top:30px;width:130px;height:250px">
+      <div class="t abs" style="left:0;right:0;text-align:center;top:22px">QUEUE</div>
+      <div class="note" style="left:20px;top:200px;width:90px;height:26px"></div>
+      <div class="note" style="left:20px;top:168px;width:90px;height:26px"></div>
+      <div class="note" id="qn3" style="left:20px;top:136px;width:90px;height:26px;border-color:var(--gold)"></div>
+    </div>
+  </div>
+
+  <!-- 2 · one worker in the background -->
+  <div class="sc" id="sc1">
+    <div class="card dark" style="left:0;top:10px;width:580px;height:320px">
+      <div class="t abs" style="left:24px;top:22px">ON THE HOST</div>
+      <div class="abs" style="left:24px;top:64px;width:130px;height:228px;border:2px dashed #555;border-radius:12px"></div>
+      <div class="t abs" style="left:24px;top:76px;width:130px;text-align:center">QUEUE</div>
+      <div class="note" id="w1n1" style="left:44px;top:236px;width:90px;height:26px"></div>
+      <div class="note" id="w1n2" style="left:44px;top:200px;width:90px;height:26px"></div>
+      <div class="note" id="w1n3" style="left:44px;top:164px;width:90px;height:26px;border-color:var(--gold)"></div>
+      <div class="abs" style="left:200px;top:64px;width:350px;height:228px;border:2px solid var(--gold);border-radius:14px"></div>
+      <div class="abs" style="left:224px;top:84px"><span class="chip gold">KPI SERVICE</span></div>
+      <div class="abs" id="w1a" style="left:224px;top:150px;font-size:26px;font-weight:700;white-space:nowrap">1 request at a time</div>
+      <div class="abs" id="w1b" style="left:224px;top:206px;font-size:22px;font-weight:700;color:#cfcfcf;white-space:nowrap">reads the recorded frames</div>
+    </div>
+    <div class="card" style="left:620px;top:10px;width:316px;height:320px">
+      <div class="t abs" style="left:22px;top:22px">YOUR TEST</div>
+      <div class="row sm" style="top:76px;left:22px">Home → Guide <span id="w1k0"></span></div>
+      <div class="row sm" id="w1r1" style="top:136px;left:22px">Guide → Settings <span id="w1k1"></span></div>
+      <div class="row sm" id="w1r2" style="top:196px;left:22px">Settings → Home <span id="w1k2"></span></div>
+      <div class="row sm mu" id="w1r3" style="top:256px;left:22px">Never waits for the KPI</div>
+    </div>
+  </div>
+
+  <!-- 3 · anything to time? -->
+  <div class="sc" id="sc2">
+    <div class="card" style="left:0;top:0;width:590px;height:340px">
+      <div class="row" id="q2r0" style="top:26px">Live check failed?<span style="flex:1"></span><span class="chip grey" id="q2a0">No</span></div>
+      <div class="row" id="q2r1" style="top:96px">Already there before the press?<span style="flex:1"></span><span class="chip grey" id="q2a1">No</span></div>
+      <div class="row" id="q2r2" style="top:166px">Checks read the live device?<span style="flex:1"></span><span class="chip grey" id="q2a2">No</span></div>
+      <div class="row" id="q2r3" style="top:236px">Nothing to measure?<span style="flex:1"></span><span class="chip grey" id="q2a3">No</span></div>
+      <div class="row gold" id="q2go" style="top:290px;justify-content:center">No · No · No · No → measure</div>
+    </div>
+    <div class="card" id="q2ex" style="left:626px;top:0;width:310px;height:340px">
+      <div class="t abs" style="left:22px;top:22px">ANOTHER MOVE</div>
+      <div class="row" id="q2e1" style="top:70px;left:22px">Live check <span id="q2x"></span></div>
+      <div class="abs" id="q2e2" style="left:22px;top:130px;width:266px;font-size:24px;font-weight:700;line-height:1.25"><span class="chip gold" style="margin-bottom:10px">Skipped</span><br>the screen never came</div>
+      <div class="abs mu" id="q2e3" style="left:22px;top:250px;width:266px;font-size:22px;font-weight:700;line-height:1.3">Report: the live check's</div>
+    </div>
+  </div>
+
+  <!-- 4 · copy the frames -->
+  <div class="sc" id="sc3">
+    <div class="lbl mu" id="c3t" style="left:0;top:0;font-size:22px;letter-spacing:2px">RECORDING · 5 frames a second</div>
+    <div class="abs" id="c3s" style="left:0;top:60px;width:936px;height:44px"></div>
+    <div class="abs" id="c3b" style="left:-4px;top:54px;width:940px;height:48px;border:3px solid var(--gold);border-radius:9px"></div>
+    <div class="lbl" id="c3p" style="left:76px;top:116px">Press · 0.0 s</div>
+    <div class="lbl" id="c3v" style="right:0;top:116px">Live check ✓ · 2.2 s</div>
+    <div class="card dark" id="c3d" style="left:168px;top:176px;width:600px;height:160px">
+      <div class="t abs" style="left:24px;top:20px">KPI SERVICE · ITS OWN FOLDER</div>
+      <div class="abs" id="c3in" style="left:24px;top:60px;width:552px;height:40px"></div>
+      <div class="abs" style="left:24px;top:110px;font-size:26px;font-weight:700;color:var(--gold);white-space:nowrap">13 frames copied</div>
+    </div>
+  </div>
+
+  <!-- 5 · where does the screen change? (frames, mosaics, numbers) -->
+  <div class="sc" id="sc4">
+    <div class="abs" id="c4s" style="left:0;top:0;width:936px;height:40px"></div>
+    <div class="abs" id="c4m" style="left:0;top:52px;width:936px;height:40px"></div>
+    <div class="abs" id="c4n" style="left:0;top:100px;width:936px;height:30px"></div>
+    <div class="abs" id="c4o" style="left:0;top:0;width:936px;height:140px"></div>
+    <div class="lbl" id="c4f" style="left:150px;top:146px;color:var(--bad)">19 · 1 frame only ✗</div>
+    <div class="card" id="c4c" style="left:0;top:206px;width:440px;height:130px">
+      <div class="abs" style="left:24px;top:24px;font-size:30px;font-weight:700;white-space:nowrap">8 × 8 · 64 bits</div>
+      <div class="abs mu" style="left:24px;top:76px;font-size:22px;font-weight:700;white-space:nowrap">vs the frame before the press</div>
+    </div>
+    <div class="card" id="c4r" style="left:476px;top:206px;width:460px;height:130px">
+      <div class="abs" style="left:0;right:0;top:20px;text-align:center;font-size:22px;font-weight:700;color:var(--muted);letter-spacing:2px">CHANGE STARTS</div>
+      <div class="abs big gold" style="left:0;right:0;top:50px;text-align:center;font-size:48px">0.8 s</div>
+    </div>
+  </div>
+
+  <!-- 6 · run the checks from there -->
+  <div class="sc" id="sc5">
+    <div class="abs" id="c5s" style="left:0;top:0;width:936px;height:40px"></div>
+    <div class="abs" id="c5k" style="left:0;top:50px;width:936px;height:40px"></div>
+    <div class="abs" id="c5o" style="left:0;top:0;width:936px;height:100px"></div>
+    <div class="abs" id="c5cur" style="top:-4px;width:72px;height:44px;border:3px solid var(--goldText);border-radius:7px"></div>
+    <div class="abs" style="left:0;top:120px;width:336px;height:189px;border-radius:12px;overflow:hidden;background:var(--dark)"><canvas id="c5big" width="672" height="378" style="width:336px;height:189px"></canvas>
+      <div class="abs" style="left:14px;top:8px;width:96px;height:28px;border:3px dashed var(--gold);border-radius:5px"></div></div>
+    <div class="card" id="c5c" style="left:370px;top:120px;width:566px;height:90px">
+      <div class="abs" style="left:24px;top:28px;font-size:28px;font-weight:700;white-space:nowrap"><span class="mu" style="font-size:22px;letter-spacing:2px">CHECK</span> · title Guide</div>
+      <div class="abs" id="c5v" style="right:24px;top:22px;font-size:30px;font-weight:700;display:flex;gap:10px;align-items:center;white-space:nowrap"><span id="c5vi"></span><span id="c5vt">0.8 s</span></div>
+    </div>
+    <div class="card" id="c5n" style="left:370px;top:226px;width:566px;height:90px">
+      <div class="abs" style="left:24px;top:26px;font-size:28px;font-weight:700;white-space:nowrap">Checks run · <span class="gold">5</span> of 12 frames</div>
+    </div>
+  </div>
+
+  <!-- 7 · when there is no clear change -->
+  <div class="sc" id="sc6">
+    <div class="card" style="left:0;top:0;width:450px;height:340px">
+      <div class="t abs" style="left:22px;top:20px">NO CLEAR CHANGE</div>
+      <div class="abs" id="c6s" style="left:22px;top:66px;width:406px;height:30px"></div>
+      <div class="abs" id="c6k" style="left:22px;top:104px;width:406px;height:30px"></div>
+      <div class="row sm" id="c6a" style="top:170px;left:22px">Just after the press <span id="c6ax"></span></div>
+      <div class="row sm" id="c6b" style="top:220px;left:22px">Back from the end, 2 by 2</div>
+    </div>
+    <div class="card" style="left:486px;top:0;width:450px;height:340px">
+      <div class="t abs" style="left:22px;top:20px">LONG WAIT · 2 MIN</div>
+      <div class="abs" style="left:22px;top:92px;width:406px;height:14px;border-radius:7px;background:#e4dfd6"></div>
+      <div class="abs" id="c6g" style="left:22px;top:74px;width:406px;height:50px"></div>
+      <div class="abs" id="c6h" style="top:66px;height:66px;border:3px solid var(--gold);border-radius:8px"></div>
+      <div class="row sm" id="c6d" style="top:170px;left:22px">Every 10 s</div>
+      <div class="row sm" id="c6e" style="top:220px;left:22px">Halve the gap</div>
+      <div class="row sm gold" id="c6f" style="top:270px;left:22px">Holds 3 s <span id="c6fk"></span></div>
+    </div>
+  </div>
+
+  <!-- 8 · the number and its proof -->
+  <div class="sc" id="sc7">
+    <div class="card" id="c7a" style="left:0;top:0;width:290px;height:206px">
+      <div class="t abs" style="left:0;right:0;text-align:center;top:18px">KPI</div>
+      <div class="abs big" style="left:0;right:0;text-align:center;top:46px">1.6 s</div>
+      <div class="abs gold" style="left:0;right:0;text-align:center;top:118px;font-size:22px;font-weight:700">± 0.2 s · one frame</div>
+      <div class="abs mu" style="left:0;right:0;text-align:center;top:154px;font-size:22px;font-weight:700">Match − press</div>
+    </div>
+    <div class="card" id="c7b" style="left:316px;top:0;width:620px;height:206px">
+      <div class="t abs" style="left:22px;top:18px">REPORT</div>
+      <div class="abs" id="c7th" style="left:22px;top:52px;width:576px;height:100px"></div>
+      <div class="abs" id="c7ck" style="left:22px;top:160px;font-size:22px;font-weight:700;display:flex;gap:8px;align-items:center;white-space:nowrap">Checks ·</div>
+    </div>
+    <div class="card" id="c7c" style="left:0;top:226px;width:936px;height:110px">
+      <div class="row sm" id="c7r1" style="top:18px">Home → Guide<span style="flex:1"></span><span>avg 1.6 · min 1.4 · max 2.1</span></div>
+      <div class="row sm mu" id="c7r2" style="top:62px">Skipped<span style="flex:1"></span><span>counted, not averaged</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600, 56600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 66000;
+const OUT0 = T - 1000, OUT1 = T - 300;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+function win(el, t0, t1 = null, d = 400) {
+  const k = [[t0, { opacity: 0 }], [t0 + d, { opacity: 1 }]];
+  if (t1 === null) k.push([OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]); else k.push([t1 - d, { opacity: 1 }], [t1, { opacity: 0 }]);
+  at(el, k);
+}
+const pop = (el, t) => win(el, t, null, 300);   // inside a chapter scene: the scene's own fade hides it later
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag7'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say7'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+CH.forEach((t, i) => win($('sc' + i), t + 100, i < CH.length - 1 ? end(i) + 300 : null, 400));
+
+const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
+
+// ================= the model: Home -> Guide by OK; t = seconds after the key press =================
+// t < 0.8 Home (0.4 s: the focus ring flickers), 0.8 - 1.4 the Guide page drawn without its title, from 1.6 Guide.
+function kindAt(t) { if (t < 0.8 - 1e-6) return Math.abs(t - 0.4) < 0.05 ? 'flick' : 'home'; return t < 1.6 - 1e-6 ? 'empty' : 'guide'; }
+function drawFrame(ctx, w, h, kind, ph = 0) {
+  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 0, w, h);
+  if (kind === 'home' || kind === 'flick') {
+    ctx.fillStyle = '#4a4a4a'; ctx.fillRect(.05 * w, .05 * h, .22 * w, .06 * h);
+    ctx.fillStyle = '#6b6b6b'; for (let k = 0; k < 4; k++) ctx.fillRect((.05 + k * .12) * w, .15 * h, .09 * w, .03 * h);
+    const g = ctx.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#8fb0bd'); g.addColorStop(1, '#4f6b76');
+    ctx.fillStyle = g; ctx.fillRect(.05 * w, .23 * h, .9 * w, .42 * h);
+    for (let k = 0; k < 4; k++) { ctx.fillStyle = k % 2 ? '#2e2e2e' : '#555'; ctx.fillRect((.05 + k * .2375) * w, .71 * h, .2 * w, .22 * h); }
+    if (kind === 'flick') { ctx.fillStyle = '#f2f0ec'; ctx.fillRect(.03 * w, .62 * h, .44 * w, .34 * h); ctx.fillStyle = '#d4a574'; ctx.fillRect(.05 * w, .71 * h, .2 * w, .22 * h); }
+    return;
+  }
+  if (kind === 'anim') {   // a moving background (chapter 7): a gradient that slides
+    const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, `hsl(${200 + ph * 40},30%,${30 + ph * 20}%)`); g.addColorStop(1, '#2a2a2a');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = ph > 0.5 ? '#d4a574' : '#555'; ctx.fillRect(.05 * w, .06 * h, .25 * w, .07 * h);
+    return;
+  }
+  // Guide: title band, then a grid of programme rows
+  if (kind === 'guide') { ctx.fillStyle = '#d4a574'; ctx.fillRect(.05 * w, .05 * h, .26 * w, .07 * h); }
+  else { ctx.fillStyle = '#333'; ctx.fillRect(.05 * w, .05 * h, .26 * w, .07 * h); }
+  for (let r = 0; r < 5; r++) {
+    ctx.fillStyle = '#5a5a5a'; ctx.fillRect(.05 * w, (.2 + r * .15) * h, .14 * w, .11 * h);
+    for (let c = 0; c < 3; c++) { ctx.fillStyle = (r + c) % 3 === 0 ? '#b8b8b8' : '#8a8a8a'; ctx.fillRect((.22 + c * .25) * w, (.2 + r * .15) * h, .22 * w, .11 * h); }
+  }
+}
+function canvasFrame(kind, w = 64, h = 36, ph = 0) {
+  const cv = document.createElement('canvas'); cv.width = w * 2; cv.height = h * 2; cv.className = 'fr'; cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  drawFrame(cv.getContext('2d'), w * 2, h * 2, kind, ph); return cv;
+}
+// the real 8 x 8 average (grey) of a drawn frame, for the mosaics
+function mosaic(kind) {
+  const o = document.createElement('canvas'); o.width = 160; o.height = 90; const cx = o.getContext('2d'); drawFrame(cx, 160, 90, kind);
+  const d = cx.getImageData(0, 0, 160, 90).data, out = [];
+  for (let j = 0; j < 8; j++) for (let i = 0; i < 8; i++) {
+    let s = 0, n = 0;
+    for (let y = Math.floor(j * 90 / 8); y < Math.floor((j + 1) * 90 / 8); y++) for (let x = i * 20; x < i * 20 + 20; x++) { const k = (y * 160 + x) * 4; s += .299 * d[k] + .587 * d[k + 1] + .114 * d[k + 2]; n++; }
+    out.push(s / n);
+  }
+  const cv = document.createElement('canvas'); cv.width = 8; cv.height = 8; cv.className = 'mos';
+  const c2 = cv.getContext('2d'), im = c2.createImageData(8, 8);
+  out.forEach((v, k) => { const q = Math.min(255, v * 1.15 + 20); im.data[k * 4] = im.data[k * 4 + 1] = im.data[k * 4 + 2] = q; im.data[k * 4 + 3] = 255; });
+  c2.putImageData(im, 0, 0); return cv;
+}
+
+// the strip: 13 frames, one every 0.2 s, from -0.2 s (the frame before the press) to 2.2 s
+const NF = 13, PITCH = 72, ft = i => (i - 1) * 0.2, fx = i => i * PITCH;
+const HD = [null, 4, 5, 19, 6, 22, 24, 27, 29, 31, 31, 30, 31];   // bits that differ from the frame before the press (illustrative)
+const BOUND = 5, MATCH = 9;
+function strip(host, from = 0) { for (let i = from; i < NF; i++) { const c = canvasFrame(kindAt(ft(i))); c.style.left = fx(i - from) + 'px'; host.appendChild(c); } }
+
+// ================= 1 · the test leaves a note =================
+$('t0k1').innerHTML = OK(28);
+pop($('test0'), 900); pop($('t0k1'), 1800); pop($('t0r2'), 2300); pop($('t0r3'), 2600);
+at($('req'), [[2800, { opacity: 0, transform: 'translate(-60px,0) scale(.9)' }], [3300, { opacity: 1, transform: 'translate(0,0) scale(1)' }],
+  [6200, { opacity: 1, transform: 'translate(0,0) scale(1)' }], [7000, { opacity: 0, transform: 'translate(300px,120px) scale(.25)' }]], 'ease-in-out');
+[1, 2, 3, 4].forEach(k => pop($('rq' + k), 3300 + k * 450));
+pop($('q0'), 1200); pop($('qn3'), 6900);
+
+// ================= 2 · one worker =================
+['w1k0', 'w1k1', 'w1k2'].forEach(id => $(id).innerHTML = OK(24));
+pop($('w1r1'), 9000); pop($('w1k1'), 11200); pop($('w1r2'), 11400); pop($('w1k2'), 14200); pop($('w1r3'), 14600);
+pop($('w1a'), 10200); pop($('w1b'), 12400);
+at($('w1n3'), [[9600, { transform: 'translate(0,0)', opacity: 1 }], [10600, { transform: 'translate(220px,-40px)', opacity: 1 }], [12600, { transform: 'translate(220px,-40px)', opacity: 1 }], [13000, { transform: 'translate(220px,-40px)', opacity: 0 }]], 'ease-in-out');
+at($('w1n2'), [[13000, { transform: 'translate(0,0)' }], [13600, { transform: 'translate(0,-36px)' }]]);
+at($('w1n1'), [[13000, { transform: 'translate(0,0)' }], [13600, { transform: 'translate(0,-36px)' }]]);
+
+// ================= 3 · anything to time? =================
+[0, 1, 2, 3].forEach(k => { pop($('q2r' + k), 17100 + k * 300); pop($('q2a' + k), 18300 + k * 700); });
+pop($('q2go'), 21200);
+$('q2x').innerHTML = XX(28);
+pop($('q2ex'), 21900); pop($('q2e1'), 22200); pop($('q2e2'), 22700); pop($('q2e3'), 23300);
+
+// ================= 4 · copy the frames =================
+{ // the recording rail: the 13 frames of the window between greyed neighbours
+  const host = $('c3s');
+  strip(host);
+  for (let k = 0; k < NF; k++) host.children[k].style.top = '0px';
+  pop($('c3t'), 25000); pop(host, 25300);
+  at(host, [[25300, { transform: 'translateX(220px)' }], [27000, { transform: 'translateX(0px)' }]], 'ease-in-out');
+  pop($('c3b'), 27600); pop($('c3p'), 27800); pop($('c3v'), 28300);
+  const inner = $('c3in'); for (let i = 0; i < NF; i++) { const c = canvasFrame(kindAt(ft(i)), 36, 20); c.style.left = (i * 42) + 'px'; c.style.top = '10px'; inner.appendChild(c); }
+  pop($('c3d'), 29200);
+  for (let i = 0; i < NF; i++) pop(inner.children[i], 29600 + i * 120);
+}
+
+// ================= 5 · where does the screen change? =================
+{
+  strip($('c4s'));
+  for (let i = 0; i < NF; i++) {
+    const m = mosaic(kindAt(ft(i))); m.style.left = fx(i) + 'px'; $('c4m').appendChild(m); pop(m, 33200 + i * 120);
+    const n = document.createElement('div'); n.className = 'num'; n.style.left = fx(i) + 'px';
+    n.textContent = HD[i] === null ? 'ref' : HD[i]; if (HD[i] === null) n.classList.add('mu');
+    if (i >= BOUND && i < BOUND + 3) n.style.color = '#8f5f2e';
+    $('c4n').appendChild(n); pop(n, 34200 + i * 300);
+  }
+  const fl = document.createElement('div'); fl.className = 'abs'; fl.style.cssText = `left:${fx(3)}px;top:112px;width:64px;height:3px;background:var(--bad)`;
+  $('c4o').appendChild(fl); pop(fl, 37100); pop($('c4f'), 37100);
+  const ol = document.createElement('div'); ol.className = 'abs'; ol.style.cssText = `left:${fx(BOUND) - 5}px;top:-5px;width:${PITCH * 3 + 2}px;height:136px;border:3px solid var(--gold);border-radius:9px`;
+  $('c4o').appendChild(ol); pop(ol, 37900);
+  pop($('c4c'), 33600); pop($('c4r'), 38500);
+}
+
+// ================= 6 · run the checks from there =================
+{
+  strip($('c5s'));
+  for (let k = 0; k <= MATCH - BOUND; k++) {
+    const i = BOUND + k, e = document.createElement('div'); e.className = 'ck'; e.style.left = fx(i) + 'px';
+    e.innerHTML = i === MATCH ? OK(34) : XX(30); $('c5k').appendChild(e); pop(e, 42300 + k * 1000);
+  }
+  const ol = document.createElement('div'); ol.className = 'ol'; ol.style.left = (fx(MATCH) - 4) + 'px'; ol.style.top = '-4px';
+  $('c5o').appendChild(ol); pop(ol, 46400);
+  at($('c5cur'), [[41600, { opacity: 0 }], [41900, { opacity: 1 }], [46400, { opacity: 1 }], [46600, { opacity: 0 }]]);
+  pop($('c5c'), 41200); pop($('c5n'), 47000);
+}
+
+// ================= 7 · when there is no clear change =================
+{
+  const s = $('c6s'), k = $('c6k');
+  for (let i = 0; i < 10; i++) {
+    const c = canvasFrame('anim', 36, 20, (i % 4) / 3 * (i < 6 ? 0.45 : 1)); c.style.left = (i * 41) + 'px'; s.appendChild(c);
+  }
+  const mark = (i, ok, t) => { const e = document.createElement('div'); e.className = 'ck'; e.style.width = '36px'; e.style.left = (i * 41) + 'px'; e.innerHTML = ok ? OK(24) : XX(22); k.appendChild(e); pop(e, t); };
+  mark(1, false, 49800); mark(9, true, 51200); mark(7, true, 51800); mark(5, false, 52400); mark(6, true, 53000);
+  $('c6ax').innerHTML = XX(26);
+  pop($('c6a'), 49900); pop($('c6b'), 51000);
+  // the long wait: 12 probes every 10 s on a 2-minute bar; the screen is there from 74 s
+  const g = $('c6g'), X = sec => 406 * sec / 120;
+  for (let n = 1; n <= 11; n++) {
+    const sec = n * 10, e = document.createElement('div'); e.className = 'abs'; e.style.cssText = `left:${X(sec) - 12}px;top:12px`;
+    e.innerHTML = sec >= 80 ? OK(24) : XX(22); g.appendChild(e); pop(e, 50200 + n * 180);
+  }
+  pop($('c6d'), 50200); pop($('c6e'), 53400); pop($('c6f'), 55100);
+  $('c6fk').innerHTML = OK(26);
+  const h = $('c6h');
+  at(h, [[0, { opacity: 0, left: (22 + X(70) - 6) + 'px', width: (X(10) + 12) + 'px' }], [53300, { opacity: 0, left: (22 + X(70) - 6) + 'px', width: (X(10) + 12) + 'px' }],
+    [53600, { opacity: 1, left: (22 + X(70) - 6) + 'px', width: (X(10) + 12) + 'px' }], [54200, { opacity: 1, left: (22 + X(70) - 6) + 'px', width: (X(10) + 12) + 'px' }],
+    [54500, { opacity: 1, left: (22 + X(70) - 6) + 'px', width: (X(5) + 12) + 'px' }], [54900, { opacity: 1, left: (22 + X(72.5) - 6) + 'px', width: (X(2.5) + 12) + 'px' }],
+    [55200, { opacity: 1, left: (22 + X(74) - 6) + 'px', width: (X(3) + 12) + 'px' }], [OUT0, { opacity: 1, left: (22 + X(74) - 6) + 'px', width: (X(3) + 12) + 'px' }]], 'ease-in-out');
+}
+
+// ================= 8 · the number and its proof =================
+{
+  pop($('c7a'), 57000); pop($('c7b'), 57800); pop($('c7c'), 60200);
+  const th = $('c7th'), items = [['Before', 'home'], ['After press', 'home'], ['Before match', 'empty'], ['Match', 'guide']];
+  items.forEach(([lab, kind], k) => {
+    const box = document.createElement('div'); box.className = 'abs'; box.style.cssText = `left:${k * 146}px;top:0;width:136px`;
+    const c = canvasFrame(kind, 136, 66); c.style.position = 'static'; if (lab === 'Match') c.style.outline = '3px solid #d4a574';
+    const l = document.createElement('div'); l.textContent = lab; l.style.cssText = 'font-size:20px;font-weight:700;margin-top:6px;white-space:nowrap';
+    box.appendChild(c); box.appendChild(l); th.appendChild(box); pop(box, 58200 + k * 400);
+  });
+  const ck = $('c7ck'); [0, 0, 0, 0, 1].forEach(ok => { const s = document.createElement('span'); s.innerHTML = ok ? OK(26) : XX(24); ck.appendChild(s); });
+  pop(ck, 59900); pop($('c7r1'), 60600); pop($('c7r2'), 61200);
+}
+
+// ================= text and canvases that change with time =================
+const bctx = $('c5big').getContext('2d');
+let lastB = null;
+function probeIdx(ms) { return Math.max(BOUND, Math.min(MATCH, BOUND + Math.floor((ms - 41800) / 1000))); }
+function tick(ms) {
+  const i = probeIdx(ms), kind = kindAt(ft(i));
+  if (kind !== lastB) { drawFrame(bctx, 672, 378, kind); lastB = kind; }
+  $('c5cur').style.left = (fx(i) - 4) + 'px';
+  $('c5vt').textContent = ft(i).toFixed(1) + ' s';
+  $('c5vi').innerHTML = i === MATCH ? OK(32) : XX(30);
+}
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
