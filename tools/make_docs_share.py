@@ -15,6 +15,7 @@ POSTERS = [
     ("what-is", "What is VirtualPyTest?", "img/what-is-virtualpytest.svg", "Any device with a screen, tested and monitored 24/7 by AI, in one image."),
     ("profiles", "A profile is a set of services", "img/profiles.svg", "What a host runs for each device: three host shapes, a profile per device and a table of what each profile switches on."),
     ("services", "Services are background jobs", "img/services.svg", "Every VirtualPyTest service, grouped in server and host, and how each one shows on the Status page."),
+    ("ai-use-cases", "Rules first, then AI", "img/ai-use-cases.svg", "Where VirtualPyTest uses AI and why: four jobs, mostly free, rules first."),
     ("freeze-discard", "Freeze: menu or stuck video?", "img/freeze-discard.svg", "How a freeze alert is decided in 0.25 ms: read the words, weigh the pieces, decide with a safety band."),
 ]
 PAGE = """<!doctype html>
