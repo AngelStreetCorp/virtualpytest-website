@@ -195,9 +195,9 @@
   "MCP is a common plug between AI tools and other software. Claude Code, Cursor, Codex and Copilot have it; VirtualPyTest has the socket built in.": "MCP est une fiche commune entre les outils IA et les autres logiciels. Claude Code, Cursor, Codex et Copilot l'ont ; VirtualPyTest a la prise intégrée."
  },
  "ai-why": {
-  "Rules first, then AI": "Les règles d'abord, puis l'IA",
-  "Four jobs, mostly free": "Quatre tâches, presque toutes gratuites",
-  "Most of the lab runs on rules: fingerprints, clocks, pixel checks. A model is asked only when a rule is not sure, and its answers are measured before they are trusted.": "La majeure partie du labo fonctionne avec des règles : empreintes, horloges, vérifications de pixels. Un modèle n'est interrogé que lorsqu'une règle n'est pas sûre, et ses réponses sont mesurées avant qu'on leur fasse confiance.",
+  "Where VirtualPyTest uses AI": "Où VirtualPyTest utilise l'IA",
+  "Five use cases, mostly free": "Cinq cas d'usage, surtout gratuits",
+  "Most of the lab needs no AI: fingerprints, clocks, pixel checks. A model is asked only when a check is not sure, and its answers are measured before they are trusted.": "L'essentiel du labo se passe d'IA : empreintes, horloges, contrôles de pixels. Un modèle n'est sollicité que lorsqu'un contrôle n'est pas sûr, et ses réponses sont mesurées avant d'être crues.",
   "AI": "IA",
   "AI IN THE LAB · WHERE AND WHY": "L'IA AU LABO · OÙ ET POURQUOI",
   "Freeze check": "Vérification gel",
@@ -205,18 +205,19 @@
   "Help people": "Aider les gens",
   "Load time": "Chargement",
   "Logged": "Consigné",
-  "Name what is on screen": "Nommer ce qui est à l'écran",
+  "Classify unknown screens": "Classer les écrans inconnus",
   "New answers are measured first, then trusted.": "Les nouvelles réponses sont d'abord mesurées, puis on leur fait confiance.",
   "Next: Atlas, the AI built in": "Ensuite : Atlas, l'IA intégrée",
   "Not sure?": "Pas sûr ?",
-  "RULES": "RÈGLES",
+  "NO AI": "SANS IA",
   "See where AI is used": "Voir où l'IA est utilisée",
-  "Throw away false alarms": "Écarter les fausses alertes",
+  "Discard incidents": "Écarter les incidents",
+  "Discard scripts": "Écarter les scripts",
   "Used": "Utilisé",
   "VirtualPyTest": "VirtualPyTest",
   "Where And Why AI": "IA : Où Et Pourquoi",
   "Which screen?": "Quel écran ?",
-  "Write tests": "Écrire des tests"
+  "Create scripts": "Créer des scripts"
  },
  "analytics": {
   "Every result, kept and charted": "Chaque résultat, gardé et tracé",

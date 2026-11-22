@@ -195,9 +195,9 @@
   "MCP is a common plug between AI tools and other software. Claude Code, Cursor, Codex and Copilot have it; VirtualPyTest has the socket built in.": "MCP è una spina comune tra strumenti IA e altri software. Claude Code, Cursor, Codex e Copilot la hanno; VirtualPyTest ha la presa integrata."
  },
  "ai-why": {
-  "Rules first, then AI": "Prima le regole, poi l'IA",
-  "Four jobs, mostly free": "Quattro compiti, quasi tutti gratis",
-  "Most of the lab runs on rules: fingerprints, clocks, pixel checks. A model is asked only when a rule is not sure, and its answers are measured before they are trusted.": "Gran parte del lab funziona con regole: impronte, orologi, verifiche dei pixel. Un modello viene interpellato solo quando una regola non è sicura, e le sue risposte vengono misurate prima di fidarsi.",
+  "Where VirtualPyTest uses AI": "Dove VirtualPyTest usa l'IA",
+  "Five use cases, mostly free": "Cinque casi d'uso, per lo più gratuiti",
+  "Most of the lab needs no AI: fingerprints, clocks, pixel checks. A model is asked only when a check is not sure, and its answers are measured before they are trusted.": "Gran parte del laboratorio non usa IA: impronte, orologi, controlli sui pixel. Un modello viene interpellato solo quando un controllo non è sicuro, e le sue risposte vengono misurate prima di fidarsi.",
   "AI": "IA",
   "AI IN THE LAB · WHERE AND WHY": "IA NEL LAB · DOVE E PERCHÉ",
   "Freeze check": "Verifica blocco",
@@ -205,18 +205,19 @@
   "Help people": "Aiuta l'utente",
   "Load time": "Caricamento",
   "Logged": "Nel log",
-  "Name what is on screen": "Di' cosa c'è sullo schermo",
+  "Classify unknown screens": "Classifica le schermate sconosciute",
   "New answers are measured first, then trusted.": "Le nuove risposte prima si misurano, poi ci si fida.",
   "Next: Atlas, the AI built in": "Prossimo: Atlas, l'IA integrata",
   "Not sure?": "Non sicura?",
-  "RULES": "REGOLE",
+  "NO AI": "SENZA IA",
   "See where AI is used": "Guarda dove si usa l'IA",
-  "Throw away false alarms": "Scarta i falsi allarmi",
+  "Discard incidents": "Scarta gli incidenti",
+  "Discard scripts": "Scarta gli script",
   "Used": "Usata",
   "VirtualPyTest": "VirtualPyTest",
   "Where And Why AI": "IA: Dove E Perché",
   "Which screen?": "Quale schermata?",
-  "Write tests": "Scrivi test"
+  "Create scripts": "Crea script"
  },
  "analytics": {
   "Every result, kept and charted": "Risultati salvati e in grafico",
