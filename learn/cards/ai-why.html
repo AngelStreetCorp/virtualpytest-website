@@ -120,7 +120,7 @@
   .badge i { border-radius: 1px; background: #3a3a3a; } .badge i.o { background: var(--gold); }
   .fly { position: absolute; width: 60px; height: 36px; border-radius: 6px; background: #3a3a3a; border: 2px solid var(--gold); opacity: 0; }
   .rrow { display: flex; align-items: center; gap: 12px; font-size: 27px; font-weight: 700; white-space: nowrap; margin: 16px 0 0 22px; }
-  .jrow { display: flex; align-items: center; gap: 14px; font-size: 27px; font-weight: 700; white-space: nowrap; margin: 16px 0 0 24px; color: #fff; }
+  .jrow { display: flex; align-items: center; gap: 14px; font-size: 25px; font-weight: 700; white-space: nowrap; margin: 12px 0 0 24px; color: #fff; }
   .jrow .nb { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--ink); display: grid; place-items: center; font-size: 20px; }
   .state { position: absolute; display: flex; justify-content: center; }
 </style>
@@ -129,28 +129,29 @@
 <div class="frame">
   <div class="brand" id="brand"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#141414"/></svg></span>VirtualPyTest</div>
   <div class="eyebrow" id="eyebrow">AI IN THE LAB · WHERE AND WHY</div>
-  <h1><span id="h1a">Rules first, then AI</span><span class="l2" id="h1b">Four jobs, mostly free</span></h1>
+  <h1><span id="h1a">Where VirtualPyTest uses AI</span><span class="l2" id="h1b">Five use cases, mostly free</span></h1>
 
   <div class="diagram"><div class="stage" id="stage">
     <svg class="links" id="links"></svg>
-    <div class="white abs pad" id="rules" style="left:0; top:0; width:300px; height:290px"><div class="t">RULES</div>
+    <div class="white abs pad" id="rules" style="left:0; top:0; width:300px; height:290px"><div class="t">NO AI</div>
       <div class="rrow" id="q1"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>Which screen?</div>
       <div class="rrow" id="q2"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>Load time</div>
       <div class="rrow" id="q3"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>Freeze check</div>
       <div class="rrow" id="q4"><span class="okdot"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>Go to a screen</div></div>
     <div class="lbl gold" id="lNot" style="left:296px; top:96px; width:140px; font-size:24px"><span>Not sure?</span></div>
-    <div class="dk abs pad" id="ai" style="left:436px; top:0; width:452px; height:290px">
+    <div class="dk abs pad" id="ai" style="left:436px; top:0; width:452px; height:320px">
       <div class="ttl"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z" fill="#d4a574"/></svg><span class="t" style="font-size:22px">AI</span></div>
-      <div class="jrow" id="j1"><span class="nb">1</span>Throw away false alarms</div>
-      <div class="jrow" id="j2"><span class="nb">2</span>Name what is on screen</div>
-      <div class="jrow" id="j3"><span class="nb">3</span>Write tests</div>
-      <div class="jrow" id="j4"><span class="nb">4</span>Help people</div></div>
-    <div class="state" id="stLog" style="left:436px; top:312px; width:452px"><span class="pill grey">Logged</span></div>
-    <div class="state" id="stUse" style="left:436px; top:312px; width:452px"><span class="pill">Used</span></div>
-    <div class="lbl grey" id="lMeas" style="left:0; top:362px; width:888px"><span>New answers are measured first, then trusted.</span></div>
+      <div class="jrow" id="j1"><span class="nb">1</span>Discard incidents</div>
+      <div class="jrow" id="j2"><span class="nb">2</span>Discard scripts</div>
+      <div class="jrow" id="j3"><span class="nb">3</span>Classify unknown screens</div>
+      <div class="jrow" id="j4"><span class="nb">4</span>Create scripts</div>
+      <div class="jrow" id="j5"><span class="nb">5</span>Help people</div></div>
+    <div class="state" id="stLog" style="left:436px; top:342px; width:452px"><span class="pill grey">Logged</span></div>
+    <div class="state" id="stUse" style="left:436px; top:342px; width:452px"><span class="pill">Used</span></div>
+    <div class="lbl grey" id="lMeas" style="left:0; top:392px; width:888px"><span>New answers are measured first, then trusted.</span></div>
   </div></div>
 
-  <p class="caption" id="caption">Most of the lab runs on rules: fingerprints, clocks, pixel checks. A model is asked only when a rule is not sure, and its answers are measured before they are trusted.</p>
+  <p class="caption" id="caption">Most of the lab needs no AI: fingerprints, clocks, pixel checks. A model is asked only when a check is not sure, and its answers are measured before they are trusted.</p>
   <div class="ctarow" id="ctarow"><div class="cta">See where AI is used <span class="arrow">→</span></div><span class="next">Next: Atlas, the AI built in</span></div>
 </div>
 <script>
@@ -183,7 +184,7 @@ function dots(x0, y0, x1, y1, t0, t1) {
 enter($('brand'), 0); enter($('eyebrow'), 150); enter($('h1a'), 300); enter($('h1b'), 900);
 enter($('rules'), 1600); ['q1', 'q2', 'q3', 'q4'].forEach((id, i) => enter($(id), 1800 + i * 250, 400));
 enter($('lNot'), 3300); dots(306, 150, 428, 150, 3400, 3800);
-enter($('ai'), 3800); ['j1', 'j2', 'j3', 'j4'].forEach((id, i) => enter($(id), 4200 + i * 600, 400));
+enter($('ai'), 3800); ['j1', 'j2', 'j3', 'j4', 'j5'].forEach((id, i) => enter($(id), 4200 + i * 500, 400));
 at($('stLog'), [[7000, HIDE], [7400, SHOW], [8000, SHOW], [8300, { opacity: 0, transform: 'translateY(0)' }]]);
 at($('stUse'), [[8100, { opacity: 0, transform: 'scale(.7)' }], [8400, { opacity: 1, transform: 'scale(1)' }], [OUT0, { opacity: 1, transform: 'scale(1)' }], [OUT1, { opacity: 0, transform: 'scale(1)' }]]);
 enter($('lMeas'), 7200);

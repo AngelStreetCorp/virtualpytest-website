@@ -195,9 +195,9 @@
   "MCP is a common plug between AI tools and other software. Claude Code, Cursor, Codex and Copilot have it; VirtualPyTest has the socket built in.": "MCP ist ein gemeinsamer Stecker für KI-Tools. Claude Code, Cursor, Codex und Copilot haben ihn; VirtualPyTest hat die Buchse eingebaut."
  },
  "ai-why": {
-  "Rules first, then AI": "Erst Regeln, dann KI",
-  "Four jobs, mostly free": "Vier Aufgaben, meist kostenlos",
-  "Most of the lab runs on rules: fingerprints, clocks, pixel checks. A model is asked only when a rule is not sure, and its answers are measured before they are trusted.": "Der Großteil des Labors läuft mit Regeln: Fingerabdrücke, Uhren, Pixelprüfungen. Ein Modell wird nur gefragt, wenn eine Regel nicht sicher ist, und seine Antworten werden gemessen, bevor man ihnen vertraut.",
+  "Where VirtualPyTest uses AI": "Wo VirtualPyTest KI nutzt",
+  "Five use cases, mostly free": "Fünf Anwendungsfälle, meist kostenlos",
+  "Most of the lab needs no AI: fingerprints, clocks, pixel checks. A model is asked only when a check is not sure, and its answers are measured before they are trusted.": "Der Großteil des Labors kommt ohne KI aus: Fingerabdrücke, Uhren, Pixelprüfungen. Ein Modell wird nur gefragt, wenn eine Prüfung nicht sicher ist, und seine Antworten werden gemessen, bevor man ihnen vertraut.",
   "AI": "KI",
   "AI IN THE LAB · WHERE AND WHY": "KI IM LABOR · WO UND WARUM",
   "Freeze check": "Freeze-Prüfung",
@@ -205,18 +205,19 @@
   "Help people": "Leuten helfen",
   "Load time": "Ladezeit",
   "Logged": "Geloggt",
-  "Name what is on screen": "Benennen, was zu sehen ist",
+  "Classify unknown screens": "Unbekannte Bildschirme einordnen",
   "New answers are measured first, then trusted.": "Neue Antworten werden erst gemessen, dann wird ihnen vertraut.",
   "Next: Atlas, the AI built in": "Weiter: Atlas, die eingebaute KI",
   "Not sure?": "Unsicher?",
-  "RULES": "REGELN",
+  "NO AI": "OHNE KI",
   "See where AI is used": "Sieh, wo KI genutzt wird",
-  "Throw away false alarms": "Fehlalarme verwerfen",
+  "Discard incidents": "Vorfälle verwerfen",
+  "Discard scripts": "Skripte verwerfen",
   "Used": "Genutzt",
   "VirtualPyTest": "VirtualPyTest",
   "Where And Why AI": "Wo und warum KI",
   "Which screen?": "Bildschirm?",
-  "Write tests": "Tests schreiben"
+  "Create scripts": "Skripte erstellen"
  },
  "analytics": {
   "Every result, kept and charted": "Alles gespeichert, alles im Chart",
