@@ -53,7 +53,7 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
 A "Real examples" step shows real screens with the real decision. Rules: neutral sources only (our own pages, a public
 page, a free streaming app; never an operator or provider app), real OCR words (tesseract), the real model's score and
 decision, small thumbnails (320x180 JPG in `docs/img/<id>-real-<name>.jpg`, embedded in the SVG as base64), say the
-first and last frame are the same. The model itself never goes on the page, only its results.
+first and last frame are the same. The model itself never goes on the page, only its results. Run the model on the example before you write its caption: a screensaver has no words, so it scores 0.00 (video, alert kept), not menu.
 
 ## Share a poster (X, LinkedIn, WhatsApp)
 
