@@ -78,14 +78,14 @@ for i, (sc, a, b, c) in enumerate([("0.04", "Video: keep", "real incident", BLUE
 arrow(600, y + 380, y + 430)
 
 
-# 4b: real examples (real captures of public pages, real OCR words, the real model's score)
+# 4b: examples (drawn screens, real OCR words, the score of the real model)
 import base64
 def img(name):
     return base64.b64encode(open(f"docs/img/freeze-real-{name}.jpg", "rb").read()).decode()
 y = 1940
-layer(y, "5", "Real examples", "Real screens, the words OCR read, the real model's score", 590)
-CASES = [("phone", "A phone home screen", "Clock Samsung Free Gaming Hub OneDrive", "0.72", "Unsure: bigger check", GOLD),
-         ("tv", "A TV home screen", "Search Home Shop Apps Dune Recommended", "1.00", "Menu: discard", GREEN),
+layer(y, "5", "Three examples", "Drawn screens, the words OCR read, the score of the real model", 590)
+CASES = [("phone", "A phone home screen", "Clock Messages Camera Notes Calendar", "0.86", "Unsure: bigger check", GOLD),
+         ("tv", "A TV home screen", "Search Shop Apps Movie night Recommended", "1.00", "Menu: discard", GREEN),
          ("cast", "A live weather cast", "42 40 43 43 44 40 (numbers only)", "0.05", "Video: keep the alert", BLUE)]
 IH = 250   # the whole capture is shown inside this box (contain, never cropped by the card)
 for i, (nm, ttl, words, sc, dec, col) in enumerate(CASES):
@@ -98,7 +98,7 @@ for i, (nm, ttl, words, sc, dec, col) in enumerate(CASES):
     t(cx + 160, y + 110 + IH + 60, words[:40], 13, MUT, 400, "middle")
     t(cx + 160, y + 110 + IH + 108, sc, 34, col, 700, "middle")
     t(cx + 160, y + 110 + IH + 142, dec, 19, TXT, 600, "middle")
-t(600, y + 562, "Real captures, first and last frame the same, scored by the real model.", 17, MUT, 400, "middle")
+t(600, y + 562, "Drawn screens, first and last frame the same, words read by OCR, scored by the real model.", 17, MUT, 400, "middle")
 arrow(600, y + 590, y + 640)
 
 y = 2580

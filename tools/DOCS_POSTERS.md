@@ -62,7 +62,7 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
 - **Look at the render**: inline the SVG with Playwright `set_content` (an `<img src=file://...>` renders blank),
   viewport 1200 x full height, screenshot it in 3 slices and read each one.
 
-## Real examples in a poster (owner 2026-11-22)
+## Examples in a poster (owner 2026-11-22; drawn since the manager rule: no brand, no third-party screenshot)
 
 A "Real examples" step shows real screens with the real decision. Rules: neutral sources only (our own pages, a public
 page, a free streaming app; never an operator or provider app), real OCR words (tesseract), the real model's score and
@@ -90,3 +90,5 @@ is generated at share time: run `python3 tools/make_docs_share.py` after a poste
 
 Navigation tree, Localize and fingerprint, KPIs (loading time, zapping), hosts anywhere (architecture), incidents and
 monitoring, AI and MCP. Each one as a vertical flow like the first.
+
+Drawn examples (freeze poster): draw each screen in HTML with generic labels, screenshot it with headless Playwright, read it with tesseract, score the words with the real model (device label `lab`, the label is part of its input) and print the score it returns; never pick a number by hand. A screenshot of a provider, broadcaster or operator app is never used.
