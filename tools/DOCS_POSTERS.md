@@ -9,9 +9,10 @@ single image. First poster: "What is VirtualPyTest?" (`docs/img/what-is-virtualp
 |---|---|
 | Poster image (SVG, 1200 wide, as tall as needed) | `docs/img/<id>.svg` |
 | Generator, also the template to copy | `tools/make_docs_poster_what_is.py` |
-| Series page (tabs, thumbnail) | `docs/index.html`, list `POSTERS` |
+| Series page (a dropdown that groups posters by Learn topic, "Watch the lesson" link) | `docs/index.html`, list `POSTERS` (`topic`, `learn`) |
 | Full-page viewer (centered, back, share X / LinkedIn / WhatsApp, download) | `docs/view/index.html`, object `P` |
 | Home "How it works" thumbnail | `index.html`, `.how-poster` (links to `docs/view/#what-is`) |
+| Share image (PNG 1200x630, the top of the poster) and share page (Open Graph / Twitter card tags) | `docs/img/<id>-share.png`, `docs/view/<id>/index.html`, written by `tools/make_docs_share.py` |
 
 `<id>` is a short kebab-case slug (`what-is`, `navigation-tree`). The viewer URL is `/docs/view/#<id>`.
 
@@ -37,13 +38,37 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
 - Reuse the words of the Learn lessons so the two series agree (for example "UI variables": one navigation tree,
   every build).
 
+
+## Stories, titles and the Learn link (owner 2026-11-22)
+
+- A poster belongs to one **Learn topic** (`topic: '7 · AI in the lab'` in `POSTERS`): the dropdown groups posters under
+  the Learn topic names. Use the **same title as the Learn lesson** (or its Go deeper) and no new words: the Freeze
+  poster is "Freeze: menu or stuck video?", as in lesson 7.5 and its Go deeper.
+- `learn:` is the Learn hash the "Watch the lesson" button opens (`'0.1'`, `'7.5/deep'`).
+- The Docs page script is plain JS in single-quoted strings: **never put an apostrophe in `title` or `alt`** ("model's"
+  broke the page on 2026-11-22). Check the page script parses and that `/docs/` shows no page error.
+
+## Real examples in a poster (owner 2026-11-22)
+
+A "Real examples" step shows real screens with the real decision. Rules: neutral sources only (our own pages, a public
+page, a free streaming app; never an operator or provider app), real OCR words (tesseract), the real model's score and
+decision, small thumbnails (320x180 JPG in `docs/img/<id>-real-<name>.jpg`, embedded in the SVG as base64), say the
+first and last frame are the same. The model itself never goes on the page, only its results.
+
+## Share a poster (X, LinkedIn, WhatsApp)
+
+Share the link **`https://virtualpytest.com/docs/view/<id>/`**, not `.../view/#<id>`: social crawlers ignore the `#`.
+That page carries the Open Graph and Twitter card tags and a prepared **PNG** (X and LinkedIn do not show SVG). Nothing
+is generated at share time: run `python3 tools/make_docs_share.py` after a poster changes and commit the PNG and
+`docs/view/<id>/index.html`. A new poster also needs its row in `POSTERS` inside `tools/make_docs_share.py`.
+
 ## Add a poster
 
 1. Copy `tools/make_docs_poster_what_is.py` to `tools/make_docs_poster_<id>.py`, change the text and the output path,
    run it from the repo root.
-2. Add an entry `{id, title, src, alt}` to `POSTERS` in `docs/index.html` and to `P` in `docs/view/index.html`
+2. Add an entry `{id, title, topic, learn, src, alt}` to `POSTERS` in `docs/index.html` and to `P` in `docs/view/index.html`
    (the viewer `src` is relative to `docs/view/`, so `../img/<id>.svg`).
-3. Look at it: serve the repo (`python3 -m http.server`), open `/docs/` and `/docs/view/#<id>` at desktop and 900 px wide.
+3. Run `python3 tools/make_docs_share.py` (share PNG and share page). Look at it: serve the repo (`python3 -m http.server`), open `/docs/` and `/docs/view/#<id>` at desktop and 900 px wide.
 4. Ship: commit, push, `integrate request <branch>`, `integrate wait <id>`, then check the live
    `https://virtualpytest.com/docs/img/<id>.svg` returns 200 and send the owner the viewer link.
 
