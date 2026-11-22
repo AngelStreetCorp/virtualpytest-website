@@ -40,7 +40,7 @@ var P = {
 };
 var id = location.hash.slice(1); var p = P[id] || P['what-is']; id = P[id] ? id : 'what-is';
 var img = document.getElementById('img'); img.src = p.src; img.alt = p.alt; document.title = p.title + ' · VirtualPyTest';
-var url = 'https://virtualpytest.com/docs/view/#' + id, text = p.title + ' All concepts in one image.';
+var url = 'https://virtualpytest.com/docs/view/' + id + '/', text = p.title + ' All concepts in one image.';
 var q = encodeURIComponent;
 document.getElementById('sx').href = 'https://twitter.com/intent/tweet?text=' + q(text) + '&url=' + q(url);
 document.getElementById('sl').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + q(url);
