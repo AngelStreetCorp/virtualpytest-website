@@ -55,7 +55,7 @@
 <body>
 <header class="navwrap topbar"><nav class="bar wrap" aria-label="Main">
 <a class="brand" href="../#top"><img src="../images/logo.png" alt="" width="32" height="32"><span class="no-i18n">VirtualPyTest</span></a>
-<div class="links"><a href="../#features">Features</a><a href="../#tour">How it works</a><a href="../learn/">Learn</a><a href="./" class="cur">Docs</a><a href="../#pricing">Pricing</a><a href="../#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a></div>
+<div class="links"><a href="../#how">How it works</a><a href="../#features">Features</a><a href="../learn/">Learn</a><a href="./" class="cur">Docs</a><a href="../#pricing">Pricing</a><a href="../#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a></div>
 <div class="utils">
 <button class="ctl theme-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg class="ico sun" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="128" cy="128" r="48"/><path d="M128 24v20M128 212v20M24 128h20M212 128h20M54 54l14 14M188 188l14 14M54 202l14-14M188 68l14-14"/></svg><svg class="ico moon" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M216 152A88 88 0 0 1 104 40a88 88 0 1 0 112 112z"/></svg></button>
 <div class="lang"><button class="ctl lang-btn" id="language-select" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu" aria-label="Language"><span data-language-code class="no-i18n">EN</span><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M72 104l56 56 56-56"/></svg></button>
@@ -64,14 +64,14 @@
 <a class="btn btn-p btn-sm nav-cta" href="https://virtualpytest.angelstreet.io/">Try it live</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="sheet"><i></i><i></i></button>
 </div></nav></header>
-<div class="sheet" id="sheet" aria-hidden="true"><a href="../#features">Features</a><a href="../#tour">How it works</a><a href="../learn/">Learn</a><a href="./" class="cur">Docs</a><a href="../#pricing">Pricing</a><a href="../#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live</a></div>
+<div class="sheet" id="sheet" aria-hidden="true"><a href="../#how">How it works</a><a href="../#features">Features</a><a href="../learn/">Learn</a><a href="./" class="cur">Docs</a><a href="../#pricing">Pricing</a><a href="../#faq">FAQ</a><a href="https://github.com/AngelStreetCorp/virtualpytest" target="_blank" rel="noopener">GitHub</a><a class="btn btn-p" href="https://virtualpytest.angelstreet.io/">Try it live</a></div>
 
 <main id="main" class="dx">
 <h1>All concepts and architecture explained in one image</h1>
 <p class="lede">One big picture per idea. Scroll, zoom, or save it.</p>
 <div class="tabs" role="tablist" aria-label="Posters" id="tabs"></div>
-<figure class="poster"><img id="img" alt="" width="1200" height="2480"></figure>
-<div class="acts"><a class="btn btn-p" id="open" target="_blank" rel="noopener">Open full size</a><a class="btn btn-s" id="dl" download>Download</a></div>
+<figure class="poster"><a id="zoom" href="view/"><img id="img" alt="" width="1200" height="2480"></a></figure>
+<div class="acts"><a class="btn btn-p" id="open">Open full page</a><a class="btn btn-s" id="dl" download>Download</a></div>
 </main>
 <footer class="foot"><div class="wrap"><div class="cols">
 <div><a class="brand" href="../#top"><img src="../images/logo.png" alt="" width="28" height="28"><span class="no-i18n">VirtualPyTest</span></a></div>
@@ -110,7 +110,7 @@ var tabs = document.getElementById('tabs'), img = document.getElementById('img')
 function show(id){
   var p = POSTERS.find(function(x){return x.id === id;}) || POSTERS[0];
   img.src = p.src; img.alt = p.alt;
-  document.getElementById('open').href = p.src; document.getElementById('dl').href = p.src;
+  document.getElementById('open').href = 'view/#' + p.id; document.getElementById('zoom').href = 'view/#' + p.id; document.getElementById('dl').href = p.src;
   tabs.querySelectorAll('.tab').forEach(function(b){b.setAttribute('aria-selected', b.dataset.id === p.id);});
   try{ history.replaceState(null, '', '#' + p.id); }catch(e){}
 }
