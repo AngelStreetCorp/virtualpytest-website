@@ -102,7 +102,6 @@ img{max-width:100%;display:block;}
 
 /* ---------- Island nav ---------- */
 .navwrap{position:sticky;top:0;z-index:60;padding-top:16px;display:flex;justify-content:center;pointer-events:none;transition:transform .6s var(--fluid);}
-.navwrap.is-hidden{transform:translateY(-120%);}
 .island{pointer-events:auto;display:flex;align-items:center;gap:16px;width:max-content;max-width:calc(100vw - 32px);margin:0 auto;padding:4px 4px 4px 16px;border-radius:9999px;background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:var(--shadow);}
 .brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);font-weight:600;font-size:16px;line-height:24px;white-space:nowrap;}
 .brand img{width:28px;height:28px;}
