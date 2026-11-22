@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="vpt-card" content="chaptered">
+<title>Freeze Discard</title>
+<!-- Freeze discard, part A (TASK-250; "Go deeper" of 7.4 Discard incidents). Chaptered player format (deep-scaffold.html,
+     embed 1080x600), 59 s, one pass. Every word on screen is in SCRIPTS.md "X · Freeze discard"; CH = its beat times.
+     Drawn screens only, generic words, illustrative scores (0.99 / 0.04 / 0.60). No real model weights. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #666666;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --menu: #15803d; --menuBg: #dcf3e4; --vid: #1d4ed8; --vidBg: #dbe7fb; --warn: #a14d06; --warnBg: #fbe9d4; --track: #e6e1d8;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 60px; right: 60px; bottom: 30px; text-align: center; font-size: 30px; font-weight: 700; color: var(--goldText); line-height: 1.25; }
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .o { position: absolute; }
+  .tv { position: absolute; background: var(--dark); border-radius: 18px; padding: 10px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
+  .scr { position: relative; width: 100%; height: 100%; border-radius: 10px; overflow: hidden; background: #2b2b2b; }
+  .lbl { position: absolute; font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .line { position: absolute; font-size: 24px; color: var(--ink2); }
+  .chip { position: absolute; display: inline-flex; align-items: center; font-size: 24px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; }
+  .chip.m { background: var(--menuBg); border-color: var(--menu); color: var(--menu); }
+  .chip.v { background: var(--vidBg); border-color: var(--vid); color: var(--vid); }
+  .chip.dim { color: #7d776e; border-style: dashed; }
+  .chip.mono { font-family: var(--mono); font-size: 22px; }
+  .pill { position: absolute; font-size: 22px; font-weight: 700; color: #fff; background: var(--bad); padding: 6px 14px; border-radius: 999px; letter-spacing: 1px; }
+  .bar { position: absolute; height: 26px; border-radius: 13px; background: var(--track); overflow: hidden; }
+  .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold); border-radius: 13px; }
+  .tick { position: absolute; width: 3px; background: var(--ink); }
+  .big { position: absolute; font-family: var(--mono); font-weight: 700; font-size: 44px; }
+  .res { position: absolute; display: flex; align-items: center; gap: 18px; font-size: 26px; font-weight: 700; white-space: nowrap; }
+  .res .s { font-family: var(--mono); font-size: 30px; width: 90px; }
+  .res .p { padding: 6px 16px; border-radius: 999px; border: 2px solid; }
+  .mark { position: absolute; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 32px; font-weight: 700; }
+  .btn { position: absolute; background: var(--dark); color: #fff; font-size: 24px; font-weight: 700; padding: 12px 26px; border-radius: 14px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">AI IN THE LAB · FREEZE ALERTS</span></div>
+<div class="tag" id="tag1"><span class="h">The picture stopped moving.</span></div>
+<div class="tag" id="tag2"><span class="h">Same alert. Only one is a problem.</span></div>
+<div class="tag" id="tag3"><span class="h"></span></div>
+<div class="tag" id="tag4"><span class="n">1</span><span class="h">Read the words</span></div>
+<div class="tag" id="tag5"><span class="n">2</span><span class="h">Cut into pieces</span></div>
+<div class="tag" id="tag6"><span class="n">3</span><span class="h">Weigh the pieces</span></div>
+<div class="tag" id="tag7"><span class="n">4</span><span class="h">Decide with a safety band</span></div>
+<div class="tag" id="tag8"><span class="h">When words are not enough</span></div>
+<div class="tag" id="tag9"><span class="h"></span></div>
+<div class="tag" id="tag10"><span class="h">It learns every night.</span></div>
+<div class="tag" id="tag11"><span class="h"></span></div>
+<div class="say" id="say0">Decided in 0.25 ms</div>
+<div class="say" id="say1">Under 0.8% of pixels changed.</div>
+<div class="say" id="say2"></div>
+<div class="say" id="say3">Today: a text AI model checks the words, still in test.</div>
+<div class="say" id="say4"></div>
+<div class="say" id="say5">Most pieces still match.</div>
+<div class="say" id="say6"></div>
+<div class="say" id="say7"></div>
+<div class="say" id="say8"></div>
+<div class="say" id="say9">No GPU. 0 USD per call.</div>
+<div class="say" id="say10">Its answers become training examples, so the small model covers more cases over time.</div>
+<div class="say" id="say11"></div>
+<div class="stage" id="stage"></div>
+<script>
+const CH = [0, 3000, 7500, 13500, 18500, 22500, 27500, 32500, 40000, 48000, 53000, 55500];   // as in SCRIPTS.md
+const T = 59000;
+const OUT0 = T - 700, OUT1 = T - 150;
+const $ = id => document.getElementById(id);
+const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
+
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function enter(el, t, dur = 500) { at(el, [[t, HIDE], [t + dur, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0, transform: 'translateY(0)' }]]); }
+function during(el, t, t1, dur = 500) {
+  if (t1 - 250 <= t + dur) t1 = t + dur + 260;
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+// chapter tags and lines (the first one is on screen at t = 0)
+CH.forEach((t, i) => {
+  const last = i === CH.length - 1, t1 = last ? OUT1 : end(i) + 300;
+  const tg = $('tag' + i), sy = $('say' + i);
+  if (i === 0) { at(tg, [[0, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0 }]]); at(sy, [[0, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0 }]]); return; }
+  during(tg, t, t1); during(sy, t + 900, t1);
+});
+
+// ---- builders ------------------------------------------------------------------------------------------
+const S = $('stage');
+function el(cls, css, html = '', parent = S) { const d = document.createElement('div'); d.className = cls; d.style.cssText = css; d.innerHTML = html; parent.appendChild(d); return d; }
+function tv(x, y, w, h, inner) { const t = el('tv', `left:${x}px;top:${y}px;width:${w}px;height:${h}px`); const s = el('scr', '', inner, t); return [t, s]; }
+const MENU = `<div style="display:flex;gap:6px;padding:10px 10px 0">${['Home', 'Search', 'Guide', 'Settings'].map((w, i) =>
+  `<span style="font-size:15px;font-weight:700;padding:3px 9px;border-radius:999px;${i === 0 ? 'background:#d4a574;color:#141414' : 'color:#ddd;border:1px solid #555'}">${w}</span>`).join('')}</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 10px">${Array(8).fill('<i style="display:block;height:44px;border-radius:6px;background:#444"></i>').join('')}</div>`;
+const VIDEO = `<div style="position:absolute;inset:0;background:linear-gradient(#5b7fa8,#9cb7cf 55%,#5f7d52 56%,#3f5a36)"></div>
+  <div style="position:absolute;left:46%;top:36%;width:46px;height:46px;border-radius:50%;border:6px solid rgba(255,255,255,.35);border-top-color:#fff"></div>`;
+function moving(scr, t0, t1) {   // moving bars that stop at t1
+  const b = el('o', 'left:0;top:0;bottom:0;width:200%;background:repeating-linear-gradient(90deg,#5b7fa8 0 40px,#9cb7cf 40px 80px,#3f5a36 80px 120px)', '', scr);
+  at(b, [[t0, { transform: 'translateX(0)' }], [t1, { transform: 'translateX(-360px)' }]], 'linear');
+}
+function freezePill(x, y, t, t1) { const p = el('pill', `left:${x}px;top:${y}px`, 'FREEZE?'); at(p, [[t, { opacity: 0, transform: 'translateY(-24px)' }], [t + 350, { opacity: 1, transform: 'translateY(0)' }], [t1 - 250, { opacity: 1, transform: 'translateY(0)' }], [t1, { opacity: 0, transform: 'translateY(0)' }]], 'cubic-bezier(.3,1.6,.6,1)'); return p; }
+function group(t, t1) { const g = el('o', 'inset:0'); at(g, [[t, { opacity: 0 }], [t + 400, { opacity: 1 }], [t1 - 300, { opacity: 1 }], [t1, { opacity: 0 }]]); return g; }
+const gEl = (g, cls, css, html) => el(cls, css, html, g);
+
+// c0 · the question
+{ const g = el('o', 'inset:0'); at(g, [[0, { opacity: 1 }], [CH[1] - 600, { opacity: 1 }], [CH[1] - 300, { opacity: 0 }]]);
+  gEl(g, 'o', 'left:0;top:90px;font-size:64px;font-weight:700;letter-spacing:-1.5px', 'Still screen: menu or stuck?'); }
+
+// c1 · the alert
+{ const g = group(CH[1], CH[2]); const [t, s] = tv(288, 20, 360, 214, ''); g.appendChild(t); moving(s, CH[1], CH[1] + 2400);
+  g.appendChild(freezePill(560, 0, CH[1] + 2600, CH[2])); }
+
+// c2 · menu vs stuck video
+{ const g = group(CH[2], CH[3]);
+  const [a] = tv(60, 0, 360, 214, MENU), [b] = tv(516, 0, 360, 214, VIDEO); g.append(a, b);
+  g.append(freezePill(320, -14, CH[2] + 600, CH[3]), freezePill(776, -14, CH[2] + 600, CH[3]));
+  gEl(g, 'lbl', 'left:60px;top:232px', 'Menu'); gEl(g, 'lbl', 'left:516px;top:232px', 'Video');
+  const l1 = gEl(g, 'line', 'left:60px;top:276px;width:360px', 'A menu is still by design.');
+  const l2 = gEl(g, 'line', 'left:516px;top:276px;width:360px', 'A stuck video is a real incident.');
+  const m1 = gEl(g, 'mark', 'left:366px;top:226px;background:var(--ok)', '✓'), m2 = gEl(g, 'mark', 'left:822px;top:226px;background:var(--bad)', '✗');
+  [[l1, 2200], [m1, 2600], [l2, 3400], [m2, 3800]].forEach(([e, d]) => during(e, CH[2] + d, CH[3])); }
+
+// c3 · today: a slow text model, in test
+{ const g = group(CH[3], CH[4]);
+  const c = gEl(g, 'o', 'left:268px;top:30px;width:400px;height:250px;border-radius:20px;background:var(--dark)', '');
+  el('o', 'left:30px;top:30px', '<svg width="56" height="56" viewBox="0 0 24 24"><path d="M12 2l2.4 6.2L21 10l-6.6 1.8L12 18l-2.4-6.2L3 10l6.6-1.8z" fill="#d4a574"/></svg>', c);
+  el('o', 'right:24px;top:30px;font-size:20px;font-weight:700;color:#141414;background:#d4a574;padding:4px 12px;border-radius:999px', 'in test', c);
+  el('big', 'left:30px;top:110px;color:#fff;font-size:72px', '<span id="clock">0.0 s</span>', c);
+  el('o', 'left:32px;top:200px;font-size:22px;color:#cfcfcf', 'per alert', c);
+  at(c, [[CH[3], { filter: 'grayscale(0)', opacity: 1 }], [CH[3] + 3800, { filter: 'grayscale(0)', opacity: 1 }], [CH[3] + 4400, { filter: 'grayscale(1)', opacity: .45 }]]); }
+
+// c4 · step 1: read the words
+{ const g = group(CH[4], CH[5]); const [t] = tv(20, 40, 400, 238, MENU); g.appendChild(t);
+  ['Home', 'Search', 'Guide', 'Settings'].forEach((w, i) => { const c = gEl(g, 'chip', `left:560px;top:${30 + i * 70}px`, w);
+    at(c, [[CH[4] + 500 + i * 400, { opacity: 0, transform: 'translate(-420px,40px) scale(.6)' }], [CH[4] + 1200 + i * 400, { opacity: 1, transform: 'translate(0,0) scale(1)' }]]); }); }
+
+// c5 · step 2: cut into pieces
+{ const g = group(CH[5], CH[6]);
+  const rows = [['Settings', ['set', 'ett', 'tti', 'tin', 'ting', 'tings'], 6], ['Settinqs', ['set', 'ett', 'tti', 'tin', 'tinq', 'tinqs'], 4]];
+  rows.forEach(([w, ps, lit], r) => { const y = 40 + r * 150; gEl(g, 'chip', `left:0;top:${y}px`, w);
+    ps.forEach((p, i) => { const c = gEl(g, 'chip mono ' + (i < lit ? 'm' : 'dim'), `left:${180 + i * 124}px;top:${y + 2}px`, p);
+      at(c, [[CH[5] + 500 + r * 1400 + i * 150, { opacity: 0, transform: 'translateX(-40px)' }], [CH[5] + 900 + r * 1400 + i * 150, { opacity: 1, transform: 'translateX(0)' }]]); }); }); }
+
+// c6 · step 3: weigh the pieces
+{ const g = group(CH[6], CH[7]);
+  gEl(g, 'line', 'left:0;top:0;font-weight:700;color:var(--menu)', 'Menu words push up.');
+  gEl(g, 'o', 'left:0;top:40px;display:flex;gap:10px', ['Home', 'Search', 'Guide', 'Settings'].map(w => `<span class="chip m" style="position:static">${w}</span>`).join(''));
+  gEl(g, 'line', 'left:0;top:112px;font-weight:700;color:var(--vid)', 'Sentence words and no words push down.');
+  gEl(g, 'o', 'left:0;top:152px;display:flex;gap:10px', ['I', 'is', 'the', 'my', 'we'].map(w => `<span class="chip v" style="position:static">${w}</span>`).join(''));
+  gEl(g, 'line', 'left:0;top:236px;font-weight:700;color:var(--ink)', 'Score 0 to 1');
+  const b = gEl(g, 'bar', 'left:0;top:280px;width:936px'); const f = el('fill', 'width:0', '', b);
+  at(f, [[CH[6] + 1800, { width: '50%' }], [CH[6] + 2800, { width: '86%' }], [CH[6] + 3600, { width: '99%' }]]); }
+
+// c7 · step 4: decide with a safety band
+{ const g = group(CH[7], CH[8]); const W = 800, X = 68;
+  const b = gEl(g, 'bar', `left:${X}px;top:30px;width:${W}px`);
+  el('o', 'left:0;top:0;bottom:0;width:10%;background:var(--vidBg)', '', b); el('o', 'left:90%;top:0;bottom:0;right:0;background:var(--menuBg)', '', b);
+  [[0.1, '0.1'], [0.9, '0.9']].forEach(([v, s]) => { gEl(g, 'tick', `left:${X + v * W - 1}px;top:22px;height:42px`); gEl(g, 'line', `left:${X + v * W - 18}px;top:68px;font-family:var(--mono);font-size:20px`, s); });
+  const knob = gEl(g, 'o', `left:${X - 14}px;top:24px;width:28px;height:38px;border-radius:8px;background:var(--gold);border:3px solid var(--ink)`);
+  const R = [[0.99, 'Menu: discard the alert', 'menu'], [0.04, 'Video: keep the alert, real incident', 'vid'], [0.60, 'Unsure: a bigger check decides', 'warn']];
+  const keys = [[CH[7] + 400, { transform: 'translateX(400px)' }]];
+  R.forEach(([v, txt, k], i) => { const t = CH[7] + 1200 + i * 2000;
+    keys.push([t, { transform: `translateX(${v * W}px)` }], [t + 1600, { transform: `translateX(${v * W}px)` }]);
+    const r = gEl(g, 'res', `left:${X}px;top:${130 + i * 76}px`, `<span class="s">${v.toFixed(2)}</span><span class="p" style="color:var(--${k});border-color:var(--${k});background:var(--${k}Bg)">${txt}</span>`);
+    at(r, [[t + 300, HIDE], [t + 800, SHOW]]); });
+  at(knob, keys, 'ease-in-out'); }
+
+// c8 · when words are not enough: a live weather cast
+{ const g = group(CH[8], CH[9]);
+  const WX = `<div id="wmap" style="position:absolute;inset:0;background:#3d6ea5"></div>
+    <div style="position:absolute;left:24px;top:30px;width:150px;height:110px;border-radius:40% 60% 50% 45%;background:#6f9b5a"></div>
+    <div style="position:absolute;left:150px;top:80px;width:110px;height:90px;border-radius:55% 45% 60% 40%;background:#7ea867"></div>
+    <div id="wsun" style="position:absolute;left:70px;top:44px;width:34px;height:34px;border-radius:50%;background:#f4c542"></div>
+    <div style="position:absolute;right:30px;bottom:34px;width:70px;height:120px"><div style="width:44px;height:44px;border-radius:50%;background:#e8c8a8;margin:0 auto"></div><div style="width:70px;height:76px;border-radius:24px 24px 0 0;background:#2c3e66;margin-top:4px"></div></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:34px;background:#141414;color:#fff;font-size:17px;font-weight:700;display:flex;align-items:center;padding-left:12px;white-space:nowrap">Sunny 18 · Rain 12 · Wind 20</div>`;
+  const [t, s] = tv(0, 0, 430, 256, WX); g.appendChild(t);
+  // the picture keeps changing (the sun and the presenter move), then really stops: the words stay the same
+  at(s.querySelector('#wsun'), [[CH[8], { transform: 'translate(0,0)' }], [CH[8] + 4500, { transform: 'translate(120px,30px)' }]], 'linear');
+  const b = gEl(g, 'bar', 'left:0;top:290px;width:430px'); el('fill', 'width:60%', '', b);
+  gEl(g, 'tick', 'left:258px;top:282px;height:42px');
+  gEl(g, 'line', 'left:236px;top:330px;font-family:var(--mono);font-size:20px', '0.60');
+  const L = ['Not every screen has telling words.', 'A live weather cast, a sports ticker: words on moving video.', 'The score stays in the middle: unsure.',
+             'The bigger check decides: an AI model or the vision check.', 'Every answer it gives teaches the small model.'];
+  let y = 0; L.forEach((txt, i) => { const l = gEl(g, 'line', `left:466px;top:${y}px;width:470px;font-size:23px;line-height:1.3;${i === 4 ? 'font-weight:700;color:var(--goldText)' : ''}`, txt);
+    y += txt.length > 38 ? 78 : 46; at(l, [[CH[8] + 600 + i * 1350, HIDE], [CH[8] + 1100 + i * 1350, SHOW]]); }); }
+
+// c9 · the numbers
+{ const g = group(CH[9], CH[10]);
+  gEl(g, 'big', 'left:0;top:10px;color:var(--muted)', '1.7 s'); const b1 = gEl(g, 'bar', 'left:250px;top:24px;width:686px'); const f1 = el('fill', 'width:0;background:#9a948b', '', b1);
+  gEl(g, 'big', 'left:0;top:100px;color:var(--goldText)', '0.25 ms'); const b2 = gEl(g, 'bar', 'left:250px;top:114px;width:686px'); el('fill', 'width:6px', '', b2);
+  at(f1, [[CH[9] + 400, { width: '0%' }], [CH[9] + 1600, { width: '100%' }]]);
+  [['2 MB, any host CPU', 0], ['Subtitles called menu: 0%', 380]].forEach(([w, x], i) => { const c = gEl(g, 'chip', `left:${x}px;top:220px`, w); at(c, [[CH[9] + 1600 + i * 700, HIDE], [CH[9] + 2100 + i * 700, SHOW]]); }); }
+
+// c10 · it learns every night
+{ const g = group(CH[10], CH[11]);
+  const loop = gEl(g, 'o', 'left:338px;top:0;width:260px;height:260px', '<svg width="260" height="260" viewBox="0 0 260 260"><circle cx="130" cy="130" r="104" fill="none" stroke="#d4a574" stroke-width="12" stroke-dasharray="560 94" stroke-linecap="round"/><path d="M196 34 l40 4 -14 36z" fill="#d4a574"/><rect x="92" y="98" width="76" height="64" rx="14" fill="#1a1a1a"/><path d="M110 118h40M110 130h28M110 142h36" stroke="#d4a574" stroke-width="6" stroke-linecap="round"/></svg>');
+  at(loop, [[CH[10], { transform: 'rotate(-40deg)' }], [CH[11], { transform: 'rotate(0deg)' }]], 'linear');
+  gEl(g, 'o', 'left:640px;top:20px', '<svg width="60" height="60" viewBox="0 0 24 24"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5z" fill="#8f5f2e"/></svg>'); }
+
+// c11 · caption, status, button
+{ const g = group(CH[11], T);
+  gEl(g, 'o', 'left:40px;right:40px;top:20px;text-align:center;font-size:32px;font-weight:700;line-height:1.3', 'A tiny model discards the harmless alerts in 0.25 ms. Only a sure menu is discarded. Everything else is kept or checked.');
+  gEl(g, 'o', 'left:0;right:0;top:200px;text-align:center;font-size:24px;color:var(--muted)', 'Measured, not live yet.');
+  gEl(g, 'o', 'left:0;right:0;top:260px;display:flex;justify-content:center', '<span class="btn" style="position:static">See the explorer →</span>'); }
+
+// counters: the 1.7 s clock of chapter 3
+function tick(ms) { const c = $('clock'); if (!c) return; const v = Math.max(0, Math.min(1.7, (ms - CH[3] - 600) / 2600 * 1.7)); c.textContent = v.toFixed(1) + ' s'; }
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
