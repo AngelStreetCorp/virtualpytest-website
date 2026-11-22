@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes docs/img/freeze-discard.svg (Docs poster: how a freeze alert is told menu or stuck video). Run from the repo root."""
-W, H = 1200, 2480
+W, H = 1200, 3000
 BG, PANEL, LINE, TXT, MUT, GOLD = "#161616", "#212121", "#3a3a3a", "#f2f2f2", "#a8a8a8", "#e0a96d"
 F = "Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif"
 o = []
@@ -69,20 +69,42 @@ for i, (sc, a, b, c) in enumerate([("0.04", "Video: keep", "real incident", BLUE
     t(cx + 160, y + 314, b, 17, MUT, 400, "middle")
 arrow(600, y + 380, y + 430)
 
+
+# 4b: real examples (real captures of public pages, real OCR words, the real model's score)
+import base64
+def img(name):
+    return base64.b64encode(open(f"docs/img/freeze-real-{name}.jpg", "rb").read()).decode()
 y = 1690
-layer(y, "5", "When words are not enough", "A live weather cast or a sports ticker", 250)
+layer(y, "5", "Real examples", "Real screens, the words OCR read, the real model's score", 490)
+CASES = [("menu", "A page with menus", "Virtualpytest How it works Features Learn", "0.99", "Menu: discard", GREEN),
+         ("weather", "A weather page", "Weather report: Paris Light drizzle +8(7) °C", "0.93", "Menu: discard", GREEN),
+         ("video", "A film poster", "Biever FouNDATiOn pReSenTs: THe Dunian", "0.89", "Unsure: bigger check", GOLD)]
+for i, (nm, ttl, words, sc, dec, col) in enumerate(CASES):
+    cx = 90 + i * 350
+    box(cx, y + 110, 320, 330, "#2a2a2a", col, 18, 2)
+    o.append(f'<clipPath id="c{i}"><rect x="{cx}" y="{y+110}" width="320" height="180" rx="18"/></clipPath>')
+    o.append(f'<image x="{cx}" y="{y+110}" width="320" height="180" clip-path="url(#c{i})" href="data:image/jpeg;base64,{img(nm)}"/>')
+    t(cx + 160, y + 320, ttl, 20, TXT, 600, "middle")
+    t(cx + 160, y + 345, words[:40], 13, MUT, 400, "middle")
+    t(cx + 160, y + 392, sc, 34, col, 700, "middle")
+    t(cx + 160, y + 424, dec, 19, TXT, 600, "middle")
+t(600, y + 470, "Real captures of public pages, first and last frame the same. Poster: Sintel, Blender Foundation, CC BY.", 17, MUT, 400, "middle")
+arrow(600, y + 490, y + 540)
+
+y = 2230
+layer(y, "6", "When words are not enough", "A live weather cast or a sports ticker", 250)
 chips(90, y + 112, [("Same words", "on moving video"), ("Score", "stays in the middle"), ("Unsure", "bigger check decides"), ("Small model", "learns the answer")], 240, 18)
 t(600, y + 222, "AI model or vision check answers, as before. Nothing is lost.", 19, MUT, 400, "middle")
 arrow(600, y + 250, y + 300)
 
-y = 2000
-layer(y, "6", "It learns every night", "Retrained in 1 second from new labels", 250)
+y = 2540
+layer(y, "7", "It learns every night", "Retrained in 1 second from new labels", 250)
 chips(90, y + 112, [("Collect", "unsure alerts"), ("Mistakes", "stored as opposite"), ("Never", "its own answers"), ("Test first", "95% or not used")], 240, 18)
 t(600, y + 222, "A new version goes live only if it is not worse. The old file is kept.", 19, MUT, 400, "middle")
 
-box(60, 2290, 1080, 120, "#2a2418", GOLD, 22, 2)
-t(600, 2340, "0.25 ms · 2 MB · 0 USD per call", 32, GOLD, 700, "middle")
-t(600, 2380, "On 1,554 subtitle lines it never saw, 0% were called menu.", 21, TXT, 400, "middle")
-t(600, 2452, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
+box(60, 2830, 1080, 120, "#2a2418", GOLD, 22, 2)
+t(600, 2880, "0.25 ms · 2 MB · 0 USD per call", 32, GOLD, 700, "middle")
+t(600, 2920, "On 1,554 subtitle lines it never saw, 0% were called menu.", 21, TXT, 400, "middle")
+t(600, 2976, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')
 open("docs/img/freeze-discard.svg", "w").write("\n".join(o))
