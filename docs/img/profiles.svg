@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2650" width="1200" height="2650" role="img" aria-labelledby="ti"><title id="ti">A profile is a set of services: what a host runs for each device, in one image</title>
+<rect width="1200" height="2650" fill="#161616"/>
+<text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">INFRA ARCHITECTURE · PROFILES</text>
+<text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="58" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A profile is a set of services</text>
+<text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Each device turns on only the services it needs.</text>
+<text x="60" y="276" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Nothing else runs, so the host stays light.</text>
+<rect x="60" y="330" width="1080" height="250" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="382" r="26" fill="#e0a96d"/>
+<text x="112" y="391" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="380" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A host comes in three shapes</text>
+<text x="156" y="412" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Pick the one that fits the box</text>
+<rect x="90" y="442" width="320" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="250.0" y="472" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Full</text>
+<text x="250.0" y="497" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">all services</text>
+<rect x="440" y="442" width="320" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="600.0" y="472" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Lite</text>
+<text x="600.0" y="497" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">one device, 1 GB board</text>
+<rect x="790" y="442" width="320" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="950.0" y="472" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Runner</text>
+<text x="950.0" y="497" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">web and API tests</text>
+<text x="600" y="552" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">The full host is the default.</text>
+<path d="M600 580V618" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 612L600 626L612 612" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="640" width="1080" height="250" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="692" r="26" fill="#e0a96d"/>
+<text x="112" y="701" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="690" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Each device has a profile</text>
+<text x="156" y="722" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The set of services that device needs</text>
+<rect x="90" y="752" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.0" y="782" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">TV app</text>
+<text x="210.0" y="807" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">all services</text>
+<rect x="348" y="752" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="468.0" y="782" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Phone</text>
+<text x="468.0" y="807" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">no sound, no subtitles</text>
+<rect x="606" y="752" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="726.0" y="782" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Desktop</text>
+<text x="726.0" y="807" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the stream only</text>
+<rect x="864" y="752" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="984.0" y="782" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Drone</text>
+<text x="984.0" y="807" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">its own set</text>
+<text x="600" y="862" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">A TV box gets the TV profile and a phone the phone one, unless you choose.</text>
+<path d="M600 890V928" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 922L600 936L612 922" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="950" width="1080" height="560" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1002" r="26" fill="#e0a96d"/>
+<text x="112" y="1011" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1000" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">What each profile runs</text>
+<text x="156" y="1032" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Gold is on, grey is off</text>
+<text x="410" y="1076" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">TV app</text>
+<text x="570" y="1076" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">TV KPI</text>
+<text x="730" y="1076" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Phone</text>
+<text x="890" y="1076" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Desktop KPI</text>
+<text x="1050" y="1076" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Light</text>
+<text x="100" y="1136" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="500" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Watch</text>
+<line x1="90" y1="1152" x2="1110" y2="1152" stroke="#3a3a3a" stroke-width="1"/>
+<circle cx="410" cy="1126" r="12" fill="#e0a96d"/>
+<circle cx="570" cy="1126" r="12" fill="#e0a96d"/>
+<circle cx="730" cy="1126" r="12" fill="#e0a96d"/>
+<circle cx="890" cy="1126" r="12" fill="#3a3a3a"/>
+<circle cx="1050" cy="1126" r="12" fill="#3a3a3a"/>
+<text x="100" y="1188" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="500" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Sound</text>
+<line x1="90" y1="1204" x2="1110" y2="1204" stroke="#3a3a3a" stroke-width="1"/>
+<circle cx="410" cy="1178" r="12" fill="#e0a96d"/>
+<circle cx="570" cy="1178" r="12" fill="#e0a96d"/>
+<circle cx="730" cy="1178" r="12" fill="#3a3a3a"/>
+<circle cx="890" cy="1178" r="12" fill="#3a3a3a"/>
+<circle cx="1050" cy="1178" r="12" fill="#3a3a3a"/>
+<text x="100" y="1240" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="500" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Subtitles</text>
+<line x1="90" y1="1256" x2="1110" y2="1256" stroke="#3a3a3a" stroke-width="1"/>
+<circle cx="410" cy="1230" r="12" fill="#e0a96d"/>
+<circle cx="570" cy="1230" r="12" fill="#3a3a3a"/>
+<circle cx="730" cy="1230" r="12" fill="#3a3a3a"/>
+<circle cx="890" cy="1230" r="12" fill="#3a3a3a"/>
+<circle cx="1050" cy="1230" r="12" fill="#3a3a3a"/>
+<text x="100" y="1292" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="500" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Record 24 h</text>
+<line x1="90" y1="1308" x2="1110" y2="1308" stroke="#3a3a3a" stroke-width="1"/>
+<circle cx="410" cy="1282" r="12" fill="#e0a96d"/>
+<circle cx="570" cy="1282" r="12" fill="#e0a96d"/>
+<circle cx="730" cy="1282" r="12" fill="#e0a96d"/>
+<circle cx="890" cy="1282" r="12" fill="#3a3a3a"/>
+<circle cx="1050" cy="1282" r="12" fill="#3a3a3a"/>
+<text x="100" y="1344" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="500" fill="#f2f2f2" text-anchor="start" letter-spacing="0">KPI scan</text>
+<line x1="90" y1="1360" x2="1110" y2="1360" stroke="#3a3a3a" stroke-width="1"/>
+<circle cx="410" cy="1334" r="12" fill="#e0a96d"/>
+<circle cx="570" cy="1334" r="12" fill="#e0a96d"/>
+<circle cx="730" cy="1334" r="12" fill="#e0a96d"/>
+<circle cx="890" cy="1334" r="12" fill="#e0a96d"/>
+<circle cx="1050" cy="1334" r="12" fill="#3a3a3a"/>
+<text x="100" y="1396" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="500" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Picture quality</text>
+<line x1="90" y1="1412" x2="1110" y2="1412" stroke="#3a3a3a" stroke-width="1"/>
+<circle cx="410" cy="1386" r="12" fill="#e0a96d"/>
+<circle cx="570" cy="1386" r="12" fill="#3a3a3a"/>
+<circle cx="730" cy="1386" r="12" fill="#e0a96d"/>
+<circle cx="890" cy="1386" r="12" fill="#3a3a3a"/>
+<circle cx="1050" cy="1386" r="12" fill="#3a3a3a"/>
+<text x="600" y="1454" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Light: a device you only stream and drive. Desktop KPI keeps just the KPI scan.</text>
+<text x="600" y="1484" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">The stream is full for TV and phone, and lean for the light profiles.</text>
+<path d="M600 1510V1548" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1542L600 1556L612 1542" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1570" width="1080" height="250" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1622" r="26" fill="#e0a96d"/>
+<text x="112" y="1631" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
+<text x="156" y="1620" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">One setting per device</text>
+<text x="156" y="1652" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Set it once, the host does the rest</text>
+<rect x="90" y="1682" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.0" y="1712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Choose</text>
+<text x="210.0" y="1737" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">a profile per device</text>
+<rect x="348" y="1682" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="468.0" y="1712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Save</text>
+<text x="468.0" y="1737" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the host config</text>
+<rect x="606" y="1682" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="726.0" y="1712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Applied</text>
+<text x="726.0" y="1737" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">services restart or stop</text>
+<rect x="864" y="1682" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="984.0" y="1712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Idle</text>
+<text x="984.0" y="1737" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">no device needs it</text>
+<text x="600" y="1792" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">A service no device needs shows idle on the dashboard. That is not a failure.</text>
+<path d="M600 1820V1858" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1852L600 1866L612 1852" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1880" width="1080" height="310" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1932" r="26" fill="#e0a96d"/>
+<text x="112" y="1941" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">5</text>
+<text x="156" y="1930" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Pay for what you run</text>
+<text x="156" y="1962" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">A real case: one small host, four devices</text>
+<rect x="90" y="1992" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.0" y="2022" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">4 cores</text>
+<text x="210.0" y="2047" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">two TV boxes, two phones</text>
+<rect x="348" y="1992" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="468.0" y="2022" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Every service</text>
+<text x="468.0" y="2047" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">ran for every device</text>
+<rect x="606" y="1992" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="726.0" y="2022" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Load around 15</text>
+<text x="726.0" y="2047" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">on those 4 cores</text>
+<rect x="864" y="1992" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="984.0" y="2022" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Subtitles</text>
+<text x="984.0" y="2047" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">about one core alone</text>
+<text x="600" y="2102" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Nobody read the subtitles. Switching off what nobody reads gives the CPU back.</text>
+<text x="600" y="2142" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">The three biggest costs: subtitle reading, picture quality filters,</text>
+<text x="600" y="2172" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">and the extra outputs of each stream.</text>
+<path d="M600 2190V2228" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 2222L600 2236L612 2222" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="2250" width="1080" height="290" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="2302" r="26" fill="#e0a96d"/>
+<text x="112" y="2311" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">6</text>
+<text x="156" y="2300" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Keep what your tests read</text>
+<text x="156" y="2332" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Switch off only what nobody reads</text>
+<rect x="90" y="2362" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.0" y="2392" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Zaps and KPI</text>
+<text x="210.0" y="2417" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">keep watch + KPI scan</text>
+<rect x="348" y="2362" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="468.0" y="2392" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Subtitle tests</text>
+<text x="468.0" y="2417" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">keep the TV profile</text>
+<rect x="606" y="2362" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="726.0" y="2392" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Phone you watch</text>
+<text x="726.0" y="2417" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the light profile</text>
+<rect x="864" y="2362" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="984.0" y="2392" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Black and freeze</text>
+<text x="984.0" y="2417" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">keep watch</text>
+<text x="600" y="2472" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">A box that measures times keeps a full stream, because the KPI scan reads it.</text>
+<text x="600" y="2512" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">A device whose tests read subtitles keeps the full TV profile.</text>
+<text x="600" y="2610" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+</svg>

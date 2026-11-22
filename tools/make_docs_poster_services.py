@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes docs/img/services.svg (Docs poster: every platform service, grouped in server and host; source docs/agent/platform/SERVICES.md of the product repo). Run from the repo root."""
-W, H = 1200, 2110
+W, H = 1200, 2010
 BG, PANEL, LINE, TXT, MUT, GOLD = "#161616", "#212121", "#3a3a3a", "#f2f2f2", "#a8a8a8", "#e0a96d"
 F = "Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif"
 o = []
@@ -39,7 +39,7 @@ o.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
 t(60, 100, "INFRA ARCHITECTURE · SERVICES", 20, GOLD, 500, sp=3)
 t(60, 180, "Services are background jobs", 62, TXT, 700)
 t(60, 236, "Stream, watch, record, measure: each is its own job.", 29, MUT, 400)
-t(60, 276, "Every one is named vpt-something and shown on the Status page.", 24, MUT, 400)
+t(60, 276, "Each one shows its state on the Status page.", 24, MUT, 400)
 
 # server
 y = 330
@@ -67,9 +67,6 @@ t(600, y + 222, "A scheduled job is red only when its last run failed.", 19, MUT
 t(600, y + 262, "Deploys restart only the server, the host and the stream.", 19, MUT, 400, "middle")
 t(600, y + 292, "The other services need a restart by hand after a change.", 19, MUT, 400, "middle")
 
-box(60, 1900, 1080, 120, "#2a2418", GOLD, 22, 2)
-t(600, 1950, "Named vpt-something. Shown on the Status page.", 32, GOLD, 700, "middle")
-t(600, 1990, "A stopped service is seen at once, not found by a failed test.", 21, TXT, 400, "middle")
-t(600, 2070, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
+t(600, 1950, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')
 open("docs/img/services.svg", "w").write("\n".join(o))
