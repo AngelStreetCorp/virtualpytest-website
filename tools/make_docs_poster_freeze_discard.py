@@ -27,7 +27,7 @@ GREEN, BLUE = "#4ade80", "#7aa7ff"
 o.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="ti"><title id="ti">Menu or stuck video: how a freeze alert is decided, in one image</title>')
 o.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
 t(60, 100, "AI IN THE LAB · FREEZE ALERTS", 20, GOLD, 500, sp=3)
-t(60, 180, "Menu or stuck video?", 70, TXT, 700)
+t(60, 180, "Freeze: menu or stuck video?", 58, TXT, 700)
 t(60, 236, "A tiny word model decides in 0.25 ms. Only a sure menu is discarded.", 29, MUT, 400)
 t(60, 276, "No language model, no GPU, 0 USD per call.", 24, MUT, 400)
 

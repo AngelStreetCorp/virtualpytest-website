@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2480" width="1200" height="2480" role="img" aria-labelledby="ti"><title id="ti">Menu or stuck video: how a freeze alert is decided, in one image</title>
 <rect width="1200" height="2480" fill="#161616"/>
 <text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">AI IN THE LAB · FREEZE ALERTS</text>
-<text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="70" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Menu or stuck video?</text>
+<text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="58" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Freeze: menu or stuck video?</text>
 <text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">A tiny word model decides in 0.25 ms. Only a sure menu is discarded.</text>
 <text x="60" y="276" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">No language model, no GPU, 0 USD per call.</text>
 <rect x="60" y="330" width="1080" height="250" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
