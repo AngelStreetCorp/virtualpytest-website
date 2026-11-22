@@ -84,9 +84,9 @@ def img(name):
     return base64.b64encode(open(f"docs/img/freeze-real-{name}.jpg", "rb").read()).decode()
 y = 1940
 layer(y, "5", "Real examples", "Real screens, the words OCR read, the real model's score", 490)
-CASES = [("menu", "A page with menus", "Virtualpytest How it works Learn", "0.99", "Menu: discard", GREEN),
-         ("weather", "A weather page", "Weather report: Paris Light drizzle", "0.93", "Menu: discard", GREEN),
-         ("streaming", "A streaming app, Live TV", "Pluto Home LiveTV Movies Shows", "0.99", "Menu: discard", GREEN)]
+CASES = [("phone", "A phone home screen", "Clock Samsung Free Gaming Hub OneDrive", "0.72", "Unsure: bigger check", GOLD),
+         ("tv", "A TV home screen", "Search Home Shop Apps Dune Recommended", "1.00", "Menu: discard", GREEN),
+         ("cast", "A live weather cast", "42 40 43 43 44 40 (numbers only)", "0.05", "Video: keep the alert", BLUE)]
 for i, (nm, ttl, words, sc, dec, col) in enumerate(CASES):
     cx = 90 + i * 350
     box(cx, y + 110, 320, 330, "#2a2a2a", col, 18, 2)
@@ -96,7 +96,7 @@ for i, (nm, ttl, words, sc, dec, col) in enumerate(CASES):
     t(cx + 160, y + 345, words[:40], 13, MUT, 400, "middle")
     t(cx + 160, y + 392, sc, 34, col, 700, "middle")
     t(cx + 160, y + 424, dec, 19, TXT, 600, "middle")
-t(600, y + 470, "Real captures of public pages and apps, first and last frame the same.", 17, MUT, 400, "middle")
+t(600, y + 470, "Real captures, first and last frame the same, scored by the real model.", 17, MUT, 400, "middle")
 arrow(600, y + 490, y + 540)
 
 y = 2480
