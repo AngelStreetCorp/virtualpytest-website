@@ -59,61 +59,51 @@ def card(y, n, title, sub, rows, notes=(), last=False):
 
 body = []
 y = 330
-y = card(y, "•", "The short version", "Every place the tool asks an AI model, in the order of the doc. Each one is detailed below.", [
-    [("1 · Throw away false alarms", "a person only looks at real problems"), ("2 · Name what is on screen", "when the fingerprint is not sure")],
-    [("3 · Write tests and scripts", "from plain words: Atlas and Forge"), ("4 · Help people", "chat, voice, the docs Ask box")],
-    [("5 · Live TV companion", "opt-in per device"), ("6 · Showcases: games and the drone", "the same look and press loop")],
-    [("7 · Model tests", "not a product feature: they change nothing in the product")],
-], ["Used: the answer changes what the tool does. Logged: a shadow answer,", "kept to measure the model, nothing changes."])
-y = card(y, "•", "Cost", "All AI calls of the lab server, 30 days", [
-    [("16.72 USD", "all AI calls, 30 days"), ("0 USD a call", "flat-rate plan (MiniMax)"), ("0 USD", "small models on the host"), ("Paid calls", "Claude Haiku and Sonnet")],
-], ["Paid calls are the fallback when the flat plan fails, plus a few that need a strong model."])
-y = card(y, "•", "Where it runs", "Three places", [
-    [("Cloud models", "through the AI router"), ("Small models", "on the host CPU"), ("The owner's PC", "LM Studio, local Qwen models")],
-], ["Settings → AI picks the model and a fallback for each usage key.", "Every cloud call is logged and shown on Monitoring → AI usage."])
-y = card(y, "•", "What is NOT AI", "People often think it is", [
-    [("Localize", "which screen is this? picture fingerprints"), ("KPI load times, zap times", "a clock and the screen fingerprint")],
-    [("Freeze, black screen, no audio", "pixel and sound measurements on the host"), ("Navigation (goto)", "the navigation tree, shortest path")],
-    [("Repair of a tree", "after an app update: walks every node, no model"), ("Screen memory for alerts", "a frame fingerprint judged harmless")],
-], ["AI only helps Localize on a doubtful match (use case 2)."])
-y = card(y, "1", "Throw away false alarms", "AI says this is noise, so a person only looks at real problems", [
-    [("Alert triage", "USED · real or noise?"), ("Freeze triage", "LOGGED (shadow) · keep / dismiss"), ("Freeze word classifier", "measured, not wired yet")],
-    [("Script result analysis", "USED · real app bug, or noise?"), ("Sherlock verdict", "LOGGED (shadow)"), ("Test Prompt", "after a failure · LOGGED (shadow)")],
-], ["A frozen menu, a phone that went to sleep, a test that failed because the lab network blinked."])
-y = card(y, "2", "Name what is on screen", "When the fingerprint is not sure, read a channel banner, read a score", [
-    [("Localize second opinion", "mostly LOGGED · USED 2.6 %"), ("Text check second opinion", "LOGGED (shadow)")],
-    [("Title translation", "USED · on the host CPU"), ("Channel banner", "USED · after a zap"), ("Unknown screens", "USED to propose names")],
-    [("Screenshot description", "USED · for an AI agent"), ("OCR", "USED · Tesseract on the host CPU")],
-], ["Localize second opinion is used only to confirm a low-confidence answer."])
-y = card(y, "3", "Write tests and scripts", "From plain words, with the Atlas and Forge assistants", [
-    [("Forge", "scripts, test cases, trees"), ("Atlas, test case skill", "test cases in the chat")],
-    [("Test plan", "the steps from a goal"), ("Exploration, DOM", "reads a new app screen")],
-], ["All USED. A person reviews what Forge builds."])
-y = card(y, "4", "Help people", "Questions about the tool, the screen or a run", [
-    [("Atlas", "the assistant in the app"), ("Voice", "spoken commands, answers"), ("Docs Ask", "the public docs question box")],
-    [("Masterchief", "fleet chat, asks before acting"), ("Fleet health report", "daily summary of the fleet")],
-    [("Ask AI on a frame", "a free question on the picture"), ("MCP", "the caller's own model, 0 USD for us")],
-], ["All USED. Masterchief acts only with a confirm card."])
-y = card(y, "5", "Live TV companion", "Opt-in per device", [
-    [("Identify", "what is on: the programme"), ("Live read", "the score bug of a match"), ("Speech to text", "on the host CPU")],
-    [("Facts, fact check, digest, gates", "about the programme, a claim, the news"), ("Caption translation", "best effort")],
-], ["All USED on the companion panel."])
-y = card(y, "6", "Showcases: games and the drone", "They prove the same look and press loop on harder screens", [
-    [("Clash of Clans player", "one screenshot in, one tap out"), ("Pokémon strategist", "long-term plan and lessons")],
-    [("2048 player", "picks each move"), ("League game review", "what went wrong after a game")],
-    [("League small classifiers", "on the host CPU"), ("Drone", "target in the camera?"), ("Wakfu bot", "scripts and a lessons file")],
+y = card(y, "•", "Overview", "Five use cases. Details below.", [
+    [("1 · Discard false alarms", "only real problems reach you"), ("2 · Name what is on screen", "when the fingerprint is unsure")],
+    [("3 · Write tests and scripts", "from plain words"), ("4 · Help people", "chat, voice, docs")],
+    [("5 · Live TV companion", "opt-in per device")],
 ])
-y = card(y, "7", "Model tests (not a product feature)", "Benchmarks: the same questions asked to several models to pick a route", [],
-         ["They change nothing in the product."])
+y = card(y, "•", "Cost", "All AI calls, 30 days", [
+    [("16.72 USD", "all AI calls"), ("0 USD a call", "flat-rate plan"), ("0 USD", "small models on the host"), ("Paid calls", "only as a backup")],
+], ["Most answers cost nothing."])
+y = card(y, "•", "Where it runs", "Three places", [
+    [("Cloud models", "chosen per use case"), ("Small models", "on the host"), ("Your own PC", "for low-priority work")],
+], ["Every cloud call is logged."])
+y = card(y, "•", "What is NOT AI", "People often think it is", [
+    [("Localize", "which screen is this?"), ("Load and zap times", "a clock")],
+    [("Freeze, black screen, no audio", "measured on the host"), ("Navigation", "the shortest path in the tree")],
+    [("Repair of a tree", "after an app update"), ("Screen memory", "a screen judged harmless once")],
+], ["AI only helps Localize when a match is doubtful."])
+y = card(y, "1", "Discard false alarms", "So a person only looks at real problems", [
+    [("Alert triage", "real or noise?"), ("Freeze triage", "menu or stuck video?"), ("Freeze word classifier", "reads the words only")],
+    [("Script result analysis", "app bug or lab noise?"), ("Test Prompt", "app failure or stale test?")],
+], ["A frozen menu, a sleeping phone, a network blink."])
+y = card(y, "2", "Name what is on screen", "When the fingerprint is not sure", [
+    [("Localize second opinion", "a doubtful match"), ("Text check second opinion", "a close score")],
+    [("Channel banner", "read after a zap"), ("Unknown screens", "named for you"), ("OCR", "reads the words on screen")],
+], ["It only confirms a doubtful answer."])
+y = card(y, "3", "Write tests and scripts", "From plain words", [
+    [("Forge", "scripts, tests, trees"), ("Atlas", "tests in the chat")],
+    [("Test plan", "the steps from a goal"), ("Exploration", "reads a new app")],
+], ["A person reviews what is written."])
+y = card(y, "4", "Help people", "Questions about the tool, a screen or a run", [
+    [("Atlas", "the assistant in the app"), ("Voice", "spoken commands"), ("Ask AI", "questions about the docs")],
+    [("Masterchief", "fleet chat, asks first"), ("Fleet health report", "a daily summary")],
+])
+y = card(y, "5", "Live TV companion", "Opt-in per device", [
+    [("Identify", "what is on now"), ("Live read", "the score of a match"), ("Speech to text", "on the host")],
+    [("Facts and fact check", "about the programme"), ("Caption translation", "best effort")],
+])
 y = card(y, "•", "Freeze discard", "From a paid model to a 0.25 ms classifier", [
-    [("9,861", "alerts avoided in 7 days"), ("1.7 s", "Haiku, today's paid hop"), ("0.25 ms", "the word classifier")],
-    [("2 MB", "any host CPU, no GPU"), ("0 USD", "per call"), ("Retrains", "every night, not from itself")],
-], ["Measured, not wired yet. See the poster Freeze: menu or stuck video?"], last=True)
+    [("9,861", "alerts avoided in 7 days"), ("1.7 s", "the paid check today"), ("0.25 ms", "the word classifier")],
+    [("2 MB", "any host, no GPU"), ("0 USD", "per call"), ("Retrains", "every night")],
+], ["See the poster Freeze: menu or stuck video?"], last=True)
 
 y += 20
 box(60, y, 1080, 120, "#2a2418", GOLD, 22, 2)
 t(600, y + 50, "AI only where nothing simpler can decide.", 32, GOLD, 700, "middle")
-t(600, y + 90, "Every answer is logged, so you can measure what AI really adds.", 21, TXT, 400, "middle")
+t(600, y + 90, "Every AI answer is logged and counted.", 21, TXT, 400, "middle")
 t(600, y + 166, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 H = y + 210
 body = o
@@ -122,8 +112,8 @@ o.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="
 o.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
 t(60, 100, "AI IN THE LAB", 20, GOLD, 500, sp=3)
 t(60, 180, "Where VirtualPyTest uses AI", 62, TXT, 700)
-t(60, 236, "Most of the lab needs no AI at all: a screen is recognised by its fingerprint,", 24, MUT, 400, maxw=1080)
-t(60, 272, "a key is a key, a load time is a clock. AI is asked only where that is not enough.", 24, MUT, 400, maxw=1080)
+t(60, 236, "Most of the lab needs no AI.", 26, MUT, 400, maxw=1080)
+t(60, 274, "AI is asked only where nothing simpler can decide.", 26, MUT, 400, maxw=1080)
 o += body
 o.append('</svg>')
 open("docs/img/ai-use-cases.svg", "w").write("\n".join(o))
