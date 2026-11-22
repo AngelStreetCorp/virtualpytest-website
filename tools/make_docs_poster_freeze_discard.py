@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes docs/img/freeze-discard.svg (Docs poster: how a freeze alert is told menu or stuck video). Run from the repo root."""
-W, H = 1200, 3250
+W, H = 1200, 3350
 BG, PANEL, LINE, TXT, MUT, GOLD = "#161616", "#212121", "#3a3a3a", "#f2f2f2", "#a8a8a8", "#e0a96d"
 F = "Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif"
 o = []
@@ -83,36 +83,38 @@ import base64
 def img(name):
     return base64.b64encode(open(f"docs/img/freeze-real-{name}.jpg", "rb").read()).decode()
 y = 1940
-layer(y, "5", "Real examples", "Real screens, the words OCR read, the real model's score", 490)
+layer(y, "5", "Real examples", "Real screens, the words OCR read, the real model's score", 590)
 CASES = [("phone", "A phone home screen", "Clock Samsung Free Gaming Hub OneDrive", "0.72", "Unsure: bigger check", GOLD),
          ("tv", "A TV home screen", "Search Home Shop Apps Dune Recommended", "1.00", "Menu: discard", GREEN),
          ("cast", "A live weather cast", "42 40 43 43 44 40 (numbers only)", "0.05", "Video: keep the alert", BLUE)]
+IH = 250   # the whole capture is shown inside this box (contain, never cropped by the card)
 for i, (nm, ttl, words, sc, dec, col) in enumerate(CASES):
     cx = 90 + i * 350
-    box(cx, y + 110, 320, 330, "#2a2a2a", col, 18, 2)
-    o.append(f'<clipPath id="c{i}"><rect x="{cx}" y="{y+110}" width="320" height="180" rx="18"/></clipPath>')
-    o.append(f'<image x="{cx}" y="{y+110}" width="320" height="180" clip-path="url(#c{i})" href="data:image/jpeg;base64,{img(nm)}"/>')
-    t(cx + 160, y + 320, ttl, 20, TXT, 600, "middle")
-    t(cx + 160, y + 345, words[:40], 13, MUT, 400, "middle")
-    t(cx + 160, y + 392, sc, 34, col, 700, "middle")
-    t(cx + 160, y + 424, dec, 19, TXT, 600, "middle")
-t(600, y + 470, "Real captures, first and last frame the same, scored by the real model.", 17, MUT, 400, "middle")
-arrow(600, y + 490, y + 540)
+    box(cx, y + 110, 320, 420, "#2a2a2a", col, 18, 2)
+    o.append(f'<clipPath id="c{i}"><rect x="{cx}" y="{y+110}" width="320" height="{IH}" rx="18"/></clipPath>')
+    o.append(f'<rect x="{cx}" y="{y+110}" width="320" height="{IH}" rx="18" fill="#0d0d0d"/>')
+    o.append(f'<image x="{cx+6}" y="{y+116}" width="308" height="{IH-12}" preserveAspectRatio="xMidYMid meet" clip-path="url(#c{i})" href="data:image/jpeg;base64,{img(nm)}"/>')
+    t(cx + 160, y + 110 + IH + 34, ttl, 20, TXT, 600, "middle")
+    t(cx + 160, y + 110 + IH + 60, words[:40], 13, MUT, 400, "middle")
+    t(cx + 160, y + 110 + IH + 108, sc, 34, col, 700, "middle")
+    t(cx + 160, y + 110 + IH + 142, dec, 19, TXT, 600, "middle")
+t(600, y + 562, "Real captures, first and last frame the same, scored by the real model.", 17, MUT, 400, "middle")
+arrow(600, y + 590, y + 640)
 
-y = 2480
+y = 2580
 layer(y, "6", "When words are not enough", "A live weather cast or a sports ticker", 250)
 chips(90, y + 112, [("Same words", "on moving video"), ("Score", "stays in the middle"), ("Unsure", "bigger check decides"), ("Small model", "learns the answer")], 240, 18)
 t(600, y + 222, "AI model or vision check answers, as before. Nothing is lost.", 19, MUT, 400, "middle")
 arrow(600, y + 250, y + 300)
 
-y = 2790
+y = 2890
 layer(y, "7", "It learns every night", "Retrained in 1 second from new labels", 250)
 chips(90, y + 112, [("Collect", "unsure alerts"), ("Mistakes", "stored as opposite"), ("Never", "its own answers"), ("Test first", "95% or not used")], 240, 18)
 t(600, y + 222, "A new version goes live only if it is not worse. The old file is kept.", 19, MUT, 400, "middle")
 
-box(60, 3080, 1080, 120, "#2a2418", GOLD, 22, 2)
-t(600, 3130, "0.25 ms · 2 MB · 0 USD per call", 32, GOLD, 700, "middle")
-t(600, 3170, "On 1,554 subtitle lines it never saw, 0% were called menu.", 21, TXT, 400, "middle")
-t(600, 3226, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
+box(60, 3180, 1080, 120, "#2a2418", GOLD, 22, 2)
+t(600, 3230, "0.25 ms · 2 MB · 0 USD per call", 32, GOLD, 700, "middle")
+t(600, 3270, "On 1,554 subtitle lines it never saw, 0% were called menu.", 21, TXT, 400, "middle")
+t(600, 3326, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')
 open("docs/img/freeze-discard.svg", "w").write("\n".join(o))
