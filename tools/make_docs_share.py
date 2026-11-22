@@ -13,6 +13,7 @@ from playwright.sync_api import sync_playwright
 
 POSTERS = [
     ("what-is", "What is VirtualPyTest?", "img/what-is-virtualpytest.svg", "Any device with a screen, tested and monitored 24/7 by AI, in one image."),
+    ("services", "Services are background jobs", "img/services.svg", "Every VirtualPyTest service, grouped in server and host, and how each one shows on the Status page."),
     ("freeze-discard", "Freeze: menu or stuck video?", "img/freeze-discard.svg", "How a freeze alert is decided in 0.25 ms: read the words, weigh the pieces, decide with a safety band."),
 ]
 PAGE = """<!doctype html>
