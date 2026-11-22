@@ -131,17 +131,7 @@
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && sheet.classList.contains('open')) setSheet(false); });
   }
 
-  /* Nav hides while scrolling down, comes back on the way up (one rAF per frame at most). */
-  var nav = document.querySelector('.navwrap'), lastY = window.scrollY, ticking = false;
-  if(nav) window.addEventListener('scroll', function(){
-    if(ticking) return; ticking = true;
-    requestAnimationFrame(function(){
-      var y = window.scrollY;
-      if(y > lastY + 4 && y > 120) nav.classList.add('is-hidden');
-      else if(y < lastY - 4 || y <= 120) nav.classList.remove('is-hidden');
-      lastY = y; ticking = false;
-    });
-  }, {passive:true});
+  /* Nav stays pinned at the top on every scroll position (no auto-hide). */
 
   /* ---------- Tagline: built from the translated sentence, one span per word (per glyph in Chinese) ---------- */
   var tagObserver = null;
