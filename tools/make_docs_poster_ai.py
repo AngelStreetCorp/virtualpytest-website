@@ -59,10 +59,10 @@ def card(y, n, title, sub, rows, notes=(), last=False):
 
 body = []
 y = 330
-y = card(y, "•", "Overview", "Five use cases. Details below.", [
-    [("1 · Discard false alarms", "only real problems reach you"), ("2 · Name what is on screen", "when the fingerprint is unsure")],
-    [("3 · Write tests and scripts", "from plain words"), ("4 · Help people", "chat, voice, docs")],
-    [("5 · Live TV companion", "opt-in per device")],
+y = card(y, "•", "Overview", "Six use cases. Details below.", [
+    [("1 · Discard incidents", "only real problems reach you"), ("2 · Discard scripts", "failed runs caused by the lab")],
+    [("3 · Classify unknown screens", "when the fingerprint is unsure"), ("4 · Create scripts", "no code, no Python")],
+    [("5 · Help people", "Atlas, voice, Ask AI"), ("6 · Live TV companion", "opt-in per device")],
 ])
 y = card(y, "•", "Cost", "All AI calls, 30 days", [
     [("16.72 USD", "all AI calls"), ("0 USD a call", "flat-rate plan"), ("0 USD", "small models on the host"), ("Paid calls", "only as a backup")],
@@ -75,23 +75,25 @@ y = card(y, "•", "What is NOT AI", "People often think it is", [
     [("Freeze, black screen, no audio", "measured on the host"), ("Navigation", "the shortest path in the tree")],
     [("Repair of a tree", "after an app update"), ("Screen memory", "a screen judged harmless once")],
 ], ["AI only helps Localize when a match is doubtful."])
-y = card(y, "1", "Discard false alarms", "So a person only looks at real problems", [
+y = card(y, "1", "Discard incidents", "So a person only looks at real problems", [
     [("Alert triage", "real or noise?"), ("Freeze triage", "menu or stuck video?"), ("Freeze word classifier", "reads the words only")],
-    [("Script result analysis", "app bug or lab noise?"), ("Test Prompt", "app failure or stale test?")],
 ], ["A frozen menu, a sleeping phone, a network blink."])
-y = card(y, "2", "Name what is on screen", "When the fingerprint is not sure", [
+y = card(y, "2", "Discard scripts", "Failed runs caused by the lab are set aside", [
+    [("Script result analysis", "app bug or lab problem?"), ("Test Prompt", "app failure or stale test?")],
+], ["The pass rate counts only real results."])
+y = card(y, "3", "Classify unknown screens", "When the fingerprint is not sure", [
     [("Localize second opinion", "a doubtful match"), ("Text check second opinion", "a close score")],
-    [("Channel banner", "read after a zap"), ("Unknown screens", "named for you"), ("OCR", "reads the words on screen")],
+    [("Channel banner", "read after a zap"), ("Unknown screens", "given a name"), ("OCR", "reads the words on screen")],
 ], ["It only confirms a doubtful answer."])
-y = card(y, "3", "Write tests and scripts", "From plain words", [
+y = card(y, "4", "Create scripts", "From plain words. No code, no Python.", [
     [("Forge", "scripts, tests, trees"), ("Atlas", "tests in the chat")],
     [("Test plan", "the steps from a goal"), ("Exploration", "reads a new app")],
 ], ["A person reviews what is written."])
-y = card(y, "4", "Help people", "Questions about the tool, a screen or a run", [
+y = card(y, "5", "Help people", "Questions about the tool, a screen or a run", [
     [("Atlas", "the assistant in the app"), ("Voice", "spoken commands"), ("Ask AI", "questions about the docs")],
     [("Masterchief", "fleet chat, asks first"), ("Fleet health report", "a daily summary")],
 ])
-y = card(y, "5", "Live TV companion", "Opt-in per device", [
+y = card(y, "6", "Live TV companion", "Opt-in per device", [
     [("Identify", "what is on now"), ("Live read", "the score of a match"), ("Speech to text", "on the host")],
     [("Facts and fact check", "about the programme"), ("Caption translation", "best effort")],
 ])
