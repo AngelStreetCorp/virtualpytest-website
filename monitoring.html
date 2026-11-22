@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-lang-fixed>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<script>try{var s=localStorage.getItem('virtualpytest:theme');if(s==='light'||s==='dark')document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<title>Channel monitoring · VirtualPyTest</title>
+<meta name="description" content="Your channels watched 24/7 on real devices: alerts in your inbox with the proof frame, a monthly SLA report, an optional public status page. Billed per monitored stream.">
+<link rel="canonical" href="https://virtualpytest.com/monitoring.html">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.topbar.navwrap{display:block;padding:0;pointer-events:auto;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.bar{display:flex;align-items:center;gap:16px;min-height:64px;}.bar .utils{margin-left:auto;gap:8px;}
+.ctl{display:inline-flex;align-items:center;justify-content:center;height:40px;width:40px;border-radius:8px;border:1px solid var(--border-strong);background:transparent;color:var(--text);cursor:pointer;}
+.doc{max-width:720px;margin:0 auto;padding:64px 24px 32px;}
+.doc h1{font-size:36px;line-height:40px;}.doc .lead{font-size:18px;line-height:28px;color:var(--text-2);margin:12px 0 4px;}
+.doc .upd{font-size:14px;line-height:20px;color:var(--text-3);margin-bottom:32px;}
+.doc h2{font-size:20px;line-height:28px;margin:32px 0 8px;}
+.doc p,.doc li{font-size:16px;line-height:24px;color:var(--text-2);}
+.doc ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:8px;}
+.doc .see{margin-top:40px;font-size:14px;line-height:20px;}
+.doc table{border-collapse:collapse;width:100%;margin:8px 0}.doc th,.doc td{border-bottom:1px solid var(--border);padding:8px;text-align:left;font-size:15px;line-height:22px;color:var(--text-2);vertical-align:top}.doc th{color:var(--text)}
+.doc .price{border:1px solid var(--border-strong);border-radius:12px;padding:16px 20px;margin:16px 0}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="navwrap topbar"><nav class="bar wrap" aria-label="Main">
+<a class="brand" href="index.html"><img src="images/logo.png" alt="" width="28" height="28"><span class="no-i18n">VirtualPyTest</span></a>
+<div class="utils"><a class="btn btn-t btn-sm" href="index.html"><svg class="ico-s" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M160 48l-80 80 80 80"/></svg>Back to home</a>
+<button class="ctl theme-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg class="ico sun" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="128" cy="128" r="48"/><path d="M128 24v20M128 212v20M24 128h20M212 128h20M54 54l14 14M188 188l14 14M54 202l14-14M188 68l14-14"/></svg><svg class="ico moon" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M216 152A88 88 0 0 1 104 40a88 88 0 1 0 112 112z"/></svg></button></div>
+</nav></header>
+<main id="main" class="doc"><h1>Channel monitoring</h1>
+<p class="lead">Your channels and apps watched around the clock on real devices. You hear about a black screen before your viewers call, with the picture to prove it.</p>
+<h2>What is checked</h2>
+<table><tr><th>Check</th><th>When it fires</th></tr>
+<tr><td>Black screen</td><td>the picture stays black for 30 seconds</td></tr>
+<tr><td>No signal</td><td>the box sends nothing (asleep, cable pulled)</td></tr>
+<tr><td>Frozen picture</td><td>the picture stops moving for 30 seconds</td></tr>
+<tr><td>No sound</td><td>silence on a channel that should have sound</td></tr>
+<tr><td>Picture corruption, player error</td><td>the picture breaks up or the app shows an error</td></tr></table>
+<p>The checks run on the devices your viewers use: set-top boxes, TV sticks, phones and browsers, or a wall that visits every channel of your line-up every few minutes. An automatic triage throws away standby screens, menus and pictures that really move, so you only get real problems.</p>
+<h2>How it alerts</h2>
+<ul><li>By email, in Slack, or as a signed webhook into your own tools.</li>
+<li>A message when the channel goes down and another when it is back, each with the proof frame and a link to the incident.</li>
+<li>Escalation: an incident nobody acknowledged after the minutes you choose is sent again.</li>
+<li>You see every message sent, and a target that stopped working shows up as failed.</li></ul>
+<h2>The monthly SLA report</h2>
+<p>On the 1st of each month, a PDF you can forward: availability per channel against your target, every incident with start, end, cause and proof, mean time to detect and to resolve, compared with the month before. In English, French or German.</p>
+<h2>A public status page, if you want one</h2>
+<p>Off by default. Turn it on and your viewers get a page with the state of the channels you choose, open incidents in plain words and the last 90 days. No device or internal name is ever shown.</p>
+<h2>Price</h2>
+<div class="price"><p><strong>Billed per monitored stream per month.</strong> A monitored stream is one device (or one wall) watching your channels. <a href="mailto:contact@virtualpytest.com?subject=Channel%20monitoring">Ask us for a quote</a>.</p></div>
+<p class="see">See also: <a href="index.html#features">All features</a> · <a href="https://virtualpytest.angelstreet.io/">Try it live</a></p></main>
+<footer class="foot"><div class="wrap"><div class="cols">
+<div><a class="brand" href="index.html"><img src="images/logo.png" alt="" width="28" height="28"><span class="no-i18n">VirtualPyTest</span></a></div>
+<div><h4>Product</h4><ul><li><a href="index.html#features">Features</a></li><li><a href="index.html#pricing">Pricing</a></li><li><a href="index.html#faq">FAQ</a></li><li><a href="https://virtualpytest.angelstreet.io/">Try it live</a></li></ul></div>
+<div><h4>Project</h4><ul><li><a href="https://github.com/AngelStreetCorp/virtualpytest">GitHub</a></li><li><a href="https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs">Documentation</a></li><li><a href="mailto:contact@virtualpytest.com">Contact</a></li></ul></div>
+<div><h4>Resources</h4><ul><li><a href="https://virtualpytest.com/docs/VirtualPyTest-Overview.pdf">Overview (PDF)</a></li><li><a href="https://virtualpytest.com/docs/VirtualPyTest-Features.pdf">Features (PDF)</a></li><li><a href="https://www.youtube.com/playlist?list=PLT2zmwBUsZgk" target="_blank" rel="noopener">Videos (YouTube)</a></li></ul></div>
+</div><div class="legal"><span>© 2026 VirtualPyTest — AGPLv3</span><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></div></footer>
+<script src="site.js"></script>
+</body>
+</html>
