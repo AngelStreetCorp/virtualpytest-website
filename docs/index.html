@@ -44,7 +44,17 @@
 .dx{max-width:1200px;margin:0 auto;padding:40px 24px 80px;}
 .dx h1{font-size:clamp(28px,4vw,44px);line-height:1.1;letter-spacing:-.5px;}
 .dx .lede{margin-top:12px;color:var(--text-2);max-width:60ch;}
-.dx .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 20px;}
+.dx .pick{position:relative;margin:28px 0 20px;max-width:480px;}
+.dx .pickb{width:100%;display:flex;align-items:center;gap:10px;font:500 16px/22px Geist,system-ui,sans-serif;padding:10px 14px;border-radius:12px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;text-align:left;}
+.dx .pickb .n{color:var(--text-3);font:500 13px/20px "Geist Mono",monospace;}
+.dx .pickb .chev{margin-left:auto;transition:transform .15s;}
+.dx .pickb[aria-expanded=true] .chev{transform:rotate(180deg);}
+.dx .pickl{position:absolute;z-index:5;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);box-shadow:0 12px 32px rgba(0,0,0,.18);}
+.dx .pickl[hidden]{display:none;}
+.dx .pickl button{width:100%;display:flex;gap:10px;align-items:center;font:500 15px/20px Geist,system-ui,sans-serif;padding:9px 10px;border-radius:8px;border:0;background:none;color:var(--text);cursor:pointer;text-align:left;}
+.dx .pickl button:hover,.dx .pickl button:focus-visible{background:var(--hover);}
+.dx .pickl button[aria-selected=true]{color:var(--accent-text);}
+.dx .pickl .n{color:var(--text-3);font:500 13px/20px "Geist Mono",monospace;}
 .dx .tab{font:500 15px/20px Geist,system-ui,sans-serif;padding:8px 14px;border-radius:9999px;border:1px solid var(--border-strong);background:transparent;color:var(--text-2);cursor:pointer;}
 .dx .tab[aria-selected=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent);}
 .dx .poster{margin:0 auto;max-width:760px;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#161616;}
@@ -69,7 +79,7 @@
 <main id="main" class="dx">
 <h1>All concepts and architecture explained in one image</h1>
 <p class="lede">One big picture per idea. Scroll, zoom, or save it.</p>
-<div class="tabs" role="tablist" aria-label="Posters" id="tabs"></div>
+<div class="pick"><button class="pickb" id="pickb" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="pickl"><span class="n" id="pickn"></span><span id="pickt"></span><svg class="chev" width="16" height="16" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 96l80 80 80-80"/></svg></button><ul class="pickl" id="pickl" role="listbox" aria-label="Posters" hidden></ul></div>
 <figure class="poster"><a id="zoom" href="view/"><img id="img" alt="" width="1200" height="2480"></a></figure>
 <div class="acts"><a class="btn btn-p" id="open">Open full page</a><a class="btn btn-s" id="dl" download>Download</a></div>
 </main>
@@ -104,19 +114,29 @@
 <script>
 /* The Docs series: add a poster here (an image in docs/img/) and it gets a tab. */
 var POSTERS = [
-  {id: 'what-is', title: 'What is VirtualPyTest?', src: 'img/what-is-virtualpytest.svg', alt: 'One vertical image: devices, control, the navigation map, screen checks, runs and KPIs, 24/7 monitoring, and the AI on top.'}
+  {id: 'what-is', title: 'What is VirtualPyTest?', src: 'img/what-is-virtualpytest.svg', alt: 'One vertical image: devices, control, the navigation map, screen checks, runs and KPIs, 24/7 monitoring, and the AI on top.'},
+  {id: 'freeze-discard', title: 'Menu or stuck video?', src: 'img/freeze-discard.svg', alt: 'One vertical image: a freeze alert, the words read on two frames, pieces and weights, the safety band (0.1 and 0.9), the weather-cast case that goes to the bigger check, and the nightly learning.'}
 ];
-var tabs = document.getElementById('tabs'), img = document.getElementById('img');
+var list = document.getElementById('pickl'), pb = document.getElementById('pickb'), img = document.getElementById('img');
+function openList(on){ list.hidden = !on; pb.setAttribute('aria-expanded', on); if (on) { var s = list.querySelector('[aria-selected=true]'); if (s) s.focus(); } }
 function show(id){
-  var p = POSTERS.find(function(x){return x.id === id;}) || POSTERS[0];
+  var p = POSTERS.find(function(x){return x.id === id;}) || POSTERS[0], n = POSTERS.indexOf(p) + 1;
   img.src = p.src; img.alt = p.alt;
+  document.getElementById('pickn').textContent = n + '/' + POSTERS.length; document.getElementById('pickt').textContent = p.title;
   document.getElementById('open').href = 'view/#' + p.id; document.getElementById('zoom').href = 'view/#' + p.id; document.getElementById('dl').href = p.src;
-  tabs.querySelectorAll('.tab').forEach(function(b){b.setAttribute('aria-selected', b.dataset.id === p.id);});
+  list.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-selected', b.dataset.id === p.id);});
   try{ history.replaceState(null, '', '#' + p.id); }catch(e){}
 }
-POSTERS.forEach(function(p){
-  var b = document.createElement('button'); b.className = 'tab'; b.type = 'button'; b.role = 'tab'; b.dataset.id = p.id; b.textContent = p.title;
-  b.addEventListener('click', function(){show(p.id);}); tabs.appendChild(b);
+POSTERS.forEach(function(p, i){
+  var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.role = 'option'; b.dataset.id = p.id;
+  b.innerHTML = '<span class="n">' + (i + 1) + '</span><span></span>'; b.lastChild.textContent = p.title;
+  b.addEventListener('click', function(){show(p.id); openList(false); pb.focus();}); li.appendChild(b); list.appendChild(li);
+});
+pb.addEventListener('click', function(){openList(list.hidden);});
+document.addEventListener('click', function(e){ if (!list.hidden && !e.target.closest('.pick')) openList(false); });
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && !list.hidden) { openList(false); pb.focus(); }
+  if (!list.hidden && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); var b = [].slice.call(list.querySelectorAll('button')), k = b.indexOf(document.activeElement); b[(k + (e.key === 'ArrowDown' ? 1 : -1) + b.length) % b.length].focus(); }
 });
 show(location.hash.slice(1));
 </script>
