@@ -48,6 +48,20 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
 - The Docs page script is plain JS in single-quoted strings: **never put an apostrophe in `title` or `alt`** ("model's"
   broke the page on 2026-11-22). Check the page script parses and that `/docs/` shows no page error.
 
+## A poster that explains a doc (owner 2026-11-22)
+
+- **Same structure, same words as the doc.** One card per doc section, in the doc's order, with the doc's section
+  title word for word, and chips named with the doc's item names (table rows). Invent no labels (no "jobs", no "rules",
+  no "Screen memory" unless the doc says it there). Example: `ai-use-cases` mirrors `docs/ai/AI-USE-CASES.md`.
+- **First card = the overview**: one chip per doc section (the doc's titles), before the detailed cards. A section that
+  is not a use case (for example "What is NOT AI") is not a chip there; it gets its own detailed card, with no number.
+- **No date on a poster**, ever ("checked on ...", "to 2026-11-22"). A period the doc states ("30 days", "7 days") is fine.
+- **Chips must fit the fallback font.** Headless Chromium has no Geist / Inter and falls back to DejaVu Sans, which is
+  wider. Label 22 px bold in a 190 px chip holds about 11 characters; use 2 or 3 chips per row for long names.
+  `tools/make_docs_poster_ai.py` measures every label with DejaVu Sans (PIL) and fails when one is too wide: copy that.
+- **Look at the render**: inline the SVG with Playwright `set_content` (an `<img src=file://...>` renders blank),
+  viewport 1200 x full height, screenshot it in 3 slices and read each one.
+
 ## Real examples in a poster (owner 2026-11-22)
 
 A "Real examples" step shows real screens with the real decision. Rules: neutral sources only (our own pages, a public
