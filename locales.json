@@ -310,7 +310,8 @@
   "Something went wrong. Try again in a moment.": "Something went wrong. Try again in a moment.",
   "Could not reach the assistant. Try again in a moment.": "Could not reach the assistant. Try again in a moment.",
   "Show screenshot {index} of {count}": "Show screenshot {index} of {count}",
-  "Play slideshow": "Play slideshow"
+  "Play slideshow": "Play slideshow",
+  "Docs": "Docs"
  },
  "fr": {
   "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — tests et surveillance d’appareils open source pilotés par l’IA",
@@ -618,7 +619,8 @@
   "Something went wrong. Try again in a moment.": "Une erreur s’est produite. Réessayez dans un instant.",
   "Could not reach the assistant. Try again in a moment.": "Impossible de joindre l’assistant. Réessayez dans un instant.",
   "Show screenshot {index} of {count}": "Afficher la capture {index} sur {count}",
-  "Play slideshow": "Lancer la présentation"
+  "Play slideshow": "Lancer la présentation",
+  "Docs": "Docs"
  },
  "es": {
   "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — pruebas y supervisión de dispositivos de código abierto con IA",
@@ -926,7 +928,8 @@
   "Something went wrong. Try again in a moment.": "Se produjo un error. Inténtalo de nuevo dentro de un momento.",
   "Could not reach the assistant. Try again in a moment.": "No se pudo conectar con el asistente. Inténtalo de nuevo dentro de un momento.",
   "Show screenshot {index} of {count}": "Mostrar la captura {index} de {count}",
-  "Play slideshow": "Reproducir la presentación"
+  "Play slideshow": "Reproducir la presentación",
+  "Docs": "Docs"
  },
  "de": {
   "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — Open-Source-Gerätetests und -Überwachung mit KI",
@@ -1236,7 +1239,8 @@
   "Something went wrong. Try again in a moment.": "Etwas ist schief gelaufen. Versuchen Sie es gleich noch einmal.",
   "Could not reach the assistant. Try again in a moment.": "Der Assistent konnte nicht erreicht werden. Versuchen Sie es gleich noch einmal.",
   "Show screenshot {index} of {count}": "Screenshot {index} von {count} anzeigen",
-  "Play slideshow": "Präsentation abspielen"
+  "Play slideshow": "Präsentation abspielen",
+  "Docs": "Docs"
  },
  "zh-CN": {
   "VirtualPyTest — open-source device testing & monitoring, driven by AI": "VirtualPyTest — 由 AI 驱动的开源设备测试和监控",
@@ -1544,7 +1548,8 @@
   "Something went wrong. Try again in a moment.": "出了点问题。稍后再试一次。",
   "Could not reach the assistant. Try again in a moment.": "无法联系到助理。稍后再试一次。",
   "Show screenshot {index} of {count}": "显示 {count} 的屏幕截图 {index}",
-  "Play slideshow": "播放幻灯片"
+  "Play slideshow": "播放幻灯片",
+  "Docs": "文档"
  },
  "hi": {
   "VirtualPyTest — open-source device testing & monitoring, driven by AI": "वर्चुअलपाइटेस्ट - एआई द्वारा संचालित ओपन-सोर्स डिवाइस परीक्षण और निगरानी",
@@ -1852,6 +1857,7 @@
   "Something went wrong. Try again in a moment.": "कुछ गलत हो गया। थोड़ी देर में पुनः प्रयास करें.",
   "Could not reach the assistant. Try again in a moment.": "सहायक तक नहीं पहुंच सका. थोड़ी देर में पुनः प्रयास करें.",
   "Show screenshot {index} of {count}": "{count} का स्क्रीनशॉट {index} दिखाएँ",
-  "Play slideshow": "स्लाइडशो चलाएँ"
+  "Play slideshow": "स्लाइडशो चलाएँ",
+  "Docs": "दस्तावेज़"
  }
 }
