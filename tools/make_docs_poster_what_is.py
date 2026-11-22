@@ -69,14 +69,14 @@ arrow(600, y + 250, y + 300)
 # run
 y = 1690
 layer(y, "5", "Run and measure", "Scripts and campaigns, with KPIs on every run", 250)
-chips(90, y + 112, [("No code", "visual builder"), ("Python", "full logic"), ("Variants", "one script, all models"), ("KPIs", "loading · zapping")], 240, 18)
+chips(90, y + 112, [("No code", "visual builder"), ("Python", "full logic"), ("UI variables", "one tree, every build"), ("KPIs", "loading · zapping")], 240, 18)
 t(600, y + 222, "Every run keeps the video, the steps and the diff.", 19, MUT, 400, "middle")
 arrow(600, y + 250, y + 300)
 
 # watch
 y = 2000
 layer(y, "6", "Watch 24/7", "Monitoring that alerts the moment it breaks", 250)
-chips(90, y + 112, [("Incidents", "caught live"), ("Heatmap", "rewind 24 h"), ("Dashboards", "fleet + live screens"), ("Analytics", "Grafana you own")], 240, 18)
+chips(90, y + 112, [("Incidents", "caught live"), ("Heatmap", "where it hurts"), ("Timeline", "rewind 24 h"), ("Dashboards", "live screens"), ("Analytics", "Grafana you own")], 190, 17)
 t(600, y + 222, "Hosts, devices and system health, all in one place.", 19, MUT, 400, "middle")
 
 # AI side rail + footer
