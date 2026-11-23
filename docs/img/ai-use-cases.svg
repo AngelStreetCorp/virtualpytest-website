@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 4488" width="1200" height="4488" role="img" aria-labelledby="ti"><title id="ti">Where VirtualPyTest uses AI, in one image</title>
-<rect width="1200" height="4488" fill="#161616"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 4784" width="1200" height="4784" role="img" aria-labelledby="ti"><title id="ti">Where VirtualPyTest uses AI, in one image</title>
+<rect width="1200" height="4784" fill="#161616"/>
 <text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">AI IN THE LAB</text>
 <text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Where VirtualPyTest uses AI</text>
 <text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Most of the lab needs no AI.</text>
@@ -57,7 +57,7 @@
 <text x="254" y="1229" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">chosen per use case</text>
 <rect x="436" y="1174" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="600" y="1204" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Small models</text>
-<text x="600" y="1229" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">on the host</text>
+<text x="600" y="1229" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">ours and on the host</text>
 <rect x="782" y="1174" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="946" y="1204" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Your own PC</text>
 <text x="946" y="1229" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">for low-priority work</text>
@@ -210,7 +210,7 @@
 <text x="254" y="4045" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">alerts avoided in 7 days</text>
 <rect x="436" y="3990" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="600" y="4020" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">1.7 s</text>
-<text x="600" y="4045" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the paid check today</text>
+<text x="600" y="4045" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the paid check before</text>
 <rect x="782" y="3990" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="946" y="4020" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">0.25 ms</text>
 <text x="946" y="4045" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the word classifier</text>
@@ -223,9 +223,25 @@
 <rect x="782" y="4074" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="946" y="4104" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Retrains</text>
 <text x="946" y="4129" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">every night</text>
-<text x="600" y="4178" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">See the poster Freeze: menu or stuck video?</text>
-<rect x="60" y="4278" width="1080" height="120" rx="22" fill="#2a2418" stroke="#e0a96d" stroke-width="2"/>
-<text x="600" y="4328" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="32" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">AI only where nothing simpler can decide.</text>
-<text x="600" y="4368" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Every AI answer is logged and counted.</text>
-<text x="600" y="4444" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+<text x="600" y="4178" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Live: a sure menu discards the alert. See the poster Freeze: menu or stuck video?</text>
+<path d="M600 4208V4246" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 4240L600 4254L612 4240" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="4258" width="1080" height="246" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="4310" r="26" fill="#e0a96d"/>
+<text x="112" y="4319" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">•</text>
+<text x="156" y="4308" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Our own small models</text>
+<text x="156" y="4340" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">How we trained them</text>
+<rect x="90" y="4370" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="254" y="4400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Freeze word classifier</text>
+<text x="254" y="4425" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">discard incidents</text>
+<rect x="436" y="4370" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="600" y="4400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Localize model</text>
+<text x="600" y="4425" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">which screen is this?</text>
+<rect x="782" y="4370" width="328" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="946" y="4400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Screen namer</text>
+<text x="946" y="4425" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">unknown screens</text>
+<text x="600" y="4474" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Taught by the cloud models, answer only when sure. See the poster Our own small models.</text>
+<rect x="60" y="4574" width="1080" height="120" rx="22" fill="#2a2418" stroke="#e0a96d" stroke-width="2"/>
+<text x="600" y="4624" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="32" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">AI only where nothing simpler can decide.</text>
+<text x="600" y="4664" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Every AI answer is logged and counted.</text>
+<text x="600" y="4740" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
 </svg>
