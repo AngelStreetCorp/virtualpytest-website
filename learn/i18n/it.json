@@ -973,7 +973,6 @@
  "deep-small-models": {
   "0 USD a call": "0 USD a chiamata",
   "0.25 ms": "0.25 ms",
-  "0.25 ms · 1.3 s · 4.7 s": "0.25 ms · 1.3 s · 4.7 s",
   "500M not better than 256M": "500M non meglio di 256M",
   "770 → 240 tokens": "770 → 240 token",
   "94 % on all screens": "94 % di tutti gli schermi",
@@ -1024,7 +1023,6 @@
   "The same six steps for every job: collect the calls, keep a test set where two strong judges agree, let a teacher write the answers, train, replay on past calls, then serve.": "Gli stessi sei passi per ogni compito: raccogliere le chiamate, tenere un test set su cui due giudici forti concordano, far scrivere le risposte a un insegnante, addestrare, rigiocare sulle chiamate passate, poi mettere in servizio.",
   "The same three questions come back all day. Could a small model of our own, on our own boxes, answer them instead of a cloud model?": "Le stesse tre domande tornano tutto il giorno. Un piccolo modello nostro, sulle nostre macchine, potrebbe rispondere al posto di un modello cloud?",
   "The six steps": "I sei passi",
-  "Three models of our own, from 0.25 ms to 4.7 s, 0 USD a call, on our own boxes. The rest still goes to the cloud model.": "Tre modelli nostri, da 0.25 ms a 4.7 s, 0 USD a chiamata, sulle nostre macchine. Il resto va ancora al modello cloud.",
   "Three questions": "Tre domande",
   "Train": "Addestra",
   "Unsure: the cloud model": "Incerto: il modello cloud",
@@ -1036,7 +1034,14 @@
   "home": "home",
   "kind: home": "kind: home",
   "name: home": "name: home",
-  "{n} MB": "{n} MB"
+  "{n} MB": "{n} MB",
+  "Three models of our own, on our own boxes, 0 USD a call. Each answers only when it is sure; the rest still goes to the cloud model.": "Tre modelli nostri, sulle nostre macchine, 0 USD a chiamata. Ognuno risponde solo quando è sicuro; il resto va ancora al modello cloud.",
+  "Next": "Prossimo passo",
+  "Next, faster: the screen namer takes about 2.6 s on 4 processor cores. Most of it is reading the picture; writing the answer takes about 0.3 s. A smaller picture or a graphics card cuts the first part.": "Prossimo passo, più veloce: il namer di schermi impiega circa 2,6 s su 4 core del processore. La maggior parte serve a leggere l'immagine; scrivere la risposta richiede circa 0,3 s. Un'immagine più piccola o una scheda grafica riduce la prima parte.",
+  "3 models of our own": "3 modelli nostri",
+  "Next: faster": "Prossimo: più veloce",
+  "Reading the picture: most of it": "Leggere l'immagine: quasi tutto",
+  "The answer: about 0.3 s": "La risposta: circa 0,3 s"
  },
  "deep-title": {
   "How a title is read in any language": "Leggere un titolo in ogni lingua",
@@ -1151,7 +1156,21 @@
   "before": "prima",
   "first": "primo",
   "last": "ultimo",
-  "press": "tasto"
+  "press": "tasto",
+  "Zap banner detection": "Rilevamento del banner di zapping",
+  "After the zap the box shows a banner: number, logo, programme, start and end. The text is read by OCR in fixed places. The logo is looked up in a table the cloud model fills: it names a new logo once, then the table answers.": "Dopo lo zapping il box mostra un banner: numero, logo, programma, inizio e fine. Il testo è letto con OCR in punti fissi. Il logo è cercato in una tabella che il modello cloud riempie: dà il nome a un nuovo logo una volta, poi risponde la tabella.",
+  "Channel 12": "Canale 12",
+  "Channel 4": "Canale 4",
+  "Cloud: once per logo": "Cloud: una volta per logo",
+  "Evening News": "TG della sera",
+  "Late Show": "Late Show",
+  "Logo: our table": "Logo: la nostra tabella",
+  "NOW 20:00 - 20:30": "ORA 20:00 - 20:30",
+  "NOW 20:30 - 21:00": "ORA 20:30 - 21:00",
+  "OCR: programme, times, number": "OCR: programma, orari, numero",
+  "Our table": "La nostra tabella",
+  "Same logo next time: no AI": "Stesso logo dopo: niente IA",
+  "from our table": "dalla nostra tabella"
  },
  "device-shortcuts": {
   "Three shortcuts on every device": "Tre scorciatoie per dispositivo",

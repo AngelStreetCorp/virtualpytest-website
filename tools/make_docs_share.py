@@ -16,7 +16,7 @@ POSTERS = [
     ("profiles", "A profile is a set of services", "img/profiles.svg", "What a host runs for each device: three host shapes, a profile per device and a table of what each profile switches on."),
     ("services", "Services are background jobs", "img/services.svg", "Every VirtualPyTest service, grouped in server and host, and how each one shows on the Status page."),
     ("ai-use-cases", "Where VirtualPyTest uses AI", "img/ai-use-cases.svg", "Where VirtualPyTest uses AI: six use cases, from discarding incidents to the live TV companion, and what is not AI."),
-    ("small-models", "Our own small models", "img/small-models.svg", "How we trained three small models of our own, taught by the cloud models: 0.25 ms to 4.7 s, answering only when sure."),
+    ("small-models", "Our own small models", "img/small-models.svg", "How we trained three small models of our own, taught by the cloud models, answering only when sure, 0 USD a call."),
     ("freeze-discard", "Freeze: menu or stuck video?", "img/freeze-discard.svg", "How a freeze alert is decided in 0.25 ms: read the words, weigh the pieces, decide with a safety band."),
 ]
 PAGE = """<!doctype html>
