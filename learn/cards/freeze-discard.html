@@ -63,7 +63,7 @@
 <div class="say" id="say0">Decided in 0.25 ms</div>
 <div class="say" id="say1">Under 0.8% of pixels changed.</div>
 <div class="say" id="say2"></div>
-<div class="say" id="say3">Today: a text AI model checks the words, still in test.</div>
+<div class="say" id="say3">Before: a text AI model checked the words, in test.</div>
 <div class="say" id="say4"></div>
 <div class="say" id="say5">Most pieces still match.</div>
 <div class="say" id="say6"></div>
@@ -135,11 +135,11 @@ const gEl = (g, cls, css, html) => el(cls, css, html, g);
   const m1 = gEl(g, 'mark', 'left:366px;top:226px;background:var(--ok)', '✓'), m2 = gEl(g, 'mark', 'left:822px;top:226px;background:var(--bad)', '✗');
   [[l1, 2200], [m1, 2600], [l2, 3400], [m2, 3800]].forEach(([e, d]) => during(e, CH[2] + d, CH[3])); }
 
-// c3 · today: a slow text model, in test
+// c3 · before: a slow text model, in test
 { const g = group(CH[3], CH[4]);
   const c = gEl(g, 'o', 'left:268px;top:30px;width:400px;height:250px;border-radius:20px;background:var(--dark)', '');
   el('o', 'left:30px;top:30px', '<svg width="56" height="56" viewBox="0 0 24 24"><path d="M12 2l2.4 6.2L21 10l-6.6 1.8L12 18l-2.4-6.2L3 10l6.6-1.8z" fill="#d4a574"/></svg>', c);
-  el('o', 'right:24px;top:30px;font-size:20px;font-weight:700;color:#141414;background:#d4a574;padding:4px 12px;border-radius:999px', 'in test', c);
+  el('o', 'right:24px;top:30px;font-size:20px;font-weight:700;color:#141414;background:#d4a574;padding:4px 12px;border-radius:999px', 'before', c);
   el('big', 'left:30px;top:110px;color:#fff;font-size:72px', '<span id="clock">0.0 s</span>', c);
   el('o', 'left:32px;top:200px;font-size:22px;color:#cfcfcf', 'per alert', c);
   at(c, [[CH[3], { filter: 'grayscale(0)', opacity: 1 }], [CH[3] + 3800, { filter: 'grayscale(0)', opacity: 1 }], [CH[3] + 4400, { filter: 'grayscale(1)', opacity: .45 }]]); }
@@ -215,7 +215,7 @@ const gEl = (g, cls, css, html) => el(cls, css, html, g);
 // c11 · caption, status, button
 { const g = group(CH[11], T);
   gEl(g, 'o', 'left:40px;right:40px;top:20px;text-align:center;font-size:32px;font-weight:700;line-height:1.3', 'A tiny model discards the harmless alerts in 0.25 ms. Only a sure menu is discarded. Everything else is kept or checked.');
-  gEl(g, 'o', 'left:0;right:0;top:200px;text-align:center;font-size:24px;color:var(--muted)', 'Measured, not live yet.');
+  gEl(g, 'o', 'left:0;right:0;top:200px;text-align:center;font-size:24px;color:var(--muted)', 'Live: a sure menu is discarded.');
   gEl(g, 'o', 'left:0;right:0;top:260px;display:flex;justify-content:center', '<span class="btn" style="position:static">See the explorer →</span>'); }
 
 // counters: the 1.7 s clock of chapter 3
