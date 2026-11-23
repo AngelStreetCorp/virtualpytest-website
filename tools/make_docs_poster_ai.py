@@ -68,7 +68,7 @@ y = card(y, "•", "Cost", "All AI calls, 30 days", [
     [("16.72 USD", "all AI calls"), ("0 USD a call", "flat-rate plan"), ("0 USD", "small models on the host"), ("Paid calls", "only as a backup")],
 ], ["Most answers cost nothing."])
 y = card(y, "•", "Where it runs", "Three places", [
-    [("Cloud models", "chosen per use case"), ("Small models", "on the host"), ("Your own PC", "for low-priority work")],
+    [("Cloud models", "chosen per use case"), ("Small models", "ours and on the host"), ("Your own PC", "for low-priority work")],
 ], ["Every cloud call is logged."])
 y = card(y, "•", "What is NOT AI", "People often think it is", [
     [("Localize", "which screen is this?"), ("Load and zap times", "a clock")],
@@ -98,9 +98,12 @@ y = card(y, "6", "Live TV companion", "Opt-in per device", [
     [("Facts and fact check", "about the programme"), ("Caption translation", "best effort")],
 ])
 y = card(y, "•", "Freeze discard", "From a paid model to a 0.25 ms classifier", [
-    [("9,861", "alerts avoided in 7 days"), ("1.7 s", "the paid check today"), ("0.25 ms", "the word classifier")],
+    [("9,861", "alerts avoided in 7 days"), ("1.7 s", "the paid check before"), ("0.25 ms", "the word classifier")],
     [("2 MB", "any host, no GPU"), ("0 USD", "per call"), ("Retrains", "every night")],
-], ["See the poster Freeze: menu or stuck video?"], last=True)
+], ["Live: a sure menu discards the alert. See the poster Freeze: menu or stuck video?"])
+y = card(y, "•", "Our own small models", "How we trained them", [
+    [("Freeze word classifier", "discard incidents"), ("Localize model", "which screen is this?"), ("Screen namer", "unknown screens")],
+], ["Taught by the cloud models, answer only when sure. See the poster Our own small models."], last=True)
 
 y += 20
 box(60, y, 1080, 120, "#2a2418", GOLD, 22, 2)
