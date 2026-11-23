@@ -68,13 +68,14 @@
 </style>
 </head>
 <body>
-<div class="tag" id="tag0"><span class="n">STEP 1 / 7</span><span class="h">Every frame is checked</span></div>
-<div class="tag" id="tag1"><span class="n">STEP 2 / 7</span><span class="h">Is it black?</span></div>
-<div class="tag" id="tag2"><span class="n">STEP 3 / 7</span><span class="h">Or is it frozen?</span></div>
-<div class="tag" id="tag3"><span class="n">STEP 4 / 7</span><span class="h">The event ends</span></div>
-<div class="tag" id="tag4"><span class="n">STEP 5 / 7</span><span class="h">Was a channel key pressed?</span></div>
-<div class="tag" id="tag5"><span class="n">STEP 6 / 7</span><span class="h">Did the sound drop?</span></div>
-<div class="tag" id="tag6"><span class="n">STEP 7 / 7</span><span class="h">The zap is recorded</span></div>
+<div class="tag" id="tag0"><span class="n">STEP 1 / 8</span><span class="h">Every frame is checked</span></div>
+<div class="tag" id="tag1"><span class="n">STEP 2 / 8</span><span class="h">Is it black?</span></div>
+<div class="tag" id="tag2"><span class="n">STEP 3 / 8</span><span class="h">Or is it frozen?</span></div>
+<div class="tag" id="tag3"><span class="n">STEP 4 / 8</span><span class="h">The event ends</span></div>
+<div class="tag" id="tag4"><span class="n">STEP 5 / 8</span><span class="h">Was a channel key pressed?</span></div>
+<div class="tag" id="tag5"><span class="n">STEP 6 / 8</span><span class="h">Did the sound drop?</span></div>
+<div class="tag" id="tag6"><span class="n">STEP 7 / 8</span><span class="h">The zap is recorded</span></div>
+<div class="tag" id="tag7"><span class="n">STEP 8 / 8</span><span class="h">Zap banner detection</span></div>
 <div class="say" id="say0">Checked live, as each frame arrives</div>
 <div class="say" id="say1">80 % dark, almost nothing lit</div>
 <div class="say" id="say2">Under 0.8 % changed, every time</div>
@@ -82,6 +83,7 @@
 <div class="say" id="say4">Channel key, under 10 s before</div>
 <div class="say" id="say5">A gap in the sound</div>
 <div class="say" id="say6">Key press to new picture</div>
+<div class="say" id="say7">Same logo next time: no AI</div>
 
 <div class="stage" id="stage">
   <!-- chapters 1 and 2 -->
@@ -128,11 +130,34 @@
     <div class="card" id="cardF" style="left:188px;top:10px;width:560px;height:180px"><div class="ly"><div class="rep" id="f0"><span>Zap</span><span>1.6 s</span></div><div class="rep gold" id="f1"><span>Black</span><span>1.1 s</span></div></div></div>
     <div id="pics"></div>
   </div>
+  <!-- chapter 8 -->
+  <div class="sc" id="scG">
+    <div id="bnr" class="abs" style="left:0;top:10px;width:540px;height:150px;border-radius:16px;background:#1a1a1a;box-shadow:0 6px 18px rgba(0,0,0,.10)">
+      <div class="abs" style="left:24px;top:50px;font-size:44px;font-weight:700;color:#fff">12</div>
+      <div id="lg1" class="abs" style="left:100px;top:35px;width:80px;height:80px;border-radius:50%;background:#d4a574;display:grid;place-items:center"><div style="width:34px;height:34px;border-radius:8px;background:#1a1a1a;transform:rotate(45deg)"></div></div>
+      <div id="bt1" class="abs" style="left:208px;top:36px;color:#fff"><div style="font-size:30px;font-weight:700">Evening News</div><div style="font-family:var(--mono);font-size:22px;color:#d4a574;margin-top:8px">NOW 20:00 - 20:30</div></div>
+      <div id="bt2" class="abs" style="left:208px;top:36px;color:#fff"><div style="font-size:30px;font-weight:700">Late Show</div><div style="font-family:var(--mono);font-size:22px;color:#d4a574;margin-top:8px">NOW 20:30 - 21:00</div></div>
+      <div id="cr1" class="abs" style="left:200px;top:26px;width:320px;height:98px;border:3px dashed #d4a574;border-radius:8px"></div>
+      <div id="cr2" class="abs" style="left:14px;top:40px;width:72px;height:70px;border:3px dashed #d4a574;border-radius:8px"></div>
+      <div id="cr3" class="abs" style="left:92px;top:27px;width:96px;height:96px;border:3px dashed #d4a574;border-radius:8px"></div>
+      <div id="zflash" class="abs" style="inset:0;border-radius:16px;background:#000"></div>
+      <div id="fromt" class="abs" style="left:96px;top:118px;display:flex;align-items:center;gap:8px;font-size:22px;font-weight:700;color:#fff;white-space:nowrap"><span id="okt"></span>from our table</div>
+    </div>
+    <div class="abs" id="gl1" style="left:0;top:196px;font-size:28px;font-weight:700">OCR: programme, times, number</div>
+    <div class="abs" id="gl2" style="left:0;top:246px;font-size:28px;font-weight:700;color:var(--goldText)">Logo: our table</div>
+    <div class="card" id="tab" style="left:620px;top:10px;width:316px;height:200px">
+      <div class="abs" style="left:24px;top:16px;font-size:24px;font-weight:700;color:var(--muted)">Our table</div>
+      <div class="abs" style="left:24px;top:64px;display:flex;align-items:center;gap:14px;font-size:24px;font-weight:700"><span style="width:44px;height:44px;border-radius:50%;background:#7fb0c4;display:inline-block"></span>Channel 4</div>
+      <div id="trow" class="abs" style="left:24px;top:126px;display:flex;align-items:center;gap:14px;font-size:24px;font-weight:700"><span id="tlogo" style="width:44px;height:44px;border-radius:50%;background:#d4a574;display:inline-grid;place-items:center"><i style="width:18px;height:18px;border-radius:4px;background:#1a1a1a;transform:rotate(45deg)"></i></span><span id="tname">Channel 12</span></div>
+    </div>
+    <div class="abs" id="cld" style="left:640px;top:240px"><svg width="120" height="84" viewBox="0 0 120 84"><path d="M30 76h62a24 24 0 0 0 2-48 32 32 0 0 0-61-6A26 26 0 0 0 30 76z" fill="#9a948b"/></svg></div>
+    <div class="abs" id="gl3" style="left:770px;top:262px;width:170px;font-size:24px;font-weight:700;color:var(--muted);line-height:1.2">Cloud: once per logo</div>
+  </div>
 </div>
 
 <script>
-const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600];   // chapter starts (ms), as in SCRIPTS.md
-const T = 58000;
+const CH = [600, 8600, 16600, 24600, 32600, 40600, 48600, 56600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 65000;
 const OUT0 = T - 1000, OUT1 = T - 300;
 const $ = id => document.getElementById(id);
 const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
@@ -155,8 +180,8 @@ function win(el, t0, t1 = null, d = 400) {
   at(el, k);
 }
 CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
-at($('tag6'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
-at($('say6'), [[CH.at(-1) + 900, HIDE], [CH.at(-1) + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('tag7'), [[CH.at(-1), HIDE], [CH.at(-1) + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say7'), [[CH.at(-1) + 5400, HIDE], [CH.at(-1) + 5900, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
 
 const OK = s => `<span class="okdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
 const XX = s => `<span class="xdot" style="width:${s}px;height:${s}px"><svg width="${s - 8}" height="${s - 8}" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></span>`;
@@ -264,13 +289,28 @@ enter($('wrA'), 41200); enter($('wrB'), 41500);
 enter($('wlA'), 44000); enter($('wlB'), 46600);
 
 // ================= chapter 7: the report and five pictures =================
-win($('scF'), 48800, null, 400);
+win($('scF'), 48800, 56300, 400);
 enter($('cardF'), 49200); enter($('f0'), 49800); enter($('f1'), 50800);
 [['press', 'ch1', 7], ['before', 'ch1', 5], ['first', 'black', 0], ['last', 'black', 0], ['after', 'ch2', 0]].forEach(([nm, kind, ph], i) => {
   const x = i * 194, c = mk('pw', 320, 180, $('pics'), { left: x + 'px' }); pic(c.getContext('2d'), 320, 180, kind, ph);
   const l = document.createElement('div'); l.className = 'pl'; l.textContent = nm; l.style.left = x + 'px'; $('pics').appendChild(l);
   enter(c, 52000 + i * 700, 400); enter(l, 52000 + i * 700 + 150, 400);
 });
+
+// ================= chapter 8: the zap banner, read by OCR, the logo from our table =================
+$('okt').innerHTML = OK(28);
+win($('scG'), 56800, null, 400);
+enter($('bnr'), 57000);
+win($('bt1'), 56800, 60900, 200); win($('bt2'), 61200, null, 200);
+at($('zflash'), [[0, { opacity: 0 }], [60700, { opacity: 0 }], [60900, { opacity: 1 }], [61100, { opacity: 1 }], [61400, { opacity: 0 }]], 'linear');
+[['cr1', 57600], ['cr2', 58000], ['cr3', 58400]].forEach(([id, t]) => win($(id), t, id === 'cr3' ? null : 60700, 300));
+enter($('gl1'), 58300); enter($('gl2'), 58800);
+enter($('tab'), 59000);
+at($('tlogo'), [[59400, { opacity: 0, transform: 'translate(-560px,-60px) scale(1.6)' }], [60000, { opacity: 1, transform: 'translate(0,0) scale(1)' }]]);
+at($('tname'), [[0, { opacity: 0, clipPath: 'inset(0 100% 0 0)' }], [60300, { opacity: 1, clipPath: 'inset(0 100% 0 0)' }], [60900, { opacity: 1, clipPath: 'inset(0 0% 0 0)' }]], 'linear');
+at($('cld'), [[59600, HIDE], [60000, SHOW], [61400, { opacity: 1 }], [61800, { opacity: 0.3 }], [OUT0, { opacity: 0.3 }], [OUT1, { opacity: 0 }]]);
+enter($('gl3'), 60200);
+at($('fromt'), [[61900, { opacity: 0, transform: 'translateY(8px)' }], [62300, { opacity: 1, transform: 'translateY(0)' }], [OUT0, { opacity: 1 }], [OUT1, { opacity: 0 }]]);
 
 // ================= canvases that change with time =================
 const bctx = $('big').getContext('2d'), tmp = document.createElement('canvas'); tmp.width = 320; tmp.height = 180; const tcx = tmp.getContext('2d');

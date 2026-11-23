@@ -6,7 +6,7 @@
 <meta name="vpt-card" content="chaptered">
 <title>Our Own Small Models</title>
 <!-- Our own small models (TASK-250; "Go deeper" of 7.0 Where VirtualPyTest uses AI). Chaptered player format
-     (deep-scaffold.html, embed 1080x600), 60 s, one pass. Every word on screen is in SCRIPTS.md
+     (deep-scaffold.html, embed 1080x600), 66 s, one pass. Every word on screen is in SCRIPTS.md
      "Deep · ai-why → deep-small-models"; CH = its chapter times. Drawn screens only, generic names. -->
 <style>
   @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
@@ -64,6 +64,7 @@
 <div class="tag" id="tag7"><span class="h"></span></div>
 <div class="tag" id="tag8"><span class="h">Better labels</span></div>
 <div class="tag" id="tag9"><span class="h"></span></div>
+<div class="tag" id="tag10"><span class="h">Next: faster</span></div>
 <div class="say" id="say0">Or teach a small model once?</div>
 <div class="say" id="say1"></div>
 <div class="say" id="say2"></div>
@@ -74,10 +75,11 @@
 <div class="say" id="say7"></div>
 <div class="say" id="say8"></div>
 <div class="say" id="say9"></div>
+<div class="say" id="say10"></div>
 <div class="stage" id="stage"></div>
 <script>
-const CH = [0, 4000, 10000, 18000, 24000, 31000, 38000, 45000, 51000, 56000];   // as in SCRIPTS.md
-const T = 60000;
+const CH = [0, 4000, 10000, 18000, 24000, 31000, 38000, 45000, 51000, 56000, 61000];   // as in SCRIPTS.md
+const T = 66000;
 const OUT0 = T - 700, OUT1 = T - 150;
 const $ = id => document.getElementById(id);
 const end = i => (i + 1 < CH.length ? CH[i + 1] - 300 : OUT0);
@@ -187,7 +189,7 @@ const pop = (e, t) => at(e, [[t, HIDE], [t + 500, SHOW]]);
   const [t] = tv(0, 10, 300, 180, NEW); g.appendChild(t);
   const m = gEl(g, 'o', 'left:330px;top:40px', CHIPICON); pop(m, CH[6] + 500);
   ['kind: home', 'app: launcher', 'name: home'].forEach((w, i) => { const c = gEl(g, 'chip mono m', `left:470px;top:${14 + i * 62}px`, w); fly(c, CH[6] + 1300 + i * 600, -120); });
-  [['365 MB', 0], ['4.7 s', 170]].forEach(([w, x], i) => { const c = gEl(g, 'chip', `left:${x}px;top:250px`, w); pop(c, CH[6] + 3400 + i * 400); }); }
+  [['365 MB', 0]].forEach(([w, x], i) => { const c = gEl(g, 'chip', `left:${x}px;top:250px`, w); pop(c, CH[6] + 3400 + i * 400); }); }
 
 // c7 · only when sure
 { const g = group(CH[7], CH[8]); const X = 0, W = 560;
@@ -208,11 +210,26 @@ const pop = (e, t) => at(e, [[t, HIDE], [t + 500, SHOW]]);
   [['Own mistakes, judged by Opus', 0, 280], ['500M not better than 256M', 470, 230]].forEach(([w, x, y], i) => { const l = gEl(g, 'lbl', `left:${x}px;top:${y}px;font-size:26px`, w); pop(l, CH[8] + 2400 + i * 700); }); }
 
 // c9 · small, fast, free
-{ const g = group(CH[9], T);
+{ const g = group(CH[9], CH[10]);
   [0, 1, 2].forEach(i => { const m = gEl(g, 'o', `left:${200 + i * 200}px;top:0`, CHIPICON); pop(m, CH[9] + i * 300); });
-  gEl(g, 'o', 'left:0;right:0;top:120px;text-align:center;font-family:var(--mono);font-size:40px;font-weight:700;color:var(--goldText)', '0.25 ms · 1.3 s · 4.7 s');
-  gEl(g, 'o', 'left:0;right:0;top:190px;text-align:center;font-size:30px;font-weight:700', '0 USD a call');
-  gEl(g, 'o', 'left:0;right:0;top:250px;display:flex;justify-content:center', '<span class="btn" style="position:static">See the poster →</span>'); }
+  const u = gEl(g, 'o', 'left:200px;top:104px;width:536px;height:5px;border-radius:3px;background:var(--gold)'); pop(u, CH[9] + 900);
+  gEl(g, 'o', 'left:0;right:0;top:128px;text-align:center;font-size:40px;font-weight:700', '3 models of our own');
+  gEl(g, 'o', 'left:0;right:0;top:190px;text-align:center;font-family:var(--mono);font-size:34px;font-weight:700;color:var(--goldText)', '0 USD a call');
+  const c = gEl(g, 'o', 'left:0;right:0;top:256px;display:flex;justify-content:center', '<span class="res"><span class="p" style="position:static;color:var(--warn);border-color:var(--warn);background:var(--warnBg)">Unsure: the cloud model</span></span>');
+  pop(c, CH[9] + 1800); }
+
+// c10 · next: faster (the screen namer's time, split: reading the picture vs writing the answer)
+{ const g = group(CH[10], T); const X = 60, W = 820, A = 0.1;   // the answer's share of the time
+  gEl(g, 'o', `left:${X}px;top:0`, CHIPICON.replace('width="96" height="96"', 'width="72" height="72"'));
+  gEl(g, 'lbl', `left:${X + 90}px;top:18px;font-size:28px`, 'Screen namer');
+  const read = gEl(g, 'o', `left:${X}px;top:110px;height:56px;border-radius:12px 0 0 12px;background:#9a948b`);
+  const ans = gEl(g, 'o', `top:110px;height:56px;width:${W * A}px;border-radius:0 12px 12px 0;background:var(--gold)`);
+  const full = W * (1 - A), cut = full * 0.6;
+  at(read, [[CH[10] + 300, { width: '0px' }], [CH[10] + 1100, { width: full + 'px' }], [CH[10] + 2800, { width: full + 'px' }], [CH[10] + 3800, { width: cut + 'px' }]]);
+  at(ans, [[CH[10] + 300, { left: X + 'px', opacity: 0 }], [CH[10] + 1100, { left: X + full + 'px', opacity: 1 }], [CH[10] + 2800, { left: X + full + 'px', opacity: 1 }], [CH[10] + 3800, { left: X + cut + 'px', opacity: 1 }]]);
+  const l1 = gEl(g, 'lbl', `left:${X}px;top:186px;font-size:26px;color:var(--muted)`, 'Reading the picture: most of it'); pop(l1, CH[10] + 1200);
+  const l2 = gEl(g, 'lbl', `left:${X}px;top:232px;font-size:26px;color:var(--goldText)`, 'The answer: about 0.3 s'); pop(l2, CH[10] + 1700);
+  gEl(g, 'o', 'left:0;right:0;top:300px;display:flex;justify-content:center', '<span class="btn" style="position:static">See the poster →</span>'); }
 
 // counter: the 11 s -> 1.3 s clock of chapter 5
 function tick(ms) { const c = $('clock'); if (!c) return; const k = Math.max(0, Math.min(1, (ms - CH[5] - 800) / 1200)); c.textContent = k < 1 ? (11 - k * 9.7).toFixed(0) + ' s' : '1.3 s'; }

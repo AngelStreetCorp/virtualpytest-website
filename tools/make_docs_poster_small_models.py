@@ -78,9 +78,9 @@ y = card(y, "2", "Localize model", "Which known screen is this, when the fingerp
     [("98.9 %", "on its test set"), ("Short prompts", "770 to 240 tokens"), ("Smallest", "that holds both jobs")],
 ], ["Taught by Haiku, with Sonnet on the near-ties. Answers the Localize calls of its box."])
 y = card(y, "3", "Screen namer", "Name a screen Localize does not know", [
-    [("SmolVLM-256M", "a vision model"), ("365 MB", "8-bit"), ("4.7 s", "on 4 cores")],
+    [("SmolVLM-256M", "a vision model"), ("365 MB", "8-bit"), ("2.6 s", "on 4 cores")],
     [("84 % answered", "only when sure"), ("98.3 % right", "on those"), ("One box", "for every server")],
-], ["Taught by Sonnet on 3,621 lab screenshots, Opus judging the disagreements."])
+], ["Taught by Sonnet on 3,621 lab screenshots, Opus judging the disagreements.", "Next: faster. Reading the picture takes most of the 2.6 s; the answer about 0.3 s."])
 y = card(y, "•", "What moved the score", "Each round one GPU run: better labels, not a bigger model", [
     [("Still screens only", "freeze"), ("Second teacher", "on the unsure rows"), ("Fewer subtitles", "freeze")],
     [("Merge kinds", "the teachers mix up"), ("Own mistakes", "judged by Opus"), ("Not bigger", "500M was not better")],
