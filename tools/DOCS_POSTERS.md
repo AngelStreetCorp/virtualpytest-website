@@ -108,6 +108,5 @@ fingerprinted and matched by the real `ImageHelpers.identify_screen`; the zone b
 `fingerprint_evidence.zone_distances` / `rank_nodes` printed, laid out like the fingerprint report (Zones, Checks, Closest screens). Never a screenshot of
 a real app or an operator, never a number typed by hand.
 
-Report card and bit grids (fingerprint poster): the last card is the real fingerprint report page (`render_fingerprint_report`, Bit grids opened) of the drawn
-example, screenshot with Playwright. A screenshot of a real report is never used: it carries the app, the device name and the variant of a lab box. An SVG
-poster stays under about 110 KB for any one embedded image: a bigger JPEG inside an SVG loaded by `<img>` showed as a broken image (2026-11-24); resize it to its display size first.
+Report card (fingerprint poster, owner 2026-11-24): the last card is the owner's own screenshot of a real fingerprint report, used as sent (only resized to its display size), never redrawn. The owner said it holds nothing confidential. The "A real result" card above it keeps the drawn example with its bit grids.
+Trap (2026-11-24): the generator writes the viewBox height with a placeholder replaced over the whole SVG text. Use a placeholder that cannot occur in base64 (`@@H@@`, never `HHH`): `HHH` inside an embedded JPEG corrupted it and the poster showed a broken-image icon.

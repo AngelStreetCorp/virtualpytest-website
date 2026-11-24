@@ -57,8 +57,8 @@ def card(y, n, title, sub, rows, notes=(), last=False):
         arrow(600, y + h, y + h + 50)
     return y + h + 50
 
-o.append('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 HHH" width="1200" height="HHH" role="img" aria-labelledby="ti"><title id="ti">Fingerprint: the blob stored on a navigation node, the sibling check at save, the refresh script, the six abstain doors of identify_screen, and no references on a node whose fingerprint works, in one image</title>')
-o.append('<rect width="1200" height="HHH" fill="%s"/>' % BG)
+o.append('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 @@H@@" width="1200" height="@@H@@" role="img" aria-labelledby="ti"><title id="ti">Fingerprint: the blob stored on a navigation node, the sibling check at save, the refresh script, the six abstain doors of identify_screen, and no references on a node whose fingerprint works, in one image</title>')
+o.append('<rect width="1200" height="@@H@@" fill="%s"/>' % BG)
 t(60, 100, "UI VERIFICATION · FINGERPRINT", 20, GOLD, 500, sp=3)
 t(60, 180, "Fingerprint", 58, TXT, 700)
 t(60, 236, "Which node is on screen right now?", 29, MUT, 400)
@@ -125,17 +125,17 @@ def example_card(y):
     return y + h + 50
 
 def report_card(y):
-    """The real fingerprint report page (render_fingerprint_report) of the drawn example, expanded Bit grids."""
-    ih = 999
+    """The owner's own screenshot of a real fingerprint report (2026-11-24), used as sent, only resized. Not redrawn."""
+    ih = 592
     h = 112 + ih + 40
     box(60, y, 1080, h)
     o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
     t(112, y + 61, "•", 26, "#1a1a1a", 700, "middle")
     t(156, y + 50, "The fingerprint report", 34, TXT, 700)
-    t(156, y + 82, "Every check, with its value and its limit. The same page opens from a run.", 21, MUT, 400, maxw=960)
+    t(156, y + 82, "Every check, with its value and its limit. A real run.", 21, MUT, 400, maxw=960)
     o.append(f'<image x="90" y="{y+112}" width="1020" height="{ih}" href="data:image/jpeg;base64,{b64("report")}"/>')
     o.append(f'<rect x="90" y="{y+112}" width="1020" height="{ih}" rx="6" fill="none" stroke="{LINE}" stroke-width="2"/>')
-    t(600, y + 112 + ih + 28, "Drawn screens, run through the real matcher and the real report code.", 19, MUT, 400, "middle", maxw=1040)
+    t(600, y + 112 + ih + 28, "A real report of a lab run: result, zones, checks and the closest screens.", 19, MUT, 400, "middle", maxw=1040)
     return y + h
 
 # Values printed by the real code on the drawn frames (identify_screen, fingerprint_evidence.zone_distances / rank_nodes).
@@ -178,7 +178,7 @@ y = report_card(y)
 H = y + 90
 t(600, H - 30, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')
-svg = "\n".join(o).replace("HHH", str(H))
+svg = "\n".join(o).replace("@@H@@", str(H))
 open("docs/img/fingerprint.svg", "w").write(svg)
 
 FONTS = {True: "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", False: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"}
