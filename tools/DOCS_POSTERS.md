@@ -102,3 +102,8 @@ Navigation tree, Localize and fingerprint, KPIs (loading time, zapping), hosts a
 monitoring, AI and MCP. Each one as a vertical flow like the first.
 
 Drawn examples (freeze poster): draw each screen in HTML with generic labels, screenshot it with headless Playwright, read it with tesseract, score the words with the real model (device label `lab`, the label is part of its input) and print the score it returns; never pick a number by hand. A screenshot of a provider, broadcaster or operator app is never used.
+
+Real result card (fingerprint poster, "A real result"): two drawn generic screens (`tools/fingerprint_example_draw.py`: stored `home`, a live `home` whose rail changed),
+fingerprinted and matched by the real `ImageHelpers.identify_screen`; the zone bits, checks, closest screens and confidence on the card are what
+`fingerprint_evidence.zone_distances` / `rank_nodes` printed, laid out like the fingerprint report (Zones, Checks, Closest screens). Never a screenshot of
+a real app or an operator, never a number typed by hand.

@@ -63,6 +63,60 @@ t(60, 100, "UI VERIFICATION · FINGERPRINT", 20, GOLD, 500, sp=3)
 t(60, 180, "Fingerprint", 58, TXT, 700)
 t(60, 236, "Which node is on screen right now?", 29, MUT, 400)
 t(60, 276, "navigation_nodes.data.fingerprint, from pixels, in the doc's own words.", 24, MUT, 400)
+
+import base64
+GREEN, RED = "#4ade80", "#f87171"
+def b64(name):
+    return base64.b64encode(open(f"docs/img/fingerprint-real-{name}.jpg", "rb").read()).decode()
+
+def example_card(y):
+    """A drawn example (generic screens, tools/fingerprint_example_draw.py) run through the real matcher: zone bits,
+    layout scores and confidence below are what identify_screen / fingerprint_evidence printed; none picked by hand."""
+    h = 600
+    box(60, y, 1080, h)
+    o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
+    t(112, y + 61, "•", 26, "#1a1a1a", 700, "middle")
+    t(156, y + 50, "A real result", 34, TXT, 700)
+    t(156, y + 82, "Drawn screens, the real matcher. The rail changed, the screen is still named", 21, MUT, 400, maxw=960)
+    ty = y + 116
+    for x, name, cap in ((90, "stored", "Node screenshot: home"), (440, "live", "Live frame")):
+        o.append(f'<image x="{x}" y="{ty}" width="320" height="180" href="data:image/jpeg;base64,{b64(name)}"/>')
+        o.append(f'<rect x="{x}" y="{ty}" width="320" height="180" rx="6" fill="none" stroke="{LINE}" stroke-width="2"/>')
+        t(x + 160, ty + 206, cap, 18, MUT, 400, "middle")
+    # zones
+    zx = 800
+    t(zx, ty + 14, "ZONES", 16, GOLD, 600, sp=2); t(1110, ty + 14, "BITS ≤ 14", 16, GOLD, 600, "end", sp=1)
+    for i, (z, b) in enumerate(ZONES_REAL):
+        yy = ty + 48 + i * 33
+        o.append(f'<line x1="{zx}" y1="{yy-22}" x2="1110" y2="{yy-22}" stroke="{LINE}" stroke-width="1"/>')
+        ok = b <= 14
+        t(zx, yy, z, 20, TXT, 500); t(1040, yy, str(b), 20, TXT if ok else RED, 600, "end")
+        t(1088, yy, "✓" if ok else "✗", 22, GREEN if ok else RED, 700, "middle")
+    # checks
+    cy = ty + 250
+    t(90, cy, "CHECKS", 16, GOLD, 600, sp=2); t(330, cy, "VALUE", 16, GOLD, 600, sp=2); t(470, cy, "NEEDS", 16, GOLD, 600, sp=2)
+    for i, (c, v, n_) in enumerate(CHECKS_REAL):
+        yy = cy + 34 + i * 32
+        o.append(f'<line x1="90" y1="{yy-22}" x2="590" y2="{yy-22}" stroke="{LINE}" stroke-width="1"/>')
+        t(90, yy, c, 19, TXT, 500); t(330, yy, v, 19, TXT, 600); t(470, yy, n_, 19, MUT, 400)
+        t(570, yy, "✓", 20, GREEN, 700, "middle")
+    # closest screens
+    sx = 680
+    t(sx, cy, "CLOSEST SCREENS", 16, GOLD, 600, sp=2); t(900, cy, "BEST / 2ND", 16, GOLD, 600, sp=1); t(1110, cy, "GAP", 16, GOLD, 600, "end", sp=1)
+    for i, (nm, bs, gap) in enumerate(CLOSEST_REAL):
+        yy = cy + 34 + i * 32
+        o.append(f'<line x1="{sx}" y1="{yy-22}" x2="1110" y2="{yy-22}" stroke="{LINE}" stroke-width="1"/>')
+        t(sx, yy, nm, 19, TXT if i == 0 else MUT, 600 if i == 0 else 400); t(900, yy, bs, 19, MUT, 400)
+        t(1110, yy, gap, 19, GREEN if i == 0 else MUT, 600 if i == 0 else 400, "end")
+    arrow(600, y + h, y + h + 50)
+    return y + h + 50
+
+# Values printed by the real code on the drawn frames (identify_screen, fingerprint_evidence.zone_distances / rank_nodes).
+ZONES_REAL = [("full", 12), ("top", 0), ("center", 0), ("left", 0), ("bottom", 24)]
+CHECKS_REAL = [("Picture", "edges 3.5", "≥ 3.0"), ("Layout", "0 bits", "≤ 14"), ("2nd zone", "0 bits", "≤ 44"),
+               ("Lead", "19 bits", "> 14"), ("Only match", "yes", "yes"), ("Confidence", "100%", "≥ 55%")]
+CLOSEST_REAL = [("home", "0 / 0", "closest"), ("guide", "8 / 11", "+19"), ("movies", "10 / 11", "+21"), ("settings", "12 / 13", "+25")]
+
 y = 330
 y = card(y, "•", "Overview", "One card per section of the fingerprint doc, in its order", [
     [("The blob", "what is stored"), ("No references", "on a node whose fingerprint works")],
@@ -73,6 +127,7 @@ y = card(y, "1", "The blob", "compute_fingerprint(img_bgr) returns", [
     [("dhash", "full frame, 256 bits"), ("regions", "full, top, center, left, bottom")],
     [("crop", "focused-tile logo dHash"), ("focus", "kind: nav, box or none"), ("title", "OCR heading, top-left")],
 ], ["Kept in navigation_nodes.data.fingerprint, built from the node screenshot.", "FINGERPRINT_VERSION = 6: v4 dhash + focus, v5 regions, v6 crop."])
+y = example_card(y)
 y = card(y, "2", "No references on a node whose fingerprint works", "A node is named by its fingerprint", [
     [("Reference", "a text, image or color check"), ("Not a reference", "identity, state, focus")],
     [("The fingerprint works", "its own screenshot names it alone"), ("reference_reason", "kept only where it does not")],
