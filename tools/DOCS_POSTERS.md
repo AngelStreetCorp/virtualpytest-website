@@ -107,3 +107,7 @@ Real result card (fingerprint poster, "A real result"): two drawn generic screen
 fingerprinted and matched by the real `ImageHelpers.identify_screen`; the zone bits, checks, closest screens and confidence on the card are what
 `fingerprint_evidence.zone_distances` / `rank_nodes` printed, laid out like the fingerprint report (Zones, Checks, Closest screens). Never a screenshot of
 a real app or an operator, never a number typed by hand.
+
+Report card and bit grids (fingerprint poster): the last card is the real fingerprint report page (`render_fingerprint_report`, Bit grids opened) of the drawn
+example, screenshot with Playwright. A screenshot of a real report is never used: it carries the app, the device name and the variant of a lab box. An SVG
+poster stays under about 110 KB for any one embedded image: a bigger JPEG inside an SVG loaded by `<img>` showed as a broken image (2026-11-24); resize it to its display size first.

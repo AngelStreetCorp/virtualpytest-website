@@ -72,7 +72,7 @@ def b64(name):
 def example_card(y):
     """A drawn example (generic screens, tools/fingerprint_example_draw.py) run through the real matcher: zone bits,
     layout scores and confidence below are what identify_screen / fingerprint_evidence printed; none picked by hand."""
-    h = 600
+    h = 800
     box(60, y, 1080, h)
     o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
     t(112, y + 61, "•", 26, "#1a1a1a", 700, "middle")
@@ -108,10 +108,39 @@ def example_card(y):
         o.append(f'<line x1="{sx}" y1="{yy-22}" x2="1110" y2="{yy-22}" stroke="{LINE}" stroke-width="1"/>')
         t(sx, yy, nm, 19, TXT if i == 0 else MUT, 600 if i == 0 else 400); t(900, yy, bs, 19, MUT, 400)
         t(1110, yy, gap, 19, GREEN if i == 0 else MUT, 600 if i == 0 else 400, "end")
+    # bit grids of the zone that changed (the real 256 bits of both dHashes, XOR = the cells that differ)
+    gy = y + 600
+    t(90, gy, "BIT GRIDS · bottom zone, 16 x 16", 16, GOLD, 600, sp=2)
+    st, lv = [int(c) for c in bin(int(BOTTOM_STORED, 16))[2:].zfill(256)], [int(c) for c in bin(int(BOTTOM_LIVE, 16))[2:].zfill(256)]
+    for x, cap, bits, col in ((90, "Stored", st, "#f2f2f2"), (260, "Live", lv, "#f2f2f2"), (430, "Differ", [a ^ b for a, b in zip(st, lv)], RED)):
+        cell = 8
+        o.append(f'<rect x="{x}" y="{gy+16}" width="{16*cell}" height="{16*cell}" rx="4" fill="#161616" stroke="{LINE}"/>')
+        o.append(f'<g fill="{col}">' + "".join(f'<rect x="{x+(i%16)*cell}" y="{gy+16+(i//16)*cell}" width="{cell}" height="{cell}"/>' for i, v in enumerate(bits) if v) + '</g>')
+        t(x + 64, gy + 16 + 128 + 26, cap, 18, MUT, 400, "middle")
+    t(620, gy + 70, "Each cell is one bit: brighter than its left", 19, MUT, 400, maxw=500)
+    t(620, gy + 98, "neighbour or not. Same bits = same cell.", 19, MUT, 400, maxw=500)
+    t(620, gy + 140, f"{sum(a ^ b for a, b in zip(st, lv))} cells differ in the bottom zone", 21, RED, 600, maxw=500)
+    t(620, gy + 170, "(the rail changed): over the 14 bits line.", 19, MUT, 400, maxw=500)
     arrow(600, y + h, y + h + 50)
     return y + h + 50
 
+def report_card(y):
+    """The real fingerprint report page (render_fingerprint_report) of the drawn example, expanded Bit grids."""
+    ih = 999
+    h = 112 + ih + 40
+    box(60, y, 1080, h)
+    o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
+    t(112, y + 61, "•", 26, "#1a1a1a", 700, "middle")
+    t(156, y + 50, "The fingerprint report", 34, TXT, 700)
+    t(156, y + 82, "Every check, with its value and its limit. The same page opens from a run.", 21, MUT, 400, maxw=960)
+    o.append(f'<image x="90" y="{y+112}" width="1020" height="{ih}" href="data:image/jpeg;base64,{b64("report")}"/>')
+    o.append(f'<rect x="90" y="{y+112}" width="1020" height="{ih}" rx="6" fill="none" stroke="{LINE}" stroke-width="2"/>')
+    t(600, y + 112 + ih + 28, "Drawn screens, run through the real matcher and the real report code.", 19, MUT, 400, "middle", maxw=1040)
+    return y + h
+
 # Values printed by the real code on the drawn frames (identify_screen, fingerprint_evidence.zone_distances / rank_nodes).
+BOTTOM_STORED = "9094909490949094909490949094909490949094909492940000000000000000"
+BOTTOM_LIVE = "94b494b494b494b494b494b494b494b494b494b494b496b40000000000000000"
 ZONES_REAL = [("full", 12), ("top", 0), ("center", 0), ("left", 0), ("bottom", 24)]
 CHECKS_REAL = [("Picture", "edges 3.5", "≥ 3.0"), ("Layout", "0 bits", "≤ 14"), ("2nd zone", "0 bits", "≤ 44"),
                ("Lead", "19 bits", "> 14"), ("Only match", "yes", "yes"), ("Confidence", "100%", "≥ 55%")]
@@ -144,8 +173,9 @@ y = card(y, "5", "The six abstain doors of identify_screen", "Each one removes c
     [("1 low-content frame", "edge density under 3.0"), ("2 no underline match", "nav underline matched no node")],
     [("3 far-region title gate", "region distance over 60"), ("4 title_score", "under 0.5 is dropped")],
     [("5 dHash fallback", "narrowing, margin 14"), ("6 confidence floor", "FP_MIN_CONFIDENCE 0.55")],
-], ["Not a guess: with no match the result is known_screen or unknown."], last=True)
-H = y + 20
+], ["Not a guess: with no match the result is known_screen or unknown."])
+y = report_card(y)
+H = y + 90
 t(600, H - 30, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')
 svg = "\n".join(o).replace("HHH", str(H))
