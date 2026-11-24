@@ -15,7 +15,7 @@ POSTERS = [
     ("what-is", "What is VirtualPyTest?", "img/what-is-virtualpytest.svg", "Any device with a screen, tested and monitored 24/7 by AI, in one image."),
     ("profiles", "A profile is a set of services", "img/profiles.svg", "What a host runs for each device: three host shapes, a profile per device and a table of what each profile switches on."),
     ("services", "Services are background jobs", "img/services.svg", "Every VirtualPyTest service, grouped in server and host, and how each one shows on the Status page."),
-    ("fingerprint", "Know every screen by its layout", "img/fingerprint.svg", "A fingerprint is a short code of a screen: how it is made, how Localize names the live screen, and when it says not sure."),
+    ("fingerprint", "Fingerprint", "img/fingerprint.svg", "Which node is on screen right now? The blob stored on a node, the sibling check at save, the refresh script and the six abstain doors of identify_screen."),
     ("ai-use-cases", "Where VirtualPyTest uses AI", "img/ai-use-cases.svg", "Where VirtualPyTest uses AI: six use cases, from discarding incidents to the live TV companion, and what is not AI."),
     ("small-models", "Our own small models", "img/small-models.svg", "How we trained three small models of our own, taught by the cloud models, answering only when sure, 0 USD a call."),
     ("freeze-discard", "Freeze: menu or stuck video?", "img/freeze-discard.svg", "How a freeze alert is decided in 0.25 ms: read the words, weigh the pieces, decide with a safety band."),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes docs/img/fingerprint.svg (Docs poster "Know every screen by its layout").
+"""Writes docs/img/fingerprint.svg (Docs poster "Fingerprint").
 
 Sources: Learn lesson 3.4 and its Go deeper (how a fingerprint is computed, how Localize names the screen), and
 docs/agent/navigation/FINGERPRINT.md of the product repo. No date anywhere on the poster.
@@ -57,37 +57,39 @@ def card(y, n, title, sub, rows, notes=(), last=False):
         arrow(600, y + h, y + h + 50)
     return y + h + 50
 
-o.append('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 HHH" width="1200" height="HHH" role="img" aria-labelledby="ti"><title id="ti">Know every screen by its layout: what a screen fingerprint is, how it is made, how Localize uses it, when it says not sure, and how it stays fresh, in one image</title>')
+o.append('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 HHH" width="1200" height="HHH" role="img" aria-labelledby="ti"><title id="ti">Fingerprint: the blob stored on a navigation node, the sibling check at save, the refresh script, the six abstain doors of identify_screen, and no references on a node whose fingerprint works, in one image</title>')
 o.append('<rect width="1200" height="HHH" fill="%s"/>' % BG)
-t(60, 100, "UI VERIFICATION · FINGERPRINTS", 20, GOLD, 500, sp=3)
-t(60, 180, "Know every screen by its layout", 54, TXT, 700)
-t(60, 236, "A fingerprint is a short code of a screen.", 29, MUT, 400)
-t(60, 276, "No picture to take. Any screen named in 11 ms.", 24, MUT, 400)
+t(60, 100, "UI VERIFICATION · FINGERPRINT", 20, GOLD, 500, sp=3)
+t(60, 180, "Fingerprint", 58, TXT, 700)
+t(60, 236, "Which node is on screen right now?", 29, MUT, 400)
+t(60, 276, "navigation_nodes.data.fingerprint, from pixels, in the doc's own words.", 24, MUT, 400)
 y = 330
-y = card(y, "1", "What a fingerprint is", "A picture signature of one screen, stored on its node", [
-    [("Whole frame", "256 bits, 64 hex chars"), ("5 regions", "full, top, centre, left, bottom")],
-    [("Focus", "the underline or tile"), ("Focused tile", "a small crop of it"), ("Title", "read from the top-left")],
-], ["The screen is greyed, shrunk to 17 x 16, and each cell is brighter than its left cell or not.", "Details melt away. The layout stays."])
-y = card(y, "2", "Made when the node is saved", "From the node screenshot, nothing to type", [
-    [("Screenshot", "taken on the node"), ("Fingerprint", "computed from it"), ("Stored", "on the node")],
-    [("Look-alikes", "a tie with a sibling is refused")],
-], ["It is kept in the node data, next to the screenshot.", "Saving a node that Localize could not tell from another asks you first."])
-y = card(y, "3", "Localize names the live screen", "The live frame against every reachable node", [
-    [("Live frame", "fingerprinted once, 11 ms"), ("Compare", "bits that differ, per region")],
-    [("2 regions agree", "closest within 14 bits"), ("Focus matches", "same underline, same tab"), ("Title", "tells look-alikes apart")],
-], ["All 27 screens of a real map are compared in under a tenth of a millisecond.", "One screen left: that is its name, with a confidence."])
-y = card(y, "4", "When it is not sure, it says so", "An empty list is an abstention, never a guess", [
-    [("Nothing to see", "black, asleep, fading"), ("No underline match", "no tab agrees")],
-    [("Far and no title", "spurious match refused"), ("Too many left", "it cannot tell them apart")],
-], ["Unknown is a good answer. A wrong name would be worse."])
-y = card(y, "5", "Daily content drifts", "A stored fingerprint is one frame", [
-    [("Posters change", "rails, recordings, heroes"), ("Match fails", "Localize answers Unknown")],
-    [("fingerprint_refresh", "go to the node, prove it, save"), ("Nightly", "a scheduled run")],
-], ["The script recaptures every fingerprint-verified node of a tree.", "A node it cannot prove is reported, never forced."])
-y = card(y, "6", "It replaces reference images", "One check per node, once it works", [
-    [("Before", "an image or text check per node"), ("After", "the fingerprint names the screen")],
-    [("goto", "proves it arrived"), ("Localize", "names the screen"), ("Monitoring", "all day, every device")],
-], ["Text checks still read a value, like a version number.", "The focused tab or tile keeps its own focus check."], last=True)
+y = card(y, "•", "Overview", "One card per section of the fingerprint doc, in its order", [
+    [("The blob", "what is stored"), ("No references", "on a node whose fingerprint works")],
+    [("Sibling check at save", "tied or claimed_by"), ("Fingerprints decay", "the refresh script")],
+    [("The six abstain doors", "of identify_screen")],
+])
+y = card(y, "1", "The blob", "compute_fingerprint(img_bgr) returns", [
+    [("dhash", "full frame, 256 bits"), ("regions", "full, top, center, left, bottom")],
+    [("crop", "focused-tile logo dHash"), ("focus", "kind: nav, box or none"), ("title", "OCR heading, top-left")],
+], ["Kept in navigation_nodes.data.fingerprint, built from the node screenshot.", "FINGERPRINT_VERSION = 6: v4 dhash + focus, v5 regions, v6 crop."])
+y = card(y, "2", "No references on a node whose fingerprint works", "A node is named by its fingerprint", [
+    [("Reference", "a text, image or color check"), ("Not a reference", "identity, state, focus")],
+    [("The fingerprint works", "its own screenshot names it alone"), ("reference_reason", "kept only where it does not")],
+], ["The gate refuses a reference on a node whose fingerprint works.", "Nightly audit: REF_WITH_WORKING_FP."])
+y = card(y, "3", "Sibling check at save", "Before a node screenshot is stored", [
+    [("tied", "refused, unless force"), ("claimed_by", "saved, with a warning")],
+    [("Declared twins", "never count")],
+], ["The matcher is asked if Localize could tell the node from its siblings."])
+y = card(y, "4", "Fingerprints decay: the refresh script", "A stored fingerprint is one frame", [
+    [("Daily content", "rails, posters, recordings"), ("Localize answers Unknown", "on a page that passed")],
+    [("fingerprint_refresh", "go to the node, prove it, save"), ("Periodic", "run it nightly")],
+], ["A node it cannot prove arrives is not forced."])
+y = card(y, "5", "The six abstain doors of identify_screen", "Each one removes candidates; empty is an abstention", [
+    [("1 low-content frame", "edge density under 3.0"), ("2 no underline match", "nav underline matched no node")],
+    [("3 far-region title gate", "region distance over 60"), ("4 title_score", "under 0.5 is dropped")],
+    [("5 dHash fallback", "narrowing, margin 14"), ("6 confidence floor", "FP_MIN_CONFIDENCE 0.55")],
+], ["Not a guess: with no match the result is known_screen or unknown."], last=True)
 H = y + 20
 t(600, H - 30, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')

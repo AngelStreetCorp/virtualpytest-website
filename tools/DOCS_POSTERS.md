@@ -69,6 +69,16 @@ page, a free streaming app; never an operator or provider app), real OCR words (
 decision, small thumbnails (320x180 JPG in `docs/img/<id>-real-<name>.jpg`, embedded in the SVG as base64), say the
 first and last frame are the same. The model itself never goes on the page, only its results. Run the model on the example before you write its caption: a screensaver has no words, so it scores 0.00 (video, alert kept), not menu.
 
+## One vocabulary: reuse the exact words (owner 2026-11-24)
+
+A poster invents no word. Its title is the **name of the thing** (the doc's or lesson's own name: `Fingerprint`), its cards
+are the doc's section titles in the doc's order, and every chip is an item name the doc uses (`dhash`, `regions`, `crop`,
+`focus`, `title`, `tied`, `claimed_by`, `fingerprint_refresh`, "low-content frame" ...), spelled as the doc spells it (`center`, not
+"centre"). Before drawing, list the doc's terms and map every chip to one; a chip that maps to none is removed or the doc gets the
+word first. This replaces "same title as the Learn lesson" when the owner names the title: the `fingerprint` poster is
+`Fingerprint` while Learn lesson 3.4 says "Know every screen by its layout". Example: `tools/make_docs_poster_fingerprint.py`
+mirrors `docs/agent/navigation/FINGERPRINT.md`.
+
 ## Share a poster (X, LinkedIn, WhatsApp)
 
 Share the link **`https://virtualpytest.com/docs/view/<id>/`**, not `.../view/#<id>`: social crawlers ignore the `#`.
