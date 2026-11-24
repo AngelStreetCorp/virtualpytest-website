@@ -42,15 +42,19 @@ def chip_rows(y, rows):
         y += CH + RGAP
     return y - RGAP
 
-def card(y, n, title, sub, rows, notes=(), last=False):
+def card(y, n, title, sub, rows, notes=(), last=False, img=None, ih=592):
     """One panel: number circle, title, grey sub line, chip rows, grey notes. Returns the y of the next card."""
-    h = 112 + len(rows) * (CH + RGAP) - RGAP + 26 + len(notes) * 28 + 10 if rows else 112 + len(notes) * 28 + 6
+    ioff = (ih + 20) if img else 0
+    h = ioff + 112 + len(rows) * (CH + RGAP) - RGAP + 26 + len(notes) * 28 + 10 if rows else 112 + len(notes) * 28 + 6
     box(60, y, 1080, h)
     o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
     t(112, y + 61, n, 26, "#1a1a1a", 700, "middle")
     t(156, y + 50, title, 34, TXT, 700, maxw=1140 - 156 - 20)
     t(156, y + 82, sub, 21, MUT, 400, maxw=1140 - 156 - 20)
-    ny = chip_rows(y + 112, rows) + 34 if rows else y + 120
+    if img:
+        o.append(f'<image x="90" y="{y+112}" width="1020" height="{ih}" href="data:image/jpeg;base64,{b64(img)}"/>')
+        o.append(f'<rect x="90" y="{y+112}" width="1020" height="{ih}" rx="6" fill="none" stroke="{LINE}" stroke-width="2"/>')
+    ny = chip_rows(y + 112 + ioff, rows) + 34 if rows else y + 120
     for i, line in enumerate(notes):
         t(600, ny + i * 28, line, 19, MUT, 400, "middle", maxw=1040)
     if not last:
@@ -124,20 +128,6 @@ def example_card(y):
     arrow(600, y + h, y + h + 50)
     return y + h + 50
 
-def report_card(y):
-    """The owner's own screenshot of a real fingerprint report (2026-11-24), used as sent, only resized. Not redrawn."""
-    ih = 592
-    h = 112 + ih + 40
-    box(60, y, 1080, h)
-    o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
-    t(112, y + 61, "•", 26, "#1a1a1a", 700, "middle")
-    t(156, y + 50, "The fingerprint report", 34, TXT, 700)
-    t(156, y + 82, "Every check, with its value and its limit. A real run.", 21, MUT, 400, maxw=960)
-    o.append(f'<image x="90" y="{y+112}" width="1020" height="{ih}" href="data:image/jpeg;base64,{b64("report")}"/>')
-    o.append(f'<rect x="90" y="{y+112}" width="1020" height="{ih}" rx="6" fill="none" stroke="{LINE}" stroke-width="2"/>')
-    t(600, y + 112 + ih + 28, "A real report of a lab run: result, zones, checks and the closest screens.", 19, MUT, 400, "middle", maxw=1040)
-    return y + h
-
 # Values printed by the real code on the drawn frames (identify_screen, fingerprint_evidence.zone_distances / rank_nodes).
 BOTTOM_STORED = "9094909490949094909490949094909490949094909492940000000000000000"
 BOTTOM_LIVE = "94b494b494b494b494b494b494b494b494b494b494b496b40000000000000000"
@@ -147,11 +137,11 @@ CHECKS_REAL = [("Picture", "edges 3.5", "≥ 3.0"), ("Layout", "0 bits", "≤ 14
 CLOSEST_REAL = [("home", "0 / 0", "closest"), ("guide", "8 / 11", "+19"), ("movies", "10 / 11", "+21"), ("settings", "12 / 13", "+25")]
 
 y = 330
-y = card(y, "•", "Overview", "One card per section of the fingerprint doc, in its order", [
+y = card(y, "•", "Overview", "A real fingerprint report, then one card per section of the doc, in its order", [
     [("The blob", "what is stored"), ("No references", "on a node whose fingerprint works")],
     [("Sibling check at save", "tied or claimed_by"), ("Fingerprints decay", "the refresh script")],
     [("The six abstain doors", "of identify_screen")],
-])
+], ["Above: a real report of a lab run: result, zones, checks and the closest screens."], img="report")
 y = card(y, "1", "The blob", "compute_fingerprint(img_bgr) returns", [
     [("dhash", "full frame, 256 bits"), ("regions", "full, top, center, left, bottom")],
     [("crop", "focused-tile logo dHash"), ("focus", "kind: nav, box or none"), ("title", "OCR heading, top-left")],
@@ -173,9 +163,8 @@ y = card(y, "5", "The six abstain doors of identify_screen", "Each one removes c
     [("1 low-content frame", "edge density under 3.0"), ("2 no underline match", "nav underline matched no node")],
     [("3 far-region title gate", "region distance over 60"), ("4 title_score", "under 0.5 is dropped")],
     [("5 dHash fallback", "narrowing, margin 14"), ("6 confidence floor", "FP_MIN_CONFIDENCE 0.55")],
-], ["Not a guess: with no match the result is known_screen or unknown."])
-y = report_card(y)
-H = y + 90
+], ["Not a guess: with no match the result is known_screen or unknown."], last=True)
+H = y + 40
 t(600, H - 30, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
 o.append('</svg>')
 svg = "\n".join(o).replace("@@H@@", str(H))
