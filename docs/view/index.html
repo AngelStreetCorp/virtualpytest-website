@@ -51,6 +51,25 @@ document.getElementById('sx').href = 'https://twitter.com/intent/tweet?text=' + 
 document.getElementById('sl').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + q(url);
 document.getElementById('sw').href = 'https://wa.me/?text=' + q(text + ' ' + url);
 var d = document.getElementById('dl'); d.href = p.src; d.setAttribute('download', id + '.svg');
+// Download as JPG (more common than SVG): draw the poster on a canvas; if that fails, the link keeps downloading the SVG.
+d.addEventListener('click', function (e) {
+  var im = new Image();
+  im.onload = function () {
+    try {
+      var w = im.naturalWidth || 1200, h = im.naturalHeight || 1200;
+      var k = Math.min(2, Math.sqrt(16000000 / (w * h)));
+      var c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+      var x = c.getContext('2d'); x.fillStyle = '#161616'; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0, c.width, c.height);
+      c.toBlob(function (b) {
+        if (!b) { location.href = p.src; return; }
+        var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = id + '.jpg';
+        document.body.appendChild(a); a.click(); a.remove();
+      }, 'image/jpeg', 0.92);
+    } catch (err) { location.href = p.src; }
+  };
+  im.onerror = function () { location.href = p.src; };
+  im.src = p.src; e.preventDefault();
+});
 </script>
 </body>
 </html>
