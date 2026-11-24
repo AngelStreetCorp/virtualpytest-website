@@ -110,3 +110,5 @@ a real app or an operator, never a number typed by hand.
 
 Report card (fingerprint poster, owner 2026-11-24): the Overview card opens with the owner's own screenshot of a real fingerprint report, used as sent (only resized to its display size), never redrawn. The owner said it holds nothing confidential. The "A real result" card keeps the drawn example with its bit grids.
 Trap (2026-11-24): the generator writes the viewBox height with a placeholder replaced over the whole SVG text. Use a placeholder that cannot occur in base64 (`@@H@@`, never `HHH`): `HHH` inside an embedded JPEG corrupted it and the poster showed a broken-image icon.
+
+Download button (owner 2026-11-24): the viewer downloads a JPG (`<id>.jpg`, drawn from the SVG on a canvas, at most 16 million pixels, quality 92); if the canvas fails it falls back to the SVG. The Docs page and the share links are unchanged.
