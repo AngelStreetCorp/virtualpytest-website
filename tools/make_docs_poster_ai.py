@@ -1,231 +1,95 @@
 #!/usr/bin/env python3
-"""Writes docs/img/ai-use-cases.svg (Docs poster "Where VirtualPyTest uses AI"): one step flow per use case, a badge
-on each step that asks a model.
+"""Writes docs/img/ai-use-cases.svg (Docs poster "Where VirtualPyTest uses AI").
 
-Source: the section "Step by step" of docs/ai/AI-USE-CASES.md in the product repo. Every step label and caption is
-that section's words; change the doc first, then this file. Help people and Live TV companion are lists (no numbers,
-no rail), because the doc says they are not a sequence. Run from the repo root.
-Badges: "ai" = a cloud model answers and the answer is used, "shadow" = a cloud model answers, logged only,
-"own" = our own small model, "host" = a small model on the host CPU, none = a rule, a clock or a measurement.
-Every text is measured with DejaVu Sans (the font headless Chromium falls back to); the script fails on an overflow.
+Layout agreed with the owner (2026-11-25): title, three numbers, the 8 use-case names as an overview, "How we keep AI
+calls low" (algorithms, our small models, how we train them), then one card per use case: a real screenshot from our
+platform (docs/img/ai-use-cases-real-*.jpg, names of customers hidden), the model badge top right (route and fallback
+that really answered), 3 or 4 one-line steps, one gold result line. Words: the "Step by step" section of
+docs/ai/AI-USE-CASES.md in the product repo. Every card is the same height; no text may wrap.
+The page is drawn in HTML, rendered by headless Chromium (Playwright) and stored as one JPEG inside the SVG, so the
+poster looks the same everywhere. Run from the repo root: python3 tools/make_docs_poster_ai.py
 """
-import os, sys
-from PIL import ImageFont
-
-W = 1200
-BG, PANEL, LINE, TXT, MUT, GOLD, CHIP = "#161616", "#212121", "#3a3a3a", "#f2f2f2", "#a8a8a8", "#e0a96d", "#2a2a2a"
-TEAL, GOLD_BG, TEAL_BG = "#6dc5c9", "#2a2418", "#18272a"
-F = "Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif"
-FONTS = {True: "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", False: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"}
-o, bad, nlabels = [], [], 0
-
-def width(s, size, bold, sp=0):
-    return ImageFont.truetype(FONTS[bold], size).getlength(s) + sp * len(s)
-
-def esc(s):
-    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-def t(x, y, s, size=28, fill=TXT, w=500, anchor="start", sp=0, maxw=None):
-    global nlabels
-    o.append(f'<text x="{x}" y="{y}" font-family="{F}" font-size="{size}" font-weight="{w}" fill="{fill}" text-anchor="{anchor}" letter-spacing="{sp}">{esc(s)}</text>')
-    if maxw:
-        nlabels += 1
-        wpx = width(s, size, w >= 600, sp)
-        if wpx > maxw:
-            bad.append(f"{wpx:.0f} > {maxw:.0f} px: {s}")
-
-def box(x, y, w, h, fill=PANEL, stroke=LINE, r=22, sw=2, dash=""):
-    d = f' stroke-dasharray="{dash}"' if dash else ""
-    o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{r}" fill="{fill}" stroke="{stroke}" stroke-width="{sw}"{d}/>')
-
-# badge kind -> (text, text colour, fill, stroke, dashed)
-BADGES = {
-    "ai": ("AI", "#1a1a1a", GOLD, GOLD, False),
-    "shadow": ("AI · LOGGED ONLY", GOLD, "none", GOLD, True),
-    "own": ("OUR MODEL", "#10201f", TEAL, TEAL, False),
-    "host": ("HOST MODEL", TEAL, "none", TEAL, False),
-}
-BH = 26
-
-def badge_w(kind):
-    return round(width(BADGES[kind][0], 14, True, 1) + 26)
-
-def badge(x, y, kind):
-    """Draws the pill with its left edge at x, centred on y. Returns its width."""
-    s, col, fill, stroke, dashed = BADGES[kind]
-    w = badge_w(kind)
-    box(x, y - BH // 2, w, BH, fill, stroke, 13, 2, "5 4" if dashed else "")
-    t(x + w / 2, y + 5, s, 14, col, 700, "middle", 1)
-    return w
-
-ROW_X, ROW_W, ROW_H, PITCH = 90, 1020, 44, 54
-LABEL_X, CAP_X, LABEL_MAX = 148, 470, 310
-
-def step_rows(y, steps, numbered=True):
-    """steps: (label, caption, [badge kinds]). One row per step, joined by a rail when numbered. Returns the y under the rows."""
-    for i, (label, cap, kinds) in enumerate(steps):
-        ai, own = any(k in ("ai", "shadow") for k in kinds), any(k in ("own", "host") for k in kinds)
-        fill, stroke = (GOLD_BG, GOLD) if ai else (TEAL_BG, TEAL) if own else (CHIP, LINE)
-        if i and numbered:
-            o.append(f'<path d="M{ROW_X+28} {y-(PITCH-ROW_H)}V{y}" stroke="{LINE}" stroke-width="3"/>')
-        box(ROW_X, y, ROW_W, ROW_H, fill, stroke, 12, 1.5, "6 5" if kinds == ["shadow"] else "")
-        cy = y + ROW_H // 2
-        if numbered:
-            o.append(f'<circle cx="{ROW_X+28}" cy="{cy}" r="13" fill="{stroke if (ai or own) else "#4a4a4a"}"/>')
-            t(ROW_X + 28, cy + 5, str(i + 1), 15, "#1a1a1a" if (ai or own) else TXT, 700, "middle")
-        else:
-            o.append(f'<circle cx="{ROW_X+28}" cy="{cy}" r="5" fill="{stroke if (ai or own) else "#6a6a6a"}"/>')
-        t(LABEL_X, cy + 7, label, 20, TXT, 600, maxw=LABEL_MAX)
-        bx = ROW_X + ROW_W - 12
-        for k in reversed(kinds):
-            bx -= badge_w(k)
-            badge(bx, cy, k)
-            bx -= 8
-        t(CAP_X, cy + 6, cap, 16, MUT, 400, maxw=bx - 8 - CAP_X)
-        y += PITCH
-    return y - (PITCH - ROW_H)
-
-total = {"steps": 0, "ai": 0, "own": 0, "none": 0}
-
-def card(y, n, title, sub, flows, numbered=True):
-    """flows: list of (start line in gold caps, steps). Returns the y of the next card."""
-    steps_all = [s for _, st in flows for s in st]
-    n_ai = sum(1 for s in steps_all if any(k in ("ai", "shadow") for k in s[2]))
-    total["steps"] += len(steps_all); total["ai"] += n_ai
-    total["own"] += sum(1 for s in steps_all if any(k in ("own", "host") for k in s[2]))
-    total["none"] += sum(1 for s in steps_all if not s[2])
-    h = 104 + sum(40 + len(st) * PITCH - (PITCH - ROW_H) + 22 for _, st in flows) + 4
-    box(60, y, 1080, h)
-    o.append(f'<circle cx="112" cy="{y+52}" r="26" fill="{GOLD}"/>')
-    t(112, y + 61, n, 26, "#1a1a1a", 700, "middle")
-    counter = f"AI in {n_ai} of {len(steps_all)} " + ("steps" if numbered else "items")
-    t(1110, y + 48, counter, 19, GOLD, 600, "end")
-    t(156, y + 50, title, 34, TXT, 700, maxw=1110 - width(counter, 19, True) - 24 - 156)
-    t(156, y + 82, sub, 20, MUT, 400, maxw=950)
-    fy = y + 104
-    for start, st in flows:
-        t(ROW_X, fy + 22, start.upper(), 15, GOLD, 600, sp=1.5, maxw=ROW_W)
-        fy = step_rows(fy + 40, st, numbered) + 22
-    return y + h + 28
-
-def chips(y, items, h=70):
-    n = len(items); w = (1020 - (n - 1) * 18) / n
-    for i, (a, b) in enumerate(items):
-        cx = 90 + i * (w + 18)
-        box(round(cx), y, round(w), h, CHIP, LINE, 16)
-        t(round(cx + w / 2), y + 30, a, 21, TXT, 600, "middle", maxw=w - 20)
-        t(round(cx + w / 2), y + 55, b, 16, MUT, 400, "middle", maxw=w - 16)
-
-AI, SH, OWN, HOST = ["ai"], ["shadow"], ["own"], ["host"]
-CARDS = [
-    ("1", "Discard incidents", "So a person only looks at real problems", [
-        ("A freeze, black screen or no audio alert", [
-            ("Host raises the alert", "pixel and sound measurements on the host", []),
-            ("Screen memory", "a frame judged harmless before: discarded, no model", []),
-            ("OCR", "reads the words on the first and last frame", []),
-            ("Freeze word classifier", "a sure menu is discarded, in 0.25 ms", OWN),
-            ("Alert triage", "a vision model judges the rest: real or noise?", AI),
-            ("Freeze triage", "still screen by design or a real freeze?", SH),
-            ("Alert kept or discarded", "a person only looks at the real ones", []),
-        ])]),
-    ("2", "Discard scripts", "Failed runs caused by the lab are set aside", [
-        ("A test run failed", [
-            ("Sherlock signature table", "a failure already judged: no model, logged only", []),
-            ("Sherlock verdict", "a small decision model, used when 0.9 sure or more", AI),
-            ("Script result analysis", "else the LLM reads the report, logs, screenshots", AI),
-            ("Verdict on the run", "real app bug, or noise: lab network, device asleep", []),
-            ("Test Prompt", "app failure, stale test or retry?", SH),
-        ])]),
-    ("3", "Classify unknown screens", "When the fingerprint is not sure", [
-        ("Localize: which screen is this?", [
-            ("Fingerprint", "picture fingerprints compared with the stored screens", []),
-            ("Title translation", "screen titles compared in English", HOST),
-            ("Localize second opinion", "only on a doubtful match: a tie, low confidence", OWN + AI),
-            ("Screen or unknown", "without a sure yes the answer becomes unknown", []),
-        ]),
-        ("Channel banner, after every zap", [
-            ("OCR on fixed crops", "reads programme, times and number, in 0.3 s", []),
-            ("Line-up of the box", "the number gives the name, once two answers agree", []),
-            ("Logo table", "a known logo gives the name", []),
-            ("A new logo", "the AI reads a logo once, then never again", AI),
-        ]),
-        ("Unknown screens: a screen Localize could not name", [
-            ("Seen 5 times or more", "only then is a name asked for", []),
-            ("Our screen namer", "answers only when sure", OWN),
-            ("Cloud model", "names the rest", AI),
-            ("A person decides", "accepts, merges or dismisses the proposed name", []),
-        ])]),
-    ("4", "Create scripts", "From plain words. No code, no Python.", [
-        ("A request in plain words", [
-            ("Exploration", "reads a new app screen, when a crawl runs", AI),
-            ("Test plan", "plans the steps of a test from a goal", AI),
-            ("Forge or Atlas", "builds the script, test case or navigation tree", AI),
-            ("Saved", "a virtual script, a test case or a tree", []),
-            ("A person reviews", "the result is checked by a person", []),
-        ])]),
-    ("5", "Help people", "Questions about the tool, a screen or a run", [
-        ("Not a sequence: each one answers on its own", [
-            ("Atlas", "the assistant in the app", AI),
-            ("Voice", "spoken commands and spoken answers", AI),
-            ("Ask AI", "questions about the docs; the Ask cache first", AI),
-            ("Masterchief", "fleet chat and scheduled checks; asks first", AI),
-            ("Fleet health report", "a daily summary of the fleet", AI),
-            ("MCP", "external AI tools, with their own model", []),
-        ])]),
-    ("6", "Live TV companion", "Opt-in per device", [
-        ("Not a sequence: each one runs on its own", [
-            ("Identify", "what is on: screen type, programme", AI),
-            ("Live read", "re-reads a fixed crop: the score, the speaker name", AI),
-            ("Facts and fact check", "a web search about the programme or a claim", AI),
-            ("Speech to text", "live transcript of the audio", HOST),
-            ("Caption translation", "best effort, else the source text is shown", AI),
-        ])]),
+import base64, re
+from playwright.sync_api import sync_playwright
+def img(n):
+    p = 'docs/img/fingerprint-real-report.jpg' if n == 'localize.jpg' else 'docs/img/ai-use-cases-real-' + n
+    return 'data:image/jpeg;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
+AI='<span class="ai">AI</span>'; OWN='<span class="own">our model</span>'
+cards=[
+("Zap detection","Channel change time",'zap.jpg',"MiniMax Flash · fallback: Haiku",["Picture cuts: zap time measured","Banner text read by OCR","Known logo: name, no AI",f"New logo: {AI} reads it once"],"70 AI calls per wall before, 1 now"),
+("Freeze detection","Is the picture stuck?",'freeze.jpg',"Our word classifier · no cloud",["Pixels stop moving","4 frames, diff under 0.5: freeze",f"Menu words? {OWN} says menu"],"0.25 ms, free, no cloud AI"),
+("Discard Test Result","App bug or lab problem?",'test-result.jpg',"Jev · fallback: MiniMax M3",["Same failure: same verdict",f"{AI} reads report and logs","Lab problem: result set aside"],"Only real bugs count"),
+("Discard Incident","Real problem or noise?",'discard-incident.jpg',"MiniMax VLM · fallback: Haiku",["Screen seen before: ignored",f"Menu words: {OWN} ignores it",f"Still unsure: {AI} looks at it"],"You only see real problems"),
+("Classify unknown screens","A screen with no name",'unknown.jpg',"Our SmolVLM · fallback: MiniMax VLM",["Seen 5 times, no name yet",f"{OWN} or {AI} proposes a name","A person accepts it"],"Nothing named without a person"),
+("Chat Bot","Ask in plain words",'atlas.jpg',"Claude Sonnet 5.5 · fallback: MiniMax M3",["You ask in plain words",f"{AI} picks the tools","It answers, writes tests, acts"],"No code, no Python"),
+("Companion","Atlas beside the page",'companion.jpg',"Claude Sonnet 5.5 · fallback: MiniMax M3",["Atlas sees your page","You ask: filter stb31+",f"{AI} runs the page action"],"The page updates for you"),
+("Localize Screen","Which screen is this?",'localize.jpg',"Our Qwen3 0.6B · fallback: MiniMax M3",["Fingerprint vs stored screens","Sure: done, no AI",f"Doubtful: {AI} confirms"],"AI on about 3 in 100"),
 ]
-LISTS = {"5", "6"}
+ov=''.join(f'<div class="ov"><b>{"Classify screens" if c[0].startswith("Classify") else c[0]}</b><span>{c[1]}</span></div>' for c in cards)
 
-y = 520                       # the legend card is drawn last, once the steps are counted
-for c in CARDS:
-    y = card(y, *c, numbered=c[0] not in LISTS)
+def tile(t,lines,to):
+    return '<div class="tl"><b>'+t+'</b>'+''.join('<span>'+l+'</span>' for l in lines)+'<i>→ '+to+'</i></div>'
+algos=[("Fingerprint",["Picture hash per screen"],"Localize Screen"),("Screen memory",["Judged once, never again"],"Discard Incident"),("Logo table",["OCR + logos learned once"],"Zap detection"),("Signature table",["Same failure, same verdict"],"Discard Test Result")]
+models=[("Word classifier",["Base: none (word weights)","2 MB · 0.25 ms","95.6 % right"],"Freeze detection"),("Localize model",["Base: Qwen3 0.6B + LoRA","640 MB · 1.3 s","98.9 % right"],"Localize Screen"),("Screen namer",["Base: SmolVLM 256M + LoRA","365 MB · 2.6 s","98.3 % right when sure"],"Classify screens")]
+train=["Take the lab's own AI answers","Keep a test set two strong models agree on","Teach the small model: 15 to 30 min, under 2 USD","Serve it: sure answers only, cloud AI as fallback"]
+how='<section class="how"><h2>How we keep AI calls low</h2><p class="hs">Repetitive tasks get an algorithm or a small model of our own. The cloud AI is only the fallback.</p>'
+how+='<div class="gl">ALGORITHMS: NO MODEL, NO COST</div><div class="tg4">'+''.join(tile(*a) for a in algos)+'</div>'
+how+='<div class="gl">OUR SMALL MODELS: TRAINED BY US, RUN ON OUR BOXES</div><div class="tg3">'+''.join(tile(*m) for m in models)+'</div>'
+how+='<div class="gl">HOW WE TRAIN THEM</div><ol class="tr">'+''.join(f'<li><span class="n">{i}</span><span>{t}</span></li>' for i,t in enumerate(train,1))+'</ol><p class="res">→ Answering only when sure turns 94 % into 98 %</p></section>'
+cs=''
+for t,sub,im,model,steps,res in cards:
+    th=f'<img src="{img(im)}">' if im else '<div class="ph">image to come</div>'
+    li=''.join(f'<li><span class="n">{j}</span><span>{s}</span></li>' for j,s in enumerate(steps,1))
+    cs+=f'<section class="card"><div class="hd"><h2>{t}</h2><span class="mb">{model}</span></div><div class="row"><div class="th">{th}</div><div><ol>{li}</ol><p class="res">→ {res}</p></div></div></section>'
+html=f'''<html><head><meta charset="utf-8"><style>
+body{{margin:0;background:#161616;color:#f2f2f2;font-family:Geist,Inter,system-ui,sans-serif;width:1200px}}
+.w{{padding:60px}} .eb{{color:#e0a96d;letter-spacing:3px;font-size:20px}} h1{{font-size:62px;margin:14px 0 10px}}
+.sub{{color:#a8a8a8;font-size:26px;line-height:1.4}}
+.stats{{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:30px 0 12px}}
+.st{{background:#212121;border:2px solid #3a3a3a;border-radius:18px;padding:18px 22px}} .st b{{font-size:44px;color:#e0a96d;display:block}} .st span{{color:#a8a8a8;font-size:20px}}
+.kinds{{color:#a8a8a8;font-size:19px;margin-bottom:30px}}
+.ovg{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}}
+.ov{{background:#212121;border:2px solid #3a3a3a;border-radius:16px;padding:18px 14px;text-align:center;display:flex;flex-direction:column;gap:6px;justify-content:center;min-height:92px}}
+.ov b{{font-size:19px;white-space:nowrap}} .ov span{{color:#a8a8a8;font-size:17px}}
+.card{{background:#212121;border:2px solid #3a3a3a;border-radius:22px;padding:24px 30px;margin-bottom:26px;height:340px;box-sizing:border-box}}
+h2{{margin:0;font-size:34px}} .hd{{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:16px}} .mb{{border:1.5px solid #e0a96d;color:#e0a96d;border-radius:999px;padding:5px 14px;font-size:16px;white-space:nowrap}} .row{{display:grid;grid-template-columns:440px 1fr;gap:30px;align-items:center}}
+.th{{width:440px;height:240px;background:#0f0f0f;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}}
+.th img{{max-width:440px;max-height:240px;object-fit:contain;display:block}}
+.ph{{width:436px;height:236px;border:2px dashed #e0a96d;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#e0a96d;font-size:20px}}
+ol{{list-style:none;padding:0;margin:0;font-size:22px;line-height:1.35}} li{{display:flex;gap:12px;align-items:center;margin-bottom:12px;white-space:nowrap}}
+.n{{background:#3a3a3a;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;flex:none}}
+.ai{{background:#e0a96d;color:#1a1a1a;font-weight:700;border-radius:8px;padding:1px 9px;font-size:18px}}
+.own{{background:#6dc5c9;color:#10201f;font-weight:700;border-radius:8px;padding:1px 9px;font-size:18px;white-space:nowrap}}
+.res{{color:#e0a96d;font-size:21px;margin:10px 0 0;font-weight:600}}
+.how{{background:#212121;border:2px solid #3a3a3a;border-radius:22px;padding:26px 30px;margin-bottom:26px}} .hs{{color:#a8a8a8;font-size:21px;margin:8px 0 18px}}
+.gl{{color:#e0a96d;letter-spacing:2px;font-size:16px;font-weight:700;margin:18px 0 12px}}
+.tg4{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}} .tg3{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+.tl{{background:#2a2a2a;border:1.5px solid #3a3a3a;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:5px}}
+.tl b{{font-size:20px;white-space:nowrap}} .tl span{{color:#c8c8c8;font-size:15px;white-space:nowrap}} .tl i{{color:#e0a96d;font-style:normal;font-size:16px;font-weight:600;margin-top:4px;white-space:nowrap}}
+ol.tr{{font-size:21px}}
+.end{{border:2px solid #e0a96d;background:#2a2418;border-radius:22px;text-align:center;padding:30px;font-size:32px;color:#e0a96d;font-weight:700;margin-top:10px}}
+</style></head><body><div class="w">
+<div class="eb">AI IN THE LAB</div><h1>Where VirtualPyTest uses AI</h1>
+<div class="sub">Most of the recurrent tasks do not require AI. Here is an overview of the split.</div>
+<div class="stats"><div class="st"><b>120+</b><span>devices watched</span></div><div class="st"><b>350,000</b><span>AI answers in 30 days</span></div><div class="st"><b>14.90 USD</b><span>for all AI in 30 days</span></div></div>
+<div class="kinds">Set-top boxes · Mobile · Streams · Consoles · Web · Android TV · Apple TV</div>
+<div class="ovg">{ov}</div>{how}{cs}
+<div class="end">AI only when nothing simpler can decide.</div></div></body></html>'''
 
-box(60, y, 1080, 196)
-t(90, y + 50, "What is NOT AI", 30, TXT, 700)
-t(90, y + 80, "People often think it is. No model at all.", 20, MUT, 400)
-chips(y + 104, [("Load and zap times", "a clock and the fingerprint"), ("Navigation", "the shortest path in the tree"), ("Repair of a tree", "rules, after an app update")])
-y += 196 + 28
-box(60, y, 1080, 196)
-t(90, y + 50, "Cost", 30, TXT, 700)
-t(90, y + 80, "All AI calls, 30 days", 20, MUT, 400)
-chips(y + 104, [("16.72 USD", "all AI calls"), ("0 USD a call", "flat-rate plan"), ("0 USD", "small models, our boxes"), ("Paid calls", "only as a backup")])
-y += 196 + 34
-box(60, y, 1080, 120, GOLD_BG, GOLD, 22, 2)
-t(600, y + 50, "AI only where nothing simpler can decide.", 32, GOLD, 700, "middle")
-t(600, y + 90, "Every cloud call is logged.", 21, TXT, 400, "middle")
-t(600, y + 166, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middle")
-H = y + 210
-
-body, o = o, []
-o.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="ti"><title id="ti">Where VirtualPyTest uses AI, step by step</title>')
-o.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
-t(60, 100, "AI IN THE LAB", 20, GOLD, 500, sp=3)
-t(60, 180, "Where VirtualPyTest uses AI", 62, TXT, 700)
-t(60, 236, "Each use case, step by step. A badge marks the steps that ask a model.", 26, MUT, 400, maxw=1080)
-# legend card
-ly = 280
-box(60, ly, 1080, 212)
-t(90, ly + 46, "How to read", 30, TXT, 700)
-t(1110, ly + 44, f"{total['ai']} of {total['steps']} steps ask a cloud model. {total['none']} use no model.", 18, GOLD, 600, "end", maxw=800)
-LEG = [("ai", "a cloud model answers"), ("own", "our own small model, 0 USD"),
-       ("shadow", "the answer changes nothing"), ("host", "a small model on the host CPU")]
-for i, (k, txt) in enumerate(LEG):
-    lx, lyy = 90 + (i % 2) * 519, ly + 70 + (i // 2) * 48
-    box(lx, lyy, 501, 38, CHIP, LINE, 12, 1.5)
-    bw = badge(lx + 10, lyy + 19, k)
-    t(lx + 10 + bw + 12, lyy + 25, txt, 17, TXT, 400, maxw=501 - bw - 32)
-t(90, ly + 192, "No badge: a rule, a clock or a measurement. No model.", 18, MUT, 400, maxw=1020)
-o += body
-o.append('</svg>')
-out = "docs/img/ai-use-cases.svg"
-open(out, "w").write("\n".join(o))
-if bad:
-    sys.exit("text wider than its box with the fallback font:\n  " + "\n  ".join(bad))
-print(f"{out} written, {W}x{H}, {nlabels} labels fit, totals {total}")
+with sync_playwright() as p:
+    b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1200, "height": 1000}, device_scale_factor=1.5)
+    pg.set_content(html); pg.wait_for_timeout(500)
+    bad = pg.evaluate("""[...document.querySelectorAll('.tl b,.tl span,.tl i,li,.ov b,.mb,h2,.res')].filter(e => {
+        const c = e.closest('.tl,.card,.how,.ov,.w').getBoundingClientRect(), r = e.getBoundingClientRect();
+        return e.scrollWidth > e.clientWidth + 1 || r.right > c.right - 8 || (e.matches('li,.ov b,.res,.mb,h2') && e.getClientRects().length > 1);
+    }).map(e => e.textContent)""")
+    if bad:
+        raise SystemExit("text wraps or overflows: " + "; ".join(bad))
+    H = pg.evaluate("document.body.scrollHeight")
+    jpg = pg.screenshot(full_page=True, type="jpeg", quality=80)
+    b.close()
+svg = (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 {H}" width="1200" height="{H}" role="img" aria-labelledby="ti">'
+       f'<title id="ti">Where VirtualPyTest uses AI, in one image</title>'
+       f'<image width="1200" height="{H}" href="data:image/jpeg;base64,{base64.b64encode(jpg).decode()}"/></svg>')
+open("docs/img/ai-use-cases.svg", "w").write(svg)
+print(f"docs/img/ai-use-cases.svg written, 1200x{H}, {len(svg)//1024} KB")

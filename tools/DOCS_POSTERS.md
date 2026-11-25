@@ -53,16 +53,16 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
 - **Same structure, same words as the doc.** One card per doc section, in the doc's order, with the doc's section
   title word for word, and chips named with the doc's item names (table rows). Invent no labels (no "jobs", no "rules",
   no "Screen memory" unless the doc says it there). Example: `ai-use-cases` mirrors `docs/ai/AI-USE-CASES.md`.
-- **A doc with a "Step by step" section is drawn as steps (owner 2026-11-25).** When the doc has that section (as
-  `docs/ai/AI-USE-CASES.md` does), the poster draws it: one card per use case, a gold caps start line (the event that
-  starts it), then one full-width row per step with its number on a rail, the doc's step name and caption. A badge
-  at the right of the row says what the step uses: `AI` (filled gold, a cloud model answers and the answer is used),
-  `AI · LOGGED ONLY` (dashed gold, the answer changes nothing), `OUR MODEL` (filled teal, our own small model),
-  `HOST MODEL` (hollow teal, a small model on the host CPU); no badge = a rule, a clock or a measurement. Each card
-  counts its AI rows top right ("AI in 2 of 7 steps"). A use case the doc says is not a sequence is drawn as a list
-  (a dot instead of the number, no rail, "items"). A "How to read" legend card replaces the overview card. Every step
-  word comes from the doc: a label the poster needs and the doc lacks is added to the doc first. Example:
-  `tools/make_docs_poster_ai.py`. The rules below apply to every other doc poster.
+- **A use-case poster for humans (owner 2026-11-25, `ai-use-cases`).** Written for a 15-year-old: short phrases that
+  never wrap; the subtitle says the point ("Most of the recurrent tasks do not require AI"); a few real numbers at the
+  top; an overview of names and one-line descriptions (no pictures, they would repeat the cards); then one card per
+  use case, all the same height: a **real screenshot from our platform** on the left in a fixed frame (zap report,
+  freeze incident, Atlas chat, fingerprint report; customer and operator names hidden), 3 or 4 one-line steps with an
+  `AI` / `our model` pill on the step that uses one, one result line in gold that starts with `→`, and the model that
+  really answers as a badge top right (route + fallback, read from `ai_routes` and the last 7 days of `ai_calls`).
+  The names are the platform's own feature names. No "How to read" legend: needing one means the poster explains
+  badly. The layout is agreed as a text mockup in chat first and then kept. The page is drawn in HTML and rendered
+  to one JPEG inside the SVG; the generator refuses text that wraps. Example: `tools/make_docs_poster_ai.py`.
 - **First card = the overview**: one chip per doc section (the doc's titles), before the detailed cards. A section that
   is not a use case (for example "What is NOT AI") is not a chip there; it gets its own detailed card, with no number.
 - **No date on a poster**, ever ("checked on ...", "to 2026-11-22"). A period the doc states ("30 days", "7 days") is fine.
