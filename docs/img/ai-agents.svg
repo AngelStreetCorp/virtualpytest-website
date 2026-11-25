@@ -60,7 +60,7 @@
 <rect x="868.5" y="1054" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="989.25" y="1085" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Campaigns</text>
 <text x="989.25" y="1110" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">groups of tests</text>
-<text x="600" y="1166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Atlas hands it the scripts to write.</text>
+<text x="600" y="1166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Its work is saved, ready to run.</text>
 <path d="M600 1202V1236" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1230L600 1244L612 1230" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="60" y="1254" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
 <circle cx="112" cy="1306" r="26" fill="#e0a96d"/>
