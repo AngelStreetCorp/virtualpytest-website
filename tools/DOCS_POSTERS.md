@@ -59,7 +59,8 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
   use case, all the same height: a **real screenshot from our platform** on the left in a fixed frame (zap report,
   freeze incident, Atlas chat, fingerprint report; customer and operator names hidden), 3 or 4 one-line steps with an
   `AI` / `our model` pill on the step that uses one, one result line in gold that starts with `→`, and the model that
-  really answers as a badge top right (route + fallback, read from `ai_routes` and the last 7 days of `ai_calls`).
+  really answers as a badge top right (a step done by one of our AI agents names it with an `AI Agent` pill and the
+  badge starts with the agent: "Nightwatch: MiniMax VLM · fallback: Haiku") (route + fallback, read from `ai_routes` and the last 7 days of `ai_calls`).
   The names are the platform's own feature names. No "How to read" legend: needing one means the poster explains
   badly. The layout is agreed as a text mockup in chat first and then kept. The page is drawn in HTML and rendered
   to one JPEG inside the SVG; the generator refuses text that wraps. Example: `tools/make_docs_poster_ai.py`.
