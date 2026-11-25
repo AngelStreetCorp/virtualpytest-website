@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes docs/img/small-models.svg (Docs poster "Our own small models").
+"""Writes docs/img/small-models.svg (Docs poster "Our own SLM", small local models).
 
 Source: docs/ai/AI-USE-CASES.md of the product repo, section "Our own small models: how we trained them". The poster
 follows that section in its order: the six steps, one card per model (the table's columns), what moved the score,
@@ -60,7 +60,7 @@ def card(y, n, title, sub, rows, notes=(), last=False):
 
 body = []
 y = 330
-y = card(y, "•", "Overview", "Three small models of our own, taught by the cloud models", [
+y = card(y, "•", "Overview", "Three SLM of our own, taught by the cloud models", [
     [("The six steps", "the same for every job"), ("Freeze word classifier", "discard incidents")],
     [("Localize model", "which screen is this?"), ("Screen namer", "name an unknown screen")],
     [("What moved the score", "better labels"), ("Lessons", "smaller is often enough")],
@@ -98,12 +98,12 @@ t(600, y + 166, "virtualpytest.com · open source, AGPLv3", 20, MUT, 400, "middl
 H = y + 210
 body = o
 o = []
-o.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="ti"><title id="ti">Our own small models, in one image</title>')
+o.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="ti"><title id="ti">Our own SLM (small local models), in one image</title>')
 o.append(f'<rect width="{W}" height="{H}" fill="{BG}"/>')
 t(60, 100, "AI IN THE LAB", 20, GOLD, 500, sp=3)
-t(60, 180, "Our own small models", 62, TXT, 700)
-t(60, 236, "How we trained them, one per use case.", 26, MUT, 400, maxw=1080)
-t(60, 274, "Small, fast, free, and on our own boxes.", 26, MUT, 400, maxw=1080)
+t(60, 180, "Our own SLM", 62, TXT, 700)
+t(60, 236, "Small local models", 26, MUT, 400, maxw=1080)
+t(60, 274, "How we trained them, one per use case.", 26, MUT, 400, maxw=1080)
 o += body
 o.append('</svg>')
 open("docs/img/small-models.svg", "w").write("\n".join(o))
