@@ -85,12 +85,18 @@ def draw(theme):
     t(60, 236, 'We built them into VirtualPyTest. Each has one job.', 29, c['MUT'], 400)
     t(60, 278, 'Ask Atlas: it brings in a specialist when one is needed.', 25, c['GOLD'], 600)
 
-    box(60, 320, 1080, 118)
-    for i, (name, job) in enumerate(OVERVIEW):
-        chip(84 + i * 209, 344, 196, name, job, 21)
-    arrow(446)
+    # overview: Atlas on top, a line to every agent it routes to (solid: hands over itself; dotted: its button)
+    box(60, 320, 1080, 250)
+    chip(450, 344, 300, *OVERVIEW[0])
+    for i, (name, job) in enumerate(OVERVIEW[1:]):
+        x, start = 90 + i * 258, 495 + i * 70
+        dash = '' if name == 'Forge' else ' stroke-dasharray="2 11"'
+        o.append(f'<path d="M{start} 416C{start} 452 {x + 123} 440 {x + 123} 476" fill="none" stroke="{c["GOLD"]}" '
+                 f'stroke-width="4" stroke-linecap="round"{dash}/>')
+        chip(x, 478, 246, name, job)
+    arrow(578)
 
-    y = 498
+    y = 630
     for number, (name, line, items, apart) in enumerate(AGENTS, 1):
         panel(y, str(number), name, line, 252)
         chips(y + 112, items)

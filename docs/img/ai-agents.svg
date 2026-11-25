@@ -1,118 +1,122 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2114" width="1200" height="2114" role="img"><title>Meet our AI agents, in one image</title><rect width="1200" height="2114" fill="#161616"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2246" width="1200" height="2246" role="img"><title>Meet our AI agents, in one image</title><rect width="1200" height="2246" fill="#161616"/>
 <text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">AI IN THE LAB · AGENTS</text>
 <text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="70" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Meet our AI agents</text>
 <text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">We built them into VirtualPyTest. Each has one job.</text>
 <text x="60" y="278" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="25" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="0">Ask Atlas: it brings in a specialist when one is needed.</text>
-<rect x="60" y="320" width="1080" height="118" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
-<rect x="84" y="344" width="196" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="182.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Atlas</text>
-<text x="182.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">ask anything</text>
-<rect x="293" y="344" width="196" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="391.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Forge</text>
-<text x="391.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">writes tests</text>
-<rect x="502" y="344" width="196" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="600.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Sherlock</text>
-<text x="600.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">failed runs</text>
-<rect x="711" y="344" width="196" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="809.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Nightwatch</text>
-<text x="809.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">alerts</text>
-<rect x="920" y="344" width="196" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="1018.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Masterchief</text>
-<text x="1018.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">machines</text>
-<path d="M600 446V480" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 474L600 488L612 474" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="60" y="498" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
-<circle cx="112" cy="550" r="26" fill="#e0a96d"/>
-<text x="112" y="559" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
-<text x="156" y="548" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Atlas</text>
-<text x="156" y="580" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Ask anything: the one you meet first</text>
-<rect x="90.0" y="610" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="210.75" y="641" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Drive devices</text>
-<text x="210.75" y="666" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">keys, screens</text>
-<rect x="349.5" y="610" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="470.25" y="641" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Run tests</text>
-<text x="470.25" y="666" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">and read results</text>
-<rect x="609.0" y="610" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="729.75" y="641" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Search docs</text>
-<text x="729.75" y="666" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">answers, videos</text>
-<rect x="868.5" y="610" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="989.25" y="641" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Open a page</text>
-<text x="989.25" y="666" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">beside the chat</text>
-<text x="600" y="722" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">The default: it takes any ask first.</text>
-<path d="M600 758V792" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 786L600 800L612 786" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="60" y="810" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
-<circle cx="112" cy="862" r="26" fill="#e0a96d"/>
-<text x="112" y="871" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
-<text x="156" y="860" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Forge</text>
-<text x="156" y="892" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Writes tests from plain words</text>
-<rect x="90.0" y="922" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="210.75" y="953" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Scripts</text>
-<text x="210.75" y="978" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtual scripts</text>
-<rect x="349.5" y="922" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="470.25" y="953" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Test cases</text>
-<text x="470.25" y="978" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">build and run</text>
-<rect x="609.0" y="922" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="729.75" y="953" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">App maps</text>
-<text x="729.75" y="978" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">screens, keys</text>
-<rect x="868.5" y="922" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="989.25" y="953" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Campaigns</text>
-<text x="989.25" y="978" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">groups of tests</text>
-<text x="600" y="1034" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Atlas hands it the scripts to write.</text>
-<path d="M600 1070V1104" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1098L600 1112L612 1098" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="60" y="1122" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
-<circle cx="112" cy="1174" r="26" fill="#e0a96d"/>
-<text x="112" y="1183" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
-<text x="156" y="1172" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Sherlock</text>
-<text x="156" y="1204" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Why did the run fail?</text>
-<rect x="90.0" y="1234" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="210.75" y="1265" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Read the run</text>
-<text x="210.75" y="1290" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">results, status</text>
-<rect x="349.5" y="1234" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="470.25" y="1265" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Real bug</text>
-<text x="470.25" y="1290" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">kept</text>
-<rect x="609.0" y="1234" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="729.75" y="1265" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Lab problem</text>
-<text x="729.75" y="1290" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">set aside</text>
-<rect x="868.5" y="1234" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="989.25" y="1265" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Correct it</text>
-<text x="989.25" y="1290" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the verdict</text>
-<text x="600" y="1346" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">In the background too, when turned on.</text>
-<path d="M600 1382V1416" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1410L600 1424L612 1410" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="60" y="1434" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
-<circle cx="112" cy="1486" r="26" fill="#e0a96d"/>
-<text x="112" y="1495" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
-<text x="156" y="1484" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Nightwatch</text>
-<text x="156" y="1516" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">What happened on this device?</text>
-<rect x="90.0" y="1546" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="210.75" y="1577" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Explain alerts</text>
-<text x="210.75" y="1602" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">what and when</text>
-<rect x="349.5" y="1546" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="470.25" y="1577" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Real</text>
-<text x="470.25" y="1602" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">a true incident</text>
-<rect x="609.0" y="1546" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="729.75" y="1577" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Expected</text>
-<text x="729.75" y="1602" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">meant to happen</text>
-<rect x="868.5" y="1546" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="989.25" y="1577" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">False alarm</text>
-<text x="989.25" y="1602" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">nothing wrong</text>
-<text x="600" y="1658" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Sorts new alerts in the background, when turned on.</text>
-<path d="M600 1694V1728" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1722L600 1736L612 1722" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="60" y="1746" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
-<circle cx="112" cy="1798" r="26" fill="#e0a96d"/>
-<text x="112" y="1807" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">5</text>
-<text x="156" y="1796" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Masterchief</text>
-<text x="156" y="1828" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Looks after the machines</text>
-<rect x="90.0" y="1858" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="210.75" y="1889" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Disk</text>
-<text x="210.75" y="1914" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">what fills it</text>
-<rect x="349.5" y="1858" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="470.25" y="1889" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Logs</text>
-<text x="470.25" y="1914" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">what went wrong</text>
-<rect x="609.0" y="1858" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="729.75" y="1889" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Services</text>
-<text x="729.75" y="1914" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">state, restart</text>
-<rect x="868.5" y="1858" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-<text x="989.25" y="1889" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Confirm card</text>
-<text x="989.25" y="1914" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">before a change</text>
-<text x="600" y="1970" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Changes machines only after your Confirm.</text>
-<text x="600" y="2080" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+<rect x="60" y="320" width="1080" height="250" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="450" y="344" width="300" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="600.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Atlas</text>
+<text x="600.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">ask anything</text>
+<path d="M495 416C495 452 213 440 213 476" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/>
+<rect x="90" y="478" width="246" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="213.0" y="509" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Forge</text>
+<text x="213.0" y="534" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">writes tests</text>
+<path d="M565 416C565 452 471 440 471 476" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 11"/>
+<rect x="348" y="478" width="246" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="471.0" y="509" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Sherlock</text>
+<text x="471.0" y="534" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">failed runs</text>
+<path d="M635 416C635 452 729 440 729 476" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 11"/>
+<rect x="606" y="478" width="246" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="729.0" y="509" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Nightwatch</text>
+<text x="729.0" y="534" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">alerts</text>
+<path d="M705 416C705 452 987 440 987 476" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 11"/>
+<rect x="864" y="478" width="246" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="987.0" y="509" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Masterchief</text>
+<text x="987.0" y="534" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">machines</text>
+<path d="M600 578V612" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 606L600 620L612 606" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="630" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="682" r="26" fill="#e0a96d"/>
+<text x="112" y="691" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="680" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Atlas</text>
+<text x="156" y="712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Ask anything: the one you meet first</text>
+<rect x="90.0" y="742" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.75" y="773" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Drive devices</text>
+<text x="210.75" y="798" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">keys, screens</text>
+<rect x="349.5" y="742" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="470.25" y="773" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Run tests</text>
+<text x="470.25" y="798" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">and read results</text>
+<rect x="609.0" y="742" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="729.75" y="773" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Search docs</text>
+<text x="729.75" y="798" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">answers, videos</text>
+<rect x="868.5" y="742" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="989.25" y="773" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Open a page</text>
+<text x="989.25" y="798" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">beside the chat</text>
+<text x="600" y="854" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">The default: it takes any ask first.</text>
+<path d="M600 890V924" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 918L600 932L612 918" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="942" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="994" r="26" fill="#e0a96d"/>
+<text x="112" y="1003" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="992" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Forge</text>
+<text x="156" y="1024" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Writes tests from plain words</text>
+<rect x="90.0" y="1054" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.75" y="1085" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Scripts</text>
+<text x="210.75" y="1110" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtual scripts</text>
+<rect x="349.5" y="1054" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="470.25" y="1085" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Test cases</text>
+<text x="470.25" y="1110" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">build and run</text>
+<rect x="609.0" y="1054" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="729.75" y="1085" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">App maps</text>
+<text x="729.75" y="1110" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">screens, keys</text>
+<rect x="868.5" y="1054" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="989.25" y="1085" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Campaigns</text>
+<text x="989.25" y="1110" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">groups of tests</text>
+<text x="600" y="1166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Atlas hands it the scripts to write.</text>
+<path d="M600 1202V1236" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1230L600 1244L612 1230" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1254" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1306" r="26" fill="#e0a96d"/>
+<text x="112" y="1315" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1304" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Sherlock</text>
+<text x="156" y="1336" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Why did the run fail?</text>
+<rect x="90.0" y="1366" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.75" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Read the run</text>
+<text x="210.75" y="1422" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">results, status</text>
+<rect x="349.5" y="1366" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="470.25" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Real bug</text>
+<text x="470.25" y="1422" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">kept</text>
+<rect x="609.0" y="1366" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="729.75" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Lab problem</text>
+<text x="729.75" y="1422" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">set aside</text>
+<rect x="868.5" y="1366" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="989.25" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Correct it</text>
+<text x="989.25" y="1422" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the verdict</text>
+<text x="600" y="1478" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">In the background too, when turned on.</text>
+<path d="M600 1514V1548" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1542L600 1556L612 1542" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1566" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1618" r="26" fill="#e0a96d"/>
+<text x="112" y="1627" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
+<text x="156" y="1616" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Nightwatch</text>
+<text x="156" y="1648" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">What happened on this device?</text>
+<rect x="90.0" y="1678" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.75" y="1709" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Explain alerts</text>
+<text x="210.75" y="1734" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">what and when</text>
+<rect x="349.5" y="1678" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="470.25" y="1709" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Real</text>
+<text x="470.25" y="1734" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">a true incident</text>
+<rect x="609.0" y="1678" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="729.75" y="1709" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Expected</text>
+<text x="729.75" y="1734" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">meant to happen</text>
+<rect x="868.5" y="1678" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="989.25" y="1709" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">False alarm</text>
+<text x="989.25" y="1734" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">nothing wrong</text>
+<text x="600" y="1790" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Sorts new alerts in the background, when turned on.</text>
+<path d="M600 1826V1860" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1854L600 1868L612 1854" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1878" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1930" r="26" fill="#e0a96d"/>
+<text x="112" y="1939" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">5</text>
+<text x="156" y="1928" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Masterchief</text>
+<text x="156" y="1960" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Looks after the machines</text>
+<rect x="90.0" y="1990" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.75" y="2021" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Disk</text>
+<text x="210.75" y="2046" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">what fills it</text>
+<rect x="349.5" y="1990" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="470.25" y="2021" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Logs</text>
+<text x="470.25" y="2046" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">what went wrong</text>
+<rect x="609.0" y="1990" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="729.75" y="2021" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Services</text>
+<text x="729.75" y="2046" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">state, restart</text>
+<rect x="868.5" y="1990" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="989.25" y="2021" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Confirm card</text>
+<text x="989.25" y="2046" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">before a change</text>
+<text x="600" y="2102" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Changes machines only after your Confirm.</text>
+<text x="600" y="2212" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
 </svg>
