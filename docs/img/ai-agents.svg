@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2326" width="1200" height="2326" role="img"><title>Meet our AI agents, in one image</title><rect width="1200" height="2326" fill="#161616"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2114" width="1200" height="2114" role="img"><title>Meet our AI agents, in one image</title><rect width="1200" height="2114" fill="#161616"/>
 <text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">AI IN THE LAB · AGENTS</text>
 <text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="70" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Meet our AI agents</text>
 <text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">We built them into VirtualPyTest. Each has one job.</text>
@@ -114,9 +114,5 @@
 <text x="989.25" y="1889" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Confirm card</text>
 <text x="989.25" y="1914" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">before a change</text>
 <text x="600" y="1970" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Changes machines only after your Confirm.</text>
-<rect x="60" y="2070" width="1080" height="158" rx="22" fill="#2a2418" stroke="#e0a96d" stroke-width="2"/>
-<text x="600" y="2120" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="32" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Ask Atlas</text>
-<text x="600" y="2160" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">It brings in a specialist when needed: Forge takes over to write scripts,</text>
-<text x="600" y="2194" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">one button asks Sherlock or Masterchief. For alerts, pick Nightwatch.</text>
-<text x="600" y="2288" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+<text x="600" y="2080" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
 </svg>

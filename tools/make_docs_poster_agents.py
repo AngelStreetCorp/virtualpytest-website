@@ -99,13 +99,8 @@ def draw(theme):
             arrow(y + 260)
         y += 312
 
-    y += 12
-    box(60, y, 1080, 158, c['BAND'], c['GOLD'])
-    t(600, y + 50, 'Ask Atlas', 32, c['GOLD'], 700, 'middle')
-    t(600, y + 90, 'It brings in a specialist when needed: Forge takes over to write scripts,', 21, c['TXT'], 400, 'middle')
-    t(600, y + 124, 'one button asks Sherlock or Masterchief. For alerts, pick Nightwatch.', 21, c['TXT'], 400, 'middle')
-    t(600, y + 218, 'virtualpytest.com · open source, AGPLv3', 20, c['MUT'], 400, 'middle')
-    height = y + 256
+    t(600, y + 22, 'virtualpytest.com · open source, AGPLv3', 20, c['MUT'], 400, 'middle')
+    height = y + 56
     head = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {height}" width="{W}" height="{height}" '
             f'role="img"><title>Meet our AI agents, in one image</title><rect width="{W}" height="{height}" '
             f'fill="{c["BG"]}"/>')
