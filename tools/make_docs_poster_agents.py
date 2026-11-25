@@ -17,9 +17,9 @@ W = 1200
 
 # (name, one line, [(chip, caption)], what sets it apart)
 AGENTS = [
-    ('Atlas', 'Ask anything: the one you meet first',
+    ('Atlas', 'Does the everyday jobs itself',
      [('Drive devices', 'keys, screens'), ('Run tests', 'and read results'), ('Search docs', 'answers, videos'),
-      ('Open a page', 'beside the chat')], 'The default: it takes any ask first.'),
+      ('Open a page', 'beside the chat')], 'Dashboards too: it builds them from your data.'),
     ('Forge', 'Writes tests from plain words',
      [('Scripts', 'virtual scripts'), ('Test cases', 'build and run'), ('App maps', 'screens, keys'),
       ('Campaigns', 'groups of tests')], 'Atlas hands it the scripts to write.'),
@@ -33,7 +33,7 @@ AGENTS = [
      [('Disk', 'what fills it'), ('Logs', 'what went wrong'), ('Services', 'state, restart'),
       ('Confirm card', 'before a change')], 'Changes machines only after your Confirm.'),
 ]
-OVERVIEW = [('Atlas', 'ask anything'), ('Forge', 'writes tests'), ('Sherlock', 'failed runs'),
+OVERVIEW = [('Atlas', 'the built-in chat'), ('Forge', 'writes tests'), ('Sherlock', 'failed runs'),
             ('Nightwatch', 'alerts'), ('Masterchief', 'machines')]
 
 
