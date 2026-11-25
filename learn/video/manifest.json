@@ -1,7 +1,8 @@
 {
  "de": {
-  "ai-atlas": "7c9b7d07ea4a4a33",
-  "ai-mcp": "99cb557d40e9f52a",
+  "ai-agents": "c318fb11d7eaedd2",
+  "ai-atlas": "8d3e7d1a0f57453d",
+  "ai-mcp": "c65b95aa77bed554",
   "ai-why": "58d2c641ba9c8b57",
   "analytics": "c54cb214ac67f714",
   "any-device-3d": "f04aee8486498104",
@@ -65,8 +66,9 @@
   "zapping-3d": "55883a31e654769d"
  },
  "en": {
-  "ai-atlas": "d18852330d353646",
-  "ai-mcp": "d452736e5f002ba1",
+  "ai-agents": "9b0230310ca18f92",
+  "ai-atlas": "b2433602c2cecfed",
+  "ai-mcp": "8fadc32a1c7443d1",
   "ai-why": "b4f31105c8c962c9",
   "analytics": "3db627b82e75edb8",
   "any-device-3d": "f0d9cd42177f79cb",
@@ -130,8 +132,9 @@
   "zapping-3d": "00285ce1088b4ea8"
  },
  "fr": {
-  "ai-atlas": "4ca4cfda2be3cc77",
-  "ai-mcp": "e8a62d1f9711eb73",
+  "ai-agents": "d9ee9cf51ae89924",
+  "ai-atlas": "adb531395e1d84df",
+  "ai-mcp": "06c328e0da2f3903",
   "ai-why": "19ac67a1c42f760a",
   "analytics": "2c8e1e53d0db8a18",
   "any-device-3d": "7e4a4886b17b5fbb",
@@ -195,8 +198,9 @@
   "zapping-3d": "e798dfcdb92c6bfd"
  },
  "it": {
-  "ai-atlas": "9eff6d462e258221",
-  "ai-mcp": "e9d09951a387b951",
+  "ai-agents": "610c30006a289f32",
+  "ai-atlas": "70928811d5e796c1",
+  "ai-mcp": "b785fe744cb14b62",
   "ai-why": "c16e1266f6abec96",
   "analytics": "2ea483df8c999a69",
   "any-device-3d": "e8f2cec62ebc8c02",

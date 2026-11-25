@@ -43,8 +43,8 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
 
 - A poster belongs to one **Learn topic** (`topic: '7 · AI in the lab'` in `POSTERS`): the dropdown groups posters under
   the Learn topic names. Use the **same title as the Learn lesson** (or its Go deeper) and no new words: the Freeze
-  poster is "Freeze: menu or stuck video?", as in lesson 7.5 and its Go deeper.
-- `learn:` is the Learn hash the "Watch the lesson" button opens (`'0.1'`, `'7.5/deep'`).
+  poster is "Freeze: menu or stuck video?", as in lesson 7.6 and its Go deeper.
+- `learn:` is the Learn hash the "Watch the lesson" button opens (`'0.1'`, `'7.6/deep'`).
 - The Docs page script is plain JS in single-quoted strings: **never put an apostrophe in `title` or `alt`** ("model's"
   broke the page on 2026-11-22). Check the page script parses and that `/docs/` shows no page error.
 

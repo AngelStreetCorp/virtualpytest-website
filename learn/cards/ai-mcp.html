@@ -101,7 +101,7 @@
 </div>
 <div class="ch" id="ch2">
   <div class="card dark lap" style="left:0; top:0; width:600px; height:380px"><div class="hd"><i></i><i></i><i></i></div>
-    <div class="term" style="padding:6px 24px"><div class="tl" id="pr2"><span class="p">&gt;</span>&nbsp;Open the Guide on the TV box</div><div style="color:#d4a574"><div class="tl" id="tl0">take_control ✓</div><div class="tl" id="tl1">navigate_to_node · Guide ✓</div><div class="tl" id="tl2">verify_node ✓</div><div class="tl" id="tl3">capture_screenshot ✓</div><div class="tl" id="tl4">release_control ✓</div></div></div></div>
+    <div class="term" style="padding:6px 24px"><div class="tl" id="pr2"><span class="p">&gt;</span>&nbsp;Open the Guide on the TV box</div><div style="color:#d4a574"><div class="tl" id="tl0">navigate_to_node · Guide ✓</div><div class="tl" id="tl1">verify_node ✓</div><div class="tl" id="tl2">capture_screenshot ✓</div></div></div></div>
   <div class="tv" id="tvM" style="left:640px; top:40px; width:296px; height:170px"><div class="bar"></div><div class="nm" id="tvMH">Home</div><div class="nm" id="tvMG">Guide</div><div class="tiles"><i></i><i></i><i></i><i></i></div><div class="flash" id="tvMF"></div><span class="tk" id="tvMK"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#16a34a"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
   <span class="chip ok abs" id="ans2" style="left:668px; top:240px">On the Guide ✓</span>
 </div>
@@ -200,7 +200,7 @@ at($('copy1'), [[c + 6200, { opacity: 1, background: '#ffffff' }], [c + 6350, { 
 show($('copied1'), c + 6800);
 c = CH[2];
 typeIn($('pr2'), c + 1000, c + 2600);
-for (let i = 0; i < 5; i++) show($('tl' + i), c + 3200 + i * 1200, 350);
+for (let i = 0; i < 3; i++) show($('tl' + i), c + 3600 + i * 1600, 350);
 fadeIn($('tvMH'), c, 200); fadeOut($('tvMH'), c + 4500, 200); fadeIn($('tvMG'), c + 4600, 200);
 at($('tvMF'), [[c + 4600, { opacity: 0 }], [c + 4680, { opacity: 0.85 }], [c + 5050, { opacity: 0 }], [c + 7000, { opacity: 0 }], [c + 7080, { opacity: 0.85 }], [c + 7450, { opacity: 0 }]]); pop($('tvMK'), c + 5800);
 show($('ans2'), c + 8800);
