@@ -87,7 +87,7 @@ with sync_playwright() as p:
     if bad:
         raise SystemExit("text wraps or overflows: " + "; ".join(bad))
     H = pg.evaluate("document.body.scrollHeight")
-    jpg = pg.screenshot(full_page=True, type="jpeg", quality=80)
+    jpg = pg.screenshot(full_page=True, type="jpeg", quality=72)
     b.close()
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 {H}" width="1200" height="{H}" role="img" aria-labelledby="ti">'
        f'<title id="ti">Where VirtualPyTest uses AI, in one image</title>'
