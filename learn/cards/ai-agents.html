@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="vpt-card" content="chaptered">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meet our AI agents</title>
+<!-- Chaptered lesson "Meet our AI agents" (topic 7; SCRIPTS.md "New · Meet our AI agents", TASK-258). Embed only
+     (1080x600). CH = the chapter starts of that table. Every word on stage is the script's.
+     Chapter 1 is the only place that shows how Atlas passes a request on: a solid line through "Hands over" to
+     Forge, dotted lines through the "Ask <name>" buttons to the others. Chapters 2-6 share one layout and show only
+     the agent's own work: its tile down the left, the ask typed in top right and travelling into the tile, the scene
+     bottom right. -->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url('../fonts/Inter-Regular.ttf'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url('../fonts/Inter-Bold.ttf'); }
+  :root {
+    --bg: #f2f0ec; --card: #ffffff; --line: #d9d4cc; --ink: #141414; --ink2: #4a4a4a; --muted: #666666;
+    --gold: #d4a574; --goldText: #8f5f2e; --dark: #1a1a1a; --ok: #16a34a; --bad: #dc2626;
+    --mono: ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); width: 1080px; height: 600px; overflow: hidden; position: relative; }
+  /* the chapter tag (top left) and the one line at the bottom: one layer per chapter, swapped by the timeline */
+  .tag { position: absolute; left: 72px; top: 34px; display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .tag .n { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; color: var(--muted); }
+  .tag .h { font-size: 34px; font-weight: 700; letter-spacing: -0.6px; }
+  .say { position: absolute; left: 40px; right: 40px; bottom: 30px; text-align: center; font-size: 32px; font-weight: 700; color: var(--goldText); }
+  /* the picture: everything between y 104 and 504 */
+  .stage { position: absolute; left: 72px; right: 72px; top: 104px; height: 400px; }
+  .a { position: absolute; }
+  .card { border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .card.dark { background: var(--dark); border-color: var(--dark); color: #fff; }
+  /* an agent tile: icon, name, job */
+  .tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+  .tile svg { width: 52px; height: 52px; color: var(--goldText); }
+  .tile.dark svg { color: var(--gold); }
+  .tile b { font-size: 28px; white-space: nowrap; }
+  .tile span { font-size: 22px; color: var(--muted); white-space: nowrap; }
+  .tile.dark span { color: #d9d9d9; }
+  .tile.big { gap: 10px; } .tile.big svg { width: 84px; height: 84px; margin-bottom: 8px; } .tile.big b { font-size: 32px; }
+  .pill { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .pill svg, .mini svg { width: 32px; height: 32px; color: var(--goldText); }
+  .pill.dark svg { color: var(--gold); }
+  .pill b { font-size: 26px; }
+  .mini { display: flex; align-items: center; gap: 12px; padding-left: 20px; }
+  .mini b { font-size: 24px; white-space: nowrap; }
+  svg.ic { fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+  .bubble { font-size: 25px; font-weight: 700; padding: 16px 22px; border-radius: 18px 18px 18px 4px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; }
+  .bubble.me { border-radius: 18px 18px 4px 18px; background: #fbf6ef; border-color: var(--gold); }
+  .bubble .tx { display: inline-block; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); white-space: nowrap; }
+  .chip.gold { background: var(--gold); border-color: var(--gold); }
+  .box { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 22px; font-weight: 700; border-radius: 999px; white-space: nowrap; }
+  .btnx { background: var(--dark); color: #fff; }
+  .goldx { background: var(--gold); color: var(--ink); }
+  .okx { background: var(--card); border: 2px solid var(--ok); color: var(--ok); }
+  .ok { color: var(--ok); } .bad { color: var(--bad); }
+  .lbl { font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .note { font-size: 22px; color: var(--muted); white-space: nowrap; }
+  .row { display: flex; align-items: center; gap: 22px; padding: 0 22px; white-space: nowrap; width: 100%; height: 100%; }
+  .row b { font-size: 26px; } .row .why { font-size: 24px; color: var(--ink2); }
+  .tagc { position: absolute; right: 14px; top: 11px; font-size: 20px; padding: 6px 14px; }
+  .bin { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 16px; border: 2px dashed var(--line); background: transparent; font-size: 24px; font-weight: 700; color: var(--ink2); }
+  .track { width: 100%; height: 100%; border-radius: 14px; background: var(--line); overflow: hidden; }
+  .track i { display: block; height: 100%; width: 92%; border-radius: 14px; background: var(--bad); }
+  .tv { border-radius: 16px; background: var(--dark); color: #fff; }
+  .scr { position: absolute; inset: 0; }
+  .scr .nm { position: absolute; left: 0; right: 0; top: 20px; text-align: center; font-size: 28px; font-weight: 700; }
+  .scr .tiles { position: absolute; left: 22px; right: 22px; bottom: 26px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .scr .tiles i { height: 48px; border-radius: 8px; background: #3a3a3a; }
+  .scr .grid { position: absolute; left: 22px; right: 22px; top: 70px; display: grid; gap: 10px; }
+  .scr .grid div { display: flex; gap: 8px; } .scr .grid i { height: 24px; border-radius: 5px; background: #3a3a3a; }
+  .focus { position: absolute; left: 20px; bottom: 24px; width: 81px; height: 52px; border-radius: 10px; border: 3px solid var(--gold); }
+  .sheet .bar { position: absolute; left: 0; right: 0; top: 0; height: 22px; border-radius: 18px 18px 0 0; background: #f6f2ec; border-bottom: 2px solid var(--line); }
+  .step { display: flex; align-items: center; gap: 14px; }
+  .step::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); flex: none; }
+  .tok { width: 22px; height: 22px; border-radius: 50%; background: var(--gold); border: 3px solid #fff; box-shadow: 0 0 0 3px rgba(143,95,46,.35), 0 3px 8px rgba(0,0,0,.2); }
+  .tok.red { background: var(--bad); }
+  .glow { border-radius: 24px; border: 4px solid var(--gold); box-shadow: 0 0 0 8px rgba(212,165,116,.35); }
+  .click { width: 64px; height: 64px; border-radius: 50%; border: 5px solid var(--gold); background: rgba(212,165,116,.25); }
+  svg.wires { position: absolute; left: 0; top: 0; width: 936px; height: 400px; overflow: visible; }
+  svg.wires path { fill: none; stroke: var(--goldText); stroke-width: 4; stroke-linecap: round; }
+  svg.wires circle { fill: var(--goldText); }
+</style>
+</head>
+<body>
+<div class="tag" id="tag0"><span class="n">CHAPTER 1 / 6</span><span class="h">Our AI agents</span></div>
+<div class="tag" id="tag1"><span class="n">CHAPTER 2 / 6</span><span class="h">Atlas</span></div>
+<div class="tag" id="tag2"><span class="n">CHAPTER 3 / 6</span><span class="h">Forge</span></div>
+<div class="tag" id="tag3"><span class="n">CHAPTER 4 / 6</span><span class="h">Sherlock</span></div>
+<div class="tag" id="tag4"><span class="n">CHAPTER 5 / 6</span><span class="h">Nightwatch</span></div>
+<div class="tag" id="tag5"><span class="n">CHAPTER 6 / 6</span><span class="h">Masterchief</span></div>
+<div class="say" id="say0"></div>
+<div class="say" id="say1">It does the everyday jobs itself</div>
+<div class="say" id="say2">Its work is saved, ready to run</div>
+<div class="say" id="say3">In chat, it can correct a run's verdict</div>
+<div class="say" id="say4">It starts from the alerts</div>
+<div class="say" id="say5">Changes machines only after your Confirm</div>
+<div class="stage" id="stage"></div>
+<svg id="meas" style="position:absolute;left:0;top:0;width:0;height:0"></svg>
+<script>
+const CH = [600, 13600, 26600, 39600, 52600, 65600];   // chapter starts (ms), as in SCRIPTS.md
+const T = 79600;                         // loop length (ms): the last chapter ends at T - 1000
+const OUT0 = T - 1000, OUT1 = T - 300;   // everything fades together at the end (the player holds before it)
+const NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const LAST = CH.length - 1;
+const end = i => (i < LAST ? CH[i + 1] - 300 : OUT0);   // a chapter's own layers leave just before the next
+
+// keys: [[ms, {css}], ...] -> one infinite animation over the whole loop
+function at(el, keys, easing = 'ease-out') {
+  const frames = keys.map(([t, css]) => ({ offset: t / T, easing, ...css }));
+  if (frames[0].offset > 0) frames.unshift({ ...keys[0][1], offset: 0 });
+  if (frames[frames.length - 1].offset < 1) frames.push({ ...keys[keys.length - 1][1], offset: 1 });
+  return el.animate(frames, { duration: T, iterations: Infinity, fill: 'both' });
+}
+const HIDE = { opacity: 0, transform: 'translateY(16px)' }, SHOW = { opacity: 1, transform: 'translateY(0)' };
+function during(el, t, t1, dur = 500) {
+  at(el, [[t, HIDE], [t + dur, SHOW], [t1 - 250, SHOW], [t1, { opacity: 0, transform: 'translateY(0)' }]]);
+}
+CH.slice(0, -1).forEach((t, i) => { during($('tag' + i), t, end(i) + 300); during($('say' + i), t + 900, end(i) + 300); });
+at($('tag' + LAST), [[CH[LAST], HIDE], [CH[LAST] + 500, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+at($('say' + LAST), [[CH[LAST] + 900, HIDE], [CH[LAST] + 1400, SHOW], [OUT0, SHOW], [OUT1, { opacity: 0 }]]);
+
+// ---- scene helpers: one layer per chapter; times below are ms after the chapter's start -------------------------
+const layers = CH.map(() => { const d = document.createElement('div'); d.className = 'a'; d.style.cssText = 'left:0;top:0;width:936px;height:400px'; $('stage').appendChild(d); return d; });
+const wireSvg = layers.map(l => { const s = document.createElementNS(NS, 'svg'); s.setAttribute('class', 'wires'); l.appendChild(s); return s; });
+const leave = c => (c === LAST ? [OUT0, OUT1] : [end(c) - 250, end(c)]);
+// act: keys relative to the chapter start; the element keeps its last state, then leaves with its chapter
+function act(el, c, keys, easing = 'ease-out') {
+  // a key that does not name a property keeps its value (else WAAPI would fade it over the whole loop)
+  let held = { opacity: 1 };
+  const abs = keys.map(([t, css]) => [CH[c] + t, (held = { ...held, ...css })]), last = held, [a, b] = leave(c);
+  at(el, [...abs, [a, last], [b, { ...last, opacity: 0 }]], easing);
+}
+function mk(c, [x, y, w, h], cls, html = '') {
+  const el = document.createElement('div'); el.className = 'a ' + cls; el.innerHTML = html;
+  el.style.left = x + 'px'; el.style.top = y + 'px'; if (w) el.style.width = w + 'px'; if (h) el.style.height = h + 'px';
+  layers[c].appendChild(el); return el;
+}
+// put: appear (rise and fade in) at delay, stay until the chapter leaves
+function put(c, delay, box, cls, html) { const el = mk(c, box, cls, html); act(el, c, [[delay, HIDE], [delay + 500, SHOW]]); return el; }
+function pop(c, delay, box, cls, html) {
+  const el = mk(c, box, cls, html);
+  act(el, c, [[delay, { opacity: 0, transform: 'scale(.6)' }], [delay + 180, { opacity: 1, transform: 'scale(1.06)' }], [delay + 320, { opacity: 1, transform: 'scale(1)' }]]);
+  return el;
+}
+function typeIn(el, c, t0, t1) { act(el, c, [[t0, { clipPath: 'inset(0 100% 0 0)' }], [t1, { clipPath: 'inset(0 0% 0 0)' }]], 'linear'); }
+// points along an svg path (for dotted lines and travelling tokens)
+function pts(d, step) {
+  const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); $('meas').appendChild(p);
+  const L = p.getTotalLength(), n = Math.max(2, Math.round(L / step)), out = [];
+  for (let k = 0; k <= n; k++) { const q = p.getPointAtLength(L * k / n); out.push([q.x, q.y]); }
+  p.remove(); return out;
+}
+// a line that draws itself: solid = Atlas hands the work over by itself, dotted = Atlas offers a button
+function wire(c, d, t, dur, dotted) {
+  if (!dotted) {
+    const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('pathLength', '100');
+    p.style.strokeDasharray = '100px 100px'; wireSvg[c].appendChild(p);
+    act(p, c, [[t, { opacity: 0, strokeDashoffset: '100px' }], [t + 20, { opacity: 1, strokeDashoffset: '100px' }], [t + dur, { opacity: 1, strokeDashoffset: '0px' }]], 'linear');
+    return;
+  }
+  const P = pts(d, 15);
+  P.forEach(([x, y], k) => {
+    const ci = document.createElementNS(NS, 'circle'); ci.setAttribute('cx', x); ci.setAttribute('cy', y); ci.setAttribute('r', 3.6);
+    wireSvg[c].appendChild(ci); const tk = t + dur * k / (P.length - 1);
+    act(ci, c, [[tk, { opacity: 0 }], [tk + 100, { opacity: 1 }]]);
+  });
+}
+// a token (the ask) travelling along a path
+function travel(c, d, t, dur, cls = '') {
+  const P = pts(d, 20), el = mk(c, [-11, -11, 22, 22], 'tok ' + cls), tr = ([x, y]) => `translate(${x}px, ${y}px)`;
+  const keys = [[Math.max(0, t - 60), { opacity: 0, transform: tr(P[0]) }]];
+  P.forEach((q, k) => keys.push([t + dur * k / (P.length - 1), { opacity: 1, transform: tr(q) }]));
+  keys.push([t + dur + 220, { opacity: 0, transform: tr(P[P.length - 1]) }]);
+  act(el, c, keys, 'linear');
+}
+function glow(c, [x, y, w, h], t) { act(mk(c, [x - 6, y - 6, w + 12, h + 12], 'glow'), c, [[t, { opacity: 0 }], [t + 150, { opacity: 1 }], [t + 900, { opacity: 0 }]]); }
+// a pointer that moves onto (x, y), clicks there, then goes
+const ARROW = '<svg width="30" height="38" viewBox="0 0 30 38"><path d="M2 2 L2 30 L9 23 L14 35 L19 33 L14 21 L24 21 Z" fill="#141414" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+function clickAt(c, [x0, y0], [x, y], t0, t1, press) {
+  const cur = mk(c, [0, 0, 30, 38], '', ARROW), tr = (a, b) => `translate(${a}px, ${b}px)`;
+  const ring = mk(c, [x - 32, y - 32, 64, 64], 'click');
+  act(ring, c, [[t1, { opacity: 0, transform: 'scale(.3)' }], [t1 + 80, { opacity: 1, transform: 'scale(.5)' }], [t1 + 650, { opacity: 0, transform: 'scale(1.5)' }]]);
+  layers[c].appendChild(cur);   // the pointer above its ring
+  act(cur, c, [[t0, { opacity: 0, transform: tr(x0, y0) }], [t0 + 200, { opacity: 1, transform: tr(x0, y0) }], [t1 - 100, { opacity: 1, transform: tr(x, y) }],
+    [t1 + 500, { opacity: 1, transform: tr(x, y) }], [t1 + 800, { opacity: 0, transform: tr(x, y) }]]);
+  if (press) act(press, c, [[t1 - 40, { transform: 'scale(1)' }], [t1 + 60, { transform: 'scale(.92)' }], [t1 + 260, { transform: 'scale(1)' }]]);
+}
+
+const ICON = {
+  atlas: '<circle cx="24" cy="24" r="18"/><path d="M24 10 L29.5 24 L24 38 L18.5 24 Z"/><circle cx="24" cy="24" r="2" fill="currentColor"/>',
+  forge: '<path d="M12 38 L28 22"/><path d="M22 14 L32 4 L44 16 L34 26 Z"/>',
+  sherlock: '<circle cx="20" cy="20" r="12"/><path d="M29 29 L41 41"/>',
+  nightwatch: '<path d="M28 6 A18 18 0 1 0 42 32 A14 14 0 0 1 28 6 Z"/><path d="M38 8 v6 M35 11 h6"/>',
+  masterchief: '<circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="13"/><path d="M24 5v6M24 37v6M5 24h6M37 24h6M10.6 10.6l4.2 4.2M33.2 33.2l4.2 4.2M10.6 37.4l4.2-4.2M33.2 14.8l4.2-4.2"/>',
+};
+const icon = k => `<svg class="ic" viewBox="0 0 48 48">${ICON[k]}</svg>`;
+const AG = { atlas: ['Atlas', 'Ask anything'], forge: ['Forge', 'Writes tests'], sherlock: ['Sherlock', 'Failed runs'],
+  nightwatch: ['Nightwatch', 'Alerts'], masterchief: ['Masterchief', 'Machines'] };
+const SPECIALISTS = ['forge', 'sherlock', 'nightwatch', 'masterchief'];   // the chapter order, everywhere
+const tile = (k, job = AG[k][1]) => `${icon(k)}<b>${AG[k][0]}</b><span>${job}</span>`;
+
+// ---- the shared layout of chapters 2-6: the agent's tile down the left, the ask top right, the scene bottom right --
+const TILE = [0, 0, 240, 370];
+function ask(c, text, t) {
+  const b = put(c, t, [290, 0, 0, 0], 'bubble me', `<span class="tx">${text}</span>`);
+  typeIn(b.firstChild, c, t + 200, t + 200 + text.length * 40);
+  return t + 200 + text.length * 40;
+}
+// the agent's tile, the ask typed in and travelling into the tile. Returns when the agent starts work.
+function intro(c, k, text, job) {
+  put(c, 200, TILE, 'card dark tile big', tile(k, job));
+  const t = ask(c, text, 700) + 200;
+  travel(c, 'M300 32 L236 32', t, 400); glow(c, TILE, t + 400);
+  return t + 900;
+}
+
+// 1 · our AI agents: you ask Atlas; a line to every specialist, through what passes the request on:
+//     "Hands over" (solid: Atlas hands script writing to Forge by itself), "Ask <name>" buttons (dotted: one click away)
+{
+  const c = 0, A = [318, 0, 300, 136], how = { forge: ['Hands over', 'goldx'], sherlock: ['Ask Sherlock', 'btnx'],
+    nightwatch: ['Ask Nightwatch', 'btnx'], masterchief: ['Ask Masterchief', 'btnx'] };
+  put(c, 300, A, 'card dark tile', tile('atlas'));
+  SPECIALISTS.forEach((k, i) => {
+    const x = i * 240, cx = x + 108, B = [x + 4, 186, 208, 46], TL = [x, 278, 216, 142], t = 1400 + i * 1000;
+    const d1 = `M468 136 C468 166 ${cx} 156 ${cx} 186`, d2 = `M${cx} 232 L${cx} 278`;
+    wire(c, d1, t, 500, i > 0);
+    put(c, t + 300, B, '', `<div class="box ${how[k][1]}" style="font-size:20px">${how[k][0]}</div>`);
+    wire(c, d2, t + 500, 250, i > 0);
+    put(c, t + 600, TL, 'card tile', tile(k));
+    [6400, 9400].forEach(t0 => { travel(c, `${d1} L${cx} 278`, t0 + i * 250, 900); glow(c, TL, t0 + i * 250 + 900); });
+  });
+  glow(c, A, 6000); glow(c, A, 9000);
+}
+
+// 2 · Atlas: the everyday jobs it does itself (here: drive the TV box)
+{
+  const c = 1;
+  const t = intro(c, 'atlas', 'Open the Guide on the TV box', 'Everyday jobs');   // ~3300
+  put(c, t, [290, 160, 300, 44], '', '<div class="box goldx">Drive devices</div>');
+  const tv = put(c, t, [640, 160, 296, 210], 'tv');
+  const home = document.createElement('div'); home.className = 'scr';
+  home.innerHTML = '<div class="nm">Home</div><div class="tiles"><i></i><i></i><i></i></div><div class="focus"></div>';
+  const guide = document.createElement('div'); guide.className = 'scr';
+  guide.innerHTML = '<div class="nm">Guide</div><div class="grid">' +
+    [[2, 3, 1], [1, 2, 3], [3, 1, 2]].map(r => '<div>' + r.map(f => `<i style="flex:${f}"></i>`).join('') + '</div>').join('') + '</div>';
+  tv.append(home, guide);
+  act(home.querySelector('.focus'), c, [[t + 1000, { transform: 'translateX(0)' }], [t + 1400, { transform: 'translateX(87px)' }]]);
+  act(home, c, [[t + 2000, { opacity: 1 }], [t + 2200, { opacity: 0 }]]);
+  act(guide, c, [[t + 2200, { opacity: 0 }], [t + 2450, { opacity: 1 }]]);
+  pop(c, t + 2900, [290, 80, 0, 0], 'bubble', '<span class="ok">Done ✓</span>');
+  ['Run tests', 'Search docs', 'Open a page'].forEach((s, i) => put(c, t + 4100 + i * 450, [290, 214 + i * 54, 300, 44], '', `<div class="box" style="background:var(--card);border:2px solid var(--line)">${s}</div>`));
+}
+
+// 3 · Forge: the script fills line by line and is saved
+{
+  const c = 2, t = intro(c, 'forge', 'Write a script: open the Guide');   // ~3300
+  put(c, t, [290, 120, 420, 220], 'card sheet', '<div class="bar"></div>');
+  const l1 = put(c, t + 400, [326, 166, 0, 0], 'lbl step', '<span>go to Guide</span>');
+  typeIn(l1.firstChild, c, t + 500, t + 1300);
+  const l2 = put(c, t + 1600, [326, 230, 0, 0], 'lbl step', '<span>check the screen</span>');
+  typeIn(l2.firstChild, c, t + 1700, t + 2800);
+  pop(c, t + 3400, [744, 206, 0, 0], 'chip', '<span class="ok">Saved ✓</span>');
+}
+
+// 4 · Sherlock: it reads each failed run and sorts them
+{
+  const c = 3, t = intro(c, 'sherlock', 'Why did these runs fail?');   // ~3000
+  const row = (y, name, why, delay) => put(c, delay, [290, y, 646, 64], '', `<div class="card row" style="position:relative"><b class="bad">✗ ${name}</b><span class="why">${why}</span></div>`).firstChild;
+  const A = row(120, 'Run A', 'No signal', t), B = row(200, 'Run B', 'Guide missing', t + 300);
+  const lens = mk(c, [0, 0, 56, 56], '', `<svg class="ic" viewBox="0 0 48 48" width="56" height="56" style="color:var(--goldText)">${ICON.sherlock}</svg>`);
+  const tr = (x, y) => ({ opacity: 1, transform: `translate(${x}px, ${y}px)` });
+  act(lens, c, [[t + 900, { ...tr(300, 128), opacity: 0 }], [t + 1100, tr(300, 128)], [t + 1800, tr(520, 128)],
+    [t + 2200, tr(300, 208)], [t + 2900, tr(560, 208)], [t + 3200, { ...tr(560, 208), opacity: 0 }]]);
+  const tagA = document.createElement('span'); tagA.className = 'chip tagc'; tagA.textContent = 'Lab problem: set aside'; A.appendChild(tagA);
+  const tagB = document.createElement('span'); tagB.className = 'chip tagc'; tagB.style.borderColor = 'var(--bad)'; tagB.textContent = 'Real bug: kept'; B.appendChild(tagB);
+  act(tagA, c, [[t + 1800, { opacity: 0, transform: 'scale(.6)' }], [t + 2000, { opacity: 1, transform: 'scale(1)' }]]);
+  act(tagB, c, [[t + 2900, { opacity: 0, transform: 'scale(.6)' }], [t + 3100, { opacity: 1, transform: 'scale(1)' }]]);
+  // sorted: the real bug comes to the top, the lab problem goes below, greyed
+  act(A, c, [[t + 3500, { transform: 'translateY(0)', background: '#ffffff' }], [t + 3950, { transform: 'translateY(160px)', background: '#e9e5df' }],
+    [t + 4450, { transform: 'translateY(160px)' }], [t + 4900, { transform: 'translateY(80px)' }]], 'ease-in-out');
+  act(B, c, [[t + 3950, { transform: 'translateY(0)', borderColor: '#d9d4cc' }], [t + 4450, { transform: 'translateY(-80px)', borderColor: '#dc2626' }]], 'ease-in-out');
+  put(c, t + 5300, [290, 294, 0, 0], 'note', 'In the background, when turned on');
+}
+
+// 5 · Nightwatch: the alert is explained and sorted into one of three
+{
+  const c = 4, t = intro(c, 'nightwatch', 'What happened last night?');   // ~3000
+  put(c, t, [290, 120, 646, 64], 'card row', '<b class="bad">●</b><span class="why" style="color:var(--ink)">Frozen picture · 7 min</span>');
+  const bins = ['Real', 'Expected', 'False alarm'].map((s, i) => put(c, t + 700 + i * 300, [290 + i * 223, 228, 200, 64], '', `<div class="bin">${s}</div>`).firstChild);
+  travel(c, 'M320 170 C320 210 390 210 390 260', t + 2000, 700, 'red');
+  act(bins[0], c, [[t + 2700, { background: 'rgba(212,165,116,0)', borderColor: '#d9d4cc', color: '#4a4a4a' }],
+    [t + 3000, { background: 'rgba(212,165,116,1)', borderColor: '#d4a574', color: '#141414' }]]);
+  put(c, t + 3800, [290, 312, 0, 0], 'note', 'New alerts sorted, when turned on');
+}
+
+// 6 · Masterchief: it checks on its own, proposes a fix, changes nothing until Confirm
+{
+  const c = 5, t = intro(c, 'masterchief', 'Clean up the full disk');   // ~2900
+  const bar = put(c, t, [290, 126, 646, 28], '', '<div class="track"><i></i></div>');
+  pop(c, t + 700, [290, 172, 0, 0], 'chip', '<span class="ok">Disk checked ✓</span>');
+  pop(c, t + 1300, [540, 172, 0, 0], 'chip', '<span class="ok">Logs read ✓</span>');
+  put(c, t + 2000, [290, 242, 646, 96], 'card row', '<b>Clean old captures?</b>');
+  const B = [742, 264, 170, 52], cx = B[0] + B[2] / 2, cy = B[1] + B[3] / 2;
+  const conf = put(c, t + 2000, B, '', '<div class="box btnx">Confirm</div>');
+  clickAt(c, [cx - 200, cy + 60], [cx, cy], t + 2800, t + 3600, conf.firstChild);
+  const fixed = mk(c, B, '', '<div class="box okx">Fixed ✓</div>');
+  act(fixed, c, [[t + 3900, { opacity: 0, transform: 'scale(.8)' }], [t + 4200, { opacity: 1, transform: 'scale(1)' }]]);
+  act(conf.firstChild, c, [[t + 3900, { opacity: 1 }], [t + 4100, { opacity: 0 }]]);
+  act(bar.querySelector('i'), c, [[t + 3900, { width: '92%', backgroundColor: '#dc2626' }], [t + 4800, { width: '38%', backgroundColor: '#dc2626' }], [t + 5000, { width: '38%', backgroundColor: '#16a34a' }]], 'ease-in-out');
+}
+
+// text that changes with time (counters, values) is set here, from a master animation whose target is in the DOM
+function tick(ms) { }
+const master = at(document.body.appendChild(document.createElement('div')), [[0, {}], [T, {}]], 'linear');
+(function loop() { tick(master.currentTime % T); requestAnimationFrame(loop); })();
+window.__seek = ms => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }); tick(ms); };
+window.__T = T;
+</script>
+</body>
+</html>
