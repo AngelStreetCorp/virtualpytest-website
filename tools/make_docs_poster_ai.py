@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
-"""Writes docs/img/ai-use-cases.svg (Docs poster "Where VirtualPyTest uses AI").
+"""Writes docs/img/ai-use-cases.jpg (Docs poster "Where VirtualPyTest uses AI").
 
-Layout agreed with the owner (2026-11-25): title, three numbers, the 8 use-case names as an overview, "How we keep AI
+Layout agreed with the owner (2026-11-25): title, three numbers, the 9 use-case names as an overview, "How we keep AI
 calls low" (algorithms, our small models, how we train them), then one card per use case: a real screenshot from our
 platform (docs/img/ai-use-cases-real-*.jpg, names of customers hidden), the model badge top right (route and fallback
-that really answered), 3 or 4 one-line steps, one gold result line. Words: the "Step by step" section of
+that really answered; an AI agent is named with an "AI Agent" pill), 3 or 4 one-line steps, one gold result line. Words: the "Step by step" section of
 docs/ai/AI-USE-CASES.md in the product repo. Every card is the same height; no text may wrap.
-The page is drawn in HTML, rendered by headless Chromium (Playwright) and stored as one JPEG inside the SVG, so the
-poster looks the same everywhere. Run from the repo root: python3 tools/make_docs_poster_ai.py
+The page is drawn in HTML, rendered by headless Chromium (Playwright) and saved as a JPG (a raster inside an SVG made a
+diff too large for the integration lane to scan), so the poster looks the same everywhere. Run from the repo root: python3 tools/make_docs_poster_ai.py
 """
 import base64, re
 from playwright.sync_api import sync_playwright
 def img(n):
     p = 'docs/img/fingerprint-real-report.jpg' if n == 'localize.jpg' else 'docs/img/ai-use-cases-real-' + n
     return 'data:image/jpeg;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
-AI='<span class="ai">AI</span>'; OWN='<span class="own">our model</span>'
+AI='<span class="ai">AI</span>'; OWN='<span class="own">our model</span>'; AG='<span class="ag">AI Agent</span>'
 cards=[
 ("Zap detection","Channel change time",'zap.jpg',"MiniMax Flash · fallback: Haiku",["Picture cuts: zap time measured","Banner text read by OCR","Known logo: name, no AI",f"New logo: {AI} reads it once"],"70 AI calls per wall before, 1 now"),
 ("Freeze detection","Is the picture stuck?",'freeze.jpg',"Our word classifier · no cloud",["Pixels stop moving","4 frames, diff under 0.5: freeze",f"Menu words? {OWN} says menu"],"0.25 ms, free, no cloud AI"),
-("Discard Test Result","App bug or lab problem?",'test-result.jpg',"Jev · fallback: MiniMax M3",["Same failure: same verdict",f"{AI} reads report and logs","Lab problem: result set aside"],"Only real bugs count"),
-("Discard Incident","Real problem or noise?",'discard-incident.jpg',"MiniMax VLM · fallback: Haiku",["Screen seen before: ignored",f"Menu words: {OWN} ignores it",f"Still unsure: {AI} looks at it"],"You only see real problems"),
+("Discard Test Result","App bug or lab problem?",'test-result.jpg',"Sherlock: MiniMax M2.7 · fallback: Haiku",["Same failure: same verdict",f"{AG} Sherlock reads the logs","Lab problem: result set aside"],"Only real bugs count"),
+("Discard Incident","Real problem or noise?",'discard-incident.jpg',"Nightwatch: MiniMax VLM · fallback: Haiku",["Screen seen before: ignored",f"Menu words: {OWN} ignores it",f"Unsure: {AG} Nightwatch looks"],"You only see real problems"),
 ("Classify unknown screens","A screen with no name",'unknown.jpg',"Our SmolVLM · fallback: MiniMax VLM",["Seen 5 times, no name yet",f"{OWN} or {AI} proposes a name","A person accepts it"],"Nothing named without a person"),
-("Chat Bot","Ask in plain words",'atlas.jpg',"Claude Sonnet 5.5 · fallback: MiniMax M3",["You ask in plain words",f"{AI} picks the tools","It answers, writes tests, acts"],"No code, no Python"),
-("Companion","Atlas beside the page",'companion.jpg',"Claude Sonnet 5.5 · fallback: MiniMax M3",["Atlas sees your page","You ask: filter stb31+",f"{AI} runs the page action"],"The page updates for you"),
+("Create script","Virtual script or test case",'create-script.jpg',"Forge: Claude Sonnet 5.5",["You describe the test in plain words",f"{AG} Forge writes script or test","A person reviews, then runs it"],"No code, no Python"),
+("Chat Bot","Ask in plain words",'atlas.jpg',"Atlas: Claude Sonnet 5.5 · fallback: MiniMax M3",["You ask in plain words",f"{AG} Atlas picks the tools","It answers or acts on a device"],"About 2 s per model step"),
+("Companion","Atlas beside the page",'companion.jpg',"Atlas: Claude Sonnet 5.5 · fallback: MiniMax M3",["Atlas sees your page","You ask: filter stb31+",f"{AG} Atlas runs the action"],"The page updates for you"),
 ("Localize Screen","Which screen is this?",'localize.jpg',"Our Qwen3 0.6B · fallback: MiniMax M3",["Fingerprint vs stored screens","Sure: done, no AI",f"Doubtful: {AI} confirms"],"AI on about 3 in 100"),
 ]
 ov=''.join(f'<div class="ov"><b>{"Classify screens" if c[0].startswith("Classify") else c[0]}</b><span>{c[1]}</span></div>' for c in cards)
@@ -48,7 +49,7 @@ body{{margin:0;background:#161616;color:#f2f2f2;font-family:Geist,Inter,system-u
 .stats{{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:30px 0 12px}}
 .st{{background:#212121;border:2px solid #3a3a3a;border-radius:18px;padding:18px 22px}} .st b{{font-size:44px;color:#e0a96d;display:block}} .st span{{color:#a8a8a8;font-size:20px}}
 .kinds{{color:#a8a8a8;font-size:19px;margin-bottom:30px}}
-.ovg{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}}
+.ovg{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}}
 .ov{{background:#212121;border:2px solid #3a3a3a;border-radius:16px;padding:18px 14px;text-align:center;display:flex;flex-direction:column;gap:6px;justify-content:center;min-height:92px}}
 .ov b{{font-size:19px;white-space:nowrap}} .ov span{{color:#a8a8a8;font-size:17px}}
 .card{{background:#212121;border:2px solid #3a3a3a;border-radius:22px;padding:24px 30px;margin-bottom:26px;height:340px;box-sizing:border-box}}
@@ -59,7 +60,7 @@ h2{{margin:0;font-size:34px}} .hd{{display:flex;justify-content:space-between;al
 ol{{list-style:none;padding:0;margin:0;font-size:22px;line-height:1.35}} li{{display:flex;gap:12px;align-items:center;margin-bottom:12px;white-space:nowrap}}
 .n{{background:#3a3a3a;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;flex:none}}
 .ai{{background:#e0a96d;color:#1a1a1a;font-weight:700;border-radius:8px;padding:1px 9px;font-size:18px}}
-.own{{background:#6dc5c9;color:#10201f;font-weight:700;border-radius:8px;padding:1px 9px;font-size:18px;white-space:nowrap}}
+.ag{{background:#e0a96d;color:#1a1a1a;font-weight:700;border-radius:8px;padding:1px 9px;font-size:18px;white-space:nowrap;box-shadow:inset 0 0 0 2px #1a1a1a55}} .own{{background:#6dc5c9;color:#10201f;font-weight:700;border-radius:8px;padding:1px 9px;font-size:18px;white-space:nowrap}}
 .res{{color:#e0a96d;font-size:21px;margin:10px 0 0;font-weight:600}}
 .how{{background:#212121;border:2px solid #3a3a3a;border-radius:22px;padding:26px 30px;margin-bottom:26px}} .hs{{color:#a8a8a8;font-size:21px;margin:8px 0 18px}}
 .gl{{color:#e0a96d;letter-spacing:2px;font-size:16px;font-weight:700;margin:18px 0 12px}}
@@ -86,10 +87,7 @@ with sync_playwright() as p:
     if bad:
         raise SystemExit("text wraps or overflows: " + "; ".join(bad))
     H = pg.evaluate("document.body.scrollHeight")
-    jpg = pg.screenshot(full_page=True, type="jpeg", quality=80)
+    jpg = pg.screenshot(full_page=True, type="jpeg", quality=82)
     b.close()
-svg = (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 {H}" width="1200" height="{H}" role="img" aria-labelledby="ti">'
-       f'<title id="ti">Where VirtualPyTest uses AI, in one image</title>'
-       f'<image width="1200" height="{H}" href="data:image/jpeg;base64,{base64.b64encode(jpg).decode()}"/></svg>')
-open("docs/img/ai-use-cases.svg", "w").write(svg)
-print(f"docs/img/ai-use-cases.svg written, 1200x{H}, {len(svg)//1024} KB")
+open("docs/img/ai-use-cases.jpg", "wb").write(jpg)
+print(f"docs/img/ai-use-cases.jpg written, 1200x{H}, {len(jpg)//1024} KB")

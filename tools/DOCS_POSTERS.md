@@ -59,10 +59,12 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
   use case, all the same height: a **real screenshot from our platform** on the left in a fixed frame (zap report,
   freeze incident, Atlas chat, fingerprint report; customer and operator names hidden), 3 or 4 one-line steps with an
   `AI` / `our model` pill on the step that uses one, one result line in gold that starts with `→`, and the model that
-  really answers as a badge top right (route + fallback, read from `ai_routes` and the last 7 days of `ai_calls`).
+  really answers as a badge top right (a step done by one of our AI agents names it with an `AI Agent` pill and the
+  badge starts with the agent: "Nightwatch: MiniMax VLM · fallback: Haiku") (route + fallback, read from `ai_routes` and the last 7 days of `ai_calls`).
   The names are the platform's own feature names. No "How to read" legend: needing one means the poster explains
   badly. The layout is agreed as a text mockup in chat first and then kept. The page is drawn in HTML and rendered
-  to one JPEG inside the SVG; the generator refuses text that wraps. Example: `tools/make_docs_poster_ai.py`.
+  to a JPG (`docs/img/ai-use-cases.jpg`; a big raster inside an SVG makes a diff the lane cannot scan); the
+  generator refuses text that wraps. Example: `tools/make_docs_poster_ai.py`.
 - **First card = the overview**: one chip per doc section (the doc's titles), before the detailed cards. A section that
   is not a use case (for example "What is NOT AI") is not a chip there; it gets its own detailed card, with no number.
 - **No date on a poster**, ever ("checked on ...", "to 2026-11-22"). A period the doc states ("30 days", "7 days") is fine.
