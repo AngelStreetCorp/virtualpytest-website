@@ -63,7 +63,8 @@ never changes with the theme). Palette: panel `#212121`, chip `#2a2a2a`, line `#
   badge starts with the agent: "Nightwatch: MiniMax VLM · fallback: Haiku") (route + fallback, read from `ai_routes` and the last 7 days of `ai_calls`).
   The names are the platform's own feature names. No "How to read" legend: needing one means the poster explains
   badly. The layout is agreed as a text mockup in chat first and then kept. The page is drawn in HTML and rendered
-  to one JPEG inside the SVG; the generator refuses text that wraps. Example: `tools/make_docs_poster_ai.py`.
+  to a JPG (`docs/img/ai-use-cases.jpg`; a big raster inside an SVG makes a diff the lane cannot scan); the
+  generator refuses text that wraps. Example: `tools/make_docs_poster_ai.py`.
 - **First card = the overview**: one chip per doc section (the doc's titles), before the detailed cards. A section that
   is not a use case (for example "What is NOT AI") is not a chip there; it gets its own detailed card, with no number.
 - **No date on a poster**, ever ("checked on ...", "to 2026-11-22"). A period the doc states ("30 days", "7 days") is fine.

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Writes docs/img/ai-use-cases.svg (Docs poster "Where VirtualPyTest uses AI").
+"""Writes docs/img/ai-use-cases.jpg (Docs poster "Where VirtualPyTest uses AI").
 
 Layout agreed with the owner (2026-11-25): title, three numbers, the 9 use-case names as an overview, "How we keep AI
 calls low" (algorithms, our small models, how we train them), then one card per use case: a real screenshot from our
 platform (docs/img/ai-use-cases-real-*.jpg, names of customers hidden), the model badge top right (route and fallback
 that really answered; an AI agent is named with an "AI Agent" pill), 3 or 4 one-line steps, one gold result line. Words: the "Step by step" section of
 docs/ai/AI-USE-CASES.md in the product repo. Every card is the same height; no text may wrap.
-The page is drawn in HTML, rendered by headless Chromium (Playwright) and stored as one JPEG inside the SVG, so the
-poster looks the same everywhere. Run from the repo root: python3 tools/make_docs_poster_ai.py
+The page is drawn in HTML, rendered by headless Chromium (Playwright) and saved as a JPG (a raster inside an SVG made a
+diff too large for the integration lane to scan), so the poster looks the same everywhere. Run from the repo root: python3 tools/make_docs_poster_ai.py
 """
 import base64, re
 from playwright.sync_api import sync_playwright
@@ -87,10 +87,7 @@ with sync_playwright() as p:
     if bad:
         raise SystemExit("text wraps or overflows: " + "; ".join(bad))
     H = pg.evaluate("document.body.scrollHeight")
-    jpg = pg.screenshot(full_page=True, type="jpeg", quality=72)
+    jpg = pg.screenshot(full_page=True, type="jpeg", quality=82)
     b.close()
-svg = (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 {H}" width="1200" height="{H}" role="img" aria-labelledby="ti">'
-       f'<title id="ti">Where VirtualPyTest uses AI, in one image</title>'
-       f'<image width="1200" height="{H}" href="data:image/jpeg;base64,{base64.b64encode(jpg).decode()}"/></svg>')
-open("docs/img/ai-use-cases.svg", "w").write(svg)
-print(f"docs/img/ai-use-cases.svg written, 1200x{H}, {len(svg)//1024} KB")
+open("docs/img/ai-use-cases.jpg", "wb").write(jpg)
+print(f"docs/img/ai-use-cases.jpg written, 1200x{H}, {len(jpg)//1024} KB")
