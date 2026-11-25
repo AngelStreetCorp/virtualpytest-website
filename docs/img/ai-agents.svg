@@ -6,7 +6,7 @@
 <rect x="60" y="320" width="1080" height="250" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
 <rect x="450" y="344" width="300" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="600.0" y="375" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Atlas</text>
-<text x="600.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">ask anything</text>
+<text x="600.0" y="400" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the built-in chat</text>
 <path d="M495 416C495 452 213 440 213 476" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/>
 <rect x="90" y="478" width="246" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="213.0" y="509" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Forge</text>
@@ -28,7 +28,7 @@
 <circle cx="112" cy="682" r="26" fill="#e0a96d"/>
 <text x="112" y="691" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
 <text x="156" y="680" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Atlas</text>
-<text x="156" y="712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Ask anything: the one you meet first</text>
+<text x="156" y="712" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Does the everyday jobs itself</text>
 <rect x="90.0" y="742" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="210.75" y="773" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Drive devices</text>
 <text x="210.75" y="798" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">keys, screens</text>
@@ -41,7 +41,7 @@
 <rect x="868.5" y="742" width="241.5" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="989.25" y="773" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Open a page</text>
 <text x="989.25" y="798" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">beside the chat</text>
-<text x="600" y="854" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">The default: it takes any ask first.</text>
+<text x="600" y="854" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Dashboards too: it builds them from your data.</text>
 <path d="M600 890V924" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 918L600 932L612 918" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="60" y="942" width="1080" height="252" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
 <circle cx="112" cy="994" r="26" fill="#e0a96d"/>
