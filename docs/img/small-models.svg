@@ -1,14 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 3248" width="1200" height="3248" role="img" aria-labelledby="ti"><title id="ti">Our own small models, in one image</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 3248" width="1200" height="3248" role="img" aria-labelledby="ti"><title id="ti">Our own SLM (small local models), in one image</title>
 <rect width="1200" height="3248" fill="#161616"/>
 <text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">AI IN THE LAB</text>
-<text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Our own small models</text>
-<text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">How we trained them, one per use case.</text>
-<text x="60" y="274" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Small, fast, free, and on our own boxes.</text>
+<text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Our own SLM</text>
+<text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Small local models</text>
+<text x="60" y="274" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">How we trained them, one per use case.</text>
 <rect x="60" y="330" width="1080" height="386" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
 <circle cx="112" cy="382" r="26" fill="#e0a96d"/>
 <text x="112" y="391" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">•</text>
 <text x="156" y="380" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Overview</text>
-<text x="156" y="412" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Three small models of our own, taught by the cloud models</text>
+<text x="156" y="412" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Three SLM of our own, taught by the cloud models</text>
 <rect x="90" y="442" width="501" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
 <text x="340" y="472" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">The six steps</text>
 <text x="340" y="497" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">the same for every job</text>

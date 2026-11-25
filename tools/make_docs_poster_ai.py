@@ -2,7 +2,7 @@
 """Writes docs/img/ai-use-cases.jpg (Docs poster "Where VirtualPyTest uses AI").
 
 Layout agreed with the owner (2026-11-25): title, three numbers, the 9 use-case names as an overview, "How we keep AI
-calls low" (algorithms, our small models, how we train them), then one card per use case: a real screenshot from our
+calls low" (algorithms, our own SLM, how we train them), then one card per use case: a real screenshot from our
 platform (docs/img/ai-use-cases-real-*.jpg, names of customers hidden), the model badge top right (route and fallback
 that really answered; an AI agent is named with an "AI Agent" pill), 3 or 4 one-line steps, one gold result line. Words: the "Step by step" section of
 docs/ai/AI-USE-CASES.md in the product repo. Every card is the same height; no text may wrap.
@@ -35,7 +35,7 @@ models=[("Word classifier",["Base: none (word weights)","2 MB · 0.25 ms","95.6 
 train=["Take the lab's own AI answers","Keep a test set two strong models agree on","Teach the small model: 15 to 30 min, under 2 USD","Serve it: sure answers only, cloud AI as fallback"]
 how='<section class="how"><h2>How we keep AI calls low</h2><p class="hs">Repetitive tasks get an algorithm or a small model of our own. The cloud AI is only the fallback.</p>'
 how+='<div class="gl">ALGORITHMS: NO MODEL, NO COST</div><div class="tg4">'+''.join(tile(*a) for a in algos)+'</div>'
-how+='<div class="gl">OUR SMALL MODELS: TRAINED BY US, RUN ON OUR BOXES</div><div class="tg3">'+''.join(tile(*m) for m in models)+'</div>'
+how+='<div class="gl">OUR OWN SLM: SMALL LOCAL MODELS, TRAINED BY US</div><div class="tg3">'+''.join(tile(*m) for m in models)+'</div>'
 how+='<div class="gl">HOW WE TRAIN THEM</div><ol class="tr">'+''.join(f'<li><span class="n">{i}</span><span>{t}</span></li>' for i,t in enumerate(train,1))+'</ol><p class="res">→ Answering only when sure turns 94 % into 98 %</p></section>'
 cs=''
 for t,sub,im,model,steps,res in cards:
