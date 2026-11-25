@@ -13,6 +13,7 @@ from playwright.sync_api import sync_playwright
 
 POSTERS = [
     ("what-is", "What is VirtualPyTest?", "img/what-is-virtualpytest.svg", "Any device with a screen, tested and monitored 24/7 by AI, in one image."),
+    ("hosts-anywhere", "Servers and hosts, anywhere", "img/hosts-anywhere.svg", "Nothing central: run servers in the cloud or on site, put hosts wherever the devices are, and one frontend sees them all."),
     ("profiles", "A profile is a set of services", "img/profiles.svg", "What a host runs for each device: three host shapes, a profile per device and a table of what each profile switches on."),
     ("services", "Services are background jobs", "img/services.svg", "Every VirtualPyTest service, grouped in server and host, and how each one shows on the Status page."),
     ("fingerprint", "Fingerprint", "img/fingerprint.svg", "Which node is on screen right now? The blob stored on a node, the sibling check at save, the refresh script and the six abstain doors of identify_screen."),
