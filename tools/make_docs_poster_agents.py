@@ -22,7 +22,7 @@ AGENTS = [
       ('Open a page', 'beside the chat')], 'Dashboards too: it builds them from your data.'),
     ('Forge', 'Writes tests from plain words',
      [('Scripts', 'virtual scripts'), ('Test cases', 'build and run'), ('App maps', 'screens, keys'),
-      ('Campaigns', 'groups of tests')], 'Atlas hands it the scripts to write.'),
+      ('Campaigns', 'groups of tests')], 'Its work is saved, ready to run.'),
     ('Sherlock', 'Why did the run fail?',
      [('Read the run', 'results, status'), ('Real bug', 'kept'), ('Lab problem', 'set aside'),
       ('Correct it', 'the verdict')], 'In the background too, when turned on.'),
