@@ -71,20 +71,21 @@ y = card(y, "•", "Where it runs", "Three places", [
     [("Cloud models", "chosen per use case"), ("Small models", "ours and on the host"), ("Your own PC", "for low-priority work")],
 ], ["Every cloud call is logged."])
 y = card(y, "•", "What is NOT AI", "People often think it is", [
-    [("Localize", "which screen is this?"), ("Load and zap times", "a clock")],
+    [("Localize", "which screen is this?"), ("Load and zap times", "a clock, the picture cut")],
     [("Freeze, black screen, no audio", "measured on the host"), ("Navigation", "the shortest path in the tree")],
     [("Repair of a tree", "after an app update"), ("Screen memory", "a screen judged harmless once")],
 ], ["AI only helps Localize when a match is doubtful."])
 y = card(y, "1", "Discard incidents", "So a person only looks at real problems", [
-    [("Alert triage", "real or noise?"), ("Freeze triage", "menu or stuck video?"), ("Freeze word classifier", "reads the words only")],
+    [("Alert triage", "real or noise?"), ("Freeze triage", "menu or stuck video?"), ("Freeze word classifier", "0.25 ms, 0 USD")],
 ], ["A frozen menu, a sleeping phone, a network blink."])
 y = card(y, "2", "Discard scripts", "Failed runs caused by the lab are set aside", [
-    [("Script result analysis", "app bug or lab problem?"), ("Test Prompt", "app failure or stale test?")],
+    [("Script result analysis", "app bug or lab problem?"), ("Sherlock verdict", "used when 0.9 sure")],
+    [("Sherlock signature table", "a failure already judged"), ("Test Prompt", "app failure or stale test?")],
 ], ["The pass rate counts only real results."])
 y = card(y, "3", "Classify unknown screens", "When the fingerprint is not sure", [
     [("Localize second opinion", "a doubtful match"), ("Text check second opinion", "a close score")],
-    [("Channel banner", "read after a zap"), ("Unknown screens", "given a name"), ("OCR", "reads the words on screen")],
-], ["It only confirms a doubtful answer."])
+    [("Channel banner", "OCR + logo table"), ("Unknown screens", "our screen namer"), ("OCR", "reads the words")],
+], ["Localize: AI only confirms a doubtful answer.", "Channel banner: a known logo needs no AI. Stream wall: 60-80 AI calls, now 1."])
 y = card(y, "4", "Create scripts", "From plain words. No code, no Python.", [
     [("Forge", "scripts, tests, trees"), ("Atlas", "tests in the chat")],
     [("Test plan", "the steps from a goal"), ("Exploration", "reads a new app")],
