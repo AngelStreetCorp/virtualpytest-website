@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2044" width="1200" height="2044" role="img" aria-labelledby="ti"><title id="ti">Everything on one machine: the whole platform on one Raspberry Pi 5 or one VM, what to plug in and how to install it</title>
+<rect width="1200" height="2044" fill="#161616"/>
+<text x="60" y="90" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">RASPBERRY PI STANDALONE</text>
+<text x="60" y="166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Everything on one machine</text>
+<text x="60" y="220" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">One Raspberry Pi 5 on a desk, or one VM or PC.</text>
+<rect x="60" y="270" width="1080" height="258" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="322" r="26" fill="#e0a96d"/>
+<text x="112" y="331" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="320" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">What runs on it</text>
+<text x="156" y="352" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The whole platform, on one board or one machine</text>
+<rect x="90" y="374" width="328" height="64" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="112" y="402" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Frontend</text>
+<text x="112" y="426" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The web app</text>
+<rect x="436" y="374" width="328" height="64" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="458" y="402" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Server</text>
+<text x="458" y="426" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">API, schedules, results</text>
+<rect x="782" y="374" width="328" height="64" rx="16" fill="#2a2a2a" stroke="#e0a96d" stroke-width="2"/>
+<text x="804" y="402" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="0">Host</text>
+<text x="804" y="426" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Drives the devices</text>
+<rect x="90" y="450" width="328" height="64" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="112" y="478" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Database</text>
+<text x="112" y="502" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Keeps the data</text>
+<rect x="436" y="450" width="328" height="64" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="458" y="478" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Storage</text>
+<text x="458" y="502" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Files and queues</text>
+<rect x="782" y="450" width="328" height="64" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="804" y="478" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Grafana</text>
+<text x="804" y="502" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Dashboards. Optional</text>
+<path d="M600 528V552" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 546L600 560L612 546" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="564" width="1080" height="486" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="616" r="26" fill="#e0a96d"/>
+<text x="112" y="625" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="614" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">One Raspberry Pi 5</text>
+<text x="156" y="646" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">For a home lab or a demo. Up to 4 devices.</text>
+<rect x="100" y="676" width="380" height="210" rx="16" fill="#2a2418" stroke="#e0a96d" stroke-width="2"/>
+<circle cx="144" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="161" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="178" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="195" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="212" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="229" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="246" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="263" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="280" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="297" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="314" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="331" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="348" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="365" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="382" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="399" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="416" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<circle cx="433" cy="690" r="3" fill="#e0a96d" opacity="0.55"/>
+<text x="124" y="730" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Raspberry Pi 5</text>
+<text x="456" y="730" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#e0a96d" text-anchor="end" letter-spacing="0">16 GB</text>
+<circle cx="170" cy="806" r="38" fill="none" stroke="#a8a8a8" stroke-width="2.5"/><circle cx="170" cy="806" r="7" fill="#a8a8a8"/>
+<path d="M170 806q14 -10 26 -4" fill="none" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round" transform="rotate(0 170 806)"/>
+<path d="M170 806q14 -10 26 -4" fill="none" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round" transform="rotate(90 170 806)"/>
+<path d="M170 806q14 -10 26 -4" fill="none" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round" transform="rotate(180 170 806)"/>
+<path d="M170 806q14 -10 26 -4" fill="none" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round" transform="rotate(270 170 806)"/>
+<text x="170" y="872" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">fan</text>
+<path d="M256 772h54l14 14v58h-68z" fill="#2a2a2a" stroke="#a8a8a8" stroke-width="2"/>
+<text x="290" y="820" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">128</text>
+<text x="290" y="872" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">disk</text>
+<rect x="416" y="756" width="44" height="28" rx="4" fill="#2b5fae" stroke="#5b8de0" stroke-width="1.5"/>
+<rect x="416" y="794" width="44" height="28" rx="4" fill="#2b5fae" stroke="#5b8de0" stroke-width="1.5"/>
+<text x="438" y="842" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">USB 3</text>
+<rect x="416" y="852" width="44" height="22" rx="3" fill="#2a2a2a" stroke="#a8a8a8" stroke-width="1.5"/>
+<text x="404" y="869" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="end" letter-spacing="0">LAN</text>
+<path d="M460 863C510.0 863 510.0 919 560 919" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<rect x="560" y="902" width="120" height="34" rx="10" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="620" y="925" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">network</text>
+<text x="694" y="925" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">cable, not Wi-Fi</text>
+<path d="M460 770C510.0 770 510.0 776 560 776" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<rect x="560" y="744" width="130" height="64" rx="12" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="625" y="770" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">USB hub</text>
+<text x="625" y="790" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">powered</text>
+<text x="625" y="826" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">for 2+ cards</text>
+<text x="915" y="688" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">1 capture card per device</text>
+<path d="M690 776C730.0 776 730.0 720 770 720" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<rect x="770" y="709" width="58" height="22" rx="5" fill="#2a2a2a" stroke="#e0a96d" stroke-width="2"/><rect x="828" y="715" width="10" height="10" rx="2" fill="#e0a96d"/>
+<path d="M838 720H884" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="894" y="702" width="46" height="30" rx="4" fill="none" stroke="#a8a8a8" stroke-width="2.5"/><path d="M909 739H925" stroke="#a8a8a8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M690 776C730.0 776 730.0 766 770 766" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<rect x="770" y="755" width="58" height="22" rx="5" fill="#2a2a2a" stroke="#e0a96d" stroke-width="2"/><rect x="828" y="761" width="10" height="10" rx="2" fill="#e0a96d"/>
+<path d="M838 766H884" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="894" y="748" width="46" height="30" rx="4" fill="none" stroke="#a8a8a8" stroke-width="2.5"/><path d="M909 785H925" stroke="#a8a8a8" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M690 776C730.0 776 730.0 812 770 812" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<rect x="770" y="801" width="58" height="22" rx="5" fill="#2a2a2a" stroke="#e0a96d" stroke-width="2"/><rect x="828" y="807" width="10" height="10" rx="2" fill="#e0a96d"/>
+<path d="M838 812H884" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="896" y="794" width="20" height="36" rx="4" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<path d="M690 776C730.0 776 730.0 858 770 858" fill="none" stroke="#a8a8a8" stroke-width="2.5"/>
+<rect x="770" y="847" width="58" height="22" rx="5" fill="#2a2a2a" stroke="#e0a96d" stroke-width="2"/><rect x="828" y="853" width="10" height="10" rx="2" fill="#e0a96d"/>
+<path d="M838 858H884" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="894" y="840" width="46" height="30" rx="4" fill="none" stroke="#a8a8a8" stroke-width="2.5"/><path d="M909 877H925" stroke="#a8a8a8" stroke-width="2.5" stroke-linecap="round"/>
+<text x="966" y="740" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">HDMI</text>
+<rect x="90" y="956" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="210.0" y="986" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">16 GB</text>
+<text x="210.0" y="1011" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">8 GB = 1 device</text>
+<rect x="350" y="956" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="470.0" y="986" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Up to 4</text>
+<text x="470.0" y="1011" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">devices</text>
+<rect x="610" y="956" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="730.0" y="986" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">128 GB</text>
+<text x="730.0" y="1011" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">microSD or NVMe</text>
+<rect x="870" y="956" width="240" height="70" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="990.0" y="986" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">~30 min</text>
+<text x="990.0" y="1011" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">to first test</text>
+<path d="M600 1050V1074" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1068L600 1082L612 1068" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1086" width="1080" height="336" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1138" r="26" fill="#e0a96d"/>
+<text x="112" y="1147" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1136" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Or one VM or PC</text>
+<text x="156" y="1168" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Debian 12 or Ubuntu 22.04 or newer. The same parts.</text>
+<rect x="90" y="1190" width="1020" height="180" rx="16" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<path d="M90 1230H1110" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="116" cy="1210" r="6" fill="#e06d6d"/>
+<circle cx="136" cy="1210" r="6" fill="#e0a96d"/>
+<circle cx="156" cy="1210" r="6" fill="#4ade80"/>
+<text x="186" y="1217" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">One VM</text>
+<text x="120" y="1270" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="600" fill="#a8a8a8" text-anchor="start" letter-spacing="0">CPU</text>
+<rect x="210.0" y="1250" width="44.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="260.0" y="1250" width="44.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="310.0" y="1250" width="44.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="360.0" y="1250" width="44.0" height="26" rx="4" fill="#e0a96d"/>
+<text x="426" y="1270" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">4 cores</text>
+<rect x="540.0" y="1250" width="44.0" height="26" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<rect x="590.0" y="1250" width="44.0" height="26" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="654.0" y="1270" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="0">+2 cores per capture card</text>
+<text x="120" y="1310" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="600" fill="#a8a8a8" text-anchor="start" letter-spacing="0">RAM</text>
+<rect x="210.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="235.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="260.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="285.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="310.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="335.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="360.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<rect x="385.0" y="1290" width="19.0" height="26" rx="4" fill="#e0a96d"/>
+<text x="426" y="1310" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">8 GB</text>
+<rect x="540.0" y="1290" width="19.0" height="26" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<rect x="565.0" y="1290" width="19.0" height="26" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<rect x="590.0" y="1290" width="19.0" height="26" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<rect x="615.0" y="1290" width="19.0" height="26" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="654.0" y="1310" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="0">+4 GB per capture card</text>
+<text x="120" y="1350" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="600" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Disk</text>
+<rect x="210" y="1330" width="194" height="26" rx="4" fill="#e0a96d"/>
+<text x="426" y="1350" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">60 GB</text>
+<text x="600" y="1402" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">On a VM, the hypervisor passes each USB capture card through.</text>
+<path d="M600 1422V1446" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1440L600 1454L612 1440" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1458" width="1080" height="376" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1510" r="26" fill="#e0a96d"/>
+<text x="112" y="1519" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
+<text x="156" y="1508" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Install in a few commands</text>
+<text x="156" y="1540" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Then open http://&lt;address&gt;:5073 and add your devices.</text>
+<rect x="90" y="1562" width="500" height="184" rx="14" fill="#111111" stroke="#3a3a3a" stroke-width="2"/>
+<path d="M90 1598H590" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1580" r="5.5" fill="#e06d6d"/>
+<circle cx="130" cy="1580" r="5.5" fill="#e0a96d"/>
+<circle cx="148" cy="1580" r="5.5" fill="#4ade80"/>
+<text x="174" y="1587" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Raspberry Pi: Docker</text>
+<text x="110" y="1634" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#f2f2f2" text-anchor="start" letter-spacing="0">git clone .../virtualpytest.git</text>
+<text x="110" y="1666" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#f2f2f2" text-anchor="start" letter-spacing="0">cd virtualpytest</text>
+<text x="110" y="1698" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#f2f2f2" text-anchor="start" letter-spacing="0">./setup/docker/install_docker.sh</text>
+<text x="110" y="1730" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#e0a96d" text-anchor="start" letter-spacing="0">./setup/docker/launch.sh</text>
+<rect x="610" y="1562" width="500" height="184" rx="14" fill="#111111" stroke="#3a3a3a" stroke-width="2"/>
+<path d="M610 1598H1110" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="632" cy="1580" r="5.5" fill="#e06d6d"/>
+<circle cx="650" cy="1580" r="5.5" fill="#e0a96d"/>
+<circle cx="668" cy="1580" r="5.5" fill="#4ade80"/>
+<text x="694" y="1587" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">One VM: one script</text>
+<text x="630" y="1634" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#f2f2f2" text-anchor="start" letter-spacing="0">git clone .../virtualpytest.git</text>
+<text x="630" y="1666" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#f2f2f2" text-anchor="start" letter-spacing="0">cd virtualpytest</text>
+<text x="630" y="1698" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace" font-size="16" font-weight="400" fill="#e0a96d" text-anchor="start" letter-spacing="0">sudo -v &amp;&amp; ./setup/local/linux/install_all.sh</text>
+<text x="340.0" y="1778" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">The first build is slow</text>
+<text x="340.0" y="1804" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">images are built on the Pi</text>
+<text x="860.0" y="1778" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Most of an hour</text>
+<text x="860.0" y="1804" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">safe to run again</text>
+<rect x="60" y="1864" width="1080" height="96" rx="22" fill="#2a2418" stroke="#e0a96d" stroke-width="2"/>
+<text x="600" y="1906" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Outgrow it? The Pi stays useful as a host next to the devices,</text>
+<text x="600" y="1938" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">and the rest moves to a Proxmox node.</text>
+<text x="600" y="2012" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+</svg>

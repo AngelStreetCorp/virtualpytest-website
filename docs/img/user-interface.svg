@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2114" width="1200" height="2114" role="img" aria-labelledby="ti"><title id="ti">Map Your App: map your app once as a user interface, pathfinding and Localize, a KPI on every move, one variant per model</title>
+<rect width="1200" height="2114" fill="#161616"/>
+<text x="60" y="90" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">USER INTERFACE</text>
+<text x="60" y="166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Map Your App</text>
+<text x="60" y="220" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="27" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Map your app once. Every test reuses the same screens and keys.</text>
+<rect x="60" y="270" width="1080" height="362" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="322" r="26" fill="#e0a96d"/>
+<text x="112" y="331" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="330" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Your app: screens and the moves between them</text>
+<text x="156" y="364" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Each move: a screen, a key, the next screen</text>
+<rect x="110" y="410" width="170" height="106" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="124" y="422" width="102.0" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="124" y="433" width="102.0" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="124" y="444" width="102.0" height="7" rx="2" fill="#4a4a4a"/>
+<text x="195.0" y="494" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Settings</text>
+<rect x="380" y="410" width="170" height="106" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="394.0" y="424" width="27.5" height="31.8" rx="3" fill="#4a4a4a"/>
+<rect x="429.5" y="424" width="27.5" height="31.8" rx="3" fill="#4a4a4a"/>
+<rect x="465.0" y="424" width="27.5" height="31.8" rx="3" fill="#4a4a4a"/>
+<rect x="500.5" y="424" width="27.5" height="31.8" rx="3" fill="#4a4a4a"/>
+<text x="465.0" y="494" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<rect x="650" y="410" width="170" height="106" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="664" y="422" width="59.5" height="7" rx="2" fill="#4a4a4a"/><rect x="729.5" y="422" width="76.5" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="664" y="433" width="59.5" height="7" rx="2" fill="#4a4a4a"/><rect x="729.5" y="433" width="76.5" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="664" y="444" width="59.5" height="7" rx="2" fill="#4a4a4a"/><rect x="729.5" y="444" width="76.5" height="7" rx="2" fill="#4a4a4a"/>
+<text x="735.0" y="494" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Guide</text>
+<rect x="920" y="410" width="170" height="106" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<path d="M996.0 429.8L1017.0 441.8L996.0 453.8Z" fill="#4a4a4a"/>
+<text x="1005.0" y="494" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Live TV</text>
+<path d="M372 446L302.0 446.0" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round"/>
+<path d="M302.0 437.0L288 446L302.0 455.0Z" fill="#a8a8a8"/>
+<path d="M288 484L358.0 484.0" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round"/>
+<path d="M358.0 493.0L372 484L358.0 475.0Z" fill="#a8a8a8"/>
+<text x="330.0" y="434" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Menu</text>
+<text x="330.0" y="510" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Back</text>
+<path d="M558 446L628.0 446.0" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/>
+<path d="M628.0 455.0L642 446L628.0 437.0Z" fill="#e0a96d"/>
+<path d="M642 484L572.0 484.0" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round"/>
+<path d="M572.0 475.0L558 484L572.0 493.0Z" fill="#a8a8a8"/>
+<text x="600.0" y="434" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">OK</text>
+<text x="600.0" y="510" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Back</text>
+<path d="M828 446L898.0 446.0" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round"/>
+<path d="M898.0 455.0L912 446L898.0 437.0Z" fill="#a8a8a8"/>
+<path d="M912 484L842.0 484.0" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round"/>
+<path d="M842.0 475.0L828 484L842.0 493.0Z" fill="#a8a8a8"/>
+<text x="870.0" y="434" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">OK</text>
+<text x="870.0" y="510" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Back</text>
+<text x="600" y="568" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="30" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Home + OK = Guide</text>
+<text x="600" y="610" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">You map it once. Every test reuses it.</text>
+<path d="M600 632V660" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 654L600 668L612 654" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="672" width="1080" height="384" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="724" r="26" fill="#e0a96d"/>
+<text x="112" y="733" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="732" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Write goto, we find the way</text>
+<text x="156" y="766" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Pathfinding takes the shortest path on the map</text>
+<rect x="90" y="812" width="260" height="120" rx="16" fill="#111111" stroke="#3a3a3a" stroke-width="2"/>
+<text x="112" y="848" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#a8a8a8" text-anchor="start" letter-spacing="2">YOUR TEST</text>
+<text x="112" y="890" font-family="ui-monospace,DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="0">goto("Settings")</text>
+<text x="112" y="918" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Just one line</text>
+<rect x="420" y="822" width="160" height="100" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="434" y="834" width="56.0" height="7" rx="2" fill="#4a4a4a"/><rect x="496.0" y="834" width="72.0" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="434" y="845" width="56.0" height="7" rx="2" fill="#4a4a4a"/><rect x="496.0" y="845" width="72.0" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="434" y="856" width="56.0" height="7" rx="2" fill="#4a4a4a"/><rect x="496.0" y="856" width="72.0" height="7" rx="2" fill="#4a4a4a"/>
+<text x="500.0" y="900" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Guide</text>
+<rect x="670" y="822" width="160" height="100" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="684.0" y="836" width="25.0" height="30.0" rx="3" fill="#4a4a4a"/>
+<rect x="717.0" y="836" width="25.0" height="30.0" rx="3" fill="#4a4a4a"/>
+<rect x="750.0" y="836" width="25.0" height="30.0" rx="3" fill="#4a4a4a"/>
+<rect x="783.0" y="836" width="25.0" height="30.0" rx="3" fill="#4a4a4a"/>
+<text x="750.0" y="900" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<rect x="920" y="822" width="160" height="100" rx="10" fill="#2a2418" stroke="#e0a96d" stroke-width="3"/>
+<rect x="934" y="834" width="96.0" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="934" y="845" width="96.0" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="934" y="856" width="96.0" height="7" rx="2" fill="#4a4a4a"/>
+<text x="1000.0" y="900" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Settings</text>
+<path d="M360 872L398.0 872.0" stroke="#e0a96d" stroke-width="3" stroke-linecap="round"/>
+<path d="M398.0 881.0L412 872L398.0 863.0Z" fill="#e0a96d"/>
+<path d="M588 872L648.0 872.0" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/>
+<path d="M648.0 881.0L662 872L648.0 863.0Z" fill="#e0a96d"/>
+<text x="625.0" y="858" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Back</text>
+<path d="M838 872L898.0 872.0" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/>
+<path d="M898.0 881.0L912 872L898.0 863.0Z" fill="#e0a96d"/>
+<text x="875.0" y="858" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Menu</text>
+<rect x="425" y="936" width="150" height="54" rx="12" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="500.0" y="958" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="1">Localize</text>
+<text x="500.0" y="980" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">You are here</text>
+<rect x="925" y="936" width="150" height="54" rx="12" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="1000.0" y="958" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="1">Localize</text>
+<text x="1000.0" y="980" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Arrived ✓</text>
+<text x="750.0" y="970" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Shortest: 2 steps</text>
+<text x="600" y="1030" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Localize names the live screen by its fingerprint: the path starts there.</text>
+<path d="M600 1056V1084" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1078L600 1092L612 1078" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1096" width="1080" height="364" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1148" r="26" fill="#e0a96d"/>
+<text x="112" y="1157" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1156" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Every move records its KPI</text>
+<text x="156" y="1190" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Measured in the background: the test never waits</text>
+<rect x="90" y="1224" width="490" height="172" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="114" y="1260" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">KPI</text>
+<rect x="114" y="1288" width="76" height="44" rx="22" fill="#111111" stroke="#e0a96d" stroke-width="2"/>
+<text x="152" y="1317" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">OK</text>
+<path d="M202 1310H408" stroke="#e0a96d" stroke-width="3" stroke-dasharray="6 6"/>
+<path d="M202 1298V1322M408 1298V1322" stroke="#e0a96d" stroke-width="3"/>
+<rect x="258" y="1294" width="94" height="32" rx="10" fill="#2a2418" stroke="#2a2418" stroke-width="0"/>
+<text x="305" y="1317" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">1.6 s</text>
+<rect x="420" y="1268" width="136" height="84" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="434" y="1280" width="47.6" height="7" rx="2" fill="#4a4a4a"/><rect x="487.6" y="1280" width="61.2" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="434" y="1291" width="47.6" height="7" rx="2" fill="#4a4a4a"/><rect x="487.6" y="1291" width="61.2" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="434" y="1302" width="47.6" height="7" rx="2" fill="#4a4a4a"/><rect x="487.6" y="1302" width="61.2" height="7" rx="2" fill="#4a4a4a"/>
+<text x="488.0" y="1330" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Guide</text>
+<text x="335" y="1376" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">From the key press to the new screen</text>
+<rect x="620" y="1224" width="490" height="172" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="644" y="1260" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">ZAP</text>
+<rect x="644" y="1288" width="76" height="44" rx="22" fill="#111111" stroke="#e0a96d" stroke-width="2"/>
+<text x="682" y="1317" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">CH+</text>
+<path d="M732 1310H938" stroke="#e0a96d" stroke-width="3" stroke-dasharray="6 6"/>
+<path d="M732 1298V1322M938 1298V1322" stroke="#e0a96d" stroke-width="3"/>
+<rect x="788" y="1294" width="94" height="32" rx="10" fill="#2a2418" stroke="#2a2418" stroke-width="0"/>
+<text x="835" y="1317" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">1.6 s</text>
+<rect x="950" y="1268" width="136" height="84" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<path d="M1009.0 1281.2L1030.0 1293.2L1009.0 1305.2Z" fill="#4a4a4a"/>
+<text x="1018.0" y="1330" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Live TV</text>
+<text x="865" y="1376" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">From the channel key to the new picture</text>
+<text x="600" y="1436" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">A plain goto already gives these numbers, with no extra test.</text>
+<path d="M600 1460V1488" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1482L600 1496L612 1482" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1500" width="1080" height="520" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1552" r="26" fill="#e0a96d"/>
+<text x="112" y="1561" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
+<text x="156" y="1560" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Many models, one map</text>
+<text x="156" y="1594" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Add only what differs; the same test runs on all</text>
+<rect x="450" y="1616" width="300" height="72" rx="16" fill="#111111" stroke="#3a3a3a" stroke-width="2"/>
+<text x="600" y="1648" font-family="ui-monospace,DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="24" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">goto("Guide")</text>
+<text x="600" y="1674" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Same test</text>
+<path d="M600 1688C600 1692 335 1716 335 1716" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+<path d="M600 1688C600 1692 865 1716 865 1716" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+<rect x="90" y="1722" width="490" height="210" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="114" y="1760" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Model A</text>
+<rect x="476" y="1738" width="80" height="32" rx="16" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+<text x="516.0" y="1760" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Base</text>
+<rect x="114" y="1792" width="150" height="92" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="128.0" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<rect x="158.5" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<rect x="189.0" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<rect x="219.5" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<text x="189.0" y="1862" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<rect x="406" y="1792" width="150" height="92" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="420" y="1804" width="52.5" height="7" rx="2" fill="#4a4a4a"/><rect x="478.5" y="1804" width="67.5" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="420" y="1815" width="52.5" height="7" rx="2" fill="#4a4a4a"/><rect x="478.5" y="1815" width="67.5" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="420" y="1826" width="52.5" height="7" rx="2" fill="#4a4a4a"/><rect x="478.5" y="1826" width="67.5" height="7" rx="2" fill="#4a4a4a"/>
+<text x="481.0" y="1862" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Guide</text>
+<path d="M272 1838L384.0 1838.0" stroke="#a8a8a8" stroke-width="3" stroke-linecap="round"/>
+<path d="M384.0 1847.0L398 1838L384.0 1829.0Z" fill="#a8a8a8"/>
+<text x="335.0" y="1824" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">OK</text>
+<text x="335" y="1908" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Base map</text>
+<rect x="620" y="1722" width="490" height="210" rx="18" fill="#2a2a2a" stroke="#e0a96d" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="644" y="1760" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Model B</text>
+<rect x="986" y="1738" width="100" height="32" rx="16" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="1036.0" y="1760" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Variant</text>
+<rect x="644" y="1792" width="150" height="92" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="658.0" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<rect x="688.5" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<rect x="719.0" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<rect x="749.5" y="1806" width="22.5" height="27.6" rx="3" fill="#4a4a4a"/>
+<text x="719.0" y="1862" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<rect x="936" y="1792" width="150" height="92" rx="10" fill="#111111" stroke="#a8a8a8" stroke-width="2"/>
+<rect x="950" y="1804" width="52.5" height="7" rx="2" fill="#4a4a4a"/><rect x="1008.5" y="1804" width="67.5" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="950" y="1815" width="52.5" height="7" rx="2" fill="#4a4a4a"/><rect x="1008.5" y="1815" width="67.5" height="7" rx="2" fill="#4a4a4a"/>
+<rect x="950" y="1826" width="52.5" height="7" rx="2" fill="#4a4a4a"/><rect x="1008.5" y="1826" width="67.5" height="7" rx="2" fill="#4a4a4a"/>
+<text x="1011.0" y="1862" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Guide</text>
+<path d="M802 1838L914.0 1838.0" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/>
+<path d="M914.0 1847.0L928 1838L914.0 1829.0Z" fill="#e0a96d"/>
+<text x="865.0" y="1824" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Right, OK</text>
+<text x="865" y="1908" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Only this move is edited</text>
+<text x="600" y="1964" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">No copy of the map: a variant keeps only what changes, like one key.</text>
+<text x="600" y="1996" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">A variant can be a model, a firmware, a language or an app build.</text>
+<text x="600" y="2076" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+</svg>

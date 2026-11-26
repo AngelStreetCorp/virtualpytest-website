@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2116" width="1200" height="2116" role="img" aria-labelledby="ti"><title id="ti">Incidents Caught Live: the path of one incident, from the host to the people who act on it, in one image</title>
+<rect width="1200" height="2116" fill="#161616"/>
+<text x="60" y="90" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">MONITOR 24/7 · INCIDENTS</text>
+<text x="60" y="166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Incidents Caught Live</text>
+<text x="60" y="218" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Watched 24/7, even when no test runs.</text>
+<text x="60" y="256" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Incidents open on their own, then reach the people who act.</text>
+<text x="60" y="294" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Before this: Your devices, watched 24/7. One freeze up close: Freeze: menu or stuck video?</text>
+<rect x="60" y="322" width="1080" height="372" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="374" r="26" fill="#e0a96d"/>
+<text x="112" y="383" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="372" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">An incident opens, with its picture</text>
+<text x="156" y="404" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">A black screen, a freeze or no sound that lasted 30 seconds</text>
+<rect x="100" y="438" width="180" height="112" rx="12" fill="#0d0d0d" stroke="#a8a8a8" stroke-width="3"/>
+<rect x="109" y="447" width="162" height="94" rx="6" fill="#5b7fa6" stroke="#444" stroke-width="1.5"/>
+<circle cx="230" cy="475" r="11" fill="#f6d27a"/>
+<path d="M109 522L158 486L190 508L222 483L271 520V535Q271 541 265 541H115Q109 541 109 535Z" fill="#2f4a33"/>
+<path d="M170 560H210" stroke="#a8a8a8" stroke-width="4" stroke-linecap="round"/>
+<text x="190" y="588" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Your device</text>
+<path d="M280 494H306" stroke="#a8a8a8" stroke-width="3"/>
+<rect x="306" y="446" width="130" height="96" rx="14" fill="#2a2418" stroke="#e0a96d" stroke-width="2.5"/>
+<text x="371" y="476" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Host</text>
+<path d="M341 508Q371 484 401 508Q371 532 341 508Z" fill="none" stroke="#e0a96d" stroke-width="3"/><circle cx="371" cy="508" r="9" fill="#e0a96d"/>
+<text x="371" y="588" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">always on</text>
+<circle cx="505" cy="494" r="38" fill="none" stroke="#e0a96d" stroke-width="7"/>
+<text x="505" y="503" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">30 s</text>
+<path d="M440 494H454" stroke="#a8a8a8" stroke-width="4" stroke-linecap="round"/><path d="M444 483L460 494L444 505" fill="none" stroke="#a8a8a8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M546 494H576" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M566 483L582 494L566 505" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="100" y="616" width="436" height="54" rx="27" fill="none" stroke="#3a3a3a" stroke-width="2" stroke-dasharray="8 6"/>
+<rect x="122" y="627" width="26" height="32" rx="3" fill="none" stroke="#a8a8a8" stroke-width="2.5"/><path d="M128 637H142M128 644H142M128 651H138" stroke="#a8a8a8" stroke-width="2"/><path d="M116 662L154 624" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+<text x="170" y="651" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">No test, no script to write</text>
+<rect x="596" y="426" width="514" height="220" rx="16" fill="#2a1d1d" stroke="#ef4444" stroke-width="2"/>
+<text x="620" y="464" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#ef4444" text-anchor="start" letter-spacing="3">INCIDENT</text>
+<rect x="620" y="486" width="200" height="114" rx="6" fill="#5b7fa6" stroke="#444" stroke-width="1.5"/>
+<circle cx="770" cy="520" r="14" fill="#f6d27a"/>
+<path d="M620 577L680 534L720 560L760 529L820 575V594Q820 600 814 600H626Q620 600 620 594Z" fill="#2f4a33"/>
+<text x="720" y="626" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">proof frame</text>
+<rect x="846" y="486" width="93" height="33" rx="16.5" fill="none" stroke="#ef4444" stroke-width="2"/>
+<text x="892.5546875" y="510" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#ef4444" text-anchor="middle" letter-spacing="0">Freeze</text>
+<text x="846" y="554" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Channel 14 · TV box</text>
+<path d="M600 694V718" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 712L600 726L612 712" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="730" width="1080" height="556" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="782" r="26" fill="#e0a96d"/>
+<text x="112" y="791" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="780" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Automatic triage: harmless ones are discarded</text>
+<text x="156" y="812" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Many alarms are harmless, like a menu left open</text>
+<rect x="100" y="832" width="196" height="124" rx="14" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="112" y="844" width="172" height="76" rx="6" fill="#1f2a3a" stroke="#444" stroke-width="1.5"/>
+<rect x="120" y="852" width="69" height="7" rx="3" fill="#8aa0bf"/>
+<rect x="120" y="868" width="34" height="20" rx="3" fill="#e0a96d"/>
+<rect x="160" y="868" width="34" height="20" rx="3" fill="#3b4d66"/>
+<rect x="201" y="868" width="34" height="20" rx="3" fill="#3b4d66"/>
+<rect x="242" y="868" width="34" height="20" rx="3" fill="#3b4d66"/>
+<rect x="120" y="893" width="34" height="20" rx="3" fill="#3b4d66"/>
+<rect x="160" y="893" width="34" height="20" rx="3" fill="#3b4d66"/>
+<rect x="201" y="893" width="34" height="20" rx="3" fill="#3b4d66"/>
+<rect x="242" y="893" width="34" height="20" rx="3" fill="#3b4d66"/>
+<text x="198" y="944" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Freeze</text>
+<rect x="100" y="967" width="196" height="124" rx="14" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="112" y="979" width="172" height="76" rx="6" fill="#0b0b12" stroke="#444" stroke-width="1.5"/>
+<circle cx="198.0" cy="1013.0" r="12" fill="none" stroke="#6b7280" stroke-width="3"/><path d="M198.0 995V1013" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>
+<text x="198" y="1079" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Black screen</text>
+<rect x="100" y="1102" width="196" height="124" rx="14" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="112" y="1114" width="172" height="76" rx="6" fill="#5b7fa6" stroke="#444" stroke-width="1.5"/>
+<circle cx="241" cy="1137" r="9" fill="#f6d27a"/>
+<path d="M112 1175L164 1146L198 1163L232 1143L284 1173V1184Q284 1190 278 1190H118Q112 1190 112 1184Z" fill="#2f4a33"/>
+<text x="198" y="1214" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Freeze</text>
+<rect x="410" y="908" width="300" height="220" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="2.5"/>
+<text x="560.0" y="952" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="2">AUTOMATIC TRIAGE</text>
+<path d="M518.0 1006Q560.0 972 602.0 1006Q560.0 1040 518.0 1006Z" fill="none" stroke="#e0a96d" stroke-width="3.5"/><circle cx="560.0" cy="1006" r="12" fill="#e0a96d"/>
+<text x="560.0" y="1066" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Looks at the picture</text>
+<text x="560.0" y="1096" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Real problem or not?</text>
+<path d="M296 896C353.0 896 353.0 1018.0 402 1018.0" fill="none" stroke="#a8a8a8" stroke-width="3.5"/><path d="M392 1009.0L406 1018.0L392 1027.0" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M296 1031C353.0 1031 353.0 1018.0 402 1018.0" fill="none" stroke="#a8a8a8" stroke-width="3.5"/><path d="M392 1009.0L406 1018.0L392 1027.0" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M296 1166C353.0 1166 353.0 1018.0 402 1018.0" fill="none" stroke="#a8a8a8" stroke-width="3.5"/><path d="M392 1009.0L406 1018.0L392 1027.0" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M710 1018.0C750.0 1018.0 750.0 896 782 896" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-dasharray="7 6"/><path d="M772 887L786 896L772 905" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="790" y="846" width="320" height="100" rx="14" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="812" y="888" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Menu left open</text>
+<rect x="812" y="902" width="116" height="31" rx="15.5" fill="none" stroke="#a8a8a8" stroke-width="2"/>
+<text x="870.1171875" y="924" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Discarded</text>
+<path d="M710 1018.0C750.0 1018.0 750.0 1031 782 1031" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-dasharray="7 6"/><path d="M772 1022L786 1031L772 1040" fill="none" stroke="#a8a8a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="790" y="981" width="320" height="100" rx="14" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<text x="812" y="1023" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Standby screen</text>
+<rect x="812" y="1037" width="116" height="31" rx="15.5" fill="none" stroke="#a8a8a8" stroke-width="2"/>
+<text x="870.1171875" y="1059" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Discarded</text>
+<path d="M710 1018.0C750.0 1018.0 750.0 1166 782 1166" fill="none" stroke="#e0a96d" stroke-width="3.5"/><path d="M772 1157L786 1166L772 1175" fill="none" stroke="#e0a96d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="790" y="1116" width="320" height="100" rx="14" fill="#2a1d1d" stroke="#ef4444" stroke-width="2"/>
+<text x="812" y="1158" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Picture stuck</text>
+<rect x="812" y="1172" width="68" height="31" rx="15.5" fill="none" stroke="#ef4444" stroke-width="2"/>
+<text x="846.046875" y="1194" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#ef4444" text-anchor="middle" letter-spacing="0">Kept</text>
+<text x="600" y="1262" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">A screen judged harmless is remembered: next time, no AI call.</text>
+<path d="M600 1286V1310" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1304L600 1318L612 1304" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1322" width="1080" height="362" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1374" r="26" fill="#e0a96d"/>
+<text x="112" y="1383" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1372" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Only the kept alerts are sent</text>
+<text x="156" y="1404" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">To an email address or a webhook of yours</text>
+<rect x="100" y="1426" width="500" height="200" rx="14" fill="#f2f2f2" stroke="#f2f2f2" stroke-width="2"/>
+<rect x="100" y="1426" width="500" height="40" rx="14" fill="#e4e4e4"/><rect x="100" y="1452" width="500" height="14" fill="#e4e4e4"/>
+<rect x="118" y="1438" width="24" height="17" rx="2" fill="none" stroke="#7a5a2e" stroke-width="2"/><path d="M118 1439L130 1448L142 1439" fill="none" stroke="#7a5a2e" stroke-width="2"/>
+<text x="154" y="1453" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#7a5a2e" text-anchor="start" letter-spacing="0">Email</text>
+<text x="122" y="1504" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="23" font-weight="700" fill="#1a1a1a" text-anchor="start" letter-spacing="0">[DOWN] Frozen picture on 14</text>
+<rect x="122" y="1524" width="130" height="74" rx="6" fill="#5b7fa6" stroke="#444" stroke-width="1.5"/>
+<circle cx="220" cy="1546" r="9" fill="#f6d27a"/>
+<path d="M122 1583L161 1555L187 1572L213 1552L252 1582V1592Q252 1598 246 1598H128Q122 1598 122 1592Z" fill="#2f4a33"/>
+<text x="268" y="1546" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#4a4a4a" text-anchor="start" letter-spacing="0">proof frame</text>
+<text x="268" y="1576" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#7a5a2e" text-anchor="start" letter-spacing="0">link to the incident</text>
+<text x="268" y="1604" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#6e6e6e" text-anchor="start" letter-spacing="0">channel, device, cause</text>
+<circle cx="660" cy="1450" r="9" fill="#ef4444"/>
+<path d="M660 1462V1500" stroke="#3a3a3a" stroke-width="3"/>
+<text x="684" y="1458" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#ef4444" text-anchor="start" letter-spacing="0">DOWN</text>
+<text x="850" y="1458" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">when the alert opens</text>
+<text x="850" y="1482" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">usually within 2 minutes</text>
+<circle cx="660" cy="1520" r="9" fill="#e0a96d"/>
+<path d="M660 1532V1570" stroke="#3a3a3a" stroke-width="3"/>
+<text x="684" y="1528" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="0">STILL DOWN</text>
+<text x="850" y="1528" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">nobody acknowledged it</text>
+<text x="850" y="1552" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">after the minutes you set</text>
+<circle cx="660" cy="1590" r="9" fill="#4ade80"/>
+<text x="684" y="1598" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#4ade80" text-anchor="start" letter-spacing="0">RESOLVED</text>
+<text x="850" y="1598" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">the picture is back</text>
+<text x="600" y="1662" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">A false alarm never reaches you.</text>
+<path d="M600 1684V1708" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1702L600 1716L612 1702" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1720" width="1080" height="312" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1772" r="26" fill="#e0a96d"/>
+<text x="112" y="1781" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
+<text x="156" y="1770" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">People act on the Incidents page</text>
+<text x="156" y="1802" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Monitoring, then Incidents</text>
+<rect x="100" y="1824" width="1000" height="150" rx="14" fill="#f2f2f2" stroke="#f2f2f2" stroke-width="2"/>
+<rect x="100" y="1824" width="1000" height="36" rx="14" fill="#e4e4e4"/><rect x="100" y="1846" width="1000" height="14" fill="#e4e4e4"/>
+<circle cx="122" cy="1842" r="5.5" fill="#ef4444"/>
+<circle cx="140" cy="1842" r="5.5" fill="#f59e0b"/>
+<circle cx="158" cy="1842" r="5.5" fill="#22c55e"/>
+<text x="190" y="1849" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1a1a1a" text-anchor="start" letter-spacing="0">Incidents</text>
+<rect x="120" y="1876" width="140" height="80" rx="6" fill="#5b7fa6" stroke="#444" stroke-width="1.5"/>
+<circle cx="225" cy="1900" r="10" fill="#f6d27a"/>
+<path d="M120 1940L162 1910L190 1928L218 1906L260 1938V1950Q260 1956 254 1956H126Q120 1956 120 1950Z" fill="#2f4a33"/>
+<text x="280" y="1906" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#b91c1c" text-anchor="start" letter-spacing="0">Freeze</text>
+<text x="280" y="1936" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="500" fill="#4a4a4a" text-anchor="start" letter-spacing="0">Channel 14 · TV box</text>
+<rect x="530" y="1890" width="120" height="34" rx="17" fill="#dcfce7"/>
+<text x="590" y="1913" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#15803d" text-anchor="middle" letter-spacing="0">Resolved</text>
+<rect x="720" y="1886" width="150" height="44" rx="10" fill="#ffffff" stroke="#b8b8b8" stroke-width="2"/>
+<text x="795" y="1915" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">Discard</text>
+<rect x="890" y="1886" width="150" height="44" rx="10" fill="#e0a96d"/>
+<text x="965" y="1915" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">Keep</text>
+<text x="600" y="2006" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Your Discard or Keep teaches the triage that screen.</text>
+<text x="600" y="2082" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+</svg>
