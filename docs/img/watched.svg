@@ -1,0 +1,486 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 3080" width="1200" height="3080" role="img" aria-labelledby="ti"><title id="ti">Your devices, watched 24/7: the host captures the picture and sound once, and several services read that same copy, each catching a different problem</title>
+<rect width="1200" height="3080" fill="#161616"/>
+<text x="60" y="100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">MONITOR 24/7 · WHAT A HOST DOES ALL DAY</text>
+<text x="60" y="180" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Your devices, watched 24/7</text>
+<text x="60" y="236" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The video is captured once. Many watchers read it.</text>
+<text x="60" y="276" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Each one catches a different problem, even when no test runs.</text>
+<rect x="60" y="330" width="1080" height="430" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2" />
+<circle cx="112" cy="382" r="26" fill="#e0a96d"/>
+<text x="112" y="391" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="380" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Captured once</text>
+<text x="156" y="412" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The Stream service records the picture and the sound, day and night</text>
+<clipPath id="c11"><rect x="100" y="470" width="230" height="140" rx="6"/></clipPath>
+<g clip-path="url(#c11)">
+<rect x="100" y="470" width="230" height="140" fill="#35577a"/>
+<circle cx="270.2" cy="512.0" r="18.2" fill="#e0a96d"/>
+<path d="M100 579.2Q157.5 533.0 215.0 570.8T330 554.0V610H100Z" fill="#3f6b4a"/>
+<path d="M100 596.0Q192.0 565.2 330 593.2V610H100Z" fill="#2f5238"/>
+</g>
+<rect x="100" y="470" width="230" height="140" rx="6" fill="none" stroke="#555" stroke-width="2"/>
+<rect x="195" y="610" width="40" height="14" fill="#444"/><rect x="165" y="624" width="100" height="8" rx="4" fill="#444"/>
+<text x="215" y="666" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Your device</text>
+<text x="215" y="692" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">TV box, phone, PC</text>
+<path d="M330 540C370 540 380 540 420 540" stroke="#a8a8a8" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="375" y="526" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">picture</text>
+<text x="375" y="566" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">+ sound</text>
+<rect x="420" y="460" width="230" height="170" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="535" y="496" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Host</text>
+<circle cx="450" cy="614" r="4" fill="#4ade80"/>
+<circle cx="466" cy="614" r="4" fill="#555"/>
+<circle cx="482" cy="614" r="4" fill="#555"/>
+<rect x="450" y="516" width="170" height="70" rx="14" fill="#2f2a22" stroke="#e0a96d" stroke-width="2" />
+<text x="535" y="548" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Stream</text>
+<text x="535" y="572" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">always on</text>
+<text x="535" y="666" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Next to your device</text>
+<path d="M650 545H692" stroke="#e0a96d" stroke-width="3" stroke-linecap="round"/><path d="M686 537L698 545L686 553" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="720" y="458" width="390" height="58" rx="6" fill="#0e0e0e"/>
+<clipPath id="c36"><rect x="728" y="466" width="56" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c36)">
+<rect x="728" y="466" width="56" height="42" fill="#35577a"/>
+<circle cx="769.44" cy="478.6" r="5.46" fill="#e0a96d"/>
+<path d="M728 498.76Q742.0 484.9 756.0 496.24T784 491.2V508H728Z" fill="#3f6b4a"/>
+<path d="M728 503.8Q750.4 494.56 784 502.96V508H728Z" fill="#2f5238"/>
+</g>
+<rect x="728" y="466" width="56" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c44"><rect x="792" y="466" width="56" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c44)">
+<rect x="792" y="466" width="56" height="42" fill="#35577a"/>
+<circle cx="833.44" cy="478.6" r="5.46" fill="#e0a96d"/>
+<path d="M792 498.76Q806.0 484.9 820.0 496.24T848 491.2V508H792Z" fill="#3f6b4a"/>
+<path d="M792 503.8Q814.4 494.56 848 502.96V508H792Z" fill="#2f5238"/>
+</g>
+<rect x="792" y="466" width="56" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c52"><rect x="856" y="466" width="56" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c52)">
+<rect x="856" y="466" width="56" height="42" fill="#35577a"/>
+<circle cx="897.44" cy="478.6" r="5.46" fill="#e0a96d"/>
+<path d="M856 498.76Q870.0 484.9 884.0 496.24T912 491.2V508H856Z" fill="#3f6b4a"/>
+<path d="M856 503.8Q878.4 494.56 912 502.96V508H856Z" fill="#2f5238"/>
+</g>
+<rect x="856" y="466" width="56" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c60"><rect x="920" y="466" width="56" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c60)">
+<rect x="920" y="466" width="56" height="42" fill="#35577a"/>
+<circle cx="961.44" cy="478.6" r="5.46" fill="#e0a96d"/>
+<path d="M920 498.76Q934.0 484.9 948.0 496.24T976 491.2V508H920Z" fill="#3f6b4a"/>
+<path d="M920 503.8Q942.4 494.56 976 502.96V508H920Z" fill="#2f5238"/>
+</g>
+<rect x="920" y="466" width="56" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c68"><rect x="984" y="466" width="56" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c68)">
+<rect x="984" y="466" width="56" height="42" fill="#35577a"/>
+<circle cx="1025.44" cy="478.6" r="5.46" fill="#e0a96d"/>
+<path d="M984 498.76Q998.0 484.9 1012.0 496.24T1040 491.2V508H984Z" fill="#3f6b4a"/>
+<path d="M984 503.8Q1006.4 494.56 1040 502.96V508H984Z" fill="#2f5238"/>
+</g>
+<rect x="984" y="466" width="56" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c76"><rect x="1048" y="466" width="56" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c76)">
+<rect x="1048" y="466" width="56" height="42" fill="#35577a"/>
+<circle cx="1089.44" cy="478.6" r="5.46" fill="#e0a96d"/>
+<path d="M1048 498.76Q1062.0 484.9 1076.0 496.24T1104 491.2V508H1048Z" fill="#3f6b4a"/>
+<path d="M1048 503.8Q1070.4 494.56 1104 502.96V508H1048Z" fill="#2f5238"/>
+</g>
+<rect x="1048" y="466" width="56" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<text x="720" y="540" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Frames, 5 a second</text>
+<rect x="722.0" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="731.7" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="741.5" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="751.2" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="761.0" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="770.7" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="780.5" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<rect x="790.2" y="575.7" width="5.8" height="12.6" rx="1.5" fill="#e0a96d"/>
+<rect x="800.0" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<rect x="809.7" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="819.5" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="829.2" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="839.0" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="848.7" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="858.5" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="868.2" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="878.0" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="887.7" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<rect x="897.5" y="575.7" width="5.8" height="12.6" rx="1.5" fill="#e0a96d"/>
+<rect x="907.2" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<rect x="917.0" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="926.7" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="936.5" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="946.2" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="956.0" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="965.7" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="975.5" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="985.2" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="995.0" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<rect x="1004.7" y="575.7" width="5.8" height="12.6" rx="1.5" fill="#e0a96d"/>
+<rect x="1014.5" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<rect x="1024.2" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="1034.0" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="1043.7" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="1053.5" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="1063.2" y="571.0" width="5.8" height="22.0" rx="1.5" fill="#e0a96d"/>
+<rect x="1073.0" y="564.0" width="5.8" height="36.0" rx="1.5" fill="#e0a96d"/>
+<rect x="1082.7" y="573.4" width="5.8" height="17.3" rx="1.5" fill="#e0a96d"/>
+<rect x="1092.5" y="568.7" width="5.8" height="26.6" rx="1.5" fill="#e0a96d"/>
+<rect x="1102.2" y="566.3" width="5.8" height="31.3" rx="1.5" fill="#e0a96d"/>
+<text x="720" y="626" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Sound</text>
+<rect x="720" y="642" width="58" height="26" rx="6" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="786" y="642" width="58" height="26" rx="6" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="852" y="642" width="58" height="26" rx="6" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="918" y="642" width="58" height="26" rx="6" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="984" y="642" width="58" height="26" rx="6" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="1050" y="642" width="58" height="26" rx="6" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<text x="720" y="692" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Short video pieces</text>
+<text x="600" y="736" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">One copy, made once. Every watcher below reads this same copy.</text>
+<path d="M600 760V798" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 792L600 806L612 792" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="810" width="1080" height="1080" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2" />
+<circle cx="112" cy="862" r="26" fill="#e0a96d"/>
+<text x="112" y="871" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="860" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Many watchers read it</text>
+<text x="156" y="892" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Side by side, each one looks for a different problem</text>
+<rect x="420" y="926" width="360" height="58" rx="10" fill="#0e0e0e" stroke="#e0a96d" stroke-width="2" />
+<clipPath id="c141"><rect x="430" y="934" width="62" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c141)">
+<rect x="430" y="934" width="62" height="42" fill="#35577a"/>
+<circle cx="475.88" cy="946.6" r="5.46" fill="#e0a96d"/>
+<path d="M430 966.76Q445.5 952.9 461.0 964.24T492 959.2V976H430Z" fill="#3f6b4a"/>
+<path d="M430 971.8Q454.8 962.56 492 970.96V976H430Z" fill="#2f5238"/>
+</g>
+<rect x="430" y="934" width="62" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c149"><rect x="499" y="934" width="62" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c149)">
+<rect x="499" y="934" width="62" height="42" fill="#35577a"/>
+<circle cx="544.88" cy="946.6" r="5.46" fill="#e0a96d"/>
+<path d="M499 966.76Q514.5 952.9 530.0 964.24T561 959.2V976H499Z" fill="#3f6b4a"/>
+<path d="M499 971.8Q523.8 962.56 561 970.96V976H499Z" fill="#2f5238"/>
+</g>
+<rect x="499" y="934" width="62" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c157"><rect x="568" y="934" width="62" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c157)">
+<rect x="568" y="934" width="62" height="42" fill="#35577a"/>
+<circle cx="613.88" cy="946.6" r="5.46" fill="#e0a96d"/>
+<path d="M568 966.76Q583.5 952.9 599.0 964.24T630 959.2V976H568Z" fill="#3f6b4a"/>
+<path d="M568 971.8Q592.8 962.56 630 970.96V976H568Z" fill="#2f5238"/>
+</g>
+<rect x="568" y="934" width="62" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c165"><rect x="637" y="934" width="62" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c165)">
+<rect x="637" y="934" width="62" height="42" fill="#35577a"/>
+<circle cx="682.88" cy="946.6" r="5.46" fill="#e0a96d"/>
+<path d="M637 966.76Q652.5 952.9 668.0 964.24T699 959.2V976H637Z" fill="#3f6b4a"/>
+<path d="M637 971.8Q661.8 962.56 699 970.96V976H637Z" fill="#2f5238"/>
+</g>
+<rect x="637" y="934" width="62" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c173"><rect x="706" y="934" width="62" height="42" rx="3"/></clipPath>
+<g clip-path="url(#c173)">
+<rect x="706" y="934" width="62" height="42" fill="#35577a"/>
+<circle cx="751.88" cy="946.6" r="5.46" fill="#e0a96d"/>
+<path d="M706 966.76Q721.5 952.9 737.0 964.24T768 959.2V976H706Z" fill="#3f6b4a"/>
+<path d="M706 971.8Q730.8 962.56 768 970.96V976H706Z" fill="#2f5238"/>
+</g>
+<rect x="706" y="934" width="62" height="42" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<path d="M600 984C600 1022 250.0 1018 250.0 1056" stroke="#e0a96d" stroke-width="2.5" fill="none" stroke-dasharray="6 6"/>
+<path d="M600 984C600 1022 600.0 1018 600.0 1056" stroke="#e0a96d" stroke-width="2.5" fill="none" stroke-dasharray="6 6"/>
+<path d="M600 984C600 1022 950.0 1018 950.0 1056" stroke="#e0a96d" stroke-width="2.5" fill="none" stroke-dasharray="6 6"/>
+<rect x="90" y="1060" width="320" height="360" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="112" y="1100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Monitor image</text>
+<rect x="110" y="1122" width="280" height="150" rx="10" fill="#1b1b1b"/>
+<clipPath id="c187"><rect x="122" y="1152" width="76" height="50" rx="4"/></clipPath>
+<g clip-path="url(#c187)">
+<rect x="122" y="1152" width="76" height="50" fill="#000"/>
+</g>
+<rect x="122" y="1152" width="76" height="50" rx="4" fill="none" stroke="#555" stroke-width="2"/>
+<rect x="119" y="1149" width="82" height="56" rx="6" fill="none" stroke="#ef5350" stroke-width="2.5"/>
+<text x="160" y="1234" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">black</text>
+<clipPath id="c194"><rect x="212" y="1152" width="76" height="50" rx="4"/></clipPath>
+<g clip-path="url(#c194)">
+<rect x="212" y="1152" width="76" height="50" fill="#35577a"/>
+<circle cx="268.24" cy="1167.0" r="6.5" fill="#e0a96d"/>
+<path d="M212 1191.0Q231.0 1174.5 250.0 1188.0T288 1182.0V1202H212Z" fill="#3f6b4a"/>
+<path d="M212 1197.0Q242.4 1186.0 288 1196.0V1202H212Z" fill="#2f5238"/>
+</g>
+<rect x="212" y="1152" width="76" height="50" rx="4" fill="none" stroke="#555" stroke-width="2"/>
+<rect x="241" y="1165" width="7" height="24" rx="2" fill="#fff"/><rect x="252" y="1165" width="7" height="24" rx="2" fill="#fff"/>
+<rect x="209" y="1149" width="82" height="56" rx="6" fill="none" stroke="#ef5350" stroke-width="2.5"/>
+<text x="250" y="1234" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">frozen</text>
+<clipPath id="c205"><rect x="302" y="1152" width="76" height="50" rx="4"/></clipPath>
+<g clip-path="url(#c205)">
+<rect x="302.0" y="1152" width="11.357142857142858" height="50" fill="#c0c0c0"/>
+<rect x="312.85714285714283" y="1152" width="11.357142857142858" height="50" fill="#c0c000"/>
+<rect x="323.7142857142857" y="1152" width="11.357142857142858" height="50" fill="#00c0c0"/>
+<rect x="334.57142857142856" y="1152" width="11.357142857142858" height="50" fill="#00c000"/>
+<rect x="345.42857142857144" y="1152" width="11.357142857142858" height="50" fill="#c000c0"/>
+<rect x="356.2857142857143" y="1152" width="11.357142857142858" height="50" fill="#c00000"/>
+<rect x="367.1428571428571" y="1152" width="11.357142857142858" height="50" fill="#0000c0"/>
+</g>
+<rect x="302" y="1152" width="76" height="50" rx="4" fill="none" stroke="#555" stroke-width="2"/>
+<rect x="299" y="1149" width="82" height="56" rx="6" fill="none" stroke="#ef5350" stroke-width="2.5"/>
+<text x="340" y="1234" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">no signal</text>
+<text x="112" y="1310" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="2">Catches</text>
+<text x="112" y="1338" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A bad picture</text>
+<text x="112" y="1370" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Checks every frame,</text>
+<text x="112" y="1394" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">5 a second</text>
+<rect x="440" y="1060" width="320" height="360" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="462" y="1100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Monitor audio</text>
+<rect x="460" y="1122" width="280" height="150" rx="10" fill="#1b1b1b"/>
+<rect x="475.9" y="1158.0" width="5.8" height="60.0" rx="1.5" fill="#e0a96d"/>
+<rect x="485.6" y="1169.7" width="5.8" height="36.6" rx="1.5" fill="#e0a96d"/>
+<rect x="495.3" y="1169.7" width="5.8" height="36.6" rx="1.5" fill="#e0a96d"/>
+<rect x="505.0" y="1158.0" width="5.8" height="60.0" rx="1.5" fill="#e0a96d"/>
+<rect x="514.7" y="1173.6" width="5.8" height="28.8" rx="1.5" fill="#e0a96d"/>
+<rect x="524.4" y="1165.8" width="5.8" height="44.4" rx="1.5" fill="#e0a96d"/>
+<rect x="534.1" y="1161.9" width="5.8" height="52.2" rx="1.5" fill="#e0a96d"/>
+<rect x="543.8" y="1177.5" width="5.8" height="21.0" rx="1.5" fill="#e0a96d"/>
+<rect x="553.5" y="1161.9" width="5.8" height="52.2" rx="1.5" fill="#e0a96d"/>
+<rect x="563.2" y="1165.8" width="5.8" height="44.4" rx="1.5" fill="#e0a96d"/>
+<rect x="572.9" y="1173.6" width="5.8" height="28.8" rx="1.5" fill="#e0a96d"/>
+<rect x="582.6" y="1158.0" width="5.8" height="60.0" rx="1.5" fill="#e0a96d"/>
+<rect x="592.2" y="1169.7" width="5.8" height="36.6" rx="1.5" fill="#e0a96d"/>
+<rect x="601.9" y="1169.7" width="5.8" height="36.6" rx="1.5" fill="#e0a96d"/>
+<rect x="611.6" y="1158.0" width="5.8" height="60.0" rx="1.5" fill="#e0a96d"/>
+<rect x="621.3" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="631.0" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="640.7" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="650.4" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="660.1" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="669.8" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="679.5" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="689.2" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="698.9" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="708.6" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<rect x="718.2" y="1186.5" width="5.8" height="3.0" rx="1.5" fill="#ef5350"/>
+<line x1="619.3846153846154" y1="1144" x2="619.3846153846154" y2="1230" stroke="#ef5350" stroke-width="2" stroke-dasharray="4 4"/>
+<text x="674" y="1168" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#ef5350" text-anchor="middle" letter-spacing="0">silent</text>
+<rect x="474" y="1234" width="252" height="30" rx="8" fill="#262626" stroke="#3a3a3a" stroke-width="1.5" />
+<text x="600" y="1255" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">“Good evening, and welcome”</text>
+<text x="462" y="1310" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="2">Catches</text>
+<text x="462" y="1338" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Lost sound</text>
+<text x="462" y="1370" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Checks the sound every 5 s.</text>
+<text x="462" y="1394" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Can also write down speech</text>
+<rect x="790" y="1060" width="320" height="360" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="812" y="1100" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Subtitles</text>
+<rect x="810" y="1122" width="280" height="150" rx="10" fill="#1b1b1b"/>
+<clipPath id="c262"><rect x="824" y="1136" width="200" height="122" rx="6"/></clipPath>
+<g clip-path="url(#c262)">
+<rect x="824" y="1136" width="200" height="122" fill="#35577a"/>
+<circle cx="972.0" cy="1172.6" r="15.860000000000001" fill="#e0a96d"/>
+<path d="M824 1231.16Q874.0 1190.9 924.0 1223.84T1024 1209.2V1258H824Z" fill="#3f6b4a"/>
+<path d="M824 1245.8Q904.0 1218.96 1024 1243.36V1258H824Z" fill="#2f5238"/>
+<rect x="852.0" y="1226.28" width="144.0" height="20.740000000000002" rx="3" fill="#000" fill-opacity="0.65"/>
+</g>
+<rect x="824" y="1136" width="200" height="122" rx="6" fill="none" stroke="#555" stroke-width="2"/>
+<text x="924" y="1242" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" letter-spacing="0">See you tomorrow</text>
+<rect x="848" y="1223" width="152" height="29" rx="4" fill="none" stroke="#e0a96d" stroke-width="2" stroke-dasharray="5 4"/>
+<path d="M1028 1237H1048" stroke="#e0a96d" stroke-width="2.5" stroke-linecap="round"/><path d="M1042 1229L1054 1237L1042 1245" fill="none" stroke="#e0a96d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1072" y="1232" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Aa</text>
+<text x="1072" y="1252" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">text</text>
+<text x="812" y="1310" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="2">Catches</text>
+<text x="812" y="1338" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">The words on screen</text>
+<text x="812" y="1370" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Reads them only while</text>
+<text x="812" y="1394" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">live video plays</text>
+<rect x="90" y="1446" width="320" height="360" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="112" y="1486" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">KPI</text>
+<rect x="110" y="1508" width="280" height="150" rx="10" fill="#1b1b1b"/>
+<rect x="128" y="1538" width="56" height="92" rx="16" fill="#333" stroke="#555" stroke-width="2"/>
+<circle cx="156" cy="1570" r="15" fill="#e0a96d"/>
+<text x="156" y="1575" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">OK</text>
+<circle cx="144" cy="1608" r="3.5" fill="#666"/>
+<circle cx="156" cy="1608" r="3.5" fill="#666"/>
+<circle cx="168" cy="1608" r="3.5" fill="#666"/>
+<path d="M192 1584H280" stroke="#e0a96d" stroke-width="2.5" stroke-dasharray="5 5"/>
+<circle cx="236" cy="1584" r="22" fill="#1b1b1b" stroke="#e0a96d" stroke-width="3"/><rect x="231" y="1554" width="10" height="6" rx="2" fill="#e0a96d"/><path d="M236 1584L236 1570M236 1584L246 1590" stroke="#e0a96d" stroke-width="3" stroke-linecap="round"/>
+<path d="M262 1584H280" stroke="#e0a96d" stroke-width="2.5" stroke-linecap="round"/><path d="M274 1576L286 1584L274 1592" fill="none" stroke="#e0a96d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<clipPath id="c292"><rect x="290" y="1548" width="88" height="72" rx="5"/></clipPath>
+<g clip-path="url(#c292)">
+<rect x="290" y="1548" width="88" height="72" fill="#26303b"/>
+<rect x="297.04" y="1573.2" width="16.72" height="28.8" rx="3" fill="#e0a96d"/>
+<rect x="316.84000000000003" y="1573.2" width="16.72" height="28.8" rx="3" fill="#4b5866"/>
+<rect x="336.64000000000004" y="1573.2" width="16.72" height="28.8" rx="3" fill="#4b5866"/>
+<rect x="356.44" y="1573.2" width="16.72" height="28.8" rx="3" fill="#4b5866"/>
+<rect x="297.04" y="1556.64" width="30.799999999999997" height="7.2" rx="2" fill="#8a96a3"/>
+</g>
+<rect x="290" y="1548" width="88" height="72" rx="5" fill="none" stroke="#555" stroke-width="2"/>
+<text x="156" y="1648" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">key press</text>
+<text x="334" y="1648" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">screen shown</text>
+<text x="112" y="1696" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="2">Catches</text>
+<text x="112" y="1724" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A slow screen</text>
+<text x="112" y="1756" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Times the key press to</text>
+<text x="112" y="1780" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">the right screen</text>
+<rect x="440" y="1446" width="320" height="360" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="462" y="1486" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Timeline</text>
+<rect x="460" y="1508" width="280" height="150" rx="10" fill="#1b1b1b"/>
+<clipPath id="c311"><rect x="472" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c311)">
+<rect x="472" y="1548" width="30" height="40" fill="#35577a"/>
+<circle cx="494.2" cy="1560.0" r="5.2" fill="#e0a96d"/>
+<path d="M472 1579.2Q479.5 1566.0 487.0 1576.8T502 1572.0V1588H472Z" fill="#3f6b4a"/>
+<path d="M472 1584.0Q484.0 1575.2 502 1583.2V1588H472Z" fill="#2f5238"/>
+</g>
+<rect x="472" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c319"><rect x="505" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c319)">
+<rect x="505" y="1548" width="30" height="40" fill="#35577a"/>
+<circle cx="527.2" cy="1560.0" r="5.2" fill="#e0a96d"/>
+<path d="M505 1579.2Q512.5 1566.0 520.0 1576.8T535 1572.0V1588H505Z" fill="#3f6b4a"/>
+<path d="M505 1584.0Q517.0 1575.2 535 1583.2V1588H505Z" fill="#2f5238"/>
+</g>
+<rect x="505" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c327"><rect x="538" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c327)">
+<rect x="538" y="1548" width="30" height="40" fill="#000"/>
+</g>
+<rect x="538" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c332"><rect x="571" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c332)">
+<rect x="571" y="1548" width="30" height="40" fill="#35577a"/>
+<circle cx="593.2" cy="1560.0" r="5.2" fill="#e0a96d"/>
+<path d="M571 1579.2Q578.5 1566.0 586.0 1576.8T601 1572.0V1588H571Z" fill="#3f6b4a"/>
+<path d="M571 1584.0Q583.0 1575.2 601 1583.2V1588H571Z" fill="#2f5238"/>
+</g>
+<rect x="571" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c340"><rect x="604" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c340)">
+<rect x="604" y="1548" width="30" height="40" fill="#35577a"/>
+<circle cx="626.2" cy="1560.0" r="5.2" fill="#e0a96d"/>
+<path d="M604 1579.2Q611.5 1566.0 619.0 1576.8T634 1572.0V1588H604Z" fill="#3f6b4a"/>
+<path d="M604 1584.0Q616.0 1575.2 634 1583.2V1588H604Z" fill="#2f5238"/>
+</g>
+<rect x="604" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c348"><rect x="637" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c348)">
+<rect x="637" y="1548" width="30" height="40" fill="#26303b"/>
+<rect x="639.4" y="1562.0" width="5.7" height="16.0" rx="3" fill="#e0a96d"/>
+<rect x="646.15" y="1562.0" width="5.7" height="16.0" rx="3" fill="#4b5866"/>
+<rect x="652.9" y="1562.0" width="5.7" height="16.0" rx="3" fill="#4b5866"/>
+<rect x="659.65" y="1562.0" width="5.7" height="16.0" rx="3" fill="#4b5866"/>
+<rect x="639.4" y="1552.8" width="10.5" height="4.0" rx="2" fill="#8a96a3"/>
+</g>
+<rect x="637" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c358"><rect x="670" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c358)">
+<rect x="670" y="1548" width="30" height="40" fill="#26303b"/>
+<rect x="672.4" y="1562.0" width="5.7" height="16.0" rx="3" fill="#e0a96d"/>
+<rect x="679.15" y="1562.0" width="5.7" height="16.0" rx="3" fill="#4b5866"/>
+<rect x="685.9" y="1562.0" width="5.7" height="16.0" rx="3" fill="#4b5866"/>
+<rect x="692.65" y="1562.0" width="5.7" height="16.0" rx="3" fill="#4b5866"/>
+<rect x="672.4" y="1552.8" width="10.5" height="4.0" rx="2" fill="#8a96a3"/>
+</g>
+<rect x="670" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<clipPath id="c368"><rect x="703" y="1548" width="30" height="40" rx="3"/></clipPath>
+<g clip-path="url(#c368)">
+<rect x="703" y="1548" width="30" height="40" fill="#35577a"/>
+<circle cx="725.2" cy="1560.0" r="5.2" fill="#e0a96d"/>
+<path d="M703 1579.2Q710.5 1566.0 718.0 1576.8T733 1572.0V1588H703Z" fill="#3f6b4a"/>
+<path d="M703 1584.0Q715.0 1575.2 733 1583.2V1588H703Z" fill="#2f5238"/>
+</g>
+<rect x="703" y="1548" width="30" height="40" rx="3" fill="none" stroke="#555" stroke-width="2"/>
+<rect x="535" y="1543" width="40" height="50" rx="5" fill="none" stroke="#ef5350" stroke-width="2.5"/>
+<line x1="472" y1="1606" x2="733" y2="1606" stroke="#555" stroke-width="2"/>
+<line x1="487" y1="1602" x2="487" y2="1610" stroke="#555" stroke-width="2"/>
+<text x="487" y="1628" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">00 h</text>
+<line x1="553" y1="1602" x2="553" y2="1610" stroke="#555" stroke-width="2"/>
+<text x="553" y="1628" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">03 h</text>
+<line x1="619" y1="1602" x2="619" y2="1610" stroke="#555" stroke-width="2"/>
+<text x="619" y="1628" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">06 h</text>
+<line x1="685" y1="1602" x2="685" y2="1610" stroke="#555" stroke-width="2"/>
+<text x="685" y="1628" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">09 h</text>
+<text x="555" y="1534" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#ef5350" text-anchor="middle" letter-spacing="0">3 a.m.</text>
+<text x="462" y="1696" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="2">Catches</text>
+<text x="462" y="1724" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">When it went wrong</text>
+<text x="462" y="1756" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Small pictures of the</text>
+<text x="462" y="1780" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">last 24 hours</text>
+<rect x="790" y="1446" width="320" height="360" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2" />
+<text x="812" y="1486" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Archiver</text>
+<rect x="810" y="1508" width="280" height="150" rx="10" fill="#1b1b1b"/>
+<rect x="824" y="1530" width="60" height="16" rx="4" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="824" y="1552" width="60" height="16" rx="4" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="824" y="1574" width="60" height="16" rx="4" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="824" y="1596" width="60" height="16" rx="4" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<rect x="824" y="1618" width="60" height="16" rx="4" fill="#2f2a22" stroke="#e0a96d" stroke-width="1.5" />
+<text x="854" y="1648" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">RAM</text>
+<path d="M894 1580H926" stroke="#e0a96d" stroke-width="2.5" stroke-linecap="round"/><path d="M920 1572L932 1580L920 1588" fill="none" stroke="#e0a96d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="1006" cy="1578" r="48" fill="#262626" stroke="#555" stroke-width="2"/>
+<circle cx="1006" cy="1578" r="38" fill="none" stroke="#e0a96d" stroke-width="7" stroke-dasharray="200 39" transform="rotate(-90 1006 1578)"/>
+<text x="1006" y="1586" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">24 h</text>
+<text x="1006" y="1648" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">disk</text>
+<text x="812" y="1696" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="2">Catches</text>
+<text x="812" y="1724" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">The proof, kept</text>
+<text x="812" y="1756" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The last 24 hours of video,</text>
+<text x="812" y="1780" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">saved from RAM to disk</text>
+<text x="600" y="1850" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">None of them presses a key: the device is only watched.</text>
+<path d="M600 1890V1928" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1922L600 1936L612 1922" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1940" width="1080" height="380" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2" />
+<circle cx="112" cy="1992" r="26" fill="#e0a96d"/>
+<text x="112" y="2001" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1990" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A problem that lasts becomes an incident</text>
+<text x="156" y="2022" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Even at 3 a.m., with no test running</text>
+<rect x="100" y="2100" width="250" height="44" rx="8" fill="#2f5238"/>
+<rect x="350" y="2100" width="390" height="44" rx="8" fill="#000" stroke="#ef5350" stroke-width="2.5"/>
+<text x="225" y="2129" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">picture OK</text>
+<text x="545.0" y="2129" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">black screen</text>
+<path d="M350 2162V2174H740V2162" stroke="#e0a96d" stroke-width="2.5" fill="none"/>
+<text x="545.0" y="2200" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#e0a96d" text-anchor="middle" letter-spacing="0">lasts 30 seconds</text>
+<path d="M754 2122H796" stroke="#e0a96d" stroke-width="3" stroke-linecap="round"/><path d="M790 2114L802 2122L790 2130" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="820" y="2060" width="290" height="180" rx="16" fill="#2a2a2a" stroke="#ef5350" stroke-width="2" />
+<circle cx="848" cy="2090" r="9" fill="#ef5350"/>
+<text x="866" y="2097" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Incident</text>
+<clipPath id="c426"><rect x="842" y="2116" width="110" height="66" rx="5"/></clipPath>
+<g clip-path="url(#c426)">
+<rect x="842" y="2116" width="110" height="66" fill="#000"/>
+</g>
+<rect x="842" y="2116" width="110" height="66" rx="5" fill="none" stroke="#555" stroke-width="2"/>
+<text x="966" y="2140" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">black screen</text>
+<text x="966" y="2164" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">with its picture</text>
+<text x="842" y="2218" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Closed when the picture is back</text>
+<text x="600" y="2258" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">The same for a frozen picture or lost sound.</text>
+<text x="600" y="2290" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">A short black between two channels is not an incident: it is timed as a zap.</text>
+<path d="M600 2320V2358" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 2352L600 2366L612 2352" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="2370" width="1080" height="470" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2" />
+<circle cx="112" cy="2422" r="26" fill="#e0a96d"/>
+<text x="112" y="2431" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">4</text>
+<text x="156" y="2420" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A profile is a set of services</text>
+<text x="156" y="2452" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Each device turns on only the services it needs</text>
+<text x="408" y="2506" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Monitor image</text>
+<text x="564" y="2506" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Monitor audio</text>
+<text x="720" y="2506" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Subtitles</text>
+<text x="876" y="2506" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">KPI</text>
+<text x="1032" y="2506" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Archiver</text>
+<line x1="90" y1="2584" x2="1110" y2="2584" stroke="#3a3a3a" stroke-width="1"/>
+<text x="100" y="2554" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">TV app</text>
+<text x="100" y="2575" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">a TV box</text>
+<circle cx="408" cy="2556" r="12" fill="#e0a96d"/>
+<circle cx="564" cy="2556" r="12" fill="#e0a96d"/>
+<circle cx="720" cy="2556" r="12" fill="#e0a96d"/>
+<circle cx="876" cy="2556" r="12" fill="#e0a96d"/>
+<circle cx="1032" cy="2556" r="12" fill="#e0a96d"/>
+<line x1="90" y1="2642" x2="1110" y2="2642" stroke="#3a3a3a" stroke-width="1"/>
+<text x="100" y="2612" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Phone</text>
+<text x="100" y="2633" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">a phone</text>
+<circle cx="408" cy="2614" r="12" fill="#e0a96d"/>
+<circle cx="564" cy="2614" r="12" fill="#3a3a3a"/>
+<circle cx="720" cy="2614" r="12" fill="#3a3a3a"/>
+<circle cx="876" cy="2614" r="12" fill="#e0a96d"/>
+<circle cx="1032" cy="2614" r="12" fill="#e0a96d"/>
+<line x1="90" y1="2700" x2="1110" y2="2700" stroke="#3a3a3a" stroke-width="1"/>
+<text x="100" y="2670" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Desktop KPI</text>
+<text x="100" y="2691" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">a PC, timed</text>
+<circle cx="408" cy="2672" r="12" fill="#3a3a3a"/>
+<circle cx="564" cy="2672" r="12" fill="#3a3a3a"/>
+<circle cx="720" cy="2672" r="12" fill="#3a3a3a"/>
+<circle cx="876" cy="2672" r="12" fill="#e0a96d"/>
+<circle cx="1032" cy="2672" r="12" fill="#3a3a3a"/>
+<line x1="90" y1="2758" x2="1110" y2="2758" stroke="#3a3a3a" stroke-width="1"/>
+<text x="100" y="2728" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Light</text>
+<text x="100" y="2749" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">stream and drive</text>
+<circle cx="408" cy="2730" r="12" fill="#3a3a3a"/>
+<circle cx="564" cy="2730" r="12" fill="#3a3a3a"/>
+<circle cx="720" cy="2730" r="12" fill="#3a3a3a"/>
+<circle cx="876" cy="2730" r="12" fill="#3a3a3a"/>
+<circle cx="1032" cy="2730" r="12" fill="#3a3a3a"/>
+<text x="600" y="2788" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">The Stream always runs. Gold is on, grey is off: the rest stays idle.</text>
+<text x="600" y="2818" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">Switch off what nobody reads, and the host gets its CPU back.</text>
+<rect x="60" y="2880" width="1080" height="120" rx="22" fill="#2f2a22" stroke="#e0a96d" stroke-width="2" />
+<text x="600" y="2934" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="32" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Captured once. Read by many.</text>
+<text x="600" y="2972" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="400" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Each watcher catches a different problem.</text>
+<text x="600" y="3050" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+</svg>
