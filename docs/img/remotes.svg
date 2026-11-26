@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2024" width="1200" height="2024" role="img" aria-labelledby="ti"><title id="ti">Its Own Remote: one key, written once, goes out through the controller each device uses, in one image</title>
+<rect width="1200" height="2024" fill="#161616"/>
+<text x="60" y="90" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="500" fill="#e0a96d" text-anchor="start" letter-spacing="3">CONTROL ANY DEVICE</text>
+<text x="60" y="166" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Its Own Remote</text>
+<text x="60" y="220" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="29" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Its own controller, its own keys, for every device</text>
+<rect x="60" y="270" width="1080" height="290" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="322" r="26" fill="#e0a96d"/>
+<text x="112" y="331" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">1</text>
+<text x="156" y="320" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Tests send the same keys</text>
+<text x="156" y="352" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Write the test once</text>
+<rect x="156" y="382" width="470" height="140" rx="14" fill="#1b1b1b" stroke="#3a3a3a" stroke-width="2"/>
+<text x="178" y="414" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">TEST</text>
+<text x="186" y="453" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#a8a8a8" text-anchor="start" letter-spacing="0">1</text>
+<text x="218" y="453" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="20" font-weight="400" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Press HOME</text>
+<rect x="170" y="470" width="442" height="36" rx="8" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="186" y="495" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#a8a8a8" text-anchor="start" letter-spacing="0">2</text>
+<text x="218" y="495" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#e0a96d" text-anchor="start" letter-spacing="0">Press OK</text>
+<path d="M626 487H895" stroke="#e0a96d" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round"/>
+<circle cx="960" cy="452" r="58" fill="#e0a96d" stroke="#f3d3a8" stroke-width="3"/>
+<text x="960" y="466.4" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="40" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">OK</text>
+<path d="M600 560V588" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 582L600 596L612 582" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="600" width="1080" height="950" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="652" r="26" fill="#e0a96d"/>
+<text x="112" y="661" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">2</text>
+<text x="156" y="650" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">The right remote for each device</text>
+<text x="156" y="682" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">The key goes out through the controller the device uses</text>
+<path d="M600 780C600 825 204.0 790 204.0 845" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="204.0" cy="831" r="6" fill="#e0a96d"/>
+<path d="M600 780C600 825 468.0 790 468.0 845" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="468.0" cy="831" r="6" fill="#e0a96d"/>
+<path d="M600 780C600 825 732.0 790 732.0 845" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="732.0" cy="831" r="6" fill="#e0a96d"/>
+<path d="M600 780C600 825 996.0 790 996.0 845" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="996.0" cy="831" r="6" fill="#e0a96d"/>
+<path d="M600 780C600 820 336.0 775 336.0 815V1175" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="336.0" cy="1161" r="6" fill="#e0a96d"/>
+<path d="M600 780V1175" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="600.0" cy="1161" r="6" fill="#e0a96d"/>
+<path d="M600 780C600 820 864.0 775 864.0 815V1175" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+<circle cx="864.0" cy="1161" r="6" fill="#e0a96d"/>
+<circle cx="600" cy="750" r="34" fill="#e0a96d" stroke="#f3d3a8" stroke-width="3"/>
+<text x="600" y="759.36" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">OK</text>
+<rect x="84" y="845" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="144.5390625" y="863" width="118.921875" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="204.0" y="888" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Infrared</text>
+<text x="204.0" y="1067" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">TV box</text>
+<rect x="97.6484375" y="1085" width="52.015625" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="123.65625" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">OK</text>
+<rect x="157.6640625" y="1085" width="75.5625" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="195.4453125" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Menu</text>
+<rect x="241.2265625" y="1085" width="69.125" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="275.7890625" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Back</text>
+<rect x="106" y="967" width="40" height="20" rx="5" fill="#2a2418" stroke="#e0a96d" stroke-width="2"/><circle cx="146" cy="977" r="5" fill="#e0a96d"/>
+<path d="M164.0 966.8A12 12 0 0 1 164.0 987.2" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="1.0"/>
+<path d="M169.0 958.3A22 22 0 0 1 169.0 995.7" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+<path d="M174.0 949.8A32 32 0 0 1 174.0 1004.2" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+<rect x="196" y="962" width="110" height="30" rx="6" fill="#333" stroke="#a8a8a8" stroke-width="2.5"/><circle cx="210" cy="977" r="4" fill="#4ade80"/><rect x="266" y="973" width="28" height="8" rx="3" fill="#555"/>
+<text x="126" y="953" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">transmitter</text>
+<rect x="348" y="845" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="399.3984375" y="863" width="137.203125" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="468.0" y="888" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Bluetooth</text>
+<text x="468.0" y="1067" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Game console</text>
+<rect x="382.7421875" y="1085" width="38.390625" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="401.9375" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">A</text>
+<rect x="429.1328125" y="1085" width="38.203125" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="448.234375" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">B</text>
+<rect x="475.3359375" y="1085" width="77.921875" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="514.296875" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<path d="M380 949H426Q438 949 438 963V979Q438 991 426 987L416 979H390L380 987Q368 991 368 979V963Q368 949 380 949Z" fill="#333" stroke="#a8a8a8" stroke-width="2.5"/><path d="M383 965H395M389 959V971" stroke="#a8a8a8" stroke-width="2.5"/><circle cx="420" cy="961" r="4" fill="#e0a96d"/><circle cx="414" cy="970" r="3.5" fill="#a8a8a8"/>
+<path d="M454.9 961.9L471.1 978.1L463.0 986.2V953.8L471.1 961.9L454.9 978.1" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="480" y="949" width="96" height="44" rx="8" fill="#333" stroke="#a8a8a8" stroke-width="2.5"/><path d="M494 979H530" stroke="#555" stroke-width="5" stroke-linecap="round"/><circle cx="560" cy="971" r="4" fill="#4ade80"/>
+<rect x="612" y="845" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="628.9140625" y="863" width="206.171875" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="732.0" y="888" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Network remote</text>
+<text x="732.0" y="1067" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">TV</text>
+<rect x="624.46875" y="1085" width="52.015625" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="650.4765625" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">OK</text>
+<rect x="684.484375" y="1085" width="77.921875" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="723.4453125" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<rect x="770.40625" y="1085" width="69.125" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="804.96875" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Back</text>
+<path d="M656.5 988.4A10.0 10.0 0 0 1 671.5 988.4" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="1.0"/>
+<path d="M649.0 981.8A20.0 20.0 0 0 1 679.0 981.8" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+<path d="M641.5 975.2A30.0 30.0 0 0 1 686.5 975.2" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+<circle cx="664" cy="995" r="4" fill="#e0a96d"/>
+<rect x="712" y="927" width="110" height="72" rx="6" fill="#111" stroke="#a8a8a8" stroke-width="2.5"/><path d="M749.0 1007H785.0" stroke="#a8a8a8" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="876" y="845" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="958.203125" y="863" width="75.59375" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="996.0" y="888" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">USB</text>
+<text x="996.0" y="1067" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Phone</text>
+<rect x="884.828125" y="1085" width="57.109375" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="913.3828125" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">Tap</text>
+<rect x="949.9375" y="1085" width="80.109375" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="989.9921875" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Swipe</text>
+<rect x="1038.046875" y="1085" width="69.125" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="1072.609375" y="1107" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Back</text>
+<rect x="1016" y="917" width="56" height="100" rx="10" fill="#111" stroke="#a8a8a8" stroke-width="2.5"/><rect x="1036" y="923" width="16" height="4" rx="2" fill="#444"/>
+<path d="M1044 1017V1025Q1044 1031 1036 1031H938" fill="none" stroke="#a8a8a8" stroke-width="3"/>
+<rect x="906" y="1019" width="34" height="24" rx="5" fill="#333" stroke="#a8a8a8" stroke-width="2"/>
+<text x="948" y="965" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">by cable</text>
+<rect x="216" y="1175" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="289.09375" y="1193" width="93.8125" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="336.0" y="1218" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Serial</text>
+<text x="336.0" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Modem</text>
+<rect x="272.0625" y="1415" width="127.875" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="336.0" y="1437" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">Send digits</text>
+<rect x="336" y="1295" width="90" height="40" rx="8" fill="#333" stroke="#a8a8a8" stroke-width="2.5"/><path d="M406 1295V1269" stroke="#a8a8a8" stroke-width="2.5" stroke-linecap="round"/><circle cx="352" cy="1315" r="3.5" fill="#4ade80"/><circle cx="366" cy="1315" r="3.5" fill="#555"/><circle cx="380" cy="1315" r="3.5" fill="#555"/>
+<path d="M336 1315H268" stroke="#a8a8a8" stroke-width="3" stroke-dasharray="6 5"/>
+<rect x="242" y="1303" width="30" height="24" rx="5" fill="#333" stroke="#a8a8a8" stroke-width="2"/>
+<text x="286" y="1291" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">serial port</text>
+<rect x="480" y="1175" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="561.5234375" y="1193" width="76.953125" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="600.0" y="1218" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">ADB</text>
+<text x="600.0" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">TV box</text>
+<rect x="535.4296875" y="1415" width="52.015625" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="561.4375" y="1437" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">OK</text>
+<rect x="595.4453125" y="1415" width="69.125" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="630.0078125" y="1437" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Back</text>
+<path d="M534.5 1318.4A10.0 10.0 0 0 1 549.5 1318.4" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="1.0"/>
+<path d="M527.0 1311.8A20.0 20.0 0 0 1 557.0 1311.8" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+<path d="M519.5 1305.2A30.0 30.0 0 0 1 564.5 1305.2" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+<circle cx="542" cy="1325" r="4" fill="#e0a96d"/>
+<rect x="588" y="1299" width="110" height="30" rx="6" fill="#333" stroke="#a8a8a8" stroke-width="2.5"/><circle cx="602" cy="1314" r="4" fill="#4ade80"/><rect x="658" y="1310" width="28" height="8" rx="3" fill="#555"/>
+<text x="542" y="1351" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">network</text>
+<rect x="744" y="1175" width="240" height="290" rx="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+<rect x="807.1328125" y="1193" width="113.734375" height="36" rx="18" fill="#2a2418" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="864.0" y="1218" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Appium</text>
+<text x="864.0" y="1397" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Phone</text>
+<rect x="754.59375" y="1415" width="57.109375" height="32" rx="16" fill="#e0a96d" stroke="#e0a96d" stroke-width="1.5"/>
+<text x="783.1484375" y="1437" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">Tap</text>
+<rect x="819.703125" y="1415" width="67.78125" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="853.59375" y="1437" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Type</text>
+<rect x="895.484375" y="1415" width="77.921875" height="32" rx="16" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="934.4453125" y="1437" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Home</text>
+<rect x="836" y="1247" width="56" height="100" rx="10" fill="#111" stroke="#a8a8a8" stroke-width="2.5"/><rect x="856" y="1253" width="16" height="4" rx="2" fill="#444"/>
+<circle cx="864" cy="1299" r="14" fill="none" stroke="#e0a96d" stroke-width="3"/><circle cx="864" cy="1299" r="5" fill="#e0a96d"/>
+<text x="600" y="1526" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">Each device gets the controller it really needs.</text>
+<path d="M600 1550V1578" stroke="#e0a96d" stroke-width="4" stroke-linecap="round"/><path d="M588 1572L600 1586L612 1572" fill="none" stroke="#e0a96d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="1590" width="1080" height="340" rx="22" fill="#212121" stroke="#3a3a3a" stroke-width="2"/>
+<circle cx="112" cy="1642" r="26" fill="#e0a96d"/>
+<text x="112" y="1651" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#1a1a1a" text-anchor="middle" letter-spacing="0">3</text>
+<text x="156" y="1640" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#f2f2f2" text-anchor="start" letter-spacing="0">A new controller, added once</text>
+<text x="156" y="1672" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="400" fill="#a8a8a8" text-anchor="start" letter-spacing="0">Every test can use it</text>
+<rect x="100" y="1706" width="640" height="164" rx="16" fill="#1b1b1b" stroke="#3a3a3a" stroke-width="2"/>
+<text x="122" y="1740" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">CONTROLLERS</text>
+<rect x="122" y="1760" width="105.78125" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="174.890625" y="1783" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Infrared</text>
+<rect x="237.78125" y="1760" width="122.125" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="298.84375" y="1783" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Bluetooth</text>
+<rect x="369.90625" y="1760" width="183.859375" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="461.8359375" y="1783" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Network remote</text>
+<rect x="563.765625" y="1760" width="67.0" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="597.265625" y="1783" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">USB</text>
+<rect x="122" y="1806" width="83.296875" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="163.6484375" y="1829" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Serial</text>
+<rect x="215.296875" y="1806" width="68.21875" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="249.40625" y="1829" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">ADB</text>
+<rect x="293.515625" y="1806" width="101.15625" height="34" rx="17" fill="#333333" stroke="#444444" stroke-width="1.5"/>
+<text x="344.09375" y="1829" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#f2f2f2" text-anchor="middle" letter-spacing="0">Appium</text>
+<rect x="404.671875" y="1806" width="89.640625" height="34" rx="17" fill="#2a2418" stroke="#e0a96d" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="449.4921875" y="1829" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#e0a96d" text-anchor="middle" letter-spacing="0">+ New</text>
+<rect x="820" y="1706" width="290" height="48" rx="12" fill="#1b1b1b" stroke="#3a3a3a" stroke-width="2"/>
+<text x="840" y="1737" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">TEST</text>
+<text x="910" y="1738" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="19" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Press OK</text>
+<path d="M1066 1730l7 7l13 -14" fill="none" stroke="#4ade80" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M740 1788C780 1788 780 1730 820 1730" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+<rect x="820" y="1764" width="290" height="48" rx="12" fill="#1b1b1b" stroke="#3a3a3a" stroke-width="2"/>
+<text x="840" y="1795" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">TEST</text>
+<text x="910" y="1796" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="19" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Press OK</text>
+<path d="M1066 1788l7 7l13 -14" fill="none" stroke="#4ade80" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M740 1788C780 1788 780 1788 820 1788" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+<rect x="820" y="1822" width="290" height="48" rx="12" fill="#1b1b1b" stroke="#3a3a3a" stroke-width="2"/>
+<text x="840" y="1853" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#e0a96d" text-anchor="start" letter-spacing="2">TEST</text>
+<text x="910" y="1854" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="19" font-weight="600" fill="#f2f2f2" text-anchor="start" letter-spacing="0">Press OK</text>
+<path d="M1066 1846l7 7l13 -14" fill="none" stroke="#4ade80" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M740 1788C780 1788 780 1846 820 1846" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+<text x="600" y="1908" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">It lives on the host: no test changes.</text>
+<text x="600" y="1986" font-family="Geist,Inter,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="400" fill="#a8a8a8" text-anchor="middle" letter-spacing="0">virtualpytest.com · open source, AGPLv3</text>
+</svg>
