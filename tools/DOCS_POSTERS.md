@@ -91,6 +91,16 @@ word first. This replaces "same title as the Learn lesson" when the owner names 
 `Fingerprint` while Learn lesson 3.4 says "Know every screen by its layout". Example: `tools/make_docs_poster_fingerprint.py`
 mirrors `docs/agent/navigation/FINGERPRINT.md`.
 
+**Same word as the app and the docs (owner 2026-11-26).** A reader goes from a poster to the docs, a Learn lesson, a
+YouTube video and the app, and must find the same word each time. The word list is
+`docs/agent/platform/UI_VOCABULARY.md` in the virtualpytest repo; its "Replaced words" table fails a poster. Example:
+write **user interface** and **variant**, never "tree" or "navigation tree".
+
+**Check before any mockup is shown:** from a virtualpytest checkout run
+`python3 scripts/review/ui_review.py <website>/docs/img/<id>.svg --kind poster --public --no-model`.
+`wording.replaced`, `wording.known_terms` and `safety.public` must PASS. The phone-width warning is expected:
+posters are 1200 px. A new word needs the owner, then a line in `UI_VOCABULARY.md`.
+
 ## Share a poster (X, LinkedIn, WhatsApp)
 
 Share the link **`https://virtualpytest.com/docs/view/<id>/`**, not `.../view/#<id>`: social crawlers ignore the `#`.

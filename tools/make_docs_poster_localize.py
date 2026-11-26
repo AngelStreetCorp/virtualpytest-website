@@ -92,7 +92,7 @@ def c1(y):
         t(tx, y + 40 + i * 32, line, 20, TXT if i < 4 else GOLD, 400 if i < 4 else 600, maxw=1110 - tx)
     # the wall of saved screens
     wy = y + 262
-    t(90, wy, "SAVED SCREENS OF THE NAVIGATION TREE", 16, GOLD, 600, sp=2)
+    t(90, wy, "SAVED SCREENS OF THE USER INTERFACE", 16, GOLD, 600, sp=2)
     t(1110, wy, "SQUARES THAT DIFFER", 16, GOLD, 600, "end", sp=1)
     order = [r["node_id"] for r in LIVE[L]["ranked"]]
     tw, th, gap = 150, 84, 24
@@ -148,7 +148,7 @@ def c4(y):
     L = "live_search"
     shot(90, y, L)
     t(250, y + 212, "The live screen", 21, TXT, 700, "middle")
-    t(250, y + 240, "a screen not saved in the tree", 18, MUT, 400, "middle", maxw=320)
+    t(250, y + 240, "a screen never saved", 18, MUT, 400, "middle", maxw=320)
     sx = 470
     t(sx, y + 14, "CLOSEST SCREENS", 16, GOLD, 600, sp=2)
     t(1110, y + 14, "SQUARES THAT DIFFER", 16, GOLD, 600, "end", sp=1)
