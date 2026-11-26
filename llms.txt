@@ -22,7 +22,7 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 ## Product areas
 
 - Cross-platform visual testing for web, mobile, tablet, TV, set-top box, and desktop experiences.
-- Navigation trees that separate reusable app navigation from test logic.
+- User interfaces that separate reusable app navigation from test logic.
 - Verification based on the actual rendered screen, with source frames, references, pixel differences, OCR, and AI vision detectors.
 - Device fleet management, live screens, test execution, reports, monitoring incidents, and Grafana dashboards.
 - REST API and CI/CD integration for triggering scripts and campaigns.

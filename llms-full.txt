@@ -31,9 +31,9 @@ Control may use browser automation, ADB, Appium, IR blasters, or smart-TV networ
 
 ## Core concepts
 
-### Navigation trees
+### User interfaces
 
-A navigation tree models screens as nodes and the actions that move between them as edges. Test logic can then request semantic destinations such as `navigate_to("settings")` and verify them with operations such as `verify_screen("settings")`. The same test intent can be reused across platforms while platform-specific navigation remains in the tree.
+A user interface models screens as nodes and the actions that move between them as edges. Test logic can then request semantic destinations such as `navigate_to("settings")` and verify them with operations such as `verify_screen("settings")`. The same test intent can be reused across platforms while platform-specific navigation remains in the tree.
 
 ### Visual verification
 

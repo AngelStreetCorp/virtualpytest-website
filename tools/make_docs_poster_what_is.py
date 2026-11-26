@@ -47,7 +47,7 @@ arrow(600, y + 250, y + 300)
 
 # map
 y = 950
-layer(y, "3", "Map the app once", "The navigation tree: screens become a reusable graph", 380)
+layer(y, "3", "Map the app once", "The user interface: screens become a reusable graph", 380)
 # mini graph
 nodes = [(250, y+170, "Home"), (470, y+150, "Live TV"), (470, y+250, "Settings"), (700, y+170, "Guide"), (930, y+150, "Player"), (930, y+260, "Info")]
 edges = [(0,1),(0,2),(1,3),(3,4),(2,5),(4,5)]
@@ -69,7 +69,7 @@ arrow(600, y + 250, y + 300)
 # run
 y = 1690
 layer(y, "5", "Run and measure", "Scripts and campaigns, with KPIs on every run", 250)
-chips(90, y + 112, [("No code", "visual builder"), ("Python", "full logic"), ("UI variables", "one tree, every build"), ("KPIs", "loading · zapping")], 240, 18)
+chips(90, y + 112, [("No code", "visual builder"), ("Python", "full logic"), ("UI variables", "same screens, every build"), ("KPIs", "loading · zapping")], 240, 18)
 t(600, y + 222, "Every run keeps the video, the steps and the diff.", 19, MUT, 400, "middle")
 arrow(600, y + 250, y + 300)
 
