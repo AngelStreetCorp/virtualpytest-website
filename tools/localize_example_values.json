@@ -1,0 +1,247 @@
+{
+ "FINGERPRINT_VERSION": 6,
+ "FP_SELF_DRIFT_FLOOR": 14,
+ "wall": {
+  "home": {
+   "focus": {
+    "kind": "nav",
+    "x": 0.288,
+    "width": 0.06,
+    "tab_index": 1,
+    "tab_count": 6
+   },
+   "title": "home"
+  },
+  "home_movies": {
+   "focus": {
+    "kind": "nav",
+    "x": 0.426,
+    "width": 0.071,
+    "tab_index": 2,
+    "tab_count": 6
+   },
+   "title": "home"
+  },
+  "home_guide": {
+   "focus": {
+    "kind": "nav",
+    "x": 0.553,
+    "width": 0.059,
+    "tab_index": 3,
+    "tab_count": 6
+   },
+   "title": "home"
+  },
+  "recordings": {
+   "focus": {
+    "kind": "none"
+   },
+   "title": "recordings"
+  },
+  "favourites": {
+   "focus": {
+    "kind": "none"
+   },
+   "title": "favourites"
+  },
+  "settings": {
+   "focus": {
+    "kind": "none"
+   },
+   "title": "settings"
+  }
+ },
+ "live": {
+  "live_movies": {
+   "dhash": "800096a80600936c926c926c926c926c936c9264926492649264926492649264",
+   "title": "home",
+   "title_scores": {
+    "home": 1.0,
+    "home_movies": 1.0,
+    "home_guide": 1.0,
+    "recordings": 0.14,
+    "favourites": 0.29,
+    "settings": 0.17
+   },
+   "candidates": [
+    {
+     "node_id": "home_movies",
+     "confidence": 0.85,
+     "title_score": null
+    }
+   ],
+   "ranked": [
+    {
+     "node_id": "home_movies",
+     "dist": 0
+    },
+    {
+     "node_id": "home",
+     "dist": 4
+    },
+    {
+     "node_id": "home_guide",
+     "dist": 9
+    },
+    {
+     "node_id": "settings",
+     "dist": 21
+    },
+    {
+     "node_id": "recordings",
+     "dist": 30
+    },
+    {
+     "node_id": "favourites",
+     "dist": 31
+    }
+   ],
+   "reason": null,
+   "state": null,
+   "state_label": null,
+   "live_focus": {
+    "kind": "nav",
+    "x": 0.426,
+    "width": 0.071,
+    "tab_index": 2,
+    "tab_count": 6
+   }
+  },
+  "live_favourites": {
+   "dhash": "c0008000000080c080c080c080c080c080c080c080c080c080c080c080408000",
+   "title": "favourites",
+   "title_scores": {
+    "home": 0.29,
+    "home_movies": 0.29,
+    "home_guide": 0.29,
+    "recordings": 0.4,
+    "favourites": 1.0,
+    "settings": 0.22
+   },
+   "candidates": [
+    {
+     "node_id": "favourites",
+     "confidence": 1.0,
+     "title_score": 1.0
+    }
+   ],
+   "ranked": [
+    {
+     "node_id": "recordings",
+     "dist": 0
+    },
+    {
+     "node_id": "favourites",
+     "dist": 0
+    },
+    {
+     "node_id": "home_guide",
+     "dist": 23
+    },
+    {
+     "node_id": "settings",
+     "dist": 24
+    },
+    {
+     "node_id": "home",
+     "dist": 29
+    },
+    {
+     "node_id": "home_movies",
+     "dist": 31
+    }
+   ],
+   "reason": "title disambiguation: 1 candidate(s) below title_score 0.5",
+   "state": null,
+   "state_label": null,
+   "live_focus": {
+    "kind": "none"
+   }
+  },
+  "live_search": {
+   "dhash": "8000800000008020802090208220842088208220882086208060006000600000",
+   "title": "search",
+   "title_scores": {
+    "home": 0.2,
+    "home_movies": 0.2,
+    "home_guide": 0.2,
+    "recordings": 0.12,
+    "favourites": 0.12,
+    "settings": 0.29
+   },
+   "candidates": [],
+   "ranked": [
+    {
+     "node_id": "home_guide",
+     "dist": 34
+    },
+    {
+     "node_id": "settings",
+     "dist": 40
+    },
+    {
+     "node_id": "recordings",
+     "dist": 43
+    },
+    {
+     "node_id": "favourites",
+     "dist": 43
+    },
+    {
+     "node_id": "home",
+     "dist": 51
+    },
+    {
+     "node_id": "home_movies",
+     "dist": 55
+    }
+   ],
+   "reason": "no qualifying screen (best region 34)",
+   "state": null,
+   "state_label": null,
+   "live_focus": {
+    "kind": "none"
+   }
+  },
+  "live_black": {
+   "dhash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "title": "ae",
+   "title_scores": {
+    "home": 0.33,
+    "home_movies": 0.33,
+    "home_guide": 0.33,
+    "recordings": 0.17,
+    "favourites": 0.33,
+    "settings": 0.2
+   },
+   "candidates": [],
+   "ranked": [],
+   "reason": "low-content frame",
+   "state": "blackscreen",
+   "state_label": "Black Screen",
+   "live_focus": {
+    "kind": "none"
+   }
+  },
+  "live_bars": {
+   "dhash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "title": "",
+   "title_scores": {
+    "home": 0.0,
+    "home_movies": 0.0,
+    "home_guide": 0.0,
+    "recordings": 0.0,
+    "favourites": 0.0,
+    "settings": 0.0
+   },
+   "candidates": [],
+   "ranked": [],
+   "reason": "low-content frame",
+   "state": "no_signal",
+   "state_label": "No Signal",
+   "live_focus": {
+    "kind": "none"
+   }
+  }
+ }
+}
