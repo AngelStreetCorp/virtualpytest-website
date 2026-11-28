@@ -62,14 +62,15 @@ A safe device workflow is:
    releases Take Control around each device call; on `device_busy`, wait or ask.
 4. Call `capture_screenshot` or `verify_node` and evaluate the result.
 
-The public agent guide contains a working JSON-RPC example and operational
-rules: [https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md](https://github.com/AngelStreetCorp/virtualpytest/blob/main/docs/ai/README.md)
+Connection setup, examples and errors:
+[MCP connection guide](https://virtualpytest.angelstreet.io/docs/mcp/mcp_core.md)
 
 For CI/CD agents, the supported asynchronous REST flow is
 `POST /server/script/execute` with `host_name`, `device_id`, `script_name`, and
 optional `parameters`, followed by polling
 `GET /server/script/status/{task_id}` until the task is `completed` or `failed`.
-The same guide includes a shell example and links to the OpenAPI contracts.
+Request and response contracts are in the
+[OpenAPI specification](https://virtualpytest.angelstreet.io/openapi.json).
 
 
 ## Common use cases
