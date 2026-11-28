@@ -1,3 +1,10 @@
 {
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/tv", "destination": "/downloads/vpt-mobile-app-debug.apk", "permanent": false },
+    { "source": "/tv/", "destination": "/downloads/vpt-mobile-app-debug.apk", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/downloads/:file", "destination": "https://virtualpytest.angelstreet.io/downloads/:file" }
+  ]
 }

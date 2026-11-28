@@ -13,6 +13,15 @@ def test_json_files_parse():
         json.loads(p.read_text(encoding='utf-8'))
 
 
+def test_app_download_addresses():
+    """`/tv` (typed with a TV remote) and `/downloads/<file>` are how users get the apps."""
+    cfg = json.loads((ROOT / 'vercel.json').read_text(encoding='utf-8'))
+    to = {r['source']: r['destination'] for r in cfg['redirects']}
+    assert to['/tv'] == to['/tv/'] == '/downloads/vpt-mobile-app-debug.apk'
+    assert {'source': '/downloads/:file', 'destination': 'https://virtualpytest.angelstreet.io/downloads/:file'} in cfg['rewrites']
+    assert not (ROOT / 'tv').exists() and not (ROOT / 'downloads').exists()  # a folder would shadow them
+
+
 def test_tools_compile():
     subprocess.run([sys.executable, '-m', 'py_compile', str(ROOT / 'tools' / 'learn_fit.py')], check=True)
 

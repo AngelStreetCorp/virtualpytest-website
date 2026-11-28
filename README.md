@@ -28,6 +28,12 @@ The manager is only involved when the lane returns a request that needs a decisi
 
 Backend endpoints used by the site (e.g. the Ask AI widget) live in the `virtualpytest` repo and must be deployed before the site change that calls them.
 
+## App downloads
+
+- `virtualpytest.com/downloads/<file>` serves the app files from the downloads host through a rewrite in `vercel.json` (no copy here, so a new build needs nothing in this repo). Each file has a `<file>.json` sidecar with its version.
+- `virtualpytest.com/tv` is the short address a TV user types in the Downloader app: it redirects to the Android APK (Fire TV, Android TV). It is listed with and without the trailing slash because `trailingSlash` adds one.
+- After a deploy, check: `curl -sIL https://virtualpytest.com/tv` ends in `200` with `content-type: application/vnd.android.package-archive`.
+
 ## Folder pages need their trailing slash
 
 `learn/` loads its cards, translations and script by relative path (`cards/<name>.html`, `i18n/`, `learn_i18n.js`). Opened as `/learn` without the slash, they resolve to the site root and the player shows Vercel's 404 ("This page doesn't exist"). The cards are not missing. Two guards stop this; keep both:
