@@ -7,7 +7,8 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 ## Primary links
 
 - [Website](https://virtualpytest.com/)
-- [Live read-only demo](https://virtualpytest.angelstreet.io/)
+- [Hosted app](https://virtualpytest.angelstreet.io/) (sign-in required; no public demo account or token is published)
+- [Guide for external agents](https://virtualpytest.angelstreet.io/AGENTS.md)
 - [Source repository](https://github.com/AngelStreetCorp/virtualpytest)
 - [Project README](https://github.com/AngelStreetCorp/virtualpytest#readme)
 - [Documentation](https://github.com/AngelStreetCorp/virtualpytest/tree/main/docs)
@@ -30,8 +31,8 @@ VirtualPyTest runs visual tests and 24/7 monitoring against real devices, includ
 
 ## Agent execution
 
-- MCP endpoint: `/server/mcp`, authenticated with the deployment's `MCP_SECRET_KEY` bearer token.
-- Agent loop: initialize, list tools, take control of a selected device, inspect available actions, perform one action, capture or verify the resulting screen, then release control.
+- MCP endpoint: `/server/mcp`, authenticated with a personal token sent as a bearer token. A signed-in person creates it on `/ai-agents`; see the [guide for external agents](https://virtualpytest.angelstreet.io/AGENTS.md).
+- Agent loop: initialize, list tools, select a host and device, inspect available actions, perform one action, then capture or verify the resulting screen. The server takes and releases Take Control around each device call.
 - CI/CD REST loop: `POST /server/script/execute`, poll `GET /server/script/status/{task_id}`, and retain the final result and evidence as CI artifacts.
 
 ## Licensing and commercial model
